@@ -49,6 +49,145 @@
     color: var(--text-muted);
   }
 
+  /* CALENDAR */
+  .cal {
+    max-width: 720px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px 8px;
+  }
+  .cal-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .cal-month {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .cal-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 4px 6px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    transition: color 0.12s;
+  }
+  .cal-btn:hover { color: var(--text); }
+  .cal-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .cal-dow {
+    text-align: center;
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    padding: 2px 0 4px;
+    font-weight: 500;
+  }
+  .cal-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.1s;
+    gap: 1px;
+    min-height: 36px;
+    position: relative;
+  }
+  .cal-day:hover { background: var(--hover-bg); }
+  .cal-day.empty { cursor: default; }
+  .cal-day.today .cal-day-num {
+    background: var(--text);
+    color: #fff;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cal-day-num { font-size: 0.8rem; line-height: 1; }
+  .cal-day-weight {
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Weight input popup */
+  .weight-popup {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    background: rgba(0,0,0,0.18);
+    backdrop-filter: blur(2px);
+  }
+  .weight-popup.hidden { display: none; }
+  .weight-dialog {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 220px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+  .weight-dialog-title {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .weight-dialog input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 1.1rem;
+    font-family: var(--font);
+    font-weight: 600;
+    outline: none;
+    color: var(--text);
+    background: var(--bg);
+    text-align: center;
+  }
+  .weight-dialog input:focus { border-color: var(--text); }
+  .weight-dialog-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    justify-content: flex-end;
+  }
+  .weight-action-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-family: var(--font);
+    font-size: 0.8rem;
+    cursor: pointer;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.1s;
+  }
+  .weight-action-btn.primary { background: var(--text); color: #fff; border-color: var(--text); }
+  .weight-action-btn:hover { opacity: 0.85; }
+
   /* LIST */
   .app-list {
     max-width: 720px;
@@ -164,6 +303,29 @@
   <span class="header-title">MiniApps</span>
   <span class="header-sub">Aplikacje do nauki</span>
 </header>
+
+<!-- CALENDAR -->
+<div class="cal" id="cal">
+  <div class="cal-nav">
+    <button class="cal-btn" id="cal-prev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <span class="cal-month" id="cal-month-label"></span>
+    <button class="cal-btn" id="cal-next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+  </div>
+  <div class="cal-grid" id="cal-grid"></div>
+</div>
+
+<!-- WEIGHT POPUP -->
+<div class="weight-popup hidden" id="weight-popup">
+  <div class="weight-dialog">
+    <div class="weight-dialog-title" id="weight-popup-date"></div>
+    <input type="text" id="weight-input" placeholder="101.1kg" inputmode="decimal" maxlength="8">
+    <div class="weight-dialog-actions">
+      <button class="weight-action-btn" id="weight-cancel">Anuluj</button>
+      <button class="weight-action-btn" id="weight-clear">Usuń</button>
+      <button class="weight-action-btn primary" id="weight-save">Zapisz</button>
+    </div>
+  </div>
+</div>
 
 <ul class="app-list" id="appList">
 
@@ -477,6 +639,112 @@
     saveOrder();
   });
 
+})();
+
+// ===== CALENDAR & WEIGHT TRACKER =====
+(function() {
+  const WEIGHT_KEY = 'miniapps-weight';
+  const DOW = ['Pn','Wt','Śr','Cz','Pt','Sb','Nd'];
+  const MONTHS_PL = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+
+  let cur = new Date();
+  let viewYear = cur.getFullYear();
+  let viewMonth = cur.getMonth();
+  let selectedKey = null;
+
+  const grid = document.getElementById('cal-grid');
+  const label = document.getElementById('cal-month-label');
+  const popup = document.getElementById('weight-popup');
+  const popupDate = document.getElementById('weight-popup-date');
+  const input = document.getElementById('weight-input');
+
+  function getWeights() {
+    try { return JSON.parse(localStorage.getItem(WEIGHT_KEY) || '{}'); } catch(e) { return {}; }
+  }
+  function setWeight(key, val) {
+    const w = getWeights();
+    if (val) w[key] = val; else delete w[key];
+    localStorage.setItem(WEIGHT_KEY, JSON.stringify(w));
+  }
+
+  function renderCal() {
+    const weights = getWeights();
+    const today = cur;
+    const firstDay = new Date(viewYear, viewMonth, 1);
+    const lastDay = new Date(viewYear, viewMonth + 1, 0);
+    // Monday-first: getDay() 0=Sun → 6, 1=Mon → 0
+    let startOffset = (firstDay.getDay() + 6) % 7;
+
+    label.textContent = MONTHS_PL[viewMonth] + ' ' + viewYear;
+    grid.innerHTML = '';
+
+    // Day-of-week headers
+    DOW.forEach(d => {
+      const el = document.createElement('div');
+      el.className = 'cal-dow';
+      el.textContent = d;
+      grid.appendChild(el);
+    });
+
+    // Empty cells before first day
+    for (let i = 0; i < startOffset; i++) {
+      const el = document.createElement('div');
+      el.className = 'cal-day empty';
+      grid.appendChild(el);
+    }
+
+    // Days
+    for (let d = 1; d <= lastDay.getDate(); d++) {
+      const key = viewYear + '-' + String(viewMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+      const isToday = d === today.getDate() && viewMonth === today.getMonth() && viewYear === today.getFullYear();
+      const weight = weights[key] || '';
+
+      const el = document.createElement('div');
+      el.className = 'cal-day' + (isToday ? ' today' : '');
+      el.innerHTML = `<span class="cal-day-num">${d}</span>${weight ? `<span class="cal-day-weight">${weight}</span>` : ''}`;
+      el.addEventListener('click', () => openPopup(key, d, weight));
+      grid.appendChild(el);
+    }
+  }
+
+  function openPopup(key, day, current) {
+    selectedKey = key;
+    popupDate.textContent = day + ' ' + MONTHS_PL[viewMonth] + ' ' + viewYear;
+    input.value = current || '';
+    popup.classList.remove('hidden');
+    setTimeout(() => input.focus(), 50);
+  }
+  function closePopup() {
+    popup.classList.add('hidden');
+    selectedKey = null;
+    input.value = '';
+  }
+
+  document.getElementById('cal-prev').addEventListener('click', () => {
+    viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; } renderCal();
+  });
+  document.getElementById('cal-next').addEventListener('click', () => {
+    viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } renderCal();
+  });
+
+  document.getElementById('weight-save').addEventListener('click', () => {
+    let val = input.value.trim().replace(',', '.');
+    if (val && !val.endsWith('kg')) val += 'kg';
+    setWeight(selectedKey, val);
+    closePopup(); renderCal();
+  });
+  document.getElementById('weight-clear').addEventListener('click', () => {
+    setWeight(selectedKey, '');
+    closePopup(); renderCal();
+  });
+  document.getElementById('weight-cancel').addEventListener('click', closePopup);
+  popup.addEventListener('click', e => { if (e.target === popup) closePopup(); });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('weight-save').click();
+    if (e.key === 'Escape') closePopup();
+  });
+
+  renderCal();
 })();
 </script>
 
