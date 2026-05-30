@@ -853,13 +853,13 @@ function answerStudy(chosen, q) {
     o.classList.add('answered');
     if (i === chosen && chosen === correctIdx) {
       o.classList.add('correct');
-      if (letterEl) letterEl.textContent = '&#10003;';
+      if (letterEl) letterEl.textContent = '✓';
     } else if (i === chosen && chosen !== correctIdx) {
       o.classList.add('wrong');
-      if (letterEl) letterEl.textContent = '&#10007;';
+      if (letterEl) letterEl.textContent = '✗';
     } else if (i === correctIdx && chosen !== correctIdx) {
       o.classList.add('show-correct');
-      if (letterEl) letterEl.textContent = '&#10003;';
+      if (letterEl) letterEl.textContent = '✓';
     } else {
       o.classList.add('disabled');
     }
