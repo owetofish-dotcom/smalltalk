@@ -587,6 +587,11 @@
     const ids = Array.from(list.querySelectorAll('.app-row[data-id]'))
       .map(r => r.dataset.id);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    // Debounced sync to Gist
+    clearTimeout(window._orderSyncTimer);
+    window._orderSyncTimer = setTimeout(() => {
+      if (window._pushToGist) window._pushToGist();
+    }, 1500);
   }
 
   function loadOrder() {
@@ -754,6 +759,40 @@
   function getToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
   function getGistId() { return localStorage.getItem(GIST_KEY) || ''; }
 
+  // Collect all data to sync
+  function getAllData() {
+    return {
+      weights: getWeights(),
+      order: JSON.parse(localStorage.getItem('miniapps-order') || '[]'),
+      pspo_scores: JSON.parse(localStorage.getItem('pspo_scores') || '{}')
+    };
+  }
+
+  // Restore all data from remote
+  function restoreAllData(remote) {
+    if (remote.weights) {
+      const merged = Object.assign({}, getWeights(), remote.weights);
+      saveWeightsLocal(merged);
+    }
+    if (remote.order && Array.isArray(remote.order) && remote.order.length) {
+      localStorage.setItem('miniapps-order', JSON.stringify(remote.order));
+      // Re-apply order to DOM
+      try {
+        const list = document.getElementById('appList');
+        const ph = list.querySelector('[data-id="placeholder"]');
+        remote.order.forEach(id => {
+          const r = list.querySelector(`[data-id="${id}"]`);
+          if (r) list.insertBefore(r, ph);
+        });
+      } catch(e) {}
+    }
+    if (remote.pspo_scores && Object.keys(remote.pspo_scores).length) {
+      // Merge — remote wins
+      const local = JSON.parse(localStorage.getItem('pspo_scores') || '{}');
+      localStorage.setItem('pspo_scores', JSON.stringify(Object.assign({}, local, remote.pspo_scores)));
+    }
+  }
+
   async function fetchFromGist() {
     const token = getToken(), gistId = getGistId();
     if (!token || !gistId) return;
@@ -764,13 +803,10 @@
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
-      const content = data.files?.['weight-data.json']?.content;
+      const content = data.files?.['miniapps-data.json']?.content
+                   || data.files?.['weight-data.json']?.content; // backward compat
       if (content) {
-        const remote = JSON.parse(content);
-        // Merge: remote wins for any key it has
-        const local = getWeights();
-        const merged = Object.assign({}, local, remote);
-        saveWeightsLocal(merged);
+        restoreAllData(JSON.parse(content));
         renderCal();
       }
       setSyncStatus('ok', 'Sync OK');
@@ -783,14 +819,14 @@
     const token = getToken();
     let gistId = getGistId();
     if (!token) return;
-    const content = JSON.stringify(getWeights(), null, 2);
+    const content = JSON.stringify(getAllData(), null, 2);
+    const files = { 'miniapps-data.json': { content } };
     try {
       if (!gistId) {
-        // Create new gist
         const res = await fetch('https://api.github.com/gists', {
           method: 'POST',
           headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ description: 'MiniApps weight tracker', public: false, files: { 'weight-data.json': { content } } })
+          body: JSON.stringify({ description: 'MiniApps sync (waga, kolejność, PSPO)', public: false, files })
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
@@ -802,7 +838,7 @@
         const res = await fetch(`https://api.github.com/gists/${gistId}`, {
           method: 'PATCH',
           headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ files: { 'weight-data.json': { content } } })
+          body: JSON.stringify({ files })
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         setSyncStatus('ok', 'Zapisano');
@@ -902,6 +938,9 @@
     if (e.key === 'Enter') document.getElementById('weight-save').click();
     if (e.key === 'Escape') closePopup();
   });
+
+  // Export pushToGist for other modules (order sync)
+  window._pushToGist = pushToGist;
 
   // Init
   renderCal();
