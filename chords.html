@@ -121,6 +121,10 @@
     stroke-width: 1.5;
   }
   .stage.has-chords .stage-hint { opacity: 0; }
+  .stage.locked { background-color: #f5f5f3; cursor: default; }
+  .stage.locked .chord-card { cursor: default; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .stage.locked .chord-card .remove-btn { display: none; }
+  .stage.locked .chord-card.dragging { transform: none; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
 
   /* CHORD CARD ON STAGE */
   .chord-card {
@@ -395,7 +399,13 @@
   }
 
   _lockBtn.addEventListener('click', () => {
-    if (_screenLocked) { _deactivateScreenLock(); } else { _activateScreenLock(); }
+    if (_screenLocked) {
+      _deactivateScreenLock();
+      stage.classList.remove('locked');
+    } else {
+      _activateScreenLock();
+      stage.classList.add('locked');
+    }
   });
 
   // Auto-reaktywuj po powrocie z tła
@@ -490,6 +500,7 @@
 
     el.addEventListener('pointerdown', (e) => {
       if (e.target.classList.contains('remove-btn')) return;
+      if (stage.classList.contains('locked')) return; // zablokowane
       e.preventDefault();
       el.setPointerCapture(e.pointerId);
       dragging = true;
@@ -526,18 +537,41 @@
     });
   }
 
+  // --- Flow-layout: następna wolna pozycja w siatce ---
+  function nextFlowPosition() {
+    const PAD = 12;
+    const CARD_W = 100; // przybliżona szerokość karty
+    const CARD_H = 90;  // przybliżona wysokość karty
+    const cols = Math.max(1, Math.floor((stage.clientWidth - PAD) / (CARD_W + PAD)));
+
+    // Znajdź pierwsze wolne miejsce w siatce
+    const usedSlots = new Set(cards.map(c => {
+      const col = Math.round((c.x - PAD) / (CARD_W + PAD));
+      const row = Math.round((c.y - PAD) / (CARD_H + PAD));
+      return row * 100 + col;
+    }));
+
+    for (let row = 0; row < 20; row++) {
+      for (let col = 0; col < cols; col++) {
+        if (!usedSlots.has(row * 100 + col)) {
+          return {
+            x: PAD + col * (CARD_W + PAD),
+            y: PAD + row * (CARD_H + PAD)
+          };
+        }
+      }
+    }
+    return { x: PAD, y: PAD };
+  }
+
   // --- Chord tiles: tap to add ---
   document.querySelectorAll('.chord-tile').forEach(tile => {
     tile.addEventListener('pointerdown', (e) => {
       e.preventDefault();
+      if (stage.classList.contains('locked')) return; // zablokowane
       const chord = tile.dataset.chord;
-      // Place in a random-ish scatter pattern
-      const margin = 20;
-      const w = stage.clientWidth - margin * 2;
-      const h = stage.clientHeight - margin * 2;
-      const x = margin + Math.random() * w;
-      const y = margin + Math.random() * h;
-      addChord(chord, x, y);
+      const pos = nextFlowPosition();
+      addChord(chord, pos.x + 50, pos.y + 45);
 
       // Visual feedback
       tile.style.transform = 'scale(0.9)';
