@@ -17,19 +17,41 @@
     -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4, .nav-btn, .btn, .stat-num, .stat-label, .badge,
-  .mode-card h3, .scene-badge, .pcard-pl, .pcard-hint, .dlbl, .rel-bdg,
-  .quiz-cnt, .tab-btn, .diff-tag {
+  .opt-btn, .feedback-box, .next-btn, .progress-label, .theory-num {
     font-family: 'Inter', -apple-system, sans-serif;
   }
 
   /* HEADER */
-  .header { padding: 48px 20px 24px; text-align: center; max-width: 800px; margin: 0 auto; border-bottom: 1px solid #EAE6DF; }
+  .header {
+    padding: 48px 20px 24px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    border-bottom: 1px solid #EAE6DF;
+  }
   .header h1 { font-size: 2.4rem; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 8px; }
   .header p { font-size: 1.1rem; color: #78716C; }
 
   /* NAV */
-  .nav { display: flex; justify-content: center; gap: 8px; padding: 20px; overflow-x: auto; max-width: 800px; margin: 0 auto; }
-  .nav-btn { background: transparent; color: #78716C; border: 1px solid #EAE6DF; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 500; transition: all 0.2s; white-space: nowrap; }
+  .nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .nav-btn {
+    background: transparent;
+    color: #78716C;
+    border: 1px solid #EAE6DF;
+    padding: 10px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
   .nav-btn:hover { background: #F5F0EB; color: #1C1917; }
   .nav-btn.active { background: #2D6A4F; color: #fff; border-color: #2D6A4F; font-weight: 600; }
 
@@ -37,853 +59,1006 @@
   .screen { display: none; padding: 40px 20px 100px; max-width: 800px; margin: 0 auto; animation: fadeIn 0.3s; }
   .screen.active { display: block; }
   h2 { font-size: 2rem; margin-bottom: 8px; font-weight: 500; letter-spacing: -0.02em; }
-  .subtitle { color: #78716C; margin-bottom: 40px; font-size: 1.15rem; font-family: 'Inter', sans-serif; }
+  .subtitle { color: #78716C; margin-bottom: 40px; font-size: 1.1rem; }
 
   /* BUTTONS */
-  .btn { padding: 12px 24px; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; font-weight: 500; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+  .btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
   .btn-primary { background: #2D6A4F; color: #fff; }
   .btn-primary:hover { background: #1B4332; }
   .btn-secondary { background: #F5F0EB; color: #1C1917; border: 1px solid #EAE6DF; }
   .btn-secondary:hover { background: #EAE6DF; }
 
-  /* STATS */
-  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 40px; }
-  .stat-card { background: #fff; border: 1px solid #EAE6DF; border-radius: 16px; padding: 24px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s; }
-  .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.04); }
-  .stat-num { font-size: 2.4rem; font-weight: 600; color: #2D6A4F; margin-bottom: 4px; letter-spacing: -0.02em; }
-  .stat-label { font-size: 0.85rem; color: #78716C; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+  /* ======== TRENER SCREEN ======== */
+  .situation-card {
+    background: #fff;
+    border: 1px solid #EAE6DF;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  }
+  .sit-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .sit-emoji { font-size: 2rem; }
+  .sit-badges { display: flex; flex-direction: column; gap: 4px; }
+  .sit-place {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #2D6A4F;
+  }
+  .sit-person {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 20px;
+    background: #D1FAE5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
+    width: fit-content;
+  }
+  .sit-opis {
+    font-size: 1.1rem;
+    color: #1C1917;
+    line-height: 1.7;
+  }
+  .sit-counter {
+    font-size: 0.85rem;
+    color: #78716C;
+    margin-top: 12px;
+    font-family: 'Inter', sans-serif;
+  }
 
-  /* MODE CARDS */
-  .mode-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 48px; }
-  @media (max-width: 600px) { .mode-cards { grid-template-columns: 1fr; } }
-  .mode-card { background: #fff; border: 1px solid #EAE6DF; border-radius: 16px; padding: 32px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-  .mode-card:hover { border-color: #2D6A4F; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(45,106,79,0.08); }
-  .mode-icon { font-size: 2.5rem; margin-bottom: 16px; }
-  .mode-card h3 { color: #1C1917; margin-bottom: 8px; font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em; }
-  .mode-card p { font-size: 1.05rem; color: #78716C; }
+  /* PROGRESS PIPS */
+  .pips {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .pip {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #EAE6DF;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .pip.current { background: #2D6A4F; transform: scale(1.3); }
+  .pip.ok { background: #059669; }
+  .pip.bad { background: #DC2626; }
 
-  /* INFO BOX */
-  .info-box { background: #fff; border: 1px solid #EAE6DF; border-radius: 16px; padding: 32px; margin: 24px 0; font-size: 1.1rem; color: #44403C; line-height: 1.7; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-  .info-box h4 { color: #1C1917; font-size: 1.25rem; margin-bottom: 20px; font-weight: 600; letter-spacing: -0.01em; }
-  .info-box strong { color: #1C1917; font-weight: 600; }
+  /* OPTIONS */
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .opt-btn {
+    background: #F5F0EB;
+    border: 1.5px solid #EAE6DF;
+    border-radius: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #1C1917;
+    text-align: left;
+    transition: all 0.15s;
+    line-height: 1.5;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: #2D6A4F; background: #F0FAF4; }
+  .opt-btn.correct { background: #D1FAE5; border-color: #059669; color: #065F46; pointer-events: none; }
+  .opt-btn.wrong   { background: #FEE2E2; border-color: #DC2626; color: #991B1B; pointer-events: none; }
+  .opt-btn.show-correct { background: #D1FAE5; border-color: #059669; color: #065F46; pointer-events: none; }
+  .opt-btn.disabled { opacity: 0.45; pointer-events: none; }
 
-  /* BADGES */
-  .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin: 4px 4px 4px 0; border: 1px solid #EAE6DF; background: #F5F0EB; color: #44403C; }
-  .badge-green { background: #D1FAE5; border-color: #A7F3D0; color: #065F46; }
-  .badge-blue  { background: #DBEAFE; border-color: #BFDBFE; color: #1E40AF; }
-  .badge-amber { background: #FEF3C7; border-color: #FDE68A; color: #92400E; }
+  /* FEEDBACK */
+  .feedback-box {
+    display: none;
+    background: #F5F0EB;
+    border: 1px solid #EAE6DF;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 0.95rem;
+    color: #44403C;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    animation: slideDown 0.3s;
+  }
+  .feedback-box.show { display: block; }
 
-  /* ---- PRACTICE SCREEN ---- */
-  /* Scene tabs */
-  .scene-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
-  .tab-btn { background: #F5F0EB; border: 1px solid #EAE6DF; border-radius: 8px; padding: 8px 14px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; color: #44403C; }
-  .tab-btn:hover { background: #EAE6DF; }
-  .tab-btn.active { background: #2D6A4F; color: #fff; border-color: #2D6A4F; }
+  /* NEXT BTN */
+  .next-btn {
+    display: none;
+    background: #2D6A4F;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .next-btn:hover { background: #1B4332; }
+  .next-btn.show { display: inline-block; }
 
-  /* Scene panel */
-  .scene-panel { display: none; animation: fadeIn 0.3s; }
-  .scene-panel.active { display: block; }
+  /* RESULT SCREEN */
+  .result-wrap {
+    display: none;
+    text-align: center;
+    padding: 20px 0 40px;
+    animation: fadeIn 0.4s;
+  }
+  .result-wrap.show { display: block; }
+  .result-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    border: 6px solid #059669;
+  }
+  .result-circle span { font-family: 'Inter', sans-serif; font-size: 2.8rem; font-weight: 600; color: #065F46; line-height: 1; }
+  .result-circle small { font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; color: #059669; margin-top: 4px; }
+  .result-msg { font-size: 1.2rem; margin-bottom: 8px; font-weight: 500; }
+  .result-sub { font-size: 1rem; color: #78716C; margin-bottom: 28px; }
 
-  /* Scene head */
-  .scene-head { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 28px; }
-  .scene-ico { font-size: 2.8rem; flex-shrink: 0; }
-  .scene-badge { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #78716C; margin-bottom: 4px; }
-  .scene-head h3 { font-size: 1.5rem; font-weight: 600; color: #1C1917; margin-bottom: 6px; }
-  .scene-head p { font-size: 0.95rem; color: #78716C; }
-
-  /* Phrase cards */
-  .pcard { background: #fff; border: 1px solid #EAE6DF; border-radius: 12px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
-  .pcard-top { display: flex; align-items: center; gap: 16px; padding: 18px 20px; cursor: pointer; transition: background 0.15s; }
-  .pcard-top:hover { background: #FAF9F7; }
-  .pcard-ico { font-size: 1.8rem; flex-shrink: 0; }
-  .pcard-txt { flex: 1; }
-  .pcard-pl { font-size: 1rem; font-weight: 600; color: #1C1917; margin-bottom: 2px; }
-  .pcard-hint { font-size: 0.85rem; color: #78716C; }
-  .pcard-arr { font-size: 1rem; color: #78716C; transition: transform 0.2s; }
-  .pcard.open .pcard-arr { transform: rotate(180deg); }
-  .pcard-body { display: none; padding: 0 20px 20px; }
-  .pcard.open .pcard-body { display: block; }
-
-  /* Relation scale */
-  .dlbl { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #78716C; margin-bottom: 12px; }
-  .rel-scale { display: flex; flex-direction: column; gap: 10px; }
-  .rel-row { display: flex; align-items: flex-start; gap: 12px; }
-  .rel-bdg { flex-shrink: 0; font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; min-width: 90px; text-align: center; }
-  .rel-1 { background: #F3E8FF; color: #6B21A8; }
-  .rel-2 { background: #DBEAFE; color: #1E40AF; }
-  .rel-3 { background: #D1FAE5; color: #065F46; }
-  .rel-4 { background: #FEF3C7; color: #92400E; }
-  .rel-5 { background: #FFE4E6; color: #9F1239; }
-  .rel-txt { font-size: 0.95rem; color: #44403C; line-height: 1.5; }
-
-  /* Golden rule box */
-  .box { border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; font-size: 0.95rem; color: #44403C; line-height: 1.6; }
-  .box-gold { background: #FFFBEB; border: 1px solid #FDE68A; }
-  .box-blue { background: #EFF6FF; border: 1px solid #BFDBFE; }
-  .box-lbl { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #78716C; margin-bottom: 10px; }
-
-  /* ---- THEORY SCREEN ---- */
-  .theory-section { margin-bottom: 32px; }
-  .theory-section > h3 { font-family: 'Inter', sans-serif; font-size: 1.15rem; font-weight: 600; color: #1C1917; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #EAE6DF; }
-  .theory-card { background: #fff; border: 1px solid #EAE6DF; border-left: 4px solid #2D6A4F; border-radius: 0 12px 12px 0; padding: 18px 22px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
-  .theory-card h4 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; color: #1C1917; margin-bottom: 6px; }
+  /* ======== TEORIA SCREEN ======== */
+  .theory-card {
+    background: #fff;
+    border: 1px solid #EAE6DF;
+    border-left: 4px solid #2D6A4F;
+    border-radius: 0 12px 12px 0;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+  }
+  .theory-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .theory-num {
+    background: #2D6A4F;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .theory-card h4 { font-size: 1rem; font-weight: 600; color: #1C1917; }
   .theory-card p { font-size: 0.95rem; color: #44403C; line-height: 1.6; }
+  .theory-example {
+    margin-top: 10px;
+    background: #F5F0EB;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: #44403C;
+    font-style: italic;
+  }
 
-  /* ---- QUIZ (in Practice) ---- */
-  .quiz-wrap { background: #fff; border: 1px solid #EAE6DF; border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-  .quiz-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  .quiz-head h3 { font-size: 1.2rem; font-weight: 600; color: #1C1917; }
-  .quiz-cnt { font-size: 0.9rem; color: #78716C; }
-  .quiz-q { font-size: 1.15rem; margin-bottom: 24px; color: #1C1917; line-height: 1.5; }
-  .quiz-opts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-  .qopt { background: #F5F0EB; border: 1.5px solid #EAE6DF; border-radius: 10px; padding: 14px 18px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #1C1917; transition: all 0.15s; text-align: left; }
-  .qopt:hover { border-color: #2D6A4F; background: #F0FAF4; }
-  .qopt.correct { background: #D1FAE5; border-color: #059669; color: #065F46; }
-  .qopt.wrong   { background: #FEE2E2; border-color: #DC2626; color: #991B1B; }
-  .qopt.show-correct { background: #D1FAE5; border-color: #059669; color: #065F46; }
-  .qopt.disabled { opacity: 0.45; pointer-events: none; }
-  .quiz-fb { min-height: 40px; font-size: 0.95rem; color: #44403C; margin-bottom: 16px; padding: 12px 16px; border-radius: 8px; display: none; }
-  .quiz-fb.show { display: block; background: #F5F0EB; border: 1px solid #EAE6DF; animation: slideDown 0.3s; }
-  .quiz-next { display: none; }
-  .quiz-next.show { display: inline-block; }
-  .qpips { display: flex; gap: 6px; margin-bottom: 20px; }
-  .qpip { width: 10px; height: 10px; border-radius: 50%; background: #EAE6DF; transition: background 0.2s; }
-  .qpip.done-ok { background: #059669; }
-  .qpip.done-bad { background: #DC2626; }
-  .qpip.current { background: #2D6A4F; transform: scale(1.3); }
+  /* ======== POSTEP SCREEN ======== */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .stat-card {
+    background: #fff;
+    border: 1px solid #EAE6DF;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  }
+  .stat-num { font-size: 2.4rem; font-weight: 600; color: #2D6A4F; margin-bottom: 4px; letter-spacing: -0.02em; }
+  .stat-label { font-size: 0.82rem; color: #78716C; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
 
-  /* Result screen */
-  .quiz-result { text-align: center; padding: 20px 0; }
-  .result-circle { width: 140px; height: 140px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; border: 6px solid #EAE6DF; }
-  .result-circle.pass { border-color: #059669; color: #065F46; }
-  .result-circle.fail { border-color: #DC2626; color: #991B1B; }
-  .result-circle span { font-family: 'Inter', sans-serif; font-size: 2.6rem; font-weight: 600; line-height: 1; }
-  .result-circle small { font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; margin-top: 4px; }
+  .progress-bar-wrap { background: #EAE6DF; border-radius: 4px; height: 10px; margin: 8px 0 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #2D6A4F; border-radius: 4px; transition: width 0.5s; }
 
-  /* STATS PLACEHOLDER */
-  .progress-bar-wrap { background: #EAE6DF; border-radius: 4px; height: 8px; margin: 8px 0 4px; overflow: hidden; }
-  .progress-fill { height: 100%; background: #2D6A4F; border-radius: 4px; transition: width 0.4s; }
+  .cat-progress { margin-bottom: 24px; }
+  .cat-row { margin-bottom: 12px; }
+  .cat-label { font-size: 0.9rem; font-weight: 600; color: #44403C; margin-bottom: 2px; display: flex; justify-content: space-between; }
 
-  /* COMING SOON */
-  .coming-soon { text-align: center; padding: 48px 20px; color: #78716C; }
-  .coming-soon .cs-icon { font-size: 3rem; margin-bottom: 14px; }
-  .coming-soon h3 { font-family: 'Inter', sans-serif; font-size: 1.3rem; font-weight: 600; color: #1C1917; margin-bottom: 8px; }
+  .reset-btn {
+    background: transparent;
+    border: 1px solid #EAE6DF;
+    color: #78716C;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: #DC2626; color: #DC2626; background: #FEF2F2; }
 
-  @keyframes fadeIn  { from { opacity: 0; transform: translateY(10px);  } to { opacity: 1; transform: translateY(0); } }
+  .info-box {
+    background: #fff;
+    border: 1px solid #EAE6DF;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    font-size: 1rem;
+    color: #44403C;
+    line-height: 1.7;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  }
+  .info-box h4 { color: #1C1917; font-size: 1.15rem; margin-bottom: 12px; font-weight: 600; }
+
+  @keyframes fadeIn  { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 500px) {
+    .header h1 { font-size: 1.8rem; }
+    .situation-card { padding: 20px; }
+    .options { gap: 8px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="header">
   <h1>SmallTalk Trainer</h1>
-  <p>Naucz sie small talk — cwicz scenariusze, poznaj techniki, buduj pewnosc siebie</p>
+  <p>Cwicz rozmowy, poznaj zasady, buduj pewnosc siebie</p>
 </div>
 
 <div class="nav">
-  <button class="nav-btn active" onclick="showScreen('home')">Home</button>
-  <button class="nav-btn" onclick="showScreen('practice')">Practice</button>
-  <button class="nav-btn" onclick="showScreen('theory')">Theory</button>
-  <button class="nav-btn" onclick="showScreen('stats')">Stats</button>
+  <button class="nav-btn active" onclick="showScreen('trener')">Trener</button>
+  <button class="nav-btn" onclick="showScreen('teoria')">Teoria</button>
+  <button class="nav-btn" onclick="showScreen('postep')">Postep</button>
 </div>
 
-<!-- ===== HOME ===== -->
-<div id="screen-home" class="screen active">
-  <h2>Witaj!</h2>
-  <p class="subtitle">Naucz sie small talk — cwicz scenariusze, poznaj techniki, buduj pewnosc siebie</p>
+<!-- ===== TRENER ===== -->
+<div id="screen-trener" class="screen active">
+  <h2>Trener</h2>
+  <p class="subtitle">Kliknij odpowiedz — dowiedz sie dlaczego dziala lub nie</p>
 
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-num">7</div>
-      <div class="stat-label">Scenariuszy</div>
+  <div class="pips" id="pips"></div>
+
+  <div id="trener-quiz">
+    <div class="situation-card" id="sit-card">
+      <div class="sit-meta">
+        <div class="sit-emoji" id="sit-emoji"></div>
+        <div class="sit-badges">
+          <div class="sit-place" id="sit-place"></div>
+          <div class="sit-person" id="sit-person"></div>
+        </div>
+      </div>
+      <div class="sit-opis" id="sit-opis"></div>
+      <div class="sit-counter" id="sit-counter"></div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num" id="stat-done">0</div>
-      <div class="stat-label">Ukonczone sesje</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="stat-quiz">–</div>
-      <div class="stat-label">Ostatni quiz</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">5</div>
-      <div class="stat-label">Poziomow zazylości</div>
-    </div>
+
+    <div class="options" id="options"></div>
+    <div class="feedback-box" id="feedback-box"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">Nastepna sytuacja &rarr;</button>
   </div>
 
-  <div class="mode-cards">
-    <div class="mode-card" onclick="showScreen('practice')">
-      <div class="mode-icon">💬</div>
-      <h3>Practice</h3>
-      <p>Cwicz realne scenariusze rozmow — 7 sytuacji z zycia (biuro, winda, networking i inne).</p>
+  <div class="result-wrap" id="result-wrap">
+    <div class="result-circle">
+      <span id="result-score"></span>
+      <small>poprawnych</small>
     </div>
-    <div class="mode-card" onclick="showScreen('theory')">
-      <div class="mode-icon">📖</div>
-      <h3>Theory</h3>
-      <p>Poznaj techniki i zasady small talk — zasada FORD, aktywne sluchanie, graceful exit.</p>
-    </div>
-    <div class="mode-card" onclick="goQuiz()" style="grid-column: 1 / -1;">
-      <div class="mode-icon">🎯</div>
-      <h3>Quick Quiz</h3>
-      <p>8 pytan z zycia — sprawdz czy wiesz jak sie zachowac w trudnych sytuacjach.</p>
-    </div>
-  </div>
-
-  <div class="info-box">
-    <h4>Skala Zazylości — jak to dziala?</h4>
-    <span class="badge" style="background:#F3E8FF;border-color:#D8B4FE;color:#6B21A8">Nieznajomy</span>
-    <span class="badge badge-blue">Z widzenia</span>
-    <span class="badge badge-green">Znajomy</span>
-    <span class="badge badge-amber">Kolega</span>
-    <span class="badge" style="background:#FFE4E6;border-color:#FECDD3;color:#9F1239">Przyjaciel</span>
-    <br><br>
-    Kazda fraza w aplikacji ma <strong>5 wariantow</strong> — od formalnego "Pan/Pani" po luznie przyjacielski ton.
-    Wybierz odpowiedni poziom do sytuacji i unikaj gafy.
+    <div class="result-msg" id="result-msg"></div>
+    <div class="result-sub" id="result-sub"></div>
+    <button class="btn btn-primary" onclick="restartQuiz()">Zacznij od nowa</button>
   </div>
 </div>
 
-<!-- ===== PRACTICE ===== -->
-<div id="screen-practice" class="screen">
-  <h2>Practice</h2>
-  <p class="subtitle">Wybierz scenariusz — kliknij temat, zeby rozwinac zagajenia</p>
+<!-- ===== TEORIA ===== -->
+<div id="screen-teoria" class="screen">
+  <h2>Teoria</h2>
+  <p class="subtitle">9 kluczowych zasad skutecznego small talk</p>
 
-  <div class="scene-tabs">
-    <button class="tab-btn active" onclick="showScene(0)">⭐ Zasady</button>
-    <button class="tab-btn" onclick="showScene(1)">☕ Kuchnia</button>
-    <button class="tab-btn" onclick="showScene(2)">💻 Online</button>
-    <button class="tab-btn" onclick="showScene(3)">🚕 Taksowka</button>
-    <button class="tab-btn" onclick="showScene(4)">🍻 Po pracy</button>
-    <button class="tab-btn" onclick="showScene(5)">🛗 Winda</button>
-    <button class="tab-btn" onclick="showScene(6)">🤝 Nowa osoba</button>
-    <button class="tab-btn" onclick="showScene(7)">🎯 Quiz</button>
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">1</div>
+      <h4>Zasada bezpiecznych tematow</h4>
+    </div>
+    <p>Pogoda, otoczenie, neutralne wydarzenia — zawsze bezpieczne. Z nieznajomymi unikaj polityki, pieniedzy, religii i spraw osobistych. Im mniejsza znajomosc, tym bardziej powierzchowny temat.</p>
+    <div class="theory-example">Przyklad: "Ladna pogoda dzis, prawda?" zamiast "Co Pan sądzi o rzadzie?"</div>
   </div>
 
-  <!-- Scene 0: Golden Rules -->
-  <div class="scene-panel active" id="sp0">
-    <div class="scene-head">
-      <div class="scene-ico">⭐</div>
-      <div>
-        <div class="scene-badge">Wprowadzenie</div>
-        <h3>Zlote Zasady i Skala Zazylości</h3>
-        <p>Fundament skutecznego small talk w polskich realiach.</p>
-      </div>
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">2</div>
+      <h4>Pytania otwarte > zamkniete</h4>
     </div>
-    <div class="box box-blue">
-      <div class="box-lbl">🔍 Skala Zazylości — legenda</div>
-      <div class="rel-scale" style="margin-top:10px">
-        <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">Zawsze "Pan/Pani". Sztywno, bezpiecznie, elegancko.</div></div>
-        <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">Grzecznie, standardowy dystans, ewentualnie "Ty".</div></div>
-        <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">Na "Ty", zyczliwie, zartobliwie, ale nadal profesjonalnie.</div></div>
-        <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">Luzno, autoironicznie, slang jest mile widziany.</div></div>
-        <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">Pelny luz, sarkazm, zero owijania w bawelne.</div></div>
-      </div>
-    </div>
-    <div class="box box-gold">
-      <div class="box-lbl">🎾 Zasada #1: Pilka Zwrotna</div>
-      Kazde zagajenie koncz pytaniem. "Dobrze, dziekuje" usmiercia rozmowe. "Dobrze, a u Ciebie?" utrzymuje ja przy zyciu.
-    </div>
-    <div class="box box-blue">
-      <div class="box-lbl">⛔ Zasada #2: Tematy zakazane</div>
-      <strong>Zarobki, polityka, religia, zdrowie, orientacja</strong> — kompletne tabu az do poziomu "Kolega" wlacznie.
-    </div>
+    <p>Pytania otwarte zaczynajace sie od "Co", "Jak", "Dlaczego" otwieraja rozmowe. Pytania zamkniete (tak/nie) ja zabijaja. Zawsze dawaj rozmowcy szanse sie wypowiedziec.</p>
+    <div class="theory-example">Lepiej: "Co sądzisz o..." zamiast "Czy lubisz...?"</div>
   </div>
 
-  <!-- Scene 1: Kuchnia -->
-  <div class="scene-panel" id="sp1">
-    <div class="scene-head">
-      <div class="scene-ico">☕</div>
-      <div>
-        <div class="scene-badge">Scena 1</div>
-        <h3>Przy ekspresie i lodowce</h3>
-        <p>Kliknij temat by zobaczyc 5 zagajen — od sprawdzonych az po zupelnie swobodne.</p>
-      </div>
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">3</div>
+      <h4>Zasada proporcji</h4>
     </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">☕</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Kawa i poranny rytual</div><div class="pcard-hint">Najpopularniejsze zagajenie przy ekspresie</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„Dzien dobry, czy to ekspres ogolnodostepny?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Wlasnie robie sobie kawe, zaparzyc rowniez dla Pana/Pani?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„Juz trzecia kawa dzisiaj? Mnie tez tak jakos ostatnio wychodzi."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„Powiedz mi, ze ten ekspres jeszcze dziala, bo bez kawy dzisiaj szybko zgasne."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„Jeszcze jedna kawa i zacznę widziec dzwieki. Tez masz taki mlyn dzisiaj?"</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">🍕</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Lunch i jedzenie</div><div class="pcard-hint">Swietny, naturalny lodolamacz i pretekst do rozmowy</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„Przepraszam, czy w poblizu mozna zjesc dobry lunch?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Zna Pan/Pani to nowe bistro naprzeciwko? Podobno warto tam wstapic."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„Mam juz serdecznie dosc kanapek. Masz moze jakis fajny patent na obiad w okolicy?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„Zbieramy dzisiaj zamowienie na pizze, czy znowu jesz te swoje salatki?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„Chodzmy stad na burgera, bo jeszcze chwila i zjem te biurowe paprotki z nudow."</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">📅</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Jak mija tydzien / dzien</div><div class="pcard-hint">Klasyk — bezpieczna opcja w kazdej kulturze</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„Zapracowany dzien, prawda? Podobno Panstwa dzial ma teraz sporo na glowie."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Jak mija Panu/Pani ten tydzien? Mam nadzieje, ze troche spokojniej."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„Strasznie mi sie dluzy ten tydzien. U Ciebie tez taki nawal pracy?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„Powiedz mi, ze dzisiaj juz jest czwartek... Stracilem calkowicie poczucie czasu."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„Przysiegan, tegoroczny wtorek to byl najdluzszy rok w moim zyciu. Idziemy na piwo dzis?"</div></div>
-        </div>
-      </div>
-    </div>
+    <p>Z nieznajomym: lekko, krotko, powierzchownie. Z przyjacielem: mozesz byc glebszy, osobisty i szczery. Dostosuj glebokosc rozmowy do bliskosci relacji — nie przeskakuj poziomow.</p>
+    <div class="theory-example">Z nieznajomym w windzie: 1-2 zdania. Z kolegą przy kawie: możesz porozmawiać dłużej.</div>
   </div>
 
-  <!-- Scene 2: Online -->
-  <div class="scene-panel" id="sp2">
-    <div class="scene-head">
-      <div class="scene-ico">💻</div>
-      <div>
-        <div class="scene-badge">Scena 2</div>
-        <h3>Spotkanie online</h3>
-        <p>Oczekiwanie na uczestnikow — jak wypelnic niezreczna cisze przed kamerka?</p>
-      </div>
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">4</div>
+      <h4>Komentarz + pytanie</h4>
     </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">⏱️</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Gdy czekacie na spoznialsich</div><div class="pcard-hint">Ktos zawsze wejdzie za 5 po.</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„Dzien dobry. Czy Pan Marek Kowalski rowniez dolaczy do tego spotkania?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Poczekajmy moze jeszcze chwilke. A jak mija Panstwu ten poniedzialek?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„Czekamy jeszcze na reszte zespolu — weekend minal na odpoczynku?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„Mamy na dzisiaj jakas ustalona aggende, czy po prostu standardowo improwizujemy?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„Ktokolwiek spozni sie nastepnym razem, stawia kawe dla calego zespolu. Zgoda?"</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">📷</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Problemy ze sprzetem i polaczeniem</div><div class="pcard-hint">Klasyk kazdego zdalnego calla.</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„Przepraszam, czy slysza mnie Panstwo wyraxnie? Wydaje mi sie, ze mam problemy z mikrofonem."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Dzien dobry. Slychac mnie w porzadku, czy znow cos przerywa?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„O nie, Teams znow ma jakies humory. Wam tez tak wolno dzisiaj dziala polaczenie?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„Moj komputer znowu zaczal wymuszac aktualizacje tuz przed naszym spotkaniem. Klasyka, prawda?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„W ogole mnie widzicie, czy polaczyl mnie dzisiaj tylko we lzach? Bo nic nie ruszam."</div></div>
-        </div>
-      </div>
-    </div>
+    <p>Formulka small talk: obserwacja/komentarz o tym co widzisz lub czujesz, a potem pytanie zwrotne. Ta formula jest naturalnym otwarciem bez poczucia przesluchania.</p>
+    <div class="theory-example">"Dzis strasznie goraco. Dokad sie Pan wybiera?" — obserwacja + pytanie.</div>
   </div>
 
-  <!-- Scene 3: Taksowka -->
-  <div class="scene-panel" id="sp3">
-    <div class="scene-head">
-      <div class="scene-ico">🚕</div>
-      <div>
-        <div class="scene-badge">Scena 3</div>
-        <h3>W Taksowce / Uberze</h3>
-        <p>Kazdy wspolny dojazd to okazja do rozmowy o trasie, pogodzie albo radiu.</p>
-      </div>
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">5</div>
+      <h4>Unikanie zbyt osobistych pytan</h4>
     </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">🚗</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Trasa i korki na miescie</div><div class="pcard-hint">Zawsze aktualne, nigdy kontrowersyjne.</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„Przepraszam pana, to jest trasa w strone Dworca, zgadza sie?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Dzis znowu wyjatkowe korki. Jezdzi Pan w tej okolicy od samego rana?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„Tragedia dzis na tym odcinku, a ty jak zwykle masz ten sam problem z dojazdem rano?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„Lepiej przebic sie przez centrum, czy jedziemy obwodnica zeby nie stac z tymi autami?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„Jedzmyobojatnie ktoredy, bylebym przed emerytura tam dotarl, bo nigdzie nam sie nie spieszy."</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">☀️</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Panujaca pogoda</div><div class="pcard-hint">Rowniez prosba o klimatyzacje / zmiane temperatury.</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„Dobrze, ze chociaz dzisiaj nie pada. Wieczorem ma nadejsc jakas burza, prawda?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Taka kaprysna ta pogoda w tym roku... raz slonce, raz zima. Tez tak Pan uwaza?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„Nareszcie troche slonca! Juz zaczynalam wierzyc, ze mamy ciagly polski listopad."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„Polska szklarnia! Chlodno rano, sauna w poludnie, chlodno wieczorem — typowe, nie?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„Podkroc troche klimatyzacje, bo w tym aucie jest cieplej niz na rowniku. Zaraz padne!"</div></div>
-        </div>
-      </div>
-    </div>
+    <p>Wiek, zarobki, zwiazki, problemy zdrowotne — to tabu z nieznajomymi i znajomymi z widzenia. Nawet z kolega trzeba wyczuc czy moze poruszyc te tematy. Nigdy nie zaczynaj od nich.</p>
+    <div class="theory-example">Zle: "Ile Pan zarabia?" Dobrze: "Jak sie Panu podoba ta branża?"</div>
   </div>
 
-  <!-- Scene 4: Po pracy -->
-  <div class="scene-panel" id="sp4">
-    <div class="scene-head">
-      <div class="scene-ico">🍻</div>
-      <div>
-        <div class="scene-badge">Scena 4</div>
-        <h3>Piwo po pracy / Integracja</h3>
-        <p>Idealne miejsce do przelamania sztywnych relacji biurowych.</p>
-      </div>
-    </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">🏙️</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Opinia o miejscu spotkania</div><div class="pcard-hint">Szybki lodolamacz gdy masz piwo w dloni.</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„Dobry wieczor. Czy Pan rowniez nalezy do dzialu finansow? Chyba jeszcze sie nie znamy."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Milo spotkac sie w ciut luzniejszych okolicznosciach, a nie tylko windzie. Podoba sie tu Pani?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„Czesto tu wpadacie ekipa po godzinach? Mega klimatyczne miejsce na piwo."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„No, i kto jest tu stalym bywalcem? Mam wrazenie, ze Krzysiek u kazdego barmana ma znizki."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„Cale biuro na jednej sali, gdzie nie spojrze tylko korpo-twarze. Od kogo zaczynamy oblewac?"</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">🎾</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Czas wolny, hobby</div><div class="pcard-hint">Zlota okazja, aby wejsc na inne tematy niz Excel.</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„Przepraszam za bezposredniosc, ale czym sie Pan/Pani zajmuje w wolnym czasie?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Syszalem, ze biega Pan/Pani w maratonach — od dawna ma Pan/Pani te pasje?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„Podobno swietnie grasz w tenisa. Akurat mysle by tez zaczac — podpowiesz cos na start?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„Kiedy wreszcie ustawiamy sie na tego squasha? Wymigujesz sie caly rok!"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„Chyba nie chcesz isc rano na trening po takim wieczorze? Juz lepiej to odpusc dzisiaj!"</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scene 5: Winda -->
-  <div class="scene-panel" id="sp5">
-    <div class="scene-head">
-      <div class="scene-ico">🛗</div>
-      <div>
-        <div class="scene-badge">Scena 5</div>
-        <h3>Winda — 20 sekund</h3>
-        <p>Jak bez stresu zagospodarowac bardzo krotka droge korytarzem i winda.</p>
-      </div>
-    </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">🛗</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Najkrotsze mozliwe small-talki</div><div class="pcard-hint">Gdy zjezdzasz pietro.</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„Dzien dobry." (Lekki usmiech wystarczy — nie zagajamy dalej).</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Dzien dobry. Piekna aura dzis za oknem, szkoda mazac sie w biurowcu, nieprawdaz?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„Czesc! Winda jak zwykle jedzie najdluzej, kiedy czlowiekowi naprawde sie spieszy."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„Hej! Ty tez uciekasz z wydzialu, czy akurat znowu wzywaja 'na dywanik'?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„I znow jestesmy na siebie skazani. Byle to zjechalo zanim zacznę obmyslac plany ewakuacji."</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scene 6: Nowa osoba -->
-  <div class="scene-panel" id="sp6">
-    <div class="scene-head">
-      <div class="scene-ico">🤝</div>
-      <div>
-        <div class="scene-badge">Scena 6</div>
-        <h3>Nowa / malo znana osoba</h3>
-        <p>Jak nawiazac naturalny kontakt z kims obcym w nowoczesnej firmie.</p>
-      </div>
-    </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">🤝</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Inicjatywa przelamania lodow</div><div class="pcard-hint">Szczere zainteresowanie zawsze sie sprawdza.</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„Zaczal Pan/Pani prace z nami od tego tygodnia w Zarzadzie, zgadza sie?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Dzien dobry. Czesto Pana mijam na korytarzu — nie bylo okazji sie poznac. Jestem Marek."</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„Czesc! Ostatnio kojarzylem Twoja twarz ze spotkan All-Hands. Dobrze kojarzysz, zajmujesz sie PR-em?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„A, czyli to o tobie wszyscy opowiadali w HR-ach! Czym sie wlasciwie konkretnie zajmujesz?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„Pozyczyles ode mnie wczoraj dluigopis... Zapomniales juz o dlugach?!" (tylko po 2-3 piwie!)</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="pcard">
-      <div class="pcard-top" onclick="toggleCard(this)">
-        <div class="pcard-ico">🗂️</div>
-        <div class="pcard-txt"><div class="pcard-pl">Temat: Podpytanie "Co Ty tu wlasciwie robisz?"</div><div class="pcard-hint">Zdjecie z kogos maski pracowniczej.</div></div>
-        <div class="pcard-arr">▾</div>
-      </div>
-      <div class="pcard-body">
-        <div class="dlbl">Jak zagadac (5 poziomow):</div>
-        <div class="rel-scale">
-          <div class="rel-row"><div class="rel-bdg rel-1">Nieznajomy</div><div class="rel-txt">„W jakim dokladnie wydziale Panstwo operuja na co dzien, jesli moge zapytac?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-2">Z widzenia</div><div class="rel-txt">„Mamy chyba ze soba niewielka stycznosc zawodowa. Wspomaga Pan/Pani zespol operacyjny, prawda?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-3">Znajomy</div><div class="rel-txt">„Zawsze mnie ciekawilo czym dokladnie zajmuje sie Twoj zespol od strony technicznej. Opowiesz?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-4">Kolega</div><div class="rel-txt">„No dobra, zdradz w koncu mroczny sekret — co Wy tam w tym IT faktycznie robicie po nocach?"</div></div>
-          <div class="rel-row"><div class="rel-bdg rel-5">Przyjaciel</div><div class="rel-txt">„Wytlumacz mi znow jaki masz tytul stanowiska, zebym wiedzial kogo wpisac w raporcie w razie kryzysu."</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scene 7: Quiz -->
-  <div class="scene-panel" id="sp7">
-    <div class="scene-head">
-      <div class="scene-ico">🎯</div>
-      <div>
-        <div class="scene-badge">Cwiczenie — Quiz</div>
-        <h3>Sprawdz siebie</h3>
-        <p>8 pytan z zycia — wybierz wlasciwa odpowiedz.</p>
-      </div>
-    </div>
-    <div class="quiz-wrap">
-      <div class="qpips" id="qPips"></div>
-      <div class="quiz-head">
-        <h3 id="qTitle">Pytanie 1</h3>
-        <div class="quiz-cnt" id="qCnt">1 / 8</div>
-      </div>
-      <div class="quiz-q" id="qQ"></div>
-      <div class="quiz-opts" id="qOpts"></div>
-      <div class="quiz-fb" id="qFb"></div>
-      <button class="btn btn-primary quiz-next" id="qNext" onclick="nextQuestion()">Nastepne &rarr;</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== THEORY ===== -->
-<div id="screen-theory" class="screen">
-  <h2>Theory</h2>
-  <p class="subtitle">Zasady i techniki skutecznego small talk</p>
-
-  <div class="theory-section">
-    <h3>Podstawy</h3>
-    <div class="theory-card">
-      <h4>Zasada FORD</h4>
-      <p>Bezpieczne tematy do rozmowy: <strong>F</strong>amily (rodzina), <strong>O</strong>ccupation (praca), <strong>R</strong>ecreation (hobby), <strong>D</strong>reams (marzenia/plany). Zacznij od ktoregolowiek — wszyscy maja cos do powiedzenia.</p>
-    </div>
-    <div class="theory-card">
-      <h4>Pilka zwrotna</h4>
-      <p>Kazde zagajenie koncz pytaniem lub otwarta obserwacja. "Dobrze, dziekuje" usmiercia rozmowe. "Dobrze, a u Ciebie?" utrzymuje ja przy zyciu. Rozmowa powinna przypominac tenis, nie wyklad.</p>
-    </div>
-    <div class="theory-card">
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">6</div>
       <h4>Aktywne sluchanie</h4>
-      <p>Zadawaj pytania otwarte (Co, Jak, Dlaczego). Powtarzaj kluczowe slowa rozmowcy. Kiw glowa, utrzymuj kontakt wzrokowy. Ludzie chodza z rozmowy zadowoleni, jesli czuli sie wysluchani.</p>
     </div>
-    <div class="theory-card">
-      <h4>Zacznij od obserwacji</h4>
-      <p>Skomentuj otoczenie, wydarzenie lub sytuacje — cos co laczy was obie osoby w tym momencie. "Swietna organizacja tego eventu, co?" jest lepsze niz "Czym sie zajmujesz?" rzucone na dzien dobry.</p>
-    </div>
+    <p>Nawiazuj do tego, co powiedziala osoba wczesniej. Powtorz kluczowe slowo, dopytaj o szczegol. To pokazuje, ze naprawde sluchasz, a nie tylko czekasz na swoja kolej.</p>
+    <div class="theory-example">"Wspomnial Pan o Barcelonie — to byl wyjazd sluzbowy czy prywatny?"</div>
   </div>
 
-  <div class="theory-section">
-    <h3>Czego unikac</h3>
-    <div class="theory-card">
-      <h4>Tematy tabu</h4>
-      <p>Polityka, religia, pieniadze, zdrowie (poza ogolnikami), sprawy osobiste — zbyt kontrowersyjne lub intymne na small talk. Trzymaj sie neutralnych, pozytywnych tematow do poziomu "Kolega".</p>
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">7</div>
+      <h4>Zasada FORD</h4>
     </div>
-    <div class="theory-card">
-      <h4>Monolog</h4>
-      <p>Small talk to wymiana, nie prezentacja. Jesli mowisz dluzej niz 60 sekund bez przerwy — zadaj pytanie. Regula: tyle samo slow co twoj rozmowca.</p>
-    </div>
-    <div class="theory-card">
-      <h4>Zbyt osobiste pytania na poczatku</h4>
-      <p>Nie pytaj o zarobki, relacje romantyczne ani zdrowie osoby, ktorej nie znasz. To polskie tabu — nawet wsrod znajomych czesto uwazane za niestosowne.</p>
-    </div>
+    <p>Cztery bezpieczne obszary tematyczne: <strong>F</strong>amily (Rodzina), <strong>O</strong>ccupation (Praca), <strong>R</strong>ecreation (Hobby), <strong>D</strong>reams (Marzenia/Plany). Zawsze mozna poruszac te tematy — sa naturalne i buduja relacje.</p>
+    <div class="theory-example">"Jak Panu mija ten rok w pracy?" (Occupation) lub "Co Pan planuje w wakacje?" (Dreams)</div>
   </div>
 
-  <div class="theory-section">
-    <h3>Kończenie rozmowy</h3>
-    <div class="theory-card">
-      <h4>Graceful exit</h4>
-      <p>Zakonczyc rozmowe mozna elegancko: "Swietnie bylo porozmawiac, musze jeszcze zagadnac kilka osob" lub "Ide po cos do picia — moze do zobaczenia pozniej!". Nie trzeba czekac, az rozmowa umrze sama.</p>
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">8</div>
+      <h4>Dostosowanie tonu</h4>
     </div>
-    <div class="theory-card">
-      <h4>Zapamiętaj i follow up</h4>
-      <p>Jesli ktos powiedzial ze jezdzi na rowerze — nastepnym razem zapytaj jak to idzie. Nic nie buduje relacji tak jak pokazanie, ze pamietamy co rozmowca mowil.</p>
+    <p>Formalny jezyk z nieznajomymi (Pan/Pani), luz z przyjaciolmi. Nigdy nie przeskakuj do "ty" bez wyraznej zgody rozmowcy. Dostosuj slowa, humor i dystans do kontekstu spotkania.</p>
+    <div class="theory-example">Nieznajomy w biurze: "Dzien dobry, czy moze mi Pan pomoc?" Kolega: "Hej, możesz mi pomóc?"</div>
+  </div>
+
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">9</div>
+      <h4>Graceful exit — jak zakonczyc rozmowe</h4>
     </div>
+    <p>Zawsze koncz rozmowe pozytywnie i z wyjsciem. Nie urywaj nagle. Daj znak ze rozmowa sie konczy, podsumuj i zostan z dobrym wrazeniem. Rozmowca zapamięta poczatek i koniec.</p>
+    <div class="theory-example">"Swietnie bylo porozmawiac — mam nadzieje ze powtorzmy to wkrotce!"</div>
   </div>
 </div>
 
-<!-- ===== STATS ===== -->
-<div id="screen-stats" class="screen">
-  <h2>Stats</h2>
-  <p class="subtitle">Twoj postep w nauce</p>
+<!-- ===== POSTEP ===== -->
+<div id="screen-postep" class="screen">
+  <h2>Postep</h2>
+  <p class="subtitle">Twoje statystyki z wszystkich sesji</p>
 
   <div class="stats-grid">
     <div class="stat-card">
-      <div class="stat-num" id="st-sessions">0</div>
+      <div class="stat-num" id="p-total">0</div>
+      <div class="stat-label">Odpowiedzi</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="p-correct">0</div>
+      <div class="stat-label">Poprawnych</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="p-pct">—</div>
+      <div class="stat-label">Skutecznosc</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="p-sessions">0</div>
       <div class="stat-label">Sesji</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num" id="st-quiz">—</div>
-      <div class="stat-label">Ostatni quiz</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="st-best">—</div>
-      <div class="stat-label">Najlepszy quiz</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">7</div>
-      <div class="stat-label">Scenariuszy</div>
-    </div>
   </div>
 
   <div class="info-box">
-    <h4>Historia quizow</h4>
-    <div id="quiz-history-list">
-      <p style="color:#78716C;font-size:0.95rem">Nie rozwiazales jeszcze zadnego quizu. Przejdz do Practice → Quiz!</p>
+    <h4>Postep ogolny</h4>
+    <div class="progress-bar-wrap"><div class="progress-fill" id="p-bar" style="width:0%"></div></div>
+    <div style="font-size:0.85rem;color:#78716C;margin-top:4px" id="p-bar-label">Wykonaj pierwsze pytania, aby zobaczyc postep.</div>
+  </div>
+
+  <div class="info-box cat-progress">
+    <h4>Postep wg miejsca</h4>
+    <div class="cat-row">
+      <div class="cat-label"><span>Winda</span><span id="c-winda">—</span></div>
+      <div class="progress-bar-wrap"><div class="progress-fill" id="c-winda-bar" style="width:0%"></div></div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-label"><span>Biuro</span><span id="c-biuro">—</span></div>
+      <div class="progress-bar-wrap"><div class="progress-fill" id="c-biuro-bar" style="width:0%"></div></div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-label"><span>Autobus/komunikacja</span><span id="c-autobus">—</span></div>
+      <div class="progress-bar-wrap"><div class="progress-fill" id="c-autobus-bar" style="width:0%"></div></div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-label"><span>Miasto</span><span id="c-miasto">—</span></div>
+      <div class="progress-bar-wrap"><div class="progress-fill" id="c-miasto-bar" style="width:0%"></div></div>
     </div>
   </div>
 
-  <div class="info-box" style="margin-top:0">
-    <h4>Postep per scenariusz</h4>
-    <p style="color:#78716C;font-size:0.95rem;margin-bottom:12px">Kliknij scenariusze w Practice aby budowac postep.</p>
-    <div style="display:flex;flex-direction:column;gap:10px" id="scene-progress"></div>
-  </div>
+  <button class="reset-btn" onclick="resetStats()">Wyczysc statystyki</button>
 </div>
 
 <script>
-// ---- Navigation ----
-const SCREENS = ['home','practice','theory','stats'];
+// =================== DANE ===================
+const SYTUACJE = [
+  // ===== WINDA =====
+  {
+    id: 1,
+    kategoria: "Winda",
+    miejsce: "Winda",
+    osoba: "Nieznajomy",
+    emoji: "🛗",
+    opis: "Wchodzisz do windy w swoim biurowcu. Stoi tam osoba, ktorej nigdy wczesniej nie widziales. Jedzie na to samo pietro. Cisza.",
+    opcje: [
+      { tekst: "\"Ladna pogoda dzis, prawda?\"", poprawna: true, feedback: "Swietnie! Pogoda to klasyczny bezpieczny temat small talk. Lekki, neutralny, nie wymaga zadnych osobistych informacji. Komentarz jest krotki — idealny na winde." },
+      { tekst: "\"Ile Pan/Pani zarabia?\"", poprawna: false, feedback: "Zdecydowanie nie. Z nieznajomymi unikamy tematow finansowych — to zbyt osobiste juz na pierwszym spotkaniu. Naruszasz granice zanim zdazysz sie przedstawic." },
+      { tekst: "\"Jak dlugo Pan/Pani tu pracuje?\"", poprawna: false, feedback: "Moze byc odebrane jako zbyt dociekliwe dla osoby w windzie. W windzie trzymaj sie bardzo krotkich, lekkich komentarzy. Nie zaczynam wywiadu przy wejsciu." },
+      { tekst: "Milczysz i patrzysz w telefon.", poprawna: false, feedback: "Milczenie jest akceptowalne, ale to stracona okazja. Small talk to umiejetnosc — cwicz ja nawet w windzie. 20 sekund wystarczy, zeby zostawic dobre wrazenie." }
+    ]
+  },
+  {
+    id: 2,
+    kategoria: "Winda",
+    miejsce: "Winda",
+    osoba: "Nieznajomy",
+    emoji: "🛗",
+    opis: "Wchodzisz do windy z teczka w rekach. Nieznajoma osoba zauwaza i mowi: \"Duzo dzisiaj pracuje Pan/Pani...\" Co odpowiadasz?",
+    opcje: [
+      { tekst: "\"Tak, troche! A Pan/Pani rowniez ma ciezki dzien?\"", poprawna: true, feedback: "Idealne! Krotkie potwierdzenie + pytanie zwrotne — to tzw. pilka zwrotna. Podtrzymujesz rozmowe bez nadmiernych szczegolów, bez osobistych wyznań." },
+      { tekst: "\"Tak. Moj szef mnie nienawidzi.\"", poprawna: false, feedback: "Zbyt osobiste i negatywne na pierwsze spotkanie. Narzekanie na szefa przy nieznajomym to red flag — osoba nie wie jak reago wac i czuje sie niezrecznie." },
+      { tekst: "\"Nie, to nie jest duzo\" i odwracasz wzrok.", poprawna: false, feedback: "Zamykasz rozmowe bez potrzeby. Osoba zrobila uprzejmy gest otwarcia — odpowiedz lekko i naturalnie, bez obawy ze sie wciagniesz w dlugi wywiad." },
+      { tekst: "\"Ach, ja bym wolal byc gdzies indziej...\" i zaczynajs narzekac.", poprawna: false, feedback: "Narzekanie jako opener tworzy negatywny nastroj. Pierwsze wrazenie jest trwale — zamiast marudzic, odpowiedz z lekkim humorem lub neutralnie." }
+    ]
+  },
+  {
+    id: 3,
+    kategoria: "Winda",
+    miejsce: "Winda",
+    osoba: "Znajomy",
+    emoji: "🛗",
+    opis: "W windzie spotykasz osobe, ktora kojarysz z widzenia z korytarza — nie znacie sie z imienia. Rzadko sie mijancie. Mowisz:",
+    opcje: [
+      { tekst: "\"Dzien dobry, chyba czesto sie tu mijamy, co?\"", poprawna: true, feedback: "Bardzo dobrze. To przyjazne zagajenie, ktore nawiazuje do waszego wspolnego kontekstu (budynek, biuro). Krotkie, naturalne i bez presji — czlowiek czuje sie dostrzezony, ale nie przesluchiwany." },
+      { tekst: "\"Dzien dobry.\" (cicho i szybko)", poprawna: false, feedback: "Formalne pozdrowienie to za malo w stosunku do osoby, ktora regularnie mijasz. To troche chlodne — maly gest wiecej pomoglby budowac relacje." },
+      { tekst: "\"Hej, wiesz gdzie tu jest toaleta?\"", poprawna: false, feedback: "Dziwne pytanie do osoby, ktora znasz tylko z widzenia. Wygladasz na zdezorientowanego we wlasnym miejscu pracy — to nie buduje dobrego wrazenia." },
+      { tekst: "\"A, masz wlasnie chwile? Musze ci powiedziec o projekcie...\"", poprawna: false, feedback: "Winda to nie miejsce na sluzbowe rozmowy z kimś, kogo prawie nie znasz. Przestrzen jest mala, a czas krotki — taka rozmowa bedzie ucieta w pol zdania." }
+    ]
+  },
+  {
+    id: 4,
+    kategoria: "Winda",
+    miejsce: "Winda",
+    osoba: "Znajomy",
+    emoji: "🛗",
+    opis: "W windzie stoi Twoj znajomy z pracy, z ktorym gadasz pare razy w miesiacu przy kawie. Dzisiaj wyraznie wyglada na zapracowanego i zmeczonego. Mowisz:",
+    opcje: [
+      { tekst: "\"Strasznie wygladasz — wszystko ok?\"", poprawna: false, feedback: "Zle sformulowane. Mowiac komus ze wygladasz strasznie, nawet z troska, moze to byc odebrane jako obrazywe. Lepiej zapytac ogolnie o samopoczucie bez komentarza do wygladu." },
+      { tekst: "\"Ciezki dzien? Wyglada na to ze dajecie z siebie maksimum ostatnio.\"", poprawna: true, feedback: "Dobrze! Pokazujesz empatię, nawiazujesz do sytuacji i dajez mu przestrzen do odpowiedzi. Komentarz jest zyczliwy, nie oceniajacy." },
+      { tekst: "\"Widzialem ze masz dzis wiele spotkan — jak sobie dajesz rade?\"", poprawna: true, feedback: "Rowniez dobra opcja. Nawiazujesz do konkretu (spotkania), pokazujesz uwage i pytasz wprost. To aktywne sluchanie na biezaco — bardzo dobra technika." },
+      { tekst: "\"Hej, co slychac, super Cie widziec!\" (z duza energia)", poprawna: false, feedback: "Ton jest niespojny z nastawieniem osoby. Kiedy ktos wyraznie wygladana wyczerpanego, zbyt duzy entuzjazm moze byc drazniaccy. Dostosuj energie do rozmowcy." }
+    ]
+  },
+  {
+    id: 5,
+    kategoria: "Winda",
+    miejsce: "Winda",
+    osoba: "Kolega/Przyjaciel",
+    emoji: "🛗",
+    opis: "Kolega z dzialu, z ktorym czesto gadacie, wchodzi do windy z kawa w reku. Wyraznie jest rozkojarzony. Jestescie sami w windzie.",
+    opcje: [
+      { tekst: "\"Juz trzecia kawa dzisiaj? Rade tam sobie dajecie w tym projekcie?\"", poprawna: true, feedback: "Idealne dla kolegi. Naturalne zaczepianie przez obserwacje (kawa), lekki humor i otwarte pytanie. Nie ma tu niezrecznosci — znacie sie wystarczajaco dobrze." },
+      { tekst: "\"Co sie stalo? Cos sie stalo w projekcie?\"", poprawna: false, feedback: "Za bardzo dociekliwe i trochę alarmujace bez powodu. Pytasz o problem zanim go zobaczyłeś — lepiej zaczac od lekkiej obserwacji, nie od przesluchania." },
+      { tekst: "\"Chyba cos Ci daje pracy ten projekt, co?\"", poprawna: true, feedback: "Takze dobrze — lekka sugestia z miejscem na odpowiedz. Nie ma tu oskarzen, jest tylko zyczliwa obserwacja i otwarta przestrzen do rozmowy." },
+      { tekst: "\"Hej, zrob mi tez kiedys kawe!\"", poprawna: false, feedback: "Nieco roszczeniowy zart bez kontekstu. Moze brzmiec jak narzekanie zamiast szczerego zainteresowania. Lepiej zaczac od czegos co niesie ciekawostke o drugiej osobie." }
+    ]
+  },
+  {
+    id: 6,
+    kategoria: "Winda",
+    miejsce: "Winda",
+    osoba: "Kolega/Przyjaciel",
+    emoji: "🛗",
+    opis: "Twoj dobry kolega z pracy wsiada do windy. Wasze biuro organizuje jutro duza impreze firmowa. Oboje to wiecie. Mowisz:",
+    opcje: [
+      { tekst: "\"Jutro impreza! Przezyjesz to czy po cichu liczysz ze wezwia Cie do pracy?\"", poprawna: true, feedback: "Swietne! Dla dobrego kolegi — luzne, zabawne pytanie z autoironicznym akcentem. Buduje wspólny klimat przed wydarzeniem. W sam raz na taka okazje." },
+      { tekst: "\"Podobno bedzie catering z nowego miejsca — slyszales cokolwiek?\"", poprawna: true, feedback: "Dobra rozmowa o wspolnym temacie, ktory laczy was oboje. Pytanie otwarte i konkrety — naturalnie naturalny small talk pre-event." },
+      { tekst: "\"Jutro impreza, dobrze tak?\" i nie mowisz nic wiecej.", poprawna: false, feedback: "Zamykasz rozmowe zamiast ja otwierac. Nie dales kolega mozliwosci odpowiedzi — brakuje pytania zwrotnego lub komentarza ktory rozwinie dialog." },
+      { tekst: "\"Mam nadzieje ze tym razem nie beda serwowac tych samych przekasek co rok temu.\"", poprawna: false, feedback: "Zaczyna sie od narzekania — to negatywny opener. Nawet jesli narzekanie jest czejescia humoru, poczatek rozmowy powinien byc raczej pozytywny lub neutralny." }
+    ]
+  },
+
+  // ===== BIURO =====
+  {
+    id: 7,
+    kategoria: "Biuro",
+    miejsce: "Biuro — kuchnia",
+    osoba: "Nieznajomy",
+    emoji: "🏢",
+    opis: "Wchodzisz do kuchni biurowej. Stoi tam osoba z innego dzialu, ktorej nigdy wczesniej nie widziales. Robi sobie kawe. Co robisz?",
+    opcje: [
+      { tekst: "\"Dzien dobry, czy to ekspres jest ogolnodostepny?\"", poprawna: true, feedback: "Swietne zagajenie! Pytanie o kontekst otoczenia (ekspres) jest naturalne, nienachalne i daje osobie powod do odpowiedzi. Bez presji, bez pytan osobistych." },
+      { tekst: "\"Witam, z któr ego Pan/Pani jest dzialu?\"", poprawna: false, feedback: "Moze byc odebrane jako zbyt oficjalne lub dociekliwe. Lepiej zacznij od wspolnego kontekstu (kawa, kuchnia) zanim przejdziesz do pytan o zaszeregowanie." },
+      { tekst: "\"Czy ta kawa jest dla wszystkich?\"", poprawna: true, feedback: "Takze dziala dobrze — krótkie, praktyczne, naturalne. Wspolny zasob (kawa) to dobry pretekst do zagajenia z nieznajomym." },
+      { tekst: "Milczysz i robisz kawe w ciszy.", poprawna: false, feedback: "Akceptowalne, ale stracona okazja networkingowa. Kuchnia biurowa to jedno z najlepszych miejsc do poznawania nowych osob — wystarczy jeden lekki komentarz." }
+    ]
+  },
+  {
+    id: 8,
+    kategoria: "Biuro",
+    miejsce: "Biuro — przy drukarce",
+    osoba: "Znajomy",
+    emoji: "🏢",
+    opis: "Stoisz przy drukarce i czekasz na wydruk. Podchodzi osoba ktora kojarzysz z widywania w korytarzu. Drukarka sie zacina.",
+    opcje: [
+      { tekst: "\"A, ten klasyk — zawsze kiedy sie spieszymy!\"", poprawna: true, feedback: "Idealne! Humor z wspolnego doswiadczenia (awaryjna drukarka) to swietny lodolamacz. Krótkie, zabawne i nie wymaga osobistych informacji." },
+      { tekst: "\"Nie wiem jak naprawic — moze Pan/Pani wie?\"", poprawna: true, feedback: "Takze dobre — prosba o pomoc jest naturalnym otwarciem rozmowy. Pokazujesz ze liczysz na wspolprace, bez nadmiernej perfekcji." },
+      { tekst: "\"Tę drukarke powinni dawno wymienić!\"", poprawna: false, feedback: "Narzekanie jako opener dziala krotkoterminowo, ale tworzy negatywny klimat. Lepiej dodac troche humoru do frustracji niz tylko narzekac." },
+      { tekst: "\"Przepraszam, czy wie Pan/Pani co sie stalo?\" (oficjalnie)", poprawna: false, feedback: "Zbyt sztywne i formalne dla sytuacji przy drukarce. Kontekst jest luzy i wspolny — zbyt oficjalny ton moze byc nienaturalny i dystansujacy." }
+    ]
+  },
+  {
+    id: 9,
+    kategoria: "Biuro",
+    miejsce: "Biuro — spotkanie",
+    osoba: "Nieznajomy",
+    emoji: "🏢",
+    opis: "Jestes na spotkaniu z klientem, ktory dopiero co przyszedl. Trzeba zagaic zanim zacznie sie wlasciwa czesc. Siedzisz naprzeciwko niego.",
+    opcje: [
+      { tekst: "\"Jak dotarl Pan do nas dzisiaj — droga nie sprawila klopotu?\"", poprawna: true, feedback: "Klasyczny i sprawdzony opener dla klienta. Troska o komfort przybysza jest uprzejma i profesjonalna. Temat trasy/dojazdu jest zawsze bezpieczny i naturalny." },
+      { tekst: "\"Skad Pan jest oryginalnie?\"", poprawna: false, feedback: "Zbyt osobiste na poczatku spotkania sluzbowego. Pytanie o pochodzenie moze byc odebrane jako niestosowne lub nawet dyskryminujace w kontekscie zawodowym." },
+      { tekst: "\"Slyszelismy juz wiele o Pana firmie — co Pan chcialby nam powiedziec o sobie?\"", poprawna: false, feedback: "Za bardzo przeskakujesz do meritum — brak etapu rozgrzewki. Klient potrzebuje chwili wyluzowania zanim przejdzie do sluzbowych tematow." },
+      { tekst: "\"Mila pogoda dzisiaj, co? Sezon sie zaczyna.\"", poprawna: true, feedback: "Klasyczny i bezpieczny opener. Pogoda to zawsze dobry start — neutralna, spolna, bez zadnych emocji czy kontrowersji. Daje chwile na oswojenie sie z miejscem." }
+    ]
+  },
+  {
+    id: 10,
+    kategoria: "Biuro",
+    miejsce: "Biuro — korytarz",
+    osoba: "Znajomy",
+    emoji: "🏢",
+    opis: "Mijasz w korytarzu znajomego z innego dzialu, z ktorym rozmawiasz pare razy w roku. Oboje gracie na biurowej ladze pilkarskiej.",
+    opcje: [
+      { tekst: "\"Hej, kiedy kolejny mecz? Trzeba pobrac troche punktow!\"", poprawna: true, feedback: "Swietne nawiazanie do wspolnego zainteresowania (pilka)! To aktywne sluchanie w stylu FORD — hobby jest bezpiecznym i budujacym relacje tematem." },
+      { tekst: "\"Co slychac?\" i idziesz dalej.", poprawna: false, feedback: "Pytanie bez zatrzymania wyglada na grzecznosciowe, a nie szczere. Jesli pytasz — poczekaj na odpowiedz. Jesli nie masz czasu, powiedzm krótki komplement lub nie zatrzymuj sie." },
+      { tekst: "\"Swietnie wyglada nowy projekt twojego dzialu — slyszales ze mamy budzetowanie?\"", poprawna: false, feedback: "Skakanie od razu do sluzbowych spraw bez wprowadzenia moze byc niezreczne. Najpierw lekkie zagajenie — potem mozna przejsc do spraw biurowych." },
+      { tekst: "\"Hej, mam nadzieje ze masz sie dobrze!\" z szerkim usmiechem.", poprawna: true, feedback: "Krotkie i zyczliwe — zawsze dziala. Prosty gest przyjazni w korytarzu buduje relacje bez potrzeby dlugiej rozmowy. Ton i usmich sa kluczowe." }
+    ]
+  },
+  {
+    id: 11,
+    kategoria: "Biuro",
+    miejsce: "Biuro — kuchnia",
+    osoba: "Kolega/Przyjaciel",
+    emoji: "🏢",
+    opis: "Twoj dobry kolega z pracy wchodzi do kuchni z mina czlowieka ktory mial ciezkie rano. Wiesz ze mial wazna prezentacje.",
+    opcje: [
+      { tekst: "\"No i jak? Dali Ci zyc po tym reviewie?\"", poprawna: true, feedback: "Dla dobrego kolegi — naturalne, zyczliwe pytanie nawiazujace do konkretnej sytuacji. Aktywne sluchanie w praktyce. Pokazujesz ze pamietales o jego dniu." },
+      { tekst: "\"Wygladasz okropnie — wszystko ok?\"", poprawna: false, feedback: "Nawet z kolega, komentarz o wygladzie jako opener moze byc obraziwy. Lepiej nawiaz do sytuacji (prezentacja) niz do wygladu osoby." },
+      { tekst: "\"Chcesz porozmawiac?\" spokojnie.", poprawna: true, feedback: "Zyczliwe i dajace przestrzen. Nie narzucasz sie, dajesz wybor. Dla bliskiego kolegi taka oferta jest mile widziana, szczegolnie po trudnym dniu." },
+      { tekst: "\"Nie przejmuj sie, zawsze jest drugi raz!\" (od razu)", poprawna: false, feedback: "Nie wiesz jeszcze co sie stalo — nie zakladaj od razu ze bylo zle. Pochopne pocieszenie bez wysluchania jest frustrujace. Najpierw zapytaj, potem reaguj." }
+    ]
+  },
+  {
+    id: 12,
+    kategoria: "Biuro",
+    miejsce: "Biuro — open space",
+    osoba: "Kolega/Przyjaciel",
+    emoji: "🏢",
+    opis: "Twoj kolega z biurka obok wlasnie zamowil pizze i oferuje Ci kawalek. Nie znasz sie super dobrze, ale zawsze sie mijacie i milo gadacie.",
+    opcje: [
+      { tekst: "\"Dzieki! Od kiedy to zaczales zamawiać pizze na lunch?\"", poprawna: true, feedback: "Naturalne, lekkie pytanie ktore otwiera rozmowe o nawyku (lunch, pizza). Dzieki za gest + otwarte pytanie — formulka dziala perfekcyjnie." },
+      { tekst: "\"Nie dzieki, jestem na diecie\" i wracasz do pracy.", poprawna: false, feedback: "Odrzucasz gest spoleczny bez zamiany kilku slow. To moze budowac dystans. Nawet jesli odmawiasz — daj krotki komentarz ze smiechem, zeby utrzymac relacje." },
+      { tekst: "\"O dzieki! Dzisiaj miales takie zamieszanie — jak jdzie z tym projektem?\"", poprawna: true, feedback: "Swietne! Przyjmujesz gest i pluznnie przechodzisz do rozmowy o nim — co dzieje sie u niego, co bylo dzisiaj. Aktywne sluchanie w akcji." },
+      { tekst: "\"Dzieki, ale nie powinnam za duzo jesc...\" i zaczynajs mowic o wlasnej diecie.", poprawna: false, feedback: "Skrecasz rozmowe na siebie — o swojej diecie, swoich nawykaach. Small talk to wymiana, nie monolog. Odpowiedz, a potem zapytaj o NIEGO." }
+    ]
+  },
+
+  // ===== AUTOBUS/KOMUNIKACJA =====
+  {
+    id: 13,
+    kategoria: "Autobus",
+    miejsce: "Autobus",
+    osoba: "Nieznajomy",
+    emoji: "🚌",
+    opis: "Czekasz na przystanku. Obok Ciebie stoi nieznajoma osoba. Autobus sie spoznia juz 10 minut. Warunki pogodowe nie sa najlepsze.",
+    opcje: [
+      { tekst: "\"Chyba dzisiaj wszystkie autobusy sie zmowily...\"", poprawna: true, feedback: "Klasyczny i naturalny! Lekkie narzekanie na wspolna sytuacje (spozniony autobus) jest powszechnym polskim otwarciem rozmowy. Wspolne doswiadczenie laczy." },
+      { tekst: "\"Czesto tu Pan/Pani jezadzi?\"", poprawna: false, feedback: "Moze brzmiec jak wyrywanie sie lub byc odebrane dziwnie w kontekscie przystanku. Zbyt osobiste pytanie jak na pierwsze 10 sekund — zacznij od sytuacji, nie od osoby." },
+      { tekst: "\"Zimno dzisiaj... jeszcze i autobus nie przyjedzie.\"", poprawna: true, feedback: "Bardzo dobrze — komentarz o pogodzie + nawiazanie do wspolnej sytuacji. Dwie warstwy tego samego srodowiska, naturalne i niepresujace." },
+      { tekst: "Sluchasz muzyki ze sluchawkami i dajesz znac ze nie chcesz rozmawiac.", poprawna: false, feedback: "Legitny wybor w komunikacji miejskiej — sluchawki to spoleczny sygnal 'nie przeszkadzaj'. Ale to rowniez stracona okazja do ciekawej znajomosci." }
+    ]
+  },
+  {
+    id: 14,
+    kategoria: "Autobus",
+    miejsce: "Autobus",
+    osoba: "Znajomy",
+    emoji: "🚌",
+    opis: "W autobusie widzisz znajoma z dawnych studiow, ktorej nie widziałes od roku. Wyraznie cie zauwazyla i sie usmiechnela.",
+    opcje: [
+      { tekst: "\"Ale przypadek! Co u Ciebie sie dzieje? Gdzie teraz pracujesz?\"", poprawna: true, feedback: "Naturalne i zyczliwe. Nawiazujesz do minioneego czasu, pytasz o aktualnosc. Z dawna znajoma mozna od razu przejsc do konkretnych tematow — nie ma tu niezrecznosci." },
+      { tekst: "\"Hej, co slychac!\" i wracasz do telefonu.", poprawna: false, feedback: "Zamiast wykorzystac okazje do rozmowy z kims kogo znasz — zamykasz sie. Skoro ona sie usmiechnela, zaproponuj krotka rozmowe na czas podrozy." },
+      { tekst: "\"Co u Ciebie? Chyba mozemy razem jechac kawałek, tak?\"", poprawna: true, feedback: "Swietnie! Inicjujesz towarzystwo na czas jazdy. Kontekst autobus naturalnie limituje rozmowe — oboje wiecie ze to krotka, niezobowiazujaca wymiana." },
+      { tekst: "\"Wiesz, mam teraz sluchawki, moze kiedy indziej pogadamy?\"", poprawna: false, feedback: "Odrzucasz wspolny czas i mozliwosc podtrzymania dawnej znajomosci. Po roku braku kontaktu takie zachowanie mozne byc odebrane jako ozieblosc." }
+    ]
+  },
+  {
+    id: 15,
+    kategoria: "Autobus",
+    miejsce: "Pociag — przedzialy",
+    osoba: "Nieznajomy",
+    emoji: "🚌",
+    opis: "Siedzisz w przedziale pociagu. Podrozujesz 2 godziny. Do przedziale wsiada nieznajoma osoba i siada naprzeciwko.",
+    opcje: [
+      { tekst: "\"Dzien dobry — daleka podróz?\"", poprawna: true, feedback: "Krotkie, naturalnie i nieagresywnie. W pociagu 2h ludzie czesto chca sie zamienic choc kilkoma slowami. Pytanie o podróz to bezpieczny, wspolny kontekst." },
+      { tekst: "\"Przepraszam, czy moge tu usiesc?\" (wiesz ze siedzenie jest wolne)", poprawna: false, feedback: "Pytanie ktore jest zbedne w kontekscie (siedzenie jest oczywiscie wolne) brzmi dziwnie. Nie zaczynaj od czegoś oczywistego — lepsza jest prosta uwaga o podrozy." },
+      { tekst: "Witasz kiwnieciem glowy i wraca do ksiazki.", poprawna: true, feedback: "Rowniez akceptowalne — kiwnięcie glowy to uznanie obecnosci bez narzucania sie. W pociagu cisza jest tez socjalnie akceptowana, szczegolnie gdy ktos czyta." },
+      { tekst: "\"Skad Pan/Pani jedzie i dokad?\"", poprawna: false, feedback: "Zbyt ingerujace jak na pierwsze 10 sekund z osoba ktora wlasnie usiadla. Daj jej chwile sie ulozc zanim zaczniesz pytac o trasê — albo zacznij od komentarzu." }
+    ]
+  },
+  {
+    id: 16,
+    kategoria: "Autobus",
+    miejsce: "Kolejka do kasy",
+    osoba: "Nieznajomy",
+    emoji: "🚌",
+    opis: "Stoisz w dlugiej kolejce do kasy w urzedzie. Przed Toba stoi osoba, ktora rowniez wyraznie czeka juz od dawna. Kolejka jest bardzo powolna.",
+    opcje: [
+      { tekst: "\"Ciekawe czy zdazymy dzisiaj...\" z usmiechem.", poprawna: true, feedback: "Humor w trudnej sytuacji laczy ludzi. Wspolne doswiadczenie (dluczenie kolejki) to naturalny punkt wyjscia. Dystans do sytuacji pokazuje luz i otwiera rozmowe." },
+      { tekst: "\"Moze by wziac numer i wyjsc na kawe?\"", poprawna: true, feedback: "Zartobliwy pomysl ktory nawiazuje do kontekstu i moze wywoac usmich. Lekki, niegrozbny, naturalny. Tworzy wspolne poczucie humoru z nieznajomym." },
+      { tekst: "\"To straszne ze tyle trzeba czekac, koszmar!\"", poprawna: false, feedback: "Narzekanie bez humoru tworzy negatywny klimat. Rowna frustracja, ktora wypowiadasz glosno, moze sprawic ze rozmowca poczuje sie zle zamiast byc zainspirowany do rozmowy." },
+      { tekst: "\"Wie Pan/Pani ile juz czeka?\" (z tonem sprawdzania zegarku)", poprawna: false, feedback: "Pytanie brzmi jak skargi i szukanie potwierdzenia, ze sytuacja jest zla. Nie buduje to pozytywnej atmosfery — lepiej zagadnac z lekkim humorem niz frustracją." }
+    ]
+  },
+  {
+    id: 17,
+    kategoria: "Autobus",
+    miejsce: "Autobus",
+    osoba: "Kolega/Przyjaciel",
+    emoji: "🚌",
+    opis: "W autobusie widzisz dobrego kolege z pracy jadacego tym samym kursem. Razem jedzie 15 minut do biura.",
+    opcje: [
+      { tekst: "\"Hej! Myslisz ze dzisiaj znowu beda te spotkania do 18?\"", poprawna: true, feedback: "Swietny opener dla kolegi — nawiazujesz do wspolnego tematu (praca, spotkania) w naturalny, luzny sposob. Oboje macie ten sam kontekst dnia przed sobą." },
+      { tekst: "\"O, to i ty dzisiaj jedziesz autobusem — ile razy w tygodniu?\"", poprawna: false, feedback: "Pytanie o nawyki transportowe brzmi jak wywiad — nawet dla kolegi. Zacznij od czegos cieplejszego lub wspolnego niz zbieranie danych o jego zwyczajach." },
+      { tekst: "\"Hej! Slysze ze wasza ekipa ma fajny projekt teraz.\"", poprawna: true, feedback: "Wspolne zainteresowanie co dzieje sie w biurze — pozytywny sygnał i punkt otwarcia. Komplement o projekcie buduje dobre nastroje przed wspolna praca." },
+      { tekst: "\"Sluchaj, mam do ciebie pytanie o tamten raport z pieciu...\"", poprawna: false, feedback: "Nie zapraszaj kolegi od razu do sluzbowej rozmowy w autobusie. Najpierw chocby krotkie 'hej' i wymiana energii — sluzbowe sprawy poczekaja pare minut." }
+    ]
+  },
+  {
+    id: 18,
+    kategoria: "Autobus",
+    miejsce: "Przystanek tramwajowy",
+    osoba: "Znajomy",
+    emoji: "🚌",
+    opis: "Na przystanku tramwajowym spotykasz osobę, z którą bywales na tych samych imprezach pare lat temu. Znacie sie, ale dawno nie gadaliscie.",
+    opcje: [
+      { tekst: "\"No, ile nie widzialismy sie! Co teraz robisz?\"", poprawna: true, feedback: "Naturalne powitanie po dluzszym czasie. Lekkie podkreslenie przerwy i otwarte pytanie o aktualnosc — to klasyczna formula reaktywowania znajomosci." },
+      { tekst: "\"Hej! Bylem ciekaw co u Ciebie slychac odkad...\" (zawieszasz glos).", poprawna: true, feedback: "Rowniez dobrze — pokazujesz ze myslalas o tej osobie, co jest miłe. Otwarta zakonczenie sprawia ze osoba chce kontynuowac." },
+      { tekst: "\"Wciaz chodzisz na imprezy Kuby?\"", poprawna: false, feedback: "Zbyt szczegolowe pytanie bez wprowadzenia — skaczysz od razu do konkretnego wspomnienia bez chwili rozmowy. Lepiej zaczac od ogolnego 'co slychac' zanim przejdziesz do szczegolów." },
+      { tekst: "\"O, czesc...\" (niepewnie) i czekasz az ona zacznie.", poprawna: false, feedback: "Niepewne zagajenie bez pytania skazuje rozmowe na awkward silence. Skoro ja widzisz — przejmij inicjatywe i zadaj pierwsze pytanie." }
+    ]
+  },
+
+  // ===== MIASTO =====
+  {
+    id: 19,
+    kategoria: "Miasto",
+    miejsce: "Kawiarnia",
+    osoba: "Nieznajomy",
+    emoji: "🌆",
+    opis: "Siedzisz w kawiarni przy wspolnym stole (brak innych miejsc). Nieznajoma osoba siada obok z laptopem. Milczenie.",
+    opcje: [
+      { tekst: "\"Przepraszam — czy przeszkadza Pani jesli tu usiede?\"", poprawna: false, feedback: "Pytasz o cos co juz zrobiles — to troche niezreczne. Lepiej krotko sie usmiechn i ewentualnie powiedz 'Dziekuje' lub 'Dobrego dnia'." },
+      { tekst: "\"Fajne miejsce, co? Czesto tu Pan/Pani pracuje?\"", poprawna: true, feedback: "Swietne! Krotki komentarz o miejscu (neutralny temat) + otwarte pytanie. Nie wymagasz od osoby dlugiej odpowiedzi, ale dajesz jej miejsce jesli chce pogadac." },
+      { tekst: "\"Hej, co Pan/Pani pisze?\"", poprawna: false, feedback: "Zbyt ingerujace. Pytanie o prace/laptop to wchodzenie w sfere prywatna nieznajomego bez zaproszenia. Szczegolnie kiedy ktos pracuje — zachowaj dystans." },
+      { tekst: "Siadasz i kladziesz słuchawki na uszach nie mowiac nic.", poprawna: true, feedback: "Takze akceptowalne — w kawiarni z laptopami to spoleczny standard. Sluchawki mowia 'skupiam sie na pracy'. Jesli nie chcesz gadac — to wlasny wybor." }
+    ]
+  },
+  {
+    id: 20,
+    kategoria: "Miasto",
+    miejsce: "Sklep",
+    osoba: "Nieznajomy",
+    emoji: "🌆",
+    opis: "Stoisz w sklepie przy polce i nie mozesz zdecydowac sie na wybor. Obok stoi osoba, ktora wlasnie wklada ten sam produkt do koszyka.",
+    opcje: [
+      { tekst: "\"Przepraszam — to Pan/Pani poleca? Nie moge sie zdecydowac.\"", poprawna: true, feedback: "Prosba o pomoc to naturalny, nienachalne otwarcie rozmowy. Ludzie lubia dzielic sie opiniami gdy sa pytani. Neutralny kontekst (produkt) minimalizuje ryzyko." },
+      { tekst: "\"Tez brac? Co to jest i jak smakuje?\"", poprawna: true, feedback: "Bezposrednie, naturalne i lekko zabawne. W sklepie spozywczym takie pytanie jest oczekiwane — wspolny kontekst zakupow jest idealnym otwarciem." },
+      { tekst: "\"Ma Pan/Pani dobry gust!\" (bez pytania).", poprawna: false, feedback: "Komplement bez pytania zwrotnego nie otwiera rozmowy. Zaraz jest niezrecznie bo nie wiadomo co na to odpowiedziec. Dodaj pytanie lub komentarz nawiazujacy do wyboru." },
+      { tekst: "Milczysz i bierzesz ten sam produkt co on.", poprawna: false, feedback: "Stracona szansa na miła przypadkowa rozmowe. W sklepie ludzie sa czesto bardziej otwarci niz w innych miejscach — lekkie zagajenie jest zupelnie naturalne." }
+    ]
+  },
+  {
+    id: 21,
+    kategoria: "Miasto",
+    miejsce: "Park",
+    osoba: "Nieznajomy",
+    emoji: "🌆",
+    opis: "Siedzisz na lawce w parku. Obok siada nieznajoma osoba z pieskiem. Piesek podchodzi do Ciebie i wacze ogonkiem.",
+    opcje: [
+      { tekst: "\"Ach, jaki sliczny! Jak ma na imie?\"", poprawna: true, feedback: "Pies to jeden z najlepszych lodolamaczy w historii small talk. Pytanie o imie lub rase psa jest w 100% bezpieczne — wlasciciele uwielbiaja mowic o swoich zwierzetach." },
+      { tekst: "\"Przepraszam ze dotykam — moge pogłaskac?\"", poprawna: true, feedback: "Uprzejme zapytanie o zgode + naturalny pretekst do rozmowy o psie. Szanujesz wlasciciela pytajac wpierw — to zostawia dobre wrazenie." },
+      { tekst: "\"Moze pies powie mi czy bede mial dzis dobry dzien?\" (z humorem).", poprawna: true, feedback: "Lekki, fajny humor w kontekscie psiego 'wyroczni'. Zabawne zagajenie ktore jest mile widziane w parku — atmosfera jest relaksujaca i otwarta na luz." },
+      { tekst: "\"Czy Pani pies jest niebezpieczny?\" (powaznie).", poprawna: false, feedback: "Pies wacze ogonkiem — to oczywisty znak przyjaznoscti. Pytanie o niebezpieczenstwo w tej sytuacji brzmi paranoidalnie i moze obrazic wlasciciela." }
+    ]
+  },
+  {
+    id: 22,
+    kategoria: "Miasto",
+    miejsce: "Ulica",
+    osoba: "Znajomy",
+    emoji: "🌆",
+    opis: "Idziesz ulica i spotykasz znajomego z siłowni, ktory zawsze jest tam o tej samej porze co ty. Macie dosc dobra relacje.",
+    opcje: [
+      { tekst: "\"Hej! Tez dzisiaj bez silowni? Ja tez dalem sobie spokoj.\"", poprawna: true, feedback: "Nawiazujesz do wspolnego kontekstu (silownia) w naturalny sposob. Humor z 'dania sobie spokoju' jest autentyczny i luźny. Idealne dla znajomego z czesciowej bliskosci." },
+      { tekst: "\"Jak tam postepy z treningami?\"", poprawna: true, feedback: "Proste, bezposrednie i nawiazuje do tego co was laczy (silownia). Otwarte pytanie daje mu przestrzen do opowiadania — aktualizuje wzajemna wiedze." },
+      { tekst: "\"Skad idziesz teraz?\"", poprawna: false, feedback: "Moze brzmiec podejrzliwie lub jak przesuchwanie bez kontekstu. Lepiej zacznij od zycliwego gestu lub nawiazania do wspolnego tematu zanim pytasz o trasy." },
+      { tekst: "\"Czesc! Tak rzadko cie tu widze poza silownia — co tu robisz?\"", poprawna: true, feedback: "Dobrze! Naturalne zaskoczenie spotkaniem poza 'waszym' miejscem + otwarte pytanie. Pokazuje ze jestescie zwiazani konkretnym kontekstem, nie tylko przypadkowi." }
+    ]
+  },
+  {
+    id: 23,
+    kategoria: "Miasto",
+    miejsce: "Kawiarnia",
+    osoba: "Kolega/Przyjaciel",
+    emoji: "🌆",
+    opis: "Umawiasz sie z dobrym przyjacielem na kawe po dluzszym czasie (2 miesiace). Jest swietny nastroj i sloneczna pogoda.",
+    opcje: [
+      { tekst: "\"No nareszcie! Gadaj, co ostatnio — od czego zaczynaamy?\"", poprawna: true, feedback: "Energetyczne, zyczliwe, entuzjastyczne — idealnie dla bliskiego przyjaciela. Dwa miesiace to tyle materialu na rozmowe, ze pytanie 'od czego zaczynamy' jest super." },
+      { tekst: "\"Ladna pogoda dzis, co?\"", poprawna: false, feedback: "Dla bliskiego przyjaciela po 2 miesiacach taki opener jest zbyt zdawkowy i formalny. Pogoda to opener dla nieznajomych — z przyjacielem mozna byc bardziej bezposrednim." },
+      { tekst: "\"Slyszalem ze miałeś niedawno coś ciekawego — opowiedz!\"", poprawna: true, feedback: "Wspaniale — aktywne sluchanie w praktyce. Pokazujesz ze slyszales cos o nim, jestes zainteresowany i czekasz na opowiadanie. To buduje gleboka relacje." },
+      { tekst: "\"No to jak tam?\" bez entuzjazmu.", poprawna: false, feedback: "Zbyt leniwe zagajenie dla bliskiej osoby. Brak energii na poczatku spotkania po dluzszeej przerwie moze dac mu poczucie ze nie jestes zbyt zainteresowany. Wloz w to troche energii!" }
+    ]
+  },
+  {
+    id: 24,
+    kategoria: "Miasto",
+    miejsce: "Kawiarnia",
+    osoba: "Znajomy",
+    emoji: "🌆",
+    opis: "Na evencie networkingowym w kawiarni stoisz z drinkiem i nie znasz prawie nikogo. Obok stoi osoba ktora wygladana na rownie zagubioną jak ty.",
+    opcje: [
+      { tekst: "\"Chyba oboje jestesmy tu nowi, co?\" z usmiechem.", poprawna: true, feedback: "Idealne! Nawiazujesz do wspolnej sytuacji (bycie nowym/zagubionym) — to buduje natychmiastowy sojusz. Humor z 'wygladamy tak samo' otwiera rozmowe bez ryzyka." },
+      { tekst: "\"Jak trafil Pan/Pani na to wydarzenie?\"", poprawna: true, feedback: "Klasyczne i skuteczne pytanie networkingowe. Otwarte, neutralne, prowadzi do rozmowy o zawodowych zainteresowaniach lub znajomych — bezpieczny start." },
+      { tekst: "\"Czym sie Pan/Pani zawodowo zajmuje?\"", poprawna: false, feedback: "Na networkingu to czesto pierwsze pytanie — ale bez wprowadzenia bywa zbyt suchym wywiadem. Najpierw krotkie zdanie o wspolnym kontekscie zanim przejdziesz do zawodu." },
+      { tekst: "Podchodzisz i po prostu sie przedstawiasz imieniem.", poprawna: true, feedback: "Swietna opcja! Bezposrednie przedstawienie sie jest calkowicie akceptowalne i cenione na networkingu. Eliminuje niezrecznosc i od razu wiem jak sie do siebie zwracac." }
+    ]
+  }
+];
+
+// =================== STATE ===================
+let currentIdx = 0;
+let answered = false;
+let session = { total: 0, correct: 0, answers: [] };
+
+// Shuffle pomocnicza
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let quizOrder = shuffle(SYTUACJE.map((_, i) => i));
+
+// =================== LOCALSTORAGE ===================
+const LS_KEY = 'smalltalk_stats_v1';
+
+function loadStats() {
+  try { return JSON.parse(localStorage.getItem(LS_KEY)) || { total: 0, correct: 0, sessions: 0, byKat: {} }; }
+  catch { return { total: 0, correct: 0, sessions: 0, byKat: {} }; }
+}
+
+function saveStats(stats) {
+  localStorage.setItem(LS_KEY, JSON.stringify(stats));
+}
+
+function commitSession() {
+  if (session.total === 0) return;
+  const stats = loadStats();
+  stats.total += session.total;
+  stats.correct += session.correct;
+  stats.sessions += 1;
+  session.answers.forEach(a => {
+    if (!stats.byKat[a.kat]) stats.byKat[a.kat] = { total: 0, correct: 0 };
+    stats.byKat[a.kat].total += 1;
+    if (a.ok) stats.byKat[a.kat].correct += 1;
+  });
+  saveStats(stats);
+}
+
+// =================== SCREENS ===================
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
-  const idx = SCREENS.indexOf(name);
-  if (idx >= 0) document.querySelectorAll('.nav-btn')[idx].classList.add('active');
-  if (name === 'stats') renderStats();
+  document.querySelector(`.nav-btn[onclick="showScreen('${name}')"]`).classList.add('active');
+  if (name === 'postep') renderStats();
 }
 
-// ---- Practice scenes ----
-function showScene(i) {
-  document.querySelectorAll('.scene-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('sp' + i).classList.add('active');
-  document.querySelectorAll('.tab-btn')[i].classList.add('active');
-  if (i === 7) initQuiz();
-}
-
-function toggleCard(top) {
-  const card = top.closest('.pcard');
-  card.classList.toggle('open');
-}
-
-// ---- Home quick quiz link ----
-function goQuiz() {
-  showScreen('practice');
-  showScene(7);
-}
-
-// ---- Quiz ----
-const QUESTIONS = [
-  { q: "Spotkales szefa w windzie. Jak najlepiej zaczac rozmowe?",
-    opts: ["Milczec i patrzec w sufit","Powiedziec: 'Dzien dobry, winda chyba znow jest najwolniejsza gdy sie spieszymy'","Od razu zapytac o podwyzke","Zaczac mowic o polityce"],
-    correct: 1, fb: "Lekka, bezpieczna obserwacja otoczenia to idealny lodolamacz w krótkich sytuacjach jak winda." },
-  { q: "Jakie tematy sa BEZPIECZNE w small talk z nieznajomym?",
-    opts: ["Zarobki, zdrowie, religia","Pogoda, weekend, biezace wydarzenie w firmie","Polityka, orientacja seksualna","Cudze relacje osobiste"],
-    correct: 1, fb: "Zasada FORD: Family, Occupation, Recreation, Dreams — tematycznie bezpieczne i interesujace." },
-  { q: "Rozmowca odpowiada krotko i nie zadaje pytan zwrotnych. Co to znaczy?",
-    opts: ["Jest zdenerwowany — koniecznie pytaj dalej","Mozliwe, ze nie jest zainteresowany rozmowa — elegancko zakonczyc","Trzeba mowic wiecej, zebym go zainteresowac","Powinienem zadac osobiste pytanie"],
-    correct: 1, fb: "Sygnaly braku zaangażowania to wskazowka do graceful exit — lepiej zakonczyc grzecznie niz forsowac rozmowe." },
-  { q: "Jak sie nazywa technika 'kończ zagajenie pytaniem'?",
-    opts: ["Zasada FORD","Pilka zwrotna","Graceful exit","Active listening"],
-    correct: 1, fb: "Pilka zwrotna: „Dobrze, a u Ciebie?" utrzymuje rozmowe przy zyciu zamiast ja usmierczac." },
-  { q: "Jestes na imprezie i stoisz sam. Jak najlepiej zacznac rozmowe z obca osoba?",
-    opts: ["Zapytac wprost 'Ile zarabiasz?'","Skomentowac otoczenie lub wydarzenie: 'Swietna muzyka, co?'","Poczekac az ktos zagada do Ciebie","Sprawdzac telefon"],
-    correct: 1, fb: "Wspolny kontekst (miejsce, muzyka, jedzenie) to najlepszy i najnaturalniejszy lodolamacz." },
-  { q: "Jak elegancko zakonczyc small talk?",
-    opts: ["Po prostu odejsc bez slowa","Powiedziec: 'Milo bylo pogadac, ide jeszcze zagadnac kilka osob'","Powiedziec: 'Nudze sie ta rozmowa'","Zaczac sprawdzac telefon i udawac ze masz pilny SMS"],
-    correct: 1, fb: "Graceful exit: szczere, pozytywne zakonczenie z uzasadnieniem — zostawia dobre wrazenie i nie uraza." },
-  { q: "Na jakim poziomie zazylości mozesz zaczac mowic potocznym jezykiem i uzywac sarkazmu?",
-    opts: ["Nieznajomy (poziom 1)","Z widzenia (poziom 2)","Kolega/Przyjaciel (poziom 4-5)","Zawsze — wszystkim to odpowiada"],
-    correct: 2, fb: "Poziom 4 (Kolega) i 5 (Przyjaciel) dopuszcza luz, autoironie i slang. Wczesniej trzymamy sie profesjonalnego tonu." },
-  { q: "Ktora z ponizszych odpowiedzi na 'Co slychac?' NAJLEPIEJ podtrzymuje rozmowe?",
-    opts: ["'Dobrze, dziekuje'","'Nie najlepiej'","'W miare, mialem trudny tydzien — a u Ciebie jak?'","'Nie mam czasu na rozmowe'"],
-    correct: 2, fb: "Szczera krotka odpowiedz + pytanie zwrotne = idealna pilka. Rozmowca czuje sie zapytany i ma ochotę kontynuowac." }
-];
-
-let qIdx = 0, qScore = 0, qAnswered = false, qResults = [];
-
-function initQuiz() {
-  qIdx = 0; qScore = 0; qAnswered = false; qResults = [];
-  renderQuestion();
+// =================== QUIZ ===================
+function renderPips() {
+  const pips = document.getElementById('pips');
+  pips.innerHTML = '';
+  quizOrder.forEach((_, i) => {
+    const pip = document.createElement('div');
+    pip.className = 'pip';
+    if (i < currentIdx) {
+      const ans = session.answers[i];
+      pip.classList.add(ans && ans.ok ? 'ok' : 'bad');
+    } else if (i === currentIdx) {
+      pip.classList.add('current');
+    }
+    pips.appendChild(pip);
+  });
 }
 
 function renderQuestion() {
-  const q = QUESTIONS[qIdx];
-  document.getElementById('qTitle').textContent = 'Pytanie ' + (qIdx + 1);
-  document.getElementById('qCnt').textContent = (qIdx + 1) + ' / ' + QUESTIONS.length;
-  document.getElementById('qQ').textContent = q.q;
+  const idx = quizOrder[currentIdx];
+  const sit = SYTUACJE[idx];
 
-  // Pips
-  const pips = document.getElementById('qPips');
-  pips.innerHTML = '';
-  QUESTIONS.forEach((_, i) => {
-    const pip = document.createElement('div');
-    pip.className = 'qpip' + (i === qIdx ? ' current' : (i < qIdx ? (qResults[i] ? ' done-ok' : ' done-bad') : ''));
-    pips.appendChild(pip);
-  });
+  document.getElementById('sit-emoji').textContent = sit.emoji;
+  document.getElementById('sit-place').textContent = sit.miejsce.toUpperCase();
+  document.getElementById('sit-person').textContent = sit.osoba;
+  document.getElementById('sit-opis').textContent = sit.opis;
+  document.getElementById('sit-counter').textContent = `Sytuacja ${currentIdx + 1} z ${quizOrder.length}`;
 
-  // Options
-  const optsEl = document.getElementById('qOpts');
-  optsEl.innerHTML = '';
-  q.opts.forEach((opt, i) => {
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  sit.opcje.forEach((opt, i) => {
     const btn = document.createElement('button');
-    btn.className = 'qopt';
-    btn.textContent = opt;
-    btn.onclick = () => answerQuiz(i);
-    optsEl.appendChild(btn);
+    btn.className = 'opt-btn';
+    btn.textContent = opt.tekst;
+    btn.onclick = () => selectOption(i);
+    opts.appendChild(btn);
   });
 
-  const fb = document.getElementById('qFb');
-  fb.className = 'quiz-fb';
-  fb.textContent = '';
-  const next = document.getElementById('qNext');
-  next.className = 'btn btn-primary quiz-next';
-  qAnswered = false;
+  document.getElementById('feedback-box').classList.remove('show');
+  document.getElementById('feedback-box').textContent = '';
+  document.getElementById('next-btn').classList.remove('show');
+
+  answered = false;
+  renderPips();
 }
 
-function answerQuiz(chosen) {
-  if (qAnswered) return;
-  qAnswered = true;
-  const q = QUESTIONS[qIdx];
-  const opts = document.querySelectorAll('.qopt');
-  const correct = chosen === q.correct;
-  if (correct) qScore++;
-  qResults[qIdx] = correct;
+function selectOption(i) {
+  if (answered) return;
+  answered = true;
 
-  opts.forEach((o, i) => {
-    o.classList.add('disabled');
-    if (i === q.correct) o.classList.add('correct');
-    else if (i === chosen && !correct) o.classList.add('wrong');
+  const idx = quizOrder[currentIdx];
+  const sit = SYTUACJE[idx];
+  const opt = sit.opcje[i];
+  const btns = document.querySelectorAll('.opt-btn');
+
+  btns.forEach((btn, j) => {
+    if (j === i) {
+      btn.classList.add(opt.poprawna ? 'correct' : 'wrong');
+    } else if (sit.opcje[j].poprawna) {
+      btn.classList.add('show-correct');
+    } else {
+      btn.classList.add('disabled');
+    }
   });
 
-  const fb = document.getElementById('qFb');
-  fb.className = 'quiz-fb show';
-  fb.textContent = (correct ? '✓ Dobrze! ' : '✗ Nie tym razem. ') + q.fb;
+  const fb = document.getElementById('feedback-box');
+  fb.textContent = opt.feedback;
+  fb.classList.add('show');
 
-  const next = document.getElementById('qNext');
-  next.className = 'btn btn-primary quiz-next show';
-  next.textContent = qIdx < QUESTIONS.length - 1 ? 'Nastepne →' : 'Zobacz wynik →';
+  session.total += 1;
+  if (opt.poprawna) session.correct += 1;
+  session.answers.push({ kat: sit.kategoria, ok: opt.poprawna });
+
+  renderPips();
+
+  if (currentIdx + 1 >= quizOrder.length) {
+    document.getElementById('next-btn').textContent = 'Zobacz wyniki';
+  } else {
+    document.getElementById('next-btn').textContent = 'Nastepna sytuacja \u2192';
+  }
+  document.getElementById('next-btn').classList.add('show');
 }
 
 function nextQuestion() {
-  qIdx++;
-  if (qIdx >= QUESTIONS.length) {
+  currentIdx += 1;
+  if (currentIdx >= quizOrder.length) {
     showResult();
-  } else {
-    renderQuestion();
+    return;
   }
+  renderQuestion();
 }
 
 function showResult() {
-  const pct = Math.round(qScore / QUESTIONS.length * 100);
-  const pass = pct >= 60;
+  commitSession();
+  document.getElementById('trener-quiz').style.display = 'none';
+  const wrap = document.getElementById('result-wrap');
+  wrap.classList.add('show');
 
-  // Save to localStorage
-  const hist = JSON.parse(localStorage.getItem('st_quiz_hist') || '[]');
-  hist.unshift({ score: qScore, total: QUESTIONS.length, pct, ts: Date.now() });
-  localStorage.setItem('st_quiz_hist', JSON.stringify(hist.slice(0, 20)));
-  localStorage.setItem('st_last_quiz', pct);
-  localStorage.setItem('st_best_quiz', Math.max(pct, parseInt(localStorage.getItem('st_best_quiz') || '0')));
-  updateHomeStats();
+  const pct = Math.round((session.correct / session.total) * 100);
+  document.getElementById('result-score').textContent = `${session.correct}/${session.total}`;
 
-  const wrap = document.querySelector('.quiz-wrap');
-  wrap.innerHTML = `
-    <div class="quiz-result">
-      <div class="result-circle ${pass ? 'pass' : 'fail'}">
-        <span>${pct}%</span>
-        <small>${pass ? 'SUPER' : 'PROBUJ'}</small>
-      </div>
-      <h3 style="font-family:Inter;font-size:1.4rem;margin-bottom:8px">${qScore} / ${QUESTIONS.length} poprawnych odpowiedzi</h3>
-      <p style="color:#78716C;margin-bottom:24px">${pass ? 'Swietnie! Znasz podstawy small talk.' : 'Sprobuj ponownie — przejrzyj Theory!'}</p>
-      <button class="btn btn-primary" onclick="initQuiz()">Sprobuj jeszcze raz</button>
-      <button class="btn btn-secondary" onclick="showScreen('theory')" style="margin-left:12px">Przejrzyj Theory</button>
-    </div>`;
+  let msg = '', sub = '';
+  if (pct >= 80) { msg = 'Swietna robota!'; sub = 'Jestes naturalnym gawędziarzem. Małe szlify i bedziesz mistrzem small talk.'; }
+  else if (pct >= 55) { msg = 'Dobry wynik!'; sub = 'Znasz zasady — pamietaj o pytaniach zwrotnych i dostosowaniu tonu.'; }
+  else { msg = 'Cwicz dalej!'; sub = 'Przejrzyj teorie i sprawdz zasady FORD, komentarz+pytanie oraz granice tematow.'; }
+
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('result-sub').textContent = sub;
 }
 
-function updateHomeStats() {
-  const last = localStorage.getItem('st_last_quiz');
-  if (last) document.getElementById('stat-quiz').textContent = last + '%';
+function restartQuiz() {
+  quizOrder = shuffle(SYTUACJE.map((_, i) => i));
+  currentIdx = 0;
+  answered = false;
+  session = { total: 0, correct: 0, answers: [] };
+
+  document.getElementById('trener-quiz').style.display = '';
+  document.getElementById('result-wrap').classList.remove('show');
+  renderQuestion();
 }
 
-// ---- Stats screen ----
-const SCENE_NAMES = ['Zlote zasady','Kuchnia','Online','Taksowka','Po pracy','Winda','Nowa osoba'];
-
+// =================== STATS ===================
 function renderStats() {
-  const hist = JSON.parse(localStorage.getItem('st_quiz_hist') || '[]');
-  const last = localStorage.getItem('st_last_quiz');
-  const best = localStorage.getItem('st_best_quiz');
+  const s = loadStats();
+  document.getElementById('p-total').textContent = s.total;
+  document.getElementById('p-correct').textContent = s.correct;
+  document.getElementById('p-sessions').textContent = s.sessions;
+  const pct = s.total > 0 ? Math.round((s.correct / s.total) * 100) : null;
+  document.getElementById('p-pct').textContent = pct !== null ? pct + '%' : '—';
+  document.getElementById('p-bar').style.width = (pct || 0) + '%';
+  document.getElementById('p-bar-label').textContent = pct !== null
+    ? `${s.correct} poprawnych z ${s.total} odpowiedzi (${pct}%)`
+    : 'Wykonaj pierwsze pytania, aby zobaczyc postep.';
 
-  document.getElementById('st-quiz').textContent = last ? last + '%' : '—';
-  document.getElementById('st-best').textContent = best ? best + '%' : '—';
-  document.getElementById('st-sessions').textContent = hist.length;
-
-  const histEl = document.getElementById('quiz-history-list');
-  if (hist.length === 0) {
-    histEl.innerHTML = '<p style="color:#78716C;font-size:0.95rem">Nie rozwiazales jeszcze zadnego quizu.</p>';
-  } else {
-    histEl.innerHTML = hist.slice(0, 5).map(h => {
-      const d = new Date(h.ts);
-      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #EAE6DF;font-family:Inter;font-size:0.9rem">
-        <span style="color:#78716C">${d.toLocaleDateString('pl')}</span>
-        <span style="font-weight:600;color:${h.pct>=60?'#065F46':'#991B1B'}">${h.score}/${h.total} — ${h.pct}%</span>
-      </div>`;
-    }).join('');
-  }
-
-  const progEl = document.getElementById('scene-progress');
-  progEl.innerHTML = SCENE_NAMES.map(name => `
-    <div>
-      <div style="display:flex;justify-content:space-between;font-family:Inter;font-size:0.85rem;margin-bottom:4px">
-        <span style="color:#1C1917;font-weight:500">${name}</span>
-        <span style="color:#78716C">placeholder</span>
-      </div>
-      <div class="progress-bar-wrap"><div class="progress-fill" style="width:0%"></div></div>
-    </div>`).join('');
+  const cats = { 'Winda': 'winda', 'Biuro': 'biuro', 'Autobus': 'autobus', 'Miasto': 'miasto' };
+  Object.entries(cats).forEach(([kat, id]) => {
+    const d = s.byKat[kat] || { total: 0, correct: 0 };
+    const p = d.total > 0 ? Math.round((d.correct / d.total) * 100) : null;
+    document.getElementById('c-' + id).textContent = p !== null ? p + '%' : '—';
+    document.getElementById('c-' + id + '-bar').style.width = (p || 0) + '%';
+  });
 }
 
-// Init
-updateHomeStats();
-initQuiz();
+function resetStats() {
+  if (confirm('Na pewno chcesz wyczyścić statystyki?')) {
+    localStorage.removeItem(LS_KEY);
+    renderStats();
+  }
+}
+
+// =================== INIT ===================
+renderQuestion();
 </script>
 </body>
 </html>
