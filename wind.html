@@ -1,416 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>EPKP Wind</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #fafaf8;
-    --text: #111;
-    --muted: #888;
-    --border: #e2e2e0;
-    --font: 'Inter', system-ui, -apple-system, sans-serif;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  :root { --bg:#fafaf8; --card:#fff; --text:#111; --muted:#888; --border:#e2e2e0; --font:'Inter',system-ui,sans-serif; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .header{padding:12px 16px 8px;border-bottom:1px solid var(--border);background:var(--card);}
+  .header-top{display:flex;justify-content:space-between;align-items:baseline;}
+  .header-icao{font-size:1.1rem;font-weight:700;letter-spacing:0.05em;}
+  .header-elev{font-size:0.72rem;color:var(--muted);}
+  .header-meta{font-size:0.72rem;color:var(--muted);margin-top:3px;display:flex;gap:12px;}
+  .header-time{font-size:0.72rem;color:var(--muted);}
 
-  body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
+  .levels{padding:0;}
 
-  /* HEADER */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 40px;
-    padding: 0 16px;
-    border-bottom: 1px solid var(--border);
-    max-width: 480px;
-    margin: 0 auto;
-  }
-  .header-left {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-  }
-  .header-icao {
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-  }
-  .header-elev {
-    font-size: 0.7rem;
-    color: var(--muted);
-  }
-  .header-right {
-    display: flex;
-    gap: 12px;
-    align-items: baseline;
-  }
-  .header-qnh {
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-  .header-time {
-    font-size: 0.7rem;
-    color: var(--muted);
-  }
+  .level{display:flex;align-items:center;gap:0;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--card);border-left:3px solid transparent;transition:border-color .2s;}
+  .level.xw-warn{border-left-color:#f59e0b;}
+  .level.xw-danger{border-left-color:#dc2626;}
 
-  /* MAIN CONTENT */
-  .content {
-    max-width: 480px;
-    margin: 0 auto;
-  }
+  .level-alt{width:68px;flex-shrink:0;}
+  .level-alt-ft{font-size:1rem;font-weight:700;display:block;line-height:1.1;}
+  .level-alt-label{font-size:0.62rem;color:var(--muted);}
 
-  /* LEVEL ROW */
-  .level-row {
-    display: flex;
-    align-items: center;
-    height: 70px;
-    padding: 0 16px;
-    border-bottom: 1px solid var(--border);
-    gap: 12px;
-    border-left: 3px solid transparent;
-    transition: border-left-color 0.2s;
-  }
-  .level-row.xw-warn {
-    border-left-color: #f59e0b;
-  }
-  .level-row.xw-danger {
-    border-left-color: #dc2626;
-  }
+  .level-arrow{width:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .level-arrow svg{width:36px;height:36px;}
 
-  .col-alt {
-    width: 72px;
-    flex-shrink: 0;
-  }
-  .alt-ft {
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1;
-  }
-  .alt-label {
-    font-size: 0.6rem;
-    color: var(--muted);
-    margin-top: 2px;
-  }
+  .level-data{flex:1;}
+  .level-kt{font-size:1.2rem;font-weight:700;display:inline;line-height:1;}
+  .level-kt-unit{font-size:0.72rem;color:var(--muted);margin-left:2px;}
+  .level-dir{font-size:0.75rem;color:var(--muted);margin-top:2px;}
+  .level-kmh{font-size:0.65rem;color:var(--muted);margin-top:1px;}
 
-  .col-arrow {
-    width: 40px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  .level-xw{width:42px;flex-shrink:0;text-align:right;}
+  .xw-label{font-size:0.55rem;color:var(--muted);display:block;}
+  .xw-val{font-size:0.82rem;font-weight:600;}
+  .xw-val.warn{color:#f59e0b;}
+  .xw-val.danger{color:#dc2626;}
 
-  .col-wind {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-  }
-  .wind-main {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-  }
-  .wind-kt {
-    font-size: 1.1rem;
-    font-weight: 700;
-  }
-  .wind-unit {
-    font-size: 0.65rem;
-    color: var(--muted);
-    font-weight: 500;
-  }
-  .wind-deg {
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
-  .wind-dir-name {
-    font-size: 0.7rem;
-    color: var(--muted);
-  }
-  .wind-kmh {
-    font-size: 0.65rem;
-    color: var(--muted);
-  }
-  .wind-xw {
-    font-size: 0.6rem;
-    color: var(--muted);
-    margin-top: 1px;
-  }
-  .wind-xw.warn { color: #f59e0b; font-weight: 600; }
-  .wind-xw.danger { color: #dc2626; font-weight: 600; }
+  .loading{padding:40px 16px;text-align:center;color:var(--muted);font-size:0.85rem;}
+  .error{padding:16px;background:#fff5f5;border-left:3px solid #dc2626;margin:12px 16px;font-size:0.82rem;color:#dc2626;border-radius:4px;}
 
-  /* TEMP ROW */
-  .temp-row {
-    display: flex;
-    align-items: center;
-    height: 40px;
-    padding: 0 16px;
-    gap: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-  .temp-label {
-    font-size: 0.7rem;
-    color: var(--muted);
-  }
-  .temp-val {
-    font-size: 0.8rem;
-    font-weight: 600;
-  }
-  .temp-sep {
-    color: var(--border);
-    font-size: 0.7rem;
-  }
+  .footer{padding:12px 16px;font-size:0.65rem;color:var(--muted);text-align:center;border-top:1px solid var(--border);}
+  .refresh-btn{display:block;margin:8px auto 0;padding:6px 16px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.75rem;cursor:pointer;color:var(--text);}
 
-  /* STATUS */
-  .status-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 16px;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-  .status-msg {
-    font-size: 0.65rem;
-    color: var(--muted);
-  }
-  .refresh-btn {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 3px 8px;
-    font-size: 0.65rem;
-    color: var(--muted);
-    cursor: pointer;
-    font-family: var(--font);
-  }
-  .refresh-btn:active { opacity: 0.6; }
-
-  /* LOADING / ERROR */
-  .state-screen {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 40px 16px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.8rem;
-  }
-  .spinner {
-    width: 24px; height: 24px;
-    border: 2px solid var(--border);
-    border-top-color: var(--text);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 12px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* BACK LINK */
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.7rem;
-    color: var(--muted);
-    text-decoration: none;
-    padding: 6px 16px;
-    max-width: 480px;
-    margin: 4px auto 0;
-    display: flex;
-  }
-  .back-link:hover { color: var(--text); }
+  .rwy-info{font-size:0.65rem;color:var(--muted);padding:6px 16px;background:#f8f8f6;border-bottom:1px solid var(--border);display:flex;gap:12px;}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-left">
+  <div class="header-top">
     <span class="header-icao">EPKP</span>
-    <span class="header-elev">664 ft AMSL</span>
+    <span class="header-time" id="hdr-time">—</span>
   </div>
-  <div class="header-right">
-    <span class="header-qnh" id="qnh">— hPa</span>
-    <span class="header-time" id="utc-time">—:—Z</span>
-  </div>
-</div>
-
-<div class="content" id="content">
-  <div class="state-screen" id="loading">
-    <div class="spinner"></div>
-    Loading wind data…
+  <div class="header-meta">
+    <span id="hdr-elev">664 ft AMSL</span>
+    <span id="hdr-qnh">QNH: —</span>
+    <span id="hdr-temp">T: —</span>
   </div>
 </div>
 
-<div class="status-bar">
-  <span class="status-msg" id="status-msg"></span>
-  <button class="refresh-btn" onclick="loadData()">Refresh</button>
+<div class="rwy-info">
+  <span>RWY 09/27 (090°/270°)</span>
+  <span id="rwy-wind">XW: —</span>
 </div>
 
-<a class="back-link" href="./index.html">
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="15 18 9 12 15 6"/>
-  </svg>
-  MiniApps
-</a>
+<div class="levels" id="levels">
+  <div class="loading">Ładowanie danych...</div>
+</div>
+
+<div class="footer">
+  Open-Meteo · Kraków Balice · 50.087°N 20.201°E
+  <button class="refresh-btn" onclick="loadData()">↻ Odśwież</button>
+</div>
 
 <script>
-const API_URL = 'https://api.open-meteo.com/v1/forecast?latitude=50.087&longitude=20.201&hourly=pressure_msl,windspeed_10m,windspeed_80m,windspeed_120m,windspeed_180m,winddirection_10m,winddirection_80m,winddirection_120m,winddirection_180m,temperature_2m&timezone=UTC&forecast_days=1';
+const LAT = 50.087, LON = 20.201, ELEV_FT = 664, ELEV_M = 202;
+const RWY_HDG = 270; // runway 27 heading
 
-const ELEV_FT = 664;
-const RWY_HDG = 90; // runway 09/27 heading in degrees
-
+// Height levels: [m AGL, label]
 const LEVELS = [
-  { agl_m: 180, label: '180m AGL', field_speed: 'windspeed_180m', field_dir: 'winddirection_180m' },
-  { agl_m: 120, label: '120m AGL', field_speed: 'windspeed_120m', field_dir: 'winddirection_120m' },
-  { agl_m: 80,  label: '80m AGL',  field_speed: 'windspeed_80m',  field_dir: 'winddirection_80m'  },
-  { agl_m: 10,  label: '10m AGL',  field_speed: 'windspeed_10m',  field_dir: 'winddirection_10m'  },
+  { m: 180, suffix: 'windspeed_180m', dirSuffix: 'winddirection_180m' },
+  { m: 120, suffix: 'windspeed_120m', dirSuffix: 'winddirection_120m' },
+  { m: 80,  suffix: 'windspeed_80m',  dirSuffix: 'winddirection_80m'  },
+  { m: 10,  suffix: 'windspeed_10m',  dirSuffix: 'winddirection_10m'  },
 ];
 
-function aglToFtMSL(agl_m) {
-  return Math.round(ELEV_FT + agl_m * 3.281);
+function mToFtMSL(m) { return Math.round(ELEV_FT + m * 3.281); }
+function kmhToKt(kmh) { return (kmh * 0.5399).toFixed(0); }
+function dirName(deg) {
+  const dirs = ['N','NE','E','SE','S','SW','W','NW','N'];
+  return dirs[Math.round(deg / 45) % 8];
+}
+function crosswind(speed_kt, dir_deg) {
+  // component perpendicular to RWY 09/27
+  const angle = Math.abs(dir_deg - RWY_HDG) % 360;
+  const rel = angle > 180 ? 360 - angle : angle;
+  return Math.abs(Math.round(speed_kt * Math.sin(rel * Math.PI / 180)));
 }
 
-function kmhToKt(kmh) {
-  return kmh * 0.5399;
-}
-
-function dirToName(deg) {
-  const dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
-  return dirs[Math.round(deg / 22.5) % 16];
-}
-
-function crosswindComponent(windDir, windSpeedKt, rwayHdg) {
-  // crosswind = wind * sin(angle between wind direction and runway)
-  const angle = (windDir - rwayHdg) * Math.PI / 180;
-  return Math.abs(windSpeedKt * Math.sin(angle));
-}
-
-function arrowSVG(dirDeg) {
-  return `<svg viewBox="0 0 40 40" width="36" height="36" style="transform: rotate(${dirDeg}deg); display:block;">
-  <line x1="20" y1="8" x2="20" y2="32" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
-  <polyline points="13,22 20,32 27,22" stroke="#111" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>`;
-}
-
-function getCurrentHourIndex(times) {
-  const now = new Date();
-  const nowUTC = now.getUTCFullYear() + '-'
-    + String(now.getUTCMonth()+1).padStart(2,'0') + '-'
-    + String(now.getUTCDate()).padStart(2,'0') + 'T'
-    + String(now.getUTCHours()).padStart(2,'0') + ':00';
-  let idx = times.findIndex(t => t === nowUTC);
-  if (idx < 0) {
-    // fallback: find closest past time
-    const nowMs = now.getTime();
-    let best = 0;
-    for (let i = 0; i < times.length; i++) {
-      const t = new Date(times[i] + 'Z').getTime();
-      if (t <= nowMs) best = i;
-    }
-    idx = best;
-  }
-  return idx;
+function arrowSVG(dir_deg) {
+  // Arrow pointing DOWN by default = wind from N (dir=0)
+  // Rotate by dir_deg to show correct direction
+  return `<svg viewBox="0 0 40 40" style="transform:rotate(${dir_deg}deg);transition:transform .3s">
+    <line x1="20" y1="6" x2="20" y2="28" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"/>
+    <polyline points="12,20 20,30 28,20" stroke="var(--text)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
 }
 
 async function loadData() {
-  const content = document.getElementById('content');
-  const statusMsg = document.getElementById('status-msg');
-  statusMsg.textContent = 'Fetching…';
+  const container = document.getElementById('levels');
+  container.innerHTML = '<div class="loading">Ładowanie...</div>';
+
+  const today = new Date().toISOString().slice(0,10);
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&hourly=pressure_msl,temperature_2m,windspeed_10m,windspeed_80m,windspeed_120m,windspeed_180m,winddirection_10m,winddirection_80m,winddirection_120m,winddirection_180m&start_date=${today}&end_date=${today}&timezone=UTC`;
 
   try {
-    const res = await fetch(API_URL);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const res = await fetch(url);
     const data = await res.json();
-    renderData(data);
-    statusMsg.textContent = 'Updated ' + new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit', timeZone:'UTC'}) + 'Z';
-  } catch (e) {
-    content.innerHTML = `<div class="state-screen">Failed to load data.<br><small>${e.message}</small></div>`;
-    statusMsg.textContent = 'Error';
+    const hourly = data.hourly;
+    const times = hourly.time;
+
+    // Find current UTC hour index
+    const now = new Date();
+    const utcHour = now.getUTCHours();
+    let idx = times.findIndex(t => t.endsWith(`T${String(utcHour).padStart(2,'0')}:00`));
+    if (idx < 0) idx = 0;
+
+    // Header
+    const qnh = hourly.pressure_msl[idx];
+    const temp = hourly.temperature_2m[idx];
+    const timeStr = times[idx].slice(11,16) + 'Z';
+    document.getElementById('hdr-time').textContent = timeStr;
+    document.getElementById('hdr-qnh').textContent = qnh ? `QNH: ${Math.round(qnh)} hPa / ${(qnh * 0.02953).toFixed(2)}"` : 'QNH: —';
+    document.getElementById('hdr-temp').textContent = temp != null ? `T: ${temp.toFixed(1)}°C` : '';
+
+    // Build levels HTML
+    let html = '';
+    let surfaceXW = 0;
+
+    LEVELS.forEach(lv => {
+      const spd_kmh = hourly[lv.suffix][idx];
+      const dir = hourly[lv.dirSuffix][idx];
+      const ft = mToFtMSL(lv.m);
+      const kt = parseFloat(kmhToKt(spd_kmh));
+      const xw = crosswind(kt, dir);
+      if (lv.m === 10) surfaceXW = xw;
+
+      let xwClass = '', rowClass = '';
+      if (xw >= 15) { xwClass = 'danger'; rowClass = 'xw-danger'; }
+      else if (xw >= 10) { xwClass = 'warn'; rowClass = 'xw-warn'; }
+
+      html += `<div class="level ${rowClass}">
+        <div class="level-alt">
+          <span class="level-alt-ft">${ft}ft</span>
+          <span class="level-alt-label">${lv.m}m AGL</span>
+        </div>
+        <div class="level-arrow">${arrowSVG(dir)}</div>
+        <div class="level-data">
+          <span class="level-kt">${kt}</span><span class="level-kt-unit">kt</span>
+          <div class="level-dir">${dir}° ${dirName(dir)} &nbsp;·&nbsp; ${spd_kmh.toFixed(1)} km/h</div>
+        </div>
+        <div class="level-xw">
+          <span class="xw-label">XW</span>
+          <span class="xw-val ${xwClass}">${xw}kt</span>
+        </div>
+      </div>`;
+    });
+
+    container.innerHTML = html;
+    document.getElementById('rwy-wind').textContent = `XW: ${surfaceXW}kt`;
+
+  } catch(e) {
+    container.innerHTML = `<div class="error">Błąd ładowania: ${e.message}</div>`;
   }
 }
 
-function renderData(data) {
-  const h = data.hourly;
-  const idx = getCurrentHourIndex(h.time);
-  const timeStr = h.time[idx].slice(11,16) + 'Z';
-
-  // QNH
-  const qnh_hpa = h.pressure_msl[idx];
-  const qnh_inhg = (qnh_hpa * 0.02953).toFixed(2);
-  document.getElementById('qnh').textContent = `${Math.round(qnh_hpa)} hPa / ${qnh_inhg} inHg`;
-  document.getElementById('utc-time').textContent = timeStr;
-
-  // Temp
-  const temp = h.temperature_2m[idx];
-
-  const content = document.getElementById('content');
-  let html = '';
-
-  for (const lv of LEVELS) {
-    const ftMSL = aglToFtMSL(lv.agl_m);
-    const kmh = h[lv.field_speed][idx];
-    const dir = h[lv.field_dir][idx];
-    const kt = kmhToKt(kmh);
-    const ktRound = Math.round(kt);
-    const dirName = dirToName(dir);
-    const xw = crosswindComponent(dir, kt, RWY_HDG);
-
-    let rowClass = 'level-row';
-    let xwClass = 'wind-xw';
-    let xwText = '';
-    if (xw > 15) {
-      rowClass += ' xw-danger';
-      xwClass += ' danger';
-      xwText = `XW RWY09/27: ${xw.toFixed(1)} kt`;
-    } else if (xw > 10) {
-      rowClass += ' xw-warn';
-      xwClass += ' warn';
-      xwText = `XW RWY09/27: ${xw.toFixed(1)} kt`;
-    }
-
-    html += `<div class="${rowClass}">
-  <div class="col-alt">
-    <div class="alt-ft">${ftMSL.toLocaleString()}ft</div>
-    <div class="alt-label">${lv.agl_m}m AGL</div>
-  </div>
-  <div class="col-arrow">${arrowSVG(dir)}</div>
-  <div class="col-wind">
-    <div class="wind-main">
-      <span class="wind-kt">${ktRound}</span>
-      <span class="wind-unit">kt</span>
-      <span class="wind-deg">${Math.round(dir)}&deg;</span>
-      <span class="wind-dir-name">${dirName}</span>
-    </div>
-    <div class="wind-kmh">${kmh.toFixed(1)} km/h</div>
-    ${xwText ? `<div class="${xwClass}">${xwText}</div>` : ''}
-  </div>
-</div>`;
-  }
-
-  // Temp row
-  html += `<div class="temp-row">
-  <span class="temp-label">Temp 2m</span>
-  <span class="temp-val">${temp.toFixed(1)}&deg;C</span>
-</div>`;
-
-  content.innerHTML = html;
-}
-
-// Auto-refresh every 30 minutes
 loadData();
+// Auto-refresh co 30 min
 setInterval(loadData, 30 * 60 * 1000);
 </script>
 </body>
