@@ -384,6 +384,7 @@
   _noSleepVideo.setAttribute('loop', '');
   _noSleepVideo.setAttribute('playsinline', '');
   _noSleepVideo.setAttribute('muted', '');
+  _noSleepVideo.muted = true;
   _noSleepVideo.setAttribute('webkit-playsinline', '');
   _noSleepVideo.style.cssText = 'position:fixed;top:-1px;left:-1px;width:1px;height:1px;opacity:0.01;pointer-events:none;';
   const _src = document.createElement('source');
@@ -409,13 +410,11 @@
   }
 
   function _activateScreenLock() {
-    _noSleepVideo.play().then(() => {
-      _setLockUI(true);
-    }).catch(err => {
-      console.warn('NoSleep video failed:', err);
-      // Spróbuj mimo błędu — ustaw UI
-      _setLockUI(true);
-    });
+    _setLockUI(true);
+    const p = _noSleepVideo.play();
+    if (p && typeof p.catch === 'function') {
+      p.catch(err => { console.warn('NoSleep video failed:', err); });
+    }
     if ('wakeLock' in navigator) {
       navigator.wakeLock.request('screen').catch(() => {});
     }
