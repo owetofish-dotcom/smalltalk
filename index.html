@@ -3,223 +3,482 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MiniApps — Twoje aplikacje do nauki</title>
+<title>MiniApps</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
-
   :root {
     --bg: #fafaf8;
-    --bg-card: #ffffff;
     --text: #111111;
     --text-muted: #888888;
     --border: #e2e2e0;
     --accent: #111111;
-    --accent-light: #f0f0ee;
-    --font-head: 'Cormorant Garamond', Georgia, serif;
-    --font-body: 'Inter', system-ui, sans-serif;
+    --hover-bg: #f5f5f3;
+    --drag-bg: #eeeeed;
+    --font: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: var(--font-body);
+    font-family: var(--font);
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
 
   /* HEADER */
   .header {
-    padding: 56px 24px 32px;
-    text-align: center;
-    max-width: 960px;
-    margin: 0 auto;
-    border-bottom: 1px solid var(--border);
-  }
-  .header h1 {
-    font-family: var(--font-head);
-    font-size: 3rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    margin-bottom: 10px;
-    color: var(--text);
-  }
-  .header p {
-    font-size: 1.05rem;
-    color: var(--text-muted);
-  }
-
-  /* GRID */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    max-width: 960px;
-    margin: 48px auto;
-    padding: 0 24px;
-  }
-  @media (max-width: 720px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
-    .header h1 { font-size: 2.2rem; }
-  }
-  @media (max-width: 480px) {
-    .grid { grid-template-columns: 1fr; }
-  }
-
-  /* CARD */
-  .card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 28px 24px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    transition: box-shadow 0.2s, transform 0.2s;
-  }
-  .card:not(.card--disabled):hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    transform: translateY(-2px);
-  }
-  .card--disabled {
-    opacity: 0.5;
-    filter: grayscale(0.3);
-  }
-
-  .card-emoji {
-    font-size: 2.4rem;
-    line-height: 1;
-  }
-  .card-title {
-    font-size: 1.15rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--text);
-  }
-  .card-desc {
-    font-size: 0.92rem;
-    color: var(--text-muted);
-    line-height: 1.55;
-    flex: 1;
-  }
-  .card-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 4px;
-  }
-  .badge {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 4px;
-    background: var(--accent-light);
-    color: var(--text-muted);
-    border: 1px solid var(--border);
-  }
-  .badge--green { background: var(--accent-light); color: var(--text); border-color: var(--border); }
-  .badge--blue  { background: var(--accent-light); color: var(--text); border-color: var(--border); }
-
-  .open-btn {
-    display: inline-block;
-    padding: 9px 18px;
-    background: var(--accent);
-    color: #fff;
-    border-radius: 4px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-  .open-btn:hover { background: #333333; }
-
-  /* FOOTER */
-  .footer {
-    text-align: center;
-    padding: 32px 24px 48px;
-    border-top: 1px solid var(--border);
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    max-width: 960px;
+    gap: 12px;
+    height: 40px;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--border);
+    max-width: 720px;
     margin: 0 auto;
+  }
+  .header-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .header-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* LIST */
+  .app-list {
+    max-width: 720px;
+    margin: 0 auto;
+    list-style: none;
+  }
+
+  /* ROW */
+  .app-row {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 0 20px 0 8px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    background: var(--bg);
+    transition: background 0.12s;
+    position: relative;
+  }
+  .app-row:hover { background: var(--hover-bg); }
+  .app-row.dragging {
+    opacity: 0.4;
+  }
+  .app-row.drag-over {
+    background: var(--drag-bg);
+    box-shadow: inset 0 2px 0 var(--accent);
+  }
+
+  .drag-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--text-muted);
+    cursor: grab;
+    flex-shrink: 0;
+    opacity: 0.4;
+    transition: opacity 0.12s;
+  }
+  .app-row:hover .drag-handle { opacity: 0.8; }
+  .drag-handle:active { cursor: grabbing; }
+
+  .app-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    color: var(--text);
+  }
+
+  .app-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+  .app-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .app-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .app-open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 1rem;
+    flex-shrink: 0;
+    border-radius: 4px;
+    transition: background 0.12s, color 0.12s;
+    position: relative;
+    z-index: 1;
+  }
+  .app-open:hover {
+    background: var(--border);
+    color: var(--text);
+  }
+
+  .app-row--disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  /* Touch drag hint */
+  @media (pointer: coarse) {
+    .drag-handle { opacity: 0.6; }
   }
 </style>
 </head>
 <body>
 
 <header class="header">
-  <h1>&#129513; MiniApps</h1>
-  <p>Twoje aplikacje do nauki</p>
+  <span class="header-title">MiniApps</span>
+  <span class="header-sub">Aplikacje do nauki</span>
 </header>
 
-<main class="grid">
+<ul class="app-list" id="appList">
 
-  <!-- SmallTalk Trainer -->
-  <div class="card">
-    <div class="card-emoji">&#128172;</div>
-    <div class="card-title">SmallTalk Trainer</div>
-    <div class="card-desc">&#262;wicz rozmowy w r&#243;&#380;nych sytuacjach &mdash; winda, biuro, kawiarnia.</div>
-    <div class="card-footer">
-      <span class="badge badge--green">Komunikacja</span>
-      <a class="open-btn" href="./st/">Otw&oacute;rz &rarr;</a>
-    </div>
-  </div>
+  <li class="app-row" data-id="st" data-href="./st/" draggable="true">
+    <span class="drag-handle">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="19" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="19" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </span>
+    <span class="app-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+    </span>
+    <span class="app-info">
+      <span class="app-name">SmallTalk Trainer</span>
+      <span class="app-desc">Cwicz rozmowy w roznych sytuacjach</span>
+    </span>
+    <a class="app-open" href="./st/" title="Otworz">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </a>
+  </li>
 
-  <!-- PRINCE2 Prep -->
-  <div class="card">
-    <div class="card-emoji">&#128203;</div>
-    <div class="card-title">PRINCE2 Prep</div>
-    <div class="card-desc">Przygotuj si&#281; do egzaminu PRINCE2 Foundation z 166+ pytaniami.</div>
-    <div class="card-footer">
-      <span class="badge badge--blue">Egzamin</span>
-      <a class="open-btn" href="./prince2.html">Otw&oacute;rz &rarr;</a>
-    </div>
-  </div>
+  <li class="app-row" data-id="prince2" data-href="./prince2.html" draggable="true">
+    <span class="drag-handle">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="19" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="19" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </span>
+    <span class="app-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+    </span>
+    <span class="app-info">
+      <span class="app-name">PRINCE2 Prep</span>
+      <span class="app-desc">166+ pytan do egzaminu Foundation</span>
+    </span>
+    <a class="app-open" href="./prince2.html" title="Otworz">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </a>
+  </li>
 
-  <!-- Frontline Intel -->
-  <div class="card">
-    <div class="card-emoji">🛡️</div>
-    <div class="card-title">Frontline Intel</div>
-    <div class="card-desc">Codzienny przegląd analiz taktycznych z X i LinkedIn — drony, C-UAS, EW.</div>
-    <div class="card-footer">
-      <span class="badge badge--blue">Wywiad</span>
-      <a class="open-btn" href="https://owetofish-dotcom.github.io/frontline-intel/" target="_blank">Otwórz &rarr;</a>
-    </div>
-  </div>
+  <li class="app-row" data-id="pspo" data-href="./pspo.html" draggable="true">
+    <span class="drag-handle">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="19" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="19" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </span>
+    <span class="app-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+        <polyline points="2 17 12 22 22 17"/>
+        <polyline points="2 12 12 17 22 12"/>
+      </svg>
+    </span>
+    <span class="app-info">
+      <span class="app-name">PSPO I Prep</span>
+      <span class="app-desc">80 pytan ze wszystkich domen Scrum</span>
+    </span>
+    <a class="app-open" href="./pspo.html" title="Otworz">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </a>
+  </li>
 
-  <!-- PSPO I Prep -->
-  <div class="card">
-    <div class="card-emoji">🧩</div>
-    <div class="card-title">PSPO I Prep</div>
-    <div class="card-desc">Przygotuj się do egzaminu PSPO I z 80 pytaniami z wszystkich domen Scrum.</div>
-    <div class="card-footer">
-      <span class="badge badge--blue">Egzamin</span>
-      <a class="open-btn" href="./pspo.html">Otwórz &rarr;</a>
-    </div>
-  </div>
+  <li class="app-row" data-id="chords" data-href="./chords.html" draggable="true">
+    <span class="drag-handle">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="19" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="19" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </span>
+    <span class="app-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18V5l12-2v13"/>
+        <circle cx="6" cy="18" r="3"/>
+        <circle cx="18" cy="16" r="3"/>
+      </svg>
+    </span>
+    <span class="app-info">
+      <span class="app-name">ALKOrdy</span>
+      <span class="app-desc">Akordy na scenie, ekran nie wygasa</span>
+    </span>
+    <a class="app-open" href="./chords.html" title="Otworz">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </a>
+  </li>
 
-  <!-- ALKOrdy -->
-  <div class="card">
-    <div class="card-emoji">🎸</div>
-    <div class="card-title">ALKOrdy</div>
-    <div class="card-desc">Układaj akordy na scenie podczas grania — ekran nie wygasa.</div>
-    <div class="card-footer">
-      <span class="badge">Muzyka</span>
-      <a class="open-btn" href="./chords.html">Otwórz &rarr;</a>
-    </div>
-  </div>
+  <li class="app-row" data-id="frontline" data-href="https://owetofish-dotcom.github.io/frontline-intel/" draggable="true">
+    <span class="drag-handle">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="19" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="19" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </span>
+    <span class="app-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+    </span>
+    <span class="app-info">
+      <span class="app-name">Frontline Intel</span>
+      <span class="app-desc">Analizy taktyczne — drony, C-UAS, EW</span>
+    </span>
+    <a class="app-open" href="https://owetofish-dotcom.github.io/frontline-intel/" target="_blank" title="Otworz">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </a>
+  </li>
 
-</main>
+  <li class="app-row app-row--disabled" data-id="placeholder" draggable="false">
+    <span class="drag-handle">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="19" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="19" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </span>
+    <span class="app-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="16"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+    </span>
+    <span class="app-info">
+      <span class="app-name">Wkrotce...</span>
+      <span class="app-desc">Nowa aplikacja w przygotowaniu</span>
+    </span>
+  </li>
 
-<footer class="footer">
-  Powered by Claude &middot; owetofish-dotcom.github.io
-</footer>
+</ul>
+
+<script>
+(function () {
+  const list = document.getElementById('appList');
+  const STORAGE_KEY = 'miniapps-order';
+
+  // --- Row click to navigate ---
+  list.addEventListener('click', function (e) {
+    const row = e.target.closest('.app-row');
+    if (!row || row.classList.contains('app-row--disabled')) return;
+    // Don't navigate if clicking the open button (it handles itself)
+    if (e.target.closest('.app-open')) return;
+    // Don't navigate on drag handle
+    if (e.target.closest('.drag-handle')) return;
+    const href = row.dataset.href;
+    if (!href) return;
+    const isExternal = href.startsWith('http');
+    if (isExternal) window.open(href, '_blank');
+    else window.location.href = href;
+  });
+
+  // --- Reorder from localStorage ---
+  function saveOrder() {
+    const ids = Array.from(list.querySelectorAll('.app-row[data-id]'))
+      .map(r => r.dataset.id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+  }
+
+  function loadOrder() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (!Array.isArray(saved) || saved.length === 0) return;
+      saved.forEach(id => {
+        const row = list.querySelector(`[data-id="${id}"]`);
+        if (row) list.appendChild(row);
+      });
+    } catch (e) {}
+  }
+
+  loadOrder();
+
+  // --- Drag and drop (desktop) ---
+  let dragSrc = null;
+
+  list.addEventListener('dragstart', function (e) {
+    const row = e.target.closest('.app-row[draggable="true"]');
+    if (!row) return;
+    dragSrc = row;
+    row.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', row.dataset.id);
+  });
+
+  list.addEventListener('dragend', function () {
+    if (dragSrc) dragSrc.classList.remove('dragging');
+    list.querySelectorAll('.drag-over').forEach(r => r.classList.remove('drag-over'));
+    dragSrc = null;
+    saveOrder();
+  });
+
+  list.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    const row = e.target.closest('.app-row[draggable="true"]');
+    if (!row || row === dragSrc) return;
+    list.querySelectorAll('.drag-over').forEach(r => r.classList.remove('drag-over'));
+    row.classList.add('drag-over');
+    // Determine position
+    const rect = row.getBoundingClientRect();
+    const mid = rect.top + rect.height / 2;
+    if (e.clientY < mid) {
+      list.insertBefore(dragSrc, row);
+    } else {
+      list.insertBefore(dragSrc, row.nextSibling);
+    }
+  });
+
+  list.addEventListener('dragleave', function (e) {
+    const row = e.target.closest('.app-row');
+    if (row) row.classList.remove('drag-over');
+  });
+
+  list.addEventListener('drop', function (e) {
+    e.preventDefault();
+    list.querySelectorAll('.drag-over').forEach(r => r.classList.remove('drag-over'));
+    saveOrder();
+  });
+
+  // --- Touch drag (mobile) ---
+  let touchDragRow = null;
+  let touchClone = null;
+  let touchOffsetY = 0;
+
+  list.addEventListener('touchstart', function (e) {
+    const handle = e.target.closest('.drag-handle');
+    if (!handle) return;
+    const row = handle.closest('.app-row[draggable="true"]');
+    if (!row) return;
+    touchDragRow = row;
+    const touch = e.touches[0];
+    const rect = row.getBoundingClientRect();
+    touchOffsetY = touch.clientY - rect.top;
+
+    touchClone = row.cloneNode(true);
+    touchClone.style.cssText = `
+      position: fixed; left: ${rect.left}px; top: ${rect.top}px;
+      width: ${rect.width}px; height: ${rect.height}px;
+      opacity: 0.85; pointer-events: none; z-index: 1000;
+      background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      border-radius: 4px;
+    `;
+    document.body.appendChild(touchClone);
+    row.classList.add('dragging');
+    e.preventDefault();
+  }, { passive: false });
+
+  document.addEventListener('touchmove', function (e) {
+    if (!touchDragRow || !touchClone) return;
+    const touch = e.touches[0];
+    const y = touch.clientY - touchOffsetY;
+    const rect = touchDragRow.getBoundingClientRect();
+    touchClone.style.top = y + 'px';
+
+    // Find target row
+    const els = Array.from(list.querySelectorAll('.app-row[draggable="true"]'));
+    for (const el of els) {
+      if (el === touchDragRow) continue;
+      const r = el.getBoundingClientRect();
+      if (touch.clientY >= r.top && touch.clientY <= r.bottom) {
+        const mid = r.top + r.height / 2;
+        if (touch.clientY < mid) list.insertBefore(touchDragRow, el);
+        else list.insertBefore(touchDragRow, el.nextSibling);
+        break;
+      }
+    }
+    e.preventDefault();
+  }, { passive: false });
+
+  document.addEventListener('touchend', function () {
+    if (!touchDragRow) return;
+    touchDragRow.classList.remove('dragging');
+    if (touchClone) { touchClone.remove(); touchClone = null; }
+    touchDragRow = null;
+    saveOrder();
+  });
+
+})();
+</script>
 
 </body>
 </html>
