@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Chord Board</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #fafaf8;
+    --bg-card: #ffffff;
+    --text: #111111;
+    --text-muted: #888888;
+    --border: #e2e2e0;
+    --accent: #111111;
+    --accent-light: #f0f0ee;
+    --font: 'Inter', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* TOOLBAR */
+  .toolbar {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-card);
+    min-height: 52px;
+  }
+  .toolbar-title {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .toolbar-title span {
+    font-weight: 300;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-left: 6px;
+  }
+  .toolbar-btns {
+    display: flex;
+    gap: 8px;
+  }
+  .btn {
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-card);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:active { background: var(--accent-light); }
+  .btn--danger {
+    border-color: #ddd;
+    color: #888;
+  }
+
+  /* STAGE */
+  .stage {
+    flex: 0 0 55vh;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(circle, #e2e2e0 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .stage-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--border);
+    font-size: 0.9rem;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .stage-hint svg {
+    width: 32px;
+    height: 32px;
+    stroke: var(--border);
+    fill: none;
+    stroke-width: 1.5;
+  }
+  .stage.has-chords .stage-hint { opacity: 0; }
+
+  /* CHORD CARD ON STAGE */
+  .chord-card {
+    position: absolute;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    min-width: 80px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    cursor: grab;
+    touch-action: none;
+    padding: 12px 18px;
+    transition: box-shadow 0.15s, transform 0.1s;
+  }
+  .chord-card:active, .chord-card.dragging {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+    transform: scale(1.05);
+    cursor: grabbing;
+    z-index: 100;
+  }
+  .chord-card .remove-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--text);
+    color: #fff;
+    border: none;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    opacity: 0;
+    transition: opacity 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .chord-card:hover .remove-btn,
+  .chord-card.show-remove .remove-btn {
+    opacity: 1;
+  }
+
+  /* CHORD LIST */
+  .chord-list {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 12px 14px 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chord-group {
+    margin-bottom: 10px;
+  }
+  .chord-group-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    padding-left: 2px;
+  }
+  .chord-tiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chord-tile {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 4px 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.12s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .chord-tile:active {
+    background: var(--accent-light);
+    transform: scale(0.94);
+  }
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-title">&#127928; Chord Board<span>tap to add &bull; drag on stage</span></div>
+  <div class="toolbar-btns">
+    <button class="btn btn--danger" id="btn-undo">&#8592; Undo</button>
+    <button class="btn" id="btn-reset">Reset</button>
+  </div>
+</div>
+
+<!-- STAGE -->
+<div class="stage" id="stage">
+  <div class="stage-hint">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg>
+    Dotknij akordu poni&#380;ej, aby doda&#263;
+  </div>
+</div>
+
+<!-- CHORD LIST -->
+<div class="chord-list">
+
+  <div class="chord-group">
+    <div class="chord-group-label">A</div>
+    <div class="chord-tiles">
+      <div class="chord-tile" data-chord="A">A</div>
+      <div class="chord-tile" data-chord="Am">Am</div>
+      <div class="chord-tile" data-chord="A7">A7</div>
+      <div class="chord-tile" data-chord="Amaj7">Amaj7</div>
+      <div class="chord-tile" data-chord="Asus2">Asus2</div>
+      <div class="chord-tile" data-chord="Asus4">Asus4</div>
+    </div>
+  </div>
+
+  <div class="chord-group">
+    <div class="chord-group-label">B / H</div>
+    <div class="chord-tiles">
+      <div class="chord-tile" data-chord="B">B</div>
+      <div class="chord-tile" data-chord="Bm">Bm</div>
+      <div class="chord-tile" data-chord="B7">B7</div>
+      <div class="chord-tile" data-chord="H">H</div>
+      <div class="chord-tile" data-chord="Hm">Hm</div>
+    </div>
+  </div>
+
+  <div class="chord-group">
+    <div class="chord-group-label">C</div>
+    <div class="chord-tiles">
+      <div class="chord-tile" data-chord="C">C</div>
+      <div class="chord-tile" data-chord="Cm">Cm</div>
+      <div class="chord-tile" data-chord="C7">C7</div>
+      <div class="chord-tile" data-chord="Cmaj7">Cmaj7</div>
+    </div>
+  </div>
+
+  <div class="chord-group">
+    <div class="chord-group-label">D</div>
+    <div class="chord-tiles">
+      <div class="chord-tile" data-chord="D">D</div>
+      <div class="chord-tile" data-chord="Dm">Dm</div>
+      <div class="chord-tile" data-chord="D7">D7</div>
+      <div class="chord-tile" data-chord="Dsus2">Dsus2</div>
+      <div class="chord-tile" data-chord="Dsus4">Dsus4</div>
+    </div>
+  </div>
+
+  <div class="chord-group">
+    <div class="chord-group-label">E</div>
+    <div class="chord-tiles">
+      <div class="chord-tile" data-chord="E">E</div>
+      <div class="chord-tile" data-chord="Em">Em</div>
+      <div class="chord-tile" data-chord="E7">E7</div>
+    </div>
+  </div>
+
+  <div class="chord-group">
+    <div class="chord-group-label">F</div>
+    <div class="chord-tiles">
+      <div class="chord-tile" data-chord="F">F</div>
+      <div class="chord-tile" data-chord="Fm">Fm</div>
+      <div class="chord-tile" data-chord="F7">F7</div>
+      <div class="chord-tile" data-chord="Fmaj7">Fmaj7</div>
+      <div class="chord-tile" data-chord="F#">F#</div>
+      <div class="chord-tile" data-chord="F#m">F#m</div>
+      <div class="chord-tile" data-chord="F#7">F#7</div>
+    </div>
+  </div>
+
+  <div class="chord-group">
+    <div class="chord-group-label">G</div>
+    <div class="chord-tiles">
+      <div class="chord-tile" data-chord="G">G</div>
+      <div class="chord-tile" data-chord="Gm">Gm</div>
+      <div class="chord-tile" data-chord="G7">G7</div>
+      <div class="chord-tile" data-chord="Gmaj7">Gmaj7</div>
+      <div class="chord-tile" data-chord="G#">G#</div>
+      <div class="chord-tile" data-chord="G#m">G#m</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // --- Wake Lock ---
+  let wakeLock = null;
+  async function requestWakeLock() {
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', () => {
+        if (document.visibilityState === 'visible') requestWakeLock();
+      });
+    } catch (e) {
+      console.log('Wake Lock not supported:', e);
+    }
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') requestWakeLock();
+  });
+  requestWakeLock();
+
+  // --- State ---
+  const stage = document.getElementById('stage');
+  let cards = []; // { id, chord, x, y, el }
+  let idCounter = 0;
+  let history = []; // stack of snapshots for undo
+
+  function snapshot() {
+    history.push(cards.map(c => ({ id: c.id, chord: c.chord, x: c.x, y: c.y })));
+    if (history.length > 50) history.shift();
+  }
+
+  function updateStageClass() {
+    stage.classList.toggle('has-chords', cards.length > 0);
+  }
+
+  // --- Place chord on stage ---
+  function addChord(chord, x, y) {
+    snapshot();
+    const id = ++idCounter;
+
+    const el = document.createElement('div');
+    el.className = 'chord-card';
+    el.dataset.id = id;
+
+    const label = document.createElement('span');
+    label.textContent = chord;
+    el.appendChild(label);
+
+    const rm = document.createElement('button');
+    rm.className = 'remove-btn';
+    rm.textContent = '×';
+    rm.addEventListener('pointerdown', (e) => {
+      e.stopPropagation();
+      removeCard(id);
+    });
+    el.appendChild(rm);
+
+    // Position: center the card on drop point
+    const W = 80 + chord.length * 10;
+    const H = 80;
+    const cx = Math.max(0, Math.min(x - W / 2, stage.clientWidth - W));
+    const cy = Math.max(0, Math.min(y - H / 2, stage.clientHeight - H));
+
+    el.style.left = cx + 'px';
+    el.style.top = cy + 'px';
+
+    // Long-press to show remove button on mobile
+    let longPressTimer = null;
+    el.addEventListener('pointerdown', (e) => {
+      if (e.target === rm) return;
+      longPressTimer = setTimeout(() => {
+        el.classList.add('show-remove');
+      }, 500);
+    });
+    el.addEventListener('pointerup', () => clearTimeout(longPressTimer));
+    el.addEventListener('pointercancel', () => clearTimeout(longPressTimer));
+
+    // Click outside to hide remove
+    document.addEventListener('pointerdown', (e) => {
+      if (!el.contains(e.target)) el.classList.remove('show-remove');
+    }, { passive: true });
+
+    stage.appendChild(el);
+    cards.push({ id, chord, x: cx, y: cy, el });
+    updateStageClass();
+
+    makeDraggable(el, id);
+  }
+
+  function removeCard(id) {
+    snapshot();
+    const idx = cards.findIndex(c => c.id === id);
+    if (idx === -1) return;
+    cards[idx].el.remove();
+    cards.splice(idx, 1);
+    updateStageClass();
+  }
+
+  // --- Drag (pointer events, works on touch & mouse) ---
+  function makeDraggable(el, id) {
+    let startX, startY, startLeft, startTop, dragging = false;
+
+    el.addEventListener('pointerdown', (e) => {
+      if (e.target.classList.contains('remove-btn')) return;
+      e.preventDefault();
+      el.setPointerCapture(e.pointerId);
+      dragging = true;
+      el.classList.add('dragging');
+      const rect = el.getBoundingClientRect();
+      const stageRect = stage.getBoundingClientRect();
+      startX = e.clientX;
+      startY = e.clientY;
+      startLeft = rect.left - stageRect.left;
+      startTop = rect.top - stageRect.top;
+      el.style.zIndex = ++idCounter;
+    });
+
+    el.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      e.preventDefault();
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      const newLeft = Math.max(0, Math.min(startLeft + dx, stage.clientWidth - el.offsetWidth));
+      const newTop = Math.max(0, Math.min(startTop + dy, stage.clientHeight - el.offsetHeight));
+      el.style.left = newLeft + 'px';
+      el.style.top = newTop + 'px';
+      const card = cards.find(c => c.id === id);
+      if (card) { card.x = newLeft; card.y = newTop; }
+    });
+
+    el.addEventListener('pointerup', () => {
+      dragging = false;
+      el.classList.remove('dragging');
+    });
+    el.addEventListener('pointercancel', () => {
+      dragging = false;
+      el.classList.remove('dragging');
+    });
+  }
+
+  // --- Chord tiles: tap to add ---
+  document.querySelectorAll('.chord-tile').forEach(tile => {
+    tile.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      const chord = tile.dataset.chord;
+      // Place in a random-ish scatter pattern
+      const margin = 20;
+      const w = stage.clientWidth - margin * 2;
+      const h = stage.clientHeight - margin * 2;
+      const x = margin + Math.random() * w;
+      const y = margin + Math.random() * h;
+      addChord(chord, x, y);
+
+      // Visual feedback
+      tile.style.transform = 'scale(0.9)';
+      setTimeout(() => tile.style.transform = '', 150);
+    });
+  });
+
+  // --- Reset ---
+  document.getElementById('btn-reset').addEventListener('click', () => {
+    if (cards.length === 0) return;
+    snapshot();
+    cards.forEach(c => c.el.remove());
+    cards = [];
+    updateStageClass();
+  });
+
+  // --- Undo ---
+  document.getElementById('btn-undo').addEventListener('click', () => {
+    if (history.length === 0) return;
+    cards.forEach(c => c.el.remove());
+    cards = [];
+    const prev = history.pop();
+    prev.forEach(({ id, chord, x, y }) => {
+      const el = document.createElement('div');
+      el.className = 'chord-card';
+      el.dataset.id = id;
+      const label = document.createElement('span');
+      label.textContent = chord;
+      el.appendChild(label);
+      const rm = document.createElement('button');
+      rm.className = 'remove-btn';
+      rm.textContent = '×';
+      rm.addEventListener('pointerdown', (e) => { e.stopPropagation(); removeCard(id); });
+      el.appendChild(rm);
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      stage.appendChild(el);
+      cards.push({ id, chord, x, y, el });
+      makeDraggable(el, id);
+
+      let longPressTimer = null;
+      el.addEventListener('pointerdown', (e) => {
+        if (e.target === rm) return;
+        longPressTimer = setTimeout(() => el.classList.add('show-remove'), 500);
+      });
+      el.addEventListener('pointerup', () => clearTimeout(longPressTimer));
+      el.addEventListener('pointercancel', () => clearTimeout(longPressTimer));
+    });
+    updateStageClass();
+  });
+</script>
+</body>
+</html>
