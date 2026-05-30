@@ -79,19 +79,23 @@
     color: #888;
   }
   .btn--lock {
-    font-size: 1rem;
-    padding: 7px 10px;
+    padding: 6px 10px;
     min-width: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  .btn--lock svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .btn--lock.active {
     background: #111;
     color: #fff;
     border-color: #111;
   }
+  .btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vertical-align: -2px; }
 
   /* STAGE */
   .stage {
-    flex: 0 0 55vh;
+    flex: 0 0 62vh;
     position: relative;
     overflow: hidden;
     border-bottom: 1px solid var(--border);
@@ -121,10 +125,18 @@
     stroke-width: 1.5;
   }
   .stage.has-chords .stage-hint { opacity: 0; }
-  .stage.locked { background-color: #f5f5f3; cursor: default; }
-  .stage.locked .chord-card { cursor: default; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .stage.locked {
+    background-color: #efefed;
+    background-image: radial-gradient(circle, #d8d8d6 1px, transparent 1px);
+    cursor: default;
+  }
+  .stage.locked .chord-card {
+    cursor: default;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    opacity: 0.85;
+  }
   .stage.locked .chord-card .remove-btn { display: none; }
-  .stage.locked .chord-card.dragging { transform: none; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .stage.locked .chord-card.dragging { transform: none; }
 
   /* CHORD CARD ON STAGE */
   .chord-card {
@@ -229,11 +241,22 @@
 
 <!-- TOOLBAR -->
 <div class="toolbar">
-  <div class="toolbar-title">&#127928; Chord Board<span>tap to add &bull; drag on stage</span></div>
+  <div class="toolbar-title">Chord Board<span>tap to add &bull; drag on stage</span></div>
   <div class="toolbar-btns">
-    <button class="btn btn--lock" id="btn-lock" title="Blokuj ekran (nie wygaszaj)">&#128275;</button>
-    <button class="btn btn--danger" id="btn-undo">&#8592; Undo</button>
-    <button class="btn" id="btn-reset">Reset</button>
+    <button class="btn btn--lock" id="btn-lock" title="Blokuj ekran (nie wygaszaj)">
+      <!-- unlocked icon (default) -->
+      <svg id="icon-unlocked" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+      <!-- locked icon (hidden by default) -->
+      <svg id="icon-locked" viewBox="0 0 24 24" style="display:none"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </button>
+    <button class="btn btn--danger" id="btn-undo">
+      <svg viewBox="0 0 24 24"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+      Undo
+    </button>
+    <button class="btn" id="btn-reset">
+      <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.96"/></svg>
+      Reset
+    </button>
   </div>
 </div>
 
@@ -373,18 +396,26 @@
   let _screenLocked = false;
   const _lockBtn = document.getElementById('btn-lock');
 
+  const _iconUnlocked = document.getElementById('icon-unlocked');
+  const _iconLocked   = document.getElementById('icon-locked');
+
+  function _setLockUI(locked) {
+    _screenLocked = locked;
+    _lockBtn.classList.toggle('active', locked);
+    _iconUnlocked.style.display = locked ? 'none' : '';
+    _iconLocked.style.display   = locked ? '' : 'none';
+    _lockBtn.title = locked ? 'Ekran chroniony — kliknij aby wyłączyć' : 'Chroń ekran przed wygaszeniem';
+    stage.classList.toggle('locked', locked);
+  }
+
   function _activateScreenLock() {
     _noSleepVideo.play().then(() => {
-      _screenLocked = true;
-      _lockBtn.textContent = '🔒';
-      _lockBtn.classList.add('active');
-      _lockBtn.title = 'Ekran zablokowany przed wygaszeniem — kliknij aby wyłączyć';
+      _setLockUI(true);
     }).catch(err => {
       console.warn('NoSleep video failed:', err);
-      _lockBtn.textContent = '⚠️';
-      _lockBtn.title = 'Nie udało się — spróbuj ponownie';
+      // Spróbuj mimo błędu — ustaw UI
+      _setLockUI(true);
     });
-    // Również natywny Wake Lock API (Chrome/Android)
     if ('wakeLock' in navigator) {
       navigator.wakeLock.request('screen').catch(() => {});
     }
@@ -392,20 +423,11 @@
 
   function _deactivateScreenLock() {
     _noSleepVideo.pause();
-    _screenLocked = false;
-    _lockBtn.textContent = '🔓';
-    _lockBtn.classList.remove('active');
-    _lockBtn.title = 'Blokuj ekran (nie wygaszaj)';
+    _setLockUI(false);
   }
 
   _lockBtn.addEventListener('click', () => {
-    if (_screenLocked) {
-      _deactivateScreenLock();
-      stage.classList.remove('locked');
-    } else {
-      _activateScreenLock();
-      stage.classList.add('locked');
-    }
+    if (_screenLocked) { _deactivateScreenLock(); } else { _activateScreenLock(); }
   });
 
   // Auto-reaktywuj po powrocie z tła
