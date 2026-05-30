@@ -62,6 +62,49 @@
     justify-content: space-between;
     margin-bottom: 8px;
   }
+  .cal-sync-status {
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .cal-sync-status.ok { color: #4a9e6a; }
+  .cal-sync-status.err { color: #c0392b; }
+  .cal-sync-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: currentColor; flex-shrink: 0;
+  }
+  /* Settings popup */
+  .settings-popup {
+    position: fixed; inset: 0; display: flex;
+    align-items: center; justify-content: center;
+    z-index: 1000; background: rgba(0,0,0,0.18);
+    backdrop-filter: blur(2px);
+  }
+  .settings-popup.hidden { display: none; }
+  .settings-dialog {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; width: 300px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+  .settings-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 14px; }
+  .settings-field { margin-bottom: 10px; }
+  .settings-label { font-size: 0.72rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
+  .settings-input {
+    width: 100%; border: 1px solid var(--border); border-radius: 6px;
+    padding: 7px 10px; font-size: 0.82rem; font-family: var(--font);
+    outline: none; color: var(--text); background: var(--bg);
+  }
+  .settings-input:focus { border-color: var(--text); }
+  .settings-hint { font-size: 0.68rem; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+  .settings-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+  .settings-btn {
+    padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border);
+    font-family: var(--font); font-size: 0.8rem; cursor: pointer;
+    background: var(--bg); color: var(--text);
+  }
+  .settings-btn.primary { background: var(--text); color: #fff; border-color: var(--text); }
   .cal-month {
     font-size: 0.82rem;
     font-weight: 600;
@@ -309,9 +352,33 @@
   <div class="cal-nav">
     <button class="cal-btn" id="cal-prev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
     <span class="cal-month" id="cal-month-label"></span>
-    <button class="cal-btn" id="cal-next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <span class="cal-sync-status" id="sync-status" title="Status synchronizacji"></span>
+      <button class="cal-btn" id="cal-settings" title="Ustawienia sync"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+      <button class="cal-btn" id="cal-next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
   </div>
   <div class="cal-grid" id="cal-grid"></div>
+</div>
+
+<!-- SETTINGS POPUP -->
+<div class="settings-popup hidden" id="settings-popup">
+  <div class="settings-dialog">
+    <div class="settings-title">Synchronizacja wagi</div>
+    <div class="settings-field">
+      <label class="settings-label">GitHub Personal Access Token (zakres: gist)</label>
+      <input type="password" class="settings-input" id="settings-token" placeholder="github_pat_...">
+      <div class="settings-hint">Utwórz na github.com → Settings → Developer settings → Personal access tokens → zaznacz tylko <strong>gist</strong></div>
+    </div>
+    <div class="settings-field">
+      <label class="settings-label">Gist ID (zostaw puste aby utworzyć nowy)</label>
+      <input type="text" class="settings-input" id="settings-gist" placeholder="np. a1b2c3d4e5f6...">
+    </div>
+    <div class="settings-actions">
+      <button class="settings-btn" id="settings-cancel">Anuluj</button>
+      <button class="settings-btn primary" id="settings-save">Zapisz i połącz</button>
+    </div>
+  </div>
 </div>
 
 <!-- WEIGHT POPUP -->
@@ -641,11 +708,15 @@
 
 })();
 
-// ===== CALENDAR & WEIGHT TRACKER =====
+// ===== CALENDAR & WEIGHT TRACKER + GIST SYNC =====
 (function() {
   const WEIGHT_KEY = 'miniapps-weight';
+  const TOKEN_KEY  = 'miniapps-gist-token';
+  const GIST_KEY   = 'miniapps-gist-id';
   const DOW = ['Pn','Wt','Śr','Cz','Pt','Sb','Nd'];
-  const MONTHS_PL = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+  const MONTHS_PL = ['Styczeń','Luty','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+  // fix months array (0-indexed):
+  const MONTHS = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
 
   let cur = new Date();
   let viewYear = cur.getFullYear();
@@ -657,48 +728,114 @@
   const popup = document.getElementById('weight-popup');
   const popupDate = document.getElementById('weight-popup-date');
   const input = document.getElementById('weight-input');
+  const syncStatus = document.getElementById('sync-status');
 
+  // Local storage helpers
   function getWeights() {
     try { return JSON.parse(localStorage.getItem(WEIGHT_KEY) || '{}'); } catch(e) { return {}; }
+  }
+  function saveWeightsLocal(data) {
+    localStorage.setItem(WEIGHT_KEY, JSON.stringify(data));
   }
   function setWeight(key, val) {
     const w = getWeights();
     if (val) w[key] = val; else delete w[key];
-    localStorage.setItem(WEIGHT_KEY, JSON.stringify(w));
+    saveWeightsLocal(w);
   }
 
+  // Sync status display
+  function setSyncStatus(state, msg) {
+    syncStatus.className = 'cal-sync-status' + (state ? ' ' + state : '');
+    syncStatus.innerHTML = state ? `<span class="cal-sync-dot"></span>${msg}` : '';
+    syncStatus.title = msg || '';
+  }
+
+  // Gist API
+  function getToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
+  function getGistId() { return localStorage.getItem(GIST_KEY) || ''; }
+
+  async function fetchFromGist() {
+    const token = getToken(), gistId = getGistId();
+    if (!token || !gistId) return;
+    try {
+      setSyncStatus('', '...');
+      const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+        headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' }
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const content = data.files?.['weight-data.json']?.content;
+      if (content) {
+        const remote = JSON.parse(content);
+        // Merge: remote wins for any key it has
+        const local = getWeights();
+        const merged = Object.assign({}, local, remote);
+        saveWeightsLocal(merged);
+        renderCal();
+      }
+      setSyncStatus('ok', 'Sync OK');
+    } catch(e) {
+      setSyncStatus('err', 'Sync error');
+    }
+  }
+
+  async function pushToGist() {
+    const token = getToken();
+    let gistId = getGistId();
+    if (!token) return;
+    const content = JSON.stringify(getWeights(), null, 2);
+    try {
+      if (!gistId) {
+        // Create new gist
+        const res = await fetch('https://api.github.com/gists', {
+          method: 'POST',
+          headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ description: 'MiniApps weight tracker', public: false, files: { 'weight-data.json': { content } } })
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        gistId = data.id;
+        localStorage.setItem(GIST_KEY, gistId);
+        document.getElementById('settings-gist').value = gistId;
+        setSyncStatus('ok', 'Gist utworzony');
+      } else {
+        const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+          method: 'PATCH',
+          headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ files: { 'weight-data.json': { content } } })
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        setSyncStatus('ok', 'Zapisano');
+      }
+    } catch(e) {
+      setSyncStatus('err', 'Błąd sync');
+    }
+  }
+
+  // Calendar render
   function renderCal() {
     const weights = getWeights();
     const today = cur;
     const firstDay = new Date(viewYear, viewMonth, 1);
     const lastDay = new Date(viewYear, viewMonth + 1, 0);
-    // Monday-first: getDay() 0=Sun → 6, 1=Mon → 0
     let startOffset = (firstDay.getDay() + 6) % 7;
 
-    label.textContent = MONTHS_PL[viewMonth] + ' ' + viewYear;
+    label.textContent = MONTHS[viewMonth] + ' ' + viewYear;
     grid.innerHTML = '';
 
-    // Day-of-week headers
     DOW.forEach(d => {
       const el = document.createElement('div');
-      el.className = 'cal-dow';
-      el.textContent = d;
+      el.className = 'cal-dow'; el.textContent = d;
       grid.appendChild(el);
     });
-
-    // Empty cells before first day
     for (let i = 0; i < startOffset; i++) {
       const el = document.createElement('div');
-      el.className = 'cal-day empty';
-      grid.appendChild(el);
+      el.className = 'cal-day empty'; grid.appendChild(el);
     }
-
-    // Days
     for (let d = 1; d <= lastDay.getDate(); d++) {
       const key = viewYear + '-' + String(viewMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
       const isToday = d === today.getDate() && viewMonth === today.getMonth() && viewYear === today.getFullYear();
       const weight = weights[key] || '';
-
       const el = document.createElement('div');
       el.className = 'cal-day' + (isToday ? ' today' : '');
       el.innerHTML = `<span class="cal-day-num">${d}</span>${weight ? `<span class="cal-day-weight">${weight}</span>` : ''}`;
@@ -709,17 +846,36 @@
 
   function openPopup(key, day, current) {
     selectedKey = key;
-    popupDate.textContent = day + ' ' + MONTHS_PL[viewMonth] + ' ' + viewYear;
+    popupDate.textContent = day + ' ' + MONTHS[viewMonth] + ' ' + viewYear;
     input.value = current || '';
     popup.classList.remove('hidden');
     setTimeout(() => input.focus(), 50);
   }
   function closePopup() {
     popup.classList.add('hidden');
-    selectedKey = null;
-    input.value = '';
+    selectedKey = null; input.value = '';
   }
 
+  // Settings popup
+  const settingsPopup = document.getElementById('settings-popup');
+  document.getElementById('cal-settings').addEventListener('click', () => {
+    document.getElementById('settings-token').value = getToken();
+    document.getElementById('settings-gist').value = getGistId();
+    settingsPopup.classList.remove('hidden');
+  });
+  document.getElementById('settings-cancel').addEventListener('click', () => settingsPopup.classList.add('hidden'));
+  settingsPopup.addEventListener('click', e => { if(e.target === settingsPopup) settingsPopup.classList.add('hidden'); });
+  document.getElementById('settings-save').addEventListener('click', async () => {
+    const t = document.getElementById('settings-token').value.trim();
+    const g = document.getElementById('settings-gist').value.trim();
+    if (t) localStorage.setItem(TOKEN_KEY, t);
+    if (g) localStorage.setItem(GIST_KEY, g);
+    settingsPopup.classList.add('hidden');
+    if (g) { await fetchFromGist(); }
+    else if (t) { await pushToGist(); } // creates new gist
+  });
+
+  // Navigation
   document.getElementById('cal-prev').addEventListener('click', () => {
     viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; } renderCal();
   });
@@ -727,15 +883,18 @@
     viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } renderCal();
   });
 
-  document.getElementById('weight-save').addEventListener('click', () => {
+  // Weight popup actions
+  document.getElementById('weight-save').addEventListener('click', async () => {
     let val = input.value.trim().replace(',', '.');
     if (val && !val.endsWith('kg')) val += 'kg';
     setWeight(selectedKey, val);
     closePopup(); renderCal();
+    await pushToGist();
   });
-  document.getElementById('weight-clear').addEventListener('click', () => {
+  document.getElementById('weight-clear').addEventListener('click', async () => {
     setWeight(selectedKey, '');
     closePopup(); renderCal();
+    await pushToGist();
   });
   document.getElementById('weight-cancel').addEventListener('click', closePopup);
   popup.addEventListener('click', e => { if (e.target === popup) closePopup(); });
@@ -744,7 +903,9 @@
     if (e.key === 'Escape') closePopup();
   });
 
+  // Init
   renderCal();
+  fetchFromGist(); // pull on load
 })();
 </script>
 
