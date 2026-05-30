@@ -409,24 +409,24 @@
   }
 
   function _activateScreenLock() {
-    _noSleepVideo.play().then(() => {
-      _setLockUI(true);
-    }).catch(err => {
-      console.warn('NoSleep video failed:', err);
-      // Spróbuj mimo błędu — ustaw UI
-      _setLockUI(true);
-    });
+    // UI zmienia się NATYCHMIAST — nie czekamy na Promise
+    _setLockUI(true);
+    // Wideo w tle (NoSleep dla iOS)
+    _noSleepVideo.play().catch(() => {});
+    // Natywny Wake Lock (Chrome/Android)
     if ('wakeLock' in navigator) {
       navigator.wakeLock.request('screen').catch(() => {});
     }
   }
 
   function _deactivateScreenLock() {
-    _noSleepVideo.pause();
     _setLockUI(false);
+    _noSleepVideo.pause();
   }
 
-  _lockBtn.addEventListener('click', () => {
+  _lockBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (_screenLocked) { _deactivateScreenLock(); } else { _activateScreenLock(); }
   });
 
