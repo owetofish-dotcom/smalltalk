@@ -5,12 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MiniApps — Twoje aplikacje do nauki</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #fafaf8;
+    --bg-card: #ffffff;
+    --text: #111111;
+    --text-muted: #888888;
+    --border: #e2e2e0;
+    --accent: #111111;
+    --accent-light: #f0f0ee;
+    --font-head: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #FAF9F7;
-    color: #1C1917;
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -22,18 +36,19 @@
     text-align: center;
     max-width: 960px;
     margin: 0 auto;
-    border-bottom: 1px solid #EAE6DF;
+    border-bottom: 1px solid var(--border);
   }
   .header h1 {
-    font-size: 2.4rem;
+    font-family: var(--font-head);
+    font-size: 3rem;
     font-weight: 600;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.01em;
     margin-bottom: 10px;
-    color: #1C1917;
+    color: var(--text);
   }
   .header p {
     font-size: 1.05rem;
-    color: #78716C;
+    color: var(--text-muted);
   }
 
   /* GRID */
@@ -47,7 +62,7 @@
   }
   @media (max-width: 720px) {
     .grid { grid-template-columns: repeat(2, 1fr); }
-    .header h1 { font-size: 1.8rem; }
+    .header h1 { font-size: 2.2rem; }
   }
   @media (max-width: 480px) {
     .grid { grid-template-columns: 1fr; }
@@ -55,18 +70,18 @@
 
   /* CARD */
   .card {
-    background: #fff;
-    border: 1px solid #EAE6DF;
-    border-radius: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
     padding: 28px 24px 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     transition: box-shadow 0.2s, transform 0.2s;
   }
   .card:not(.card--disabled):hover {
-    box-shadow: 0 6px 20px rgba(0,0,0,0.09);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     transform: translateY(-2px);
   }
   .card--disabled {
@@ -82,11 +97,11 @@
     font-size: 1.15rem;
     font-weight: 600;
     letter-spacing: -0.01em;
-    color: #1C1917;
+    color: var(--text);
   }
   .card-desc {
     font-size: 0.92rem;
-    color: #78716C;
+    color: var(--text-muted);
     line-height: 1.55;
     flex: 1;
   }
@@ -98,46 +113,38 @@
   }
   .badge {
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     padding: 4px 10px;
-    border-radius: 20px;
-    background: #F5F0EB;
-    color: #78716C;
-    border: 1px solid #EAE6DF;
+    border-radius: 4px;
+    background: var(--accent-light);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
   }
-  .badge--green {
-    background: #D1FAE5;
-    color: #065F46;
-    border-color: #A7F3D0;
-  }
-  .badge--blue {
-    background: #DBEAFE;
-    color: #1E40AF;
-    border-color: #BFDBFE;
-  }
+  .badge--green { background: var(--accent-light); color: var(--text); border-color: var(--border); }
+  .badge--blue  { background: var(--accent-light); color: var(--text); border-color: var(--border); }
 
   .open-btn {
     display: inline-block;
     padding: 9px 18px;
-    background: #2D6A4F;
+    background: var(--accent);
     color: #fff;
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 0.88rem;
     font-weight: 600;
     text-decoration: none;
     transition: background 0.2s;
     white-space: nowrap;
   }
-  .open-btn:hover { background: #1B4332; }
+  .open-btn:hover { background: #333333; }
 
   /* FOOTER */
   .footer {
     text-align: center;
     padding: 32px 24px 48px;
-    border-top: 1px solid #EAE6DF;
-    color: #A8A29E;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
     font-size: 0.85rem;
     max-width: 960px;
     margin: 0 auto;
