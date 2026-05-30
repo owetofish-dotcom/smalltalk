@@ -78,6 +78,16 @@
     border-color: #ddd;
     color: #888;
   }
+  .btn--lock {
+    font-size: 1rem;
+    padding: 7px 10px;
+    min-width: 38px;
+  }
+  .btn--lock.active {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+  }
 
   /* STAGE */
   .stage {
@@ -217,6 +227,7 @@
 <div class="toolbar">
   <div class="toolbar-title">&#127928; Chord Board<span>tap to add &bull; drag on stage</span></div>
   <div class="toolbar-btns">
+    <button class="btn btn--lock" id="btn-lock" title="Blokuj ekran (nie wygaszaj)">&#128275;</button>
     <button class="btn btn--danger" id="btn-undo">&#8592; Undo</button>
     <button class="btn" id="btn-reset">Reset</button>
   </div>
@@ -352,22 +363,46 @@
   _noSleepVideo.appendChild(_src);
   document.body.appendChild(_noSleepVideo);
 
-  // Aktywuj przy pierwszym dotyku (iOS wymaga interakcji użytkownika)
-  function _enableNoSleep() {
-    _noSleepVideo.play().catch(() => {});
-    document.removeEventListener('pointerdown', _enableNoSleep);
-    document.removeEventListener('touchstart', _enableNoSleep);
-  }
-  document.addEventListener('pointerdown', _enableNoSleep, { once: true });
-  document.addEventListener('touchstart', _enableNoSleep, { once: true });
+  // --- Przycisk kłódki — ręczna aktywacja ekranu --------------------------------
+  let _screenLocked = false;
+  const _lockBtn = document.getElementById('btn-lock');
 
-  // Dodatkowo próbuj też natywny Wake Lock API (dla Chrome/Android)
-  if ('wakeLock' in navigator) {
-    let _wl = null;
-    const _tryWL = async () => { try { _wl = await navigator.wakeLock.request('screen'); } catch(e){} };
-    _tryWL();
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') _tryWL(); });
+  function _activateScreenLock() {
+    _noSleepVideo.play().then(() => {
+      _screenLocked = true;
+      _lockBtn.textContent = '🔒';
+      _lockBtn.classList.add('active');
+      _lockBtn.title = 'Ekran zablokowany przed wygaszeniem — kliknij aby wyłączyć';
+    }).catch(err => {
+      console.warn('NoSleep video failed:', err);
+      _lockBtn.textContent = '⚠️';
+      _lockBtn.title = 'Nie udało się — spróbuj ponownie';
+    });
+    // Również natywny Wake Lock API (Chrome/Android)
+    if ('wakeLock' in navigator) {
+      navigator.wakeLock.request('screen').catch(() => {});
+    }
   }
+
+  function _deactivateScreenLock() {
+    _noSleepVideo.pause();
+    _screenLocked = false;
+    _lockBtn.textContent = '🔓';
+    _lockBtn.classList.remove('active');
+    _lockBtn.title = 'Blokuj ekran (nie wygaszaj)';
+  }
+
+  _lockBtn.addEventListener('click', () => {
+    if (_screenLocked) { _deactivateScreenLock(); } else { _activateScreenLock(); }
+  });
+
+  // Auto-reaktywuj po powrocie z tła
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && _screenLocked) {
+      _noSleepVideo.play().catch(() => {});
+      if ('wakeLock' in navigator) navigator.wakeLock.request('screen').catch(() => {});
+    }
+  });
 
   // --- State ---
   const stage = document.getElementById('stage');
