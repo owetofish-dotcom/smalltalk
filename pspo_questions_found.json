@@ -1,0 +1,2014 @@
+[
+  {
+    "q": "Who is responsible for managing the Product Backlog?",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Developers",
+      "The Key Stakeholders"
+    ],
+    "ans": 0,
+    "exp": "The Product Owner is the sole person responsible for managing the Product Backlog.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "It is a good practice to have at least two Product Owners on big projects.",
+    "opts": [
+      "False",
+      "True"
+    ],
+    "ans": 0,
+    "exp": "The Product Owner is one person, not a committee. The PO may represent desires of a committee in the Product Backlog.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the Sprint Backlog?",
+    "opts": [
+      "The plan for delivering Product Backlog items",
+      "The Product Backlog items selected for this Sprint",
+      "The Product Backlog items selected for this Sprint plus the plan for delivering them",
+      "The Product Backlog items selected for this Sprint plus the Team Backlog items"
+    ],
+    "ans": 2,
+    "exp": "The Sprint Backlog is the set of Product Backlog items selected for the Sprint plus a plan for delivering the product Increment and realizing the Sprint Goal.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Product Owner should be expertly aware of the marketplace for the product.",
+    "opts": [
+      "False",
+      "It depends",
+      "True"
+    ],
+    "ans": 2,
+    "exp": "The Product Owner should be expertly aware of the marketplace for the product. They should constantly be gathering and re-gathering information.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What does Burn-down Chart show?",
+    "opts": [
+      "Hierarchy of tasks that comprise a project",
+      "The evolution of the amount of uncertainty during a project",
+      "How much work remains till the end of the Sprint",
+      "Dependencies, start times and stop times for project tasks"
+    ],
+    "ans": 2,
+    "exp": "A burn-down chart tracks work remaining vs. time. Scrum does not mandate it but it is a common practice.",
+    "cat": "Scrum in Practice",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What happens during the Sprint? (Select three)",
+    "opts": [
+      "No changes are made that would endanger the Sprint Goal",
+      "Quality goals do not decrease",
+      "Scope may be clarified and re-negotiated between the Product Owner and Developers as more is learned",
+      "Sprint scope is defined at Sprint Planning and cannot be changed",
+      "The Sprint Goal is changed frequently to reflect the status"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "exp": "During a Sprint: no changes endangering the Sprint Goal, quality does not decrease, scope may be clarified with the PO.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "How frequently should product releases occur?",
+    "opts": [
+      "Every 3 months",
+      "Every Sprint",
+      "Frequently enough to elicit feedback and allow the team to validate hypotheses about the product",
+      "Only when a major feature is complete"
+    ],
+    "ans": 2,
+    "exp": "Releases should occur frequently enough to gather feedback. Scrum does not mandate releasing every Sprint.",
+    "cat": "Release Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the Product Goal?",
+    "opts": [
+      "It is the daily objective that needs to be achieved.",
+      "It is a long-term objective for the Scrum Team to achieve.",
+      "It is the immediate goal that the Developers aims to achieve in the current Sprint.",
+      "It is a high-level summary of the project scope."
+    ],
+    "ans": 1,
+    "exp": "The Product Goal in Scrum is a long-term objective for the Scrum Team. It provides direction and sets the expectation of what is to be achieved.",
+    "cat": "Product Value",
+    "src": "thescrummaster.co.uk"
+  },
+  {
+    "q": "The purpose of the Sprint Review is...",
+    "opts": [
+      "To review the status of the Project",
+      "To check what was done and not done during the Sprint",
+      "To inspect the outcome of the Sprint and determine future adaptations",
+      "To show Stakeholders work that is done and work that is near to completion"
+    ],
+    "ans": 2,
+    "exp": "The Sprint Review is held to inspect the outcome of the Sprint and determine future adaptations. The Scrum Team and stakeholders review what was accomplished.",
+    "cat": "Scrum Events",
+    "src": "thescrummaster.co.uk"
+  },
+  {
+    "q": "Stakeholders may include representatives from Human Resources.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "Stakeholders include anyone with an interest in the product — customers, users, management, HR, etc.",
+    "cat": "Stakeholder Management",
+    "src": "thescrummaster.co.uk"
+  },
+  {
+    "q": "Who can cancel a Sprint?",
+    "opts": [
+      "The Scrum Team",
+      "The Scrum Master",
+      "The Product Owner",
+      "The Stakeholders"
+    ],
+    "ans": 2,
+    "exp": "Only the Product Owner has the authority to cancel a Sprint, although it is usually a destructive act.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What does Product Backlog management include? (Select three)",
+    "opts": [
+      "Clearly expressing Product Backlog items",
+      "Ordering the items to best achieve goals and missions",
+      "Optimizing the value of the work the Developers performs",
+      "Ensuring that the Product Backlog is visible, transparent, and clear to all",
+      "Creating the Sprint Goal"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "exp": "Product Backlog management includes expressing items clearly, ordering them, and optimizing the value of Developers' work.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Scrum Master observes the Product Owner struggling with ordering the Product Backlog. What is the most appropriate action?",
+    "opts": [
+      "Offer the Product Owner help in understanding that the goal of ordering the Product Backlog is to maximize value.",
+      "Suggest that the Developers order the Product Backlog to ensure a feasible sequence of work.",
+      "Encourage the Product Owner to work with the Developers to see which items are easiest to complete.",
+      "Tell the Product Owner to prioritize by business value only."
+    ],
+    "ans": 0,
+    "exp": "The Scrum Master serves the Product Owner by helping them understand that the goal of ordering the Product Backlog is to maximize value.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is responsible for the Definition of Done?",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Developers",
+      "The entire Scrum Team"
+    ],
+    "ans": 3,
+    "exp": "The Scrum Team is responsible for creating the Definition of Done. If it is not an organizational standard, the Scrum Team creates it.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Sprint Goal can be updated during the Sprint.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "The Sprint Goal is set during Sprint Planning and does not change during the Sprint. If work threatens the Sprint Goal, the Developers negotiate scope with the Product Owner.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "How long is the Sprint Retrospective for a one-month Sprint?",
+    "opts": [
+      "1 hour",
+      "2 hours",
+      "3 hours",
+      "4 hours"
+    ],
+    "ans": 2,
+    "exp": "The Sprint Retrospective is time-boxed to 3 hours for a one-month Sprint. For shorter Sprints, the event is usually shorter.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the maximum length of a Sprint?",
+    "opts": [
+      "2 weeks",
+      "4 weeks",
+      "6 weeks",
+      "1 month"
+    ],
+    "ans": 3,
+    "exp": "Sprints are fixed length events of one month or less. When a Sprint is too long the Sprint Goal may become invalid.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Increment must be in a useable condition at the end of every Sprint.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "The Increment must be in a useable condition regardless of whether the Product Owner decides to release it.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is responsible for maximizing the value of the product?",
+    "opts": [
+      "The Scrum Master",
+      "The Product Owner",
+      "The Developers",
+      "The Scrum Team collectively"
+    ],
+    "ans": 1,
+    "exp": "The Product Owner is accountable for maximizing the value of the product resulting from the work of the Scrum Team.",
+    "cat": "Product Value",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What are the Scrum Values? (Select five)",
+    "opts": [
+      "Commitment",
+      "Courage",
+      "Focus",
+      "Openness",
+      "Respect",
+      "Transparency",
+      "Inspection"
+    ],
+    "ans": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "exp": "The five Scrum Values are: Commitment, Courage, Focus, Openness, and Respect.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Product Owner can delegate Product Backlog management to the Developers.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "The Product Owner may do the above work or may delegate the responsibility to others. However, the Product Owner remains accountable.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "When does the Sprint end?",
+    "opts": [
+      "When all Sprint Backlog items are complete",
+      "When the Sprint time-box expires",
+      "When the Product Owner approves the Increment",
+      "When the Sprint Goal is met"
+    ],
+    "ans": 1,
+    "exp": "The Sprint ends when the time-box expires. It is not extended and work is not moved to the next Sprint automatically.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Which artifact provides transparency on the progress toward the Product Goal?",
+    "opts": [
+      "Sprint Backlog",
+      "Increment",
+      "Product Backlog",
+      "Definition of Done"
+    ],
+    "ans": 2,
+    "exp": "The Product Backlog is an emergent, ordered list of what is needed to improve the product. The commitment for the Product Backlog is the Product Goal.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The commitment for the Sprint Backlog is the...",
+    "opts": [
+      "Product Goal",
+      "Sprint Goal",
+      "Definition of Done",
+      "Sprint Plan"
+    ],
+    "ans": 1,
+    "exp": "The Sprint Goal is the commitment for the Sprint Backlog. It provides flexibility while keeping the team focused.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who creates the Sprint Goal?",
+    "opts": [
+      "The Product Owner alone",
+      "The Scrum Master",
+      "The entire Scrum Team during Sprint Planning",
+      "The Developers"
+    ],
+    "ans": 2,
+    "exp": "The Sprint Goal is created by the entire Scrum Team during Sprint Planning. The Product Owner proposes how the product could increase its value.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "How many people are in the Scrum Team?",
+    "opts": [
+      "3 to 5",
+      "3 to 9",
+      "5 to 10",
+      "Typically 10 or fewer"
+    ],
+    "ans": 3,
+    "exp": "The Scrum Team is small enough to remain nimble and large enough to complete significant work, typically 10 or fewer people.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Developers are structured and empowered to...",
+    "opts": [
+      "Follow the Scrum Master's instructions",
+      "Organize and manage their own work",
+      "Report to the Product Owner daily",
+      "Take direction from external managers"
+    ],
+    "ans": 1,
+    "exp": "The Developers are structured and empowered to organize and manage their own work. This increases efficiency and accountability.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Product Backlog Refinement is...",
+    "opts": [
+      "A mandatory Scrum event",
+      "The act of breaking down and further defining Product Backlog items",
+      "Done only in Sprint Planning",
+      "The responsibility of the Scrum Master"
+    ],
+    "ans": 1,
+    "exp": "Product Backlog refinement is the act of breaking down and further defining PBI to smaller more precise items. It is an ongoing activity.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the time-box for the Daily Scrum?",
+    "opts": [
+      "30 minutes",
+      "15 minutes",
+      "1 hour",
+      "As long as needed"
+    ],
+    "ans": 1,
+    "exp": "The Daily Scrum is a 15-minute event for the Developers. It is held every working day of the Sprint.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who attends the Daily Scrum?",
+    "opts": [
+      "The entire Scrum Team",
+      "Only the Developers",
+      "The Developers and the Scrum Master",
+      "The Developers and the Product Owner"
+    ],
+    "ans": 1,
+    "exp": "The Daily Scrum is an event for the Developers. The Scrum Master ensures it happens but Developers are responsible for conducting it.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the purpose of the Sprint Retrospective?",
+    "opts": [
+      "To review the product Increment with stakeholders",
+      "To plan the next Sprint",
+      "To plan ways to increase quality and effectiveness",
+      "To identify items for the Product Backlog"
+    ],
+    "ans": 2,
+    "exp": "The Sprint Retrospective is to plan ways to increase quality and effectiveness. The Scrum Team inspects how the last Sprint went.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: Multiple Scrum Teams working on the same product should have separate Product Backlogs.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "Multiple Scrum Teams working on the same product must use the same Product Backlog. There is one Product Owner and one Product Backlog.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The three pillars of empiricism in Scrum are...",
+    "opts": [
+      "Planning, Execution, Review",
+      "Transparency, Inspection, Adaptation",
+      "Vision, Roadmap, Backlog",
+      "Commitment, Courage, Focus"
+    ],
+    "ans": 1,
+    "exp": "Scrum is founded on empiricism. The three pillars are Transparency, Inspection, and Adaptation.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "How long is the Sprint Planning event for a one-month Sprint?",
+    "opts": [
+      "2 hours",
+      "4 hours",
+      "6 hours",
+      "8 hours"
+    ],
+    "ans": 3,
+    "exp": "Sprint Planning is time-boxed to 8 hours for a one-month Sprint. For shorter Sprints, the event is usually shorter.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Product Owner is accountable for the Product Backlog including its content, availability, and ordering.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "The Product Owner is accountable for the Product Backlog — its content, availability, and ordering — to maximize the value of the product.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What does the Scrum Master do during Sprint Planning?",
+    "opts": [
+      "Defines the Sprint Goal",
+      "Ensures the event takes place and everyone understands its purpose",
+      "Orders the Product Backlog",
+      "Assigns tasks to Developers"
+    ],
+    "ans": 1,
+    "exp": "The Scrum Master ensures that the Sprint Planning event takes place and that attendants understand its purpose.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Which of the following best describes Scrum?",
+    "opts": [
+      "A methodology with prescriptive processes",
+      "A lightweight framework for developing and delivering complex products",
+      "A project management approach for simple projects",
+      "A set of practices for software engineering"
+    ],
+    "ans": 1,
+    "exp": "Scrum is a lightweight framework that helps people, teams and organizations generate value through adaptive solutions for complex problems.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Product Owner must be available during Sprint Planning.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "Sprint Planning involves the entire Scrum Team. The Product Owner ensures that the Product Backlog items selected are clear and that the Sprint Goal is set.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the definition of 'Done'?",
+    "opts": [
+      "All Sprint Backlog items are completed",
+      "A formal description of the state of the Increment when it meets the quality measures required for the product",
+      "Approval from the Product Owner",
+      "All code is deployed to production"
+    ],
+    "ans": 1,
+    "exp": "The Definition of Done is a formal description of the state of the Increment when it meets quality measures required for the product.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "An Increment is...",
+    "opts": [
+      "The sum of all Product Backlog items completed during a Sprint plus prior Sprints",
+      "Only the new features developed in the current Sprint",
+      "The product deployed to production",
+      "The work completed by the Developers"
+    ],
+    "ans": 0,
+    "exp": "Each Increment is additive to all prior Increments and thoroughly verified, ensuring all Increments work together.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Product Owner should have one set of priorities for the Product Backlog.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "The Product Backlog has one ordering/priority managed by one Product Owner. Competing priorities should be reconciled by the PO.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: Scrum requires a specific engineering practice.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "Scrum does not prescribe specific engineering practices. Teams choose their own techniques and practices within the Scrum framework.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the role of the Scrum Master regarding the Product Owner?",
+    "opts": [
+      "To manage the Product Owner's schedule",
+      "To help the Product Owner find techniques for effective Product Goal definition and Product Backlog management",
+      "To order the Product Backlog on behalf of the Product Owner",
+      "To approve Product Backlog items"
+    ],
+    "ans": 1,
+    "exp": "The Scrum Master serves the Product Owner by helping find techniques for effective Product Goal definition and Product Backlog management.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who participates in the Sprint Review?",
+    "opts": [
+      "Only the Scrum Team",
+      "The Scrum Team and key stakeholders",
+      "Only the Product Owner and Developers",
+      "The entire organization"
+    ],
+    "ans": 1,
+    "exp": "The Sprint Review is attended by the Scrum Team and key stakeholders invited by the Product Owner.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Can the Sprint Goal change during the Sprint?",
+    "opts": [
+      "Yes, if the Product Owner requests it",
+      "Yes, if stakeholders request it",
+      "No, the Sprint Goal is fixed once set",
+      "Yes, if the Developers request it"
+    ],
+    "ans": 2,
+    "exp": "The Sprint Goal does not change during the Sprint. It gives the Developers flexibility regarding the exact work needed to achieve it.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Scrum is defined as a complete, rigid process that must be implemented exactly as described.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "Scrum is intentionally incomplete and only defines the parts required to implement Scrum theory. It is a framework, not a rigid process.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What happens to incomplete Sprint Backlog items at the end of a Sprint?",
+    "opts": [
+      "They are automatically moved to the next Sprint",
+      "They are returned to the Product Backlog",
+      "They are cancelled",
+      "They are completed in overtime"
+    ],
+    "ans": 1,
+    "exp": "Incomplete Product Backlog items are returned to the Product Backlog and re-estimated. The PO decides whether to include them in the next Sprint.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who owns the Sprint Backlog?",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Developers",
+      "The Scrum Team"
+    ],
+    "ans": 2,
+    "exp": "The Sprint Backlog is a plan by and for the Developers. It is a highly visible, real-time picture of the work they plan to accomplish.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Product Backlog is never complete.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "The Product Backlog is dynamic; it constantly changes to identify what the product needs to be appropriate, competitive, and useful.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "How does the Product Owner maximize the value of the Developers' work?",
+    "opts": [
+      "By assigning tasks directly",
+      "By ordering the Product Backlog and communicating clearly what needs to be built and why",
+      "By attending every Daily Scrum",
+      "By approving every Increment"
+    ],
+    "ans": 1,
+    "exp": "The Product Owner maximizes value by managing the Product Backlog — ordering items to achieve the highest value from the Developers' work.",
+    "cat": "Product Value",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Scrum Teams deliver products iteratively and incrementally, maximizing opportunities for feedback.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "Incremental deliveries ensure a potentially useful version of working product is always available. This maximizes opportunities for feedback.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Scrum Master is a servant-leader for the Scrum Team.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "The Scrum Master serves the Scrum Team, the Product Owner, and the organization. The Scrum Master is a true leader who serves the Scrum Team.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is responsible for creating the Increment?",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Developers",
+      "The entire Scrum Team"
+    ],
+    "ans": 2,
+    "exp": "The Developers are the people in the Scrum Team committed to creating any aspect of a usable Increment each Sprint.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What are the accountabilities in Scrum?",
+    "opts": [
+      "Project Manager, Team Lead, Developer",
+      "Product Owner, Scrum Master, Development Team",
+      "Product Owner, Scrum Master, Developers",
+      "Business Analyst, Scrum Master, Developers"
+    ],
+    "ans": 2,
+    "exp": "The Scrum Team consists of one Scrum Master, one Product Owner, and Developers. Within a Scrum Team, there are no sub-teams or hierarchies.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Developers can choose how to structure and plan the work in the Sprint.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "No one tells the Developers how to turn Product Backlog items into Increments of value. They self-manage to accomplish this.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What does the Product Owner use to order Product Backlog items?",
+    "opts": [
+      "Story points only",
+      "Business value, risk, dependencies, and other factors",
+      "Only what the Developers prefer",
+      "Alphabetical order"
+    ],
+    "ans": 1,
+    "exp": "The Product Owner orders items considering value, risk, dependencies, and any other factor that helps achieve goals and missions.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Scrum Master enforces the rules of Scrum.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "The Scrum Master is accountable for the Scrum Team's effectiveness. They help everyone understand Scrum theory and practice.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the purpose of the Product Backlog?",
+    "opts": [
+      "To document all requirements for the project",
+      "To provide an emergent ordered list of what is needed to improve the product",
+      "To assign tasks to Developers",
+      "To track project progress"
+    ],
+    "ans": 1,
+    "exp": "The Product Backlog is an emergent, ordered list of what is needed to improve the product. It is the single source of work for the Scrum Team.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Scrum Master can be the same person as the Product Owner.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "Combining the Scrum Master and Product Owner roles is not recommended as these accountabilities have very different focuses.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Sprint Review is a time to demonstrate the Increment and collect stakeholder feedback.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "During the Sprint Review, the Scrum Team presents the results of their work and progress toward the Product Goal is discussed.",
+    "cat": "Scrum Events",
+    "src": "thescrummaster.co.uk"
+  },
+  {
+    "q": "What is velocity in Scrum?",
+    "opts": [
+      "The speed at which Developers write code",
+      "A measure of the amount of work a team can complete per Sprint",
+      "The number of Sprints completed",
+      "A mandatory Scrum metric"
+    ],
+    "ans": 1,
+    "exp": "Velocity is a measure of the amount of work completed per Sprint. Scrum does not mandate velocity, but teams often track it for planning.",
+    "cat": "Scrum in Practice",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Product Owner must be a member of the Scrum Team.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "The Product Owner is a member of the Scrum Team. The Scrum Team consists of one Product Owner, one Scrum Master, and Developers.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the key concern when multiple Scrum Teams work on the same product?",
+    "opts": [
+      "Each team should have its own Product Backlog",
+      "They should all work from the same Product Backlog",
+      "Each team should have its own Definition of Done",
+      "They should not share Sprints"
+    ],
+    "ans": 1,
+    "exp": "Multiple Scrum Teams working together on the same product use a single Product Backlog with one Product Owner.",
+    "cat": "Scrum in Practice",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is Scrum's approach to technical debt?",
+    "opts": [
+      "Technical debt should be avoided through the Definition of Done",
+      "Technical debt is tracked in a separate backlog",
+      "Technical debt is the responsibility of the Scrum Master",
+      "Technical debt is managed outside Scrum"
+    ],
+    "ans": 0,
+    "exp": "The Definition of Done creates transparency by ensuring the Increment meets quality standards, which helps prevent technical debt.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who can add items to the Sprint Backlog during the Sprint?",
+    "opts": [
+      "Only the Product Owner",
+      "Only the Scrum Master",
+      "The Developers",
+      "Any stakeholder"
+    ],
+    "ans": 2,
+    "exp": "The Developers can modify the Sprint Backlog throughout the Sprint as they learn more. No one else makes changes to it.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: Scrum prescribes using user stories for Product Backlog items.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "Scrum does not prescribe how Product Backlog items are expressed. User stories are a common technique but are not part of Scrum.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the Scrum Master's role regarding stakeholders?",
+    "opts": [
+      "To manage stakeholder expectations",
+      "To help stakeholders understand Scrum and how to interact with the Scrum Team",
+      "To prevent stakeholders from talking to the Developers",
+      "To report project status to stakeholders"
+    ],
+    "ans": 1,
+    "exp": "The Scrum Master serves the organization by helping employees and stakeholders understand and enact an empirical approach.",
+    "cat": "Stakeholder Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Sprint Retrospective occurs before the Sprint Review.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "The Sprint Review occurs before the Sprint Retrospective. Order: Sprint Planning → Daily Scrums → Sprint Review → Sprint Retrospective.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Sprint Retrospective is an opportunity for the Scrum Team to...",
+    "opts": [
+      "Demonstrate the Increment to stakeholders",
+      "Plan the next Sprint",
+      "Inspect itself and create a plan for improvements",
+      "Review the Product Backlog"
+    ],
+    "ans": 2,
+    "exp": "The Sprint Retrospective is for the Scrum Team to inspect how the last Sprint went and identify improvements.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "A Product Owner can represent the needs of multiple stakeholders in the Product Backlog.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "The Product Owner may represent the desires of a committee in the Product Backlog but must have a single set of priorities.",
+    "cat": "Stakeholder Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "When should Product Backlog Refinement occur?",
+    "opts": [
+      "Only during Sprint Planning",
+      "As an ongoing activity throughout the Sprint",
+      "Once per Sprint in a dedicated meeting",
+      "Only when the Product Backlog is empty"
+    ],
+    "ans": 1,
+    "exp": "Product Backlog refinement is an ongoing activity. Teams often dedicate up to 10% of Sprint capacity to refinement.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What must be true of every Increment?",
+    "opts": [
+      "It must be released to end users",
+      "It must be approved by the Product Owner",
+      "It must meet the Definition of Done",
+      "It must contain at least one new feature"
+    ],
+    "ans": 2,
+    "exp": "An Increment must meet the Definition of Done. Only then is it considered part of the Increment — regardless of whether it is released.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who decides the order of items in the Product Backlog?",
+    "opts": [
+      "The Developers based on technical complexity",
+      "The Scrum Master",
+      "The Product Owner",
+      "The stakeholders collectively"
+    ],
+    "ans": 2,
+    "exp": "Ordering the Product Backlog is the sole responsibility of the Product Owner, who optimizes value based on various factors.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: Scrum is free and offered in the Scrum Guide.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "The Scrum Guide is a free resource. Scrum itself is a framework available for anyone to use as described in the Scrum Guide.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What does Empiricism in Scrum mean?",
+    "opts": [
+      "Knowledge comes from planning and prediction",
+      "Knowledge comes from experience and decisions based on what is observed",
+      "Knowledge comes from following a prescriptive process",
+      "Knowledge comes from expert opinion"
+    ],
+    "ans": 1,
+    "exp": "Scrum is founded on empiricism and lean thinking. Knowledge comes from experience and decisions are made based on what is observed.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Product Owner can tell the Developers how to technically implement Product Backlog items.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "The Developers decide how to implement items. No one tells the Developers how to turn PBI into Increments — they self-manage.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is included in Sprint Planning? (Select two)",
+    "opts": [
+      "Why is this Sprint valuable?",
+      "What can be Done this Sprint?",
+      "Who will manage the stakeholders?",
+      "How will the Developers report progress to management?"
+    ],
+    "ans": [
+      0,
+      1
+    ],
+    "exp": "Sprint Planning addresses: Why is this Sprint valuable (Sprint Goal), What can be Done (PBI selection), and How will chosen work get done.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Product Owner approves each Increment before it is considered Done.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "The Definition of Done determines when an Increment meets quality measures. The Product Owner does not personally approve each Increment.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "A Scrum Team consists of...",
+    "opts": [
+      "A Project Manager, Developers, and Testers",
+      "A Product Owner, Scrum Master, and Developers",
+      "A Product Owner, Project Manager, and Developers",
+      "A Scrum Master, Team Lead, and Developers"
+    ],
+    "ans": 1,
+    "exp": "The Scrum Team consists of one Scrum Master, one Product Owner, and Developers. There are no sub-teams or hierarchies.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: Sprint length can vary from Sprint to Sprint.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "Sprint length should be consistent. Shorter Sprints can be employed to generate more learning cycles and limit risk.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the best description of a Product Owner's interaction with stakeholders?",
+    "opts": [
+      "The Product Owner avoids stakeholders to focus on the backlog",
+      "The Product Owner manages and collaborates with stakeholders to understand and prioritize their needs",
+      "The Product Owner delegates all stakeholder communication to the Scrum Master",
+      "The Product Owner only meets with stakeholders during Sprint Reviews"
+    ],
+    "ans": 1,
+    "exp": "The Product Owner collaborates with stakeholders, represents their interests in the Product Backlog, and invites them to Sprint Reviews.",
+    "cat": "Stakeholder Management",
+    "src": "thescrummaster.co.uk"
+  },
+  {
+    "q": "True or False: The Daily Scrum is a status meeting for the Scrum Master.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "The Daily Scrum is not a status meeting — it is a planning event for the Developers. The Scrum Master ensures it happens but does not run it.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is responsible for enacting Scrum?",
+    "opts": [
+      "The Scrum Master only",
+      "The Product Owner only",
+      "The entire Scrum Team",
+      "Management"
+    ],
+    "ans": 2,
+    "exp": "The entire Scrum Team is responsible for enacting Scrum. Within the team, different accountabilities are assigned to each role.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the time-box for the Sprint Review for a one-month Sprint?",
+    "opts": [
+      "1 hour",
+      "2 hours",
+      "4 hours",
+      "8 hours"
+    ],
+    "ans": 2,
+    "exp": "The Sprint Review is time-boxed to 4 hours for a one-month Sprint. For shorter Sprints, the event is usually shorter.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Product Backlog items that can be Done by the Scrum Team in a Sprint are said to be...",
+    "opts": [
+      "Estimated",
+      "Accepted",
+      "Ready",
+      "Refined"
+    ],
+    "ans": 2,
+    "exp": "Product Backlog items that can be Done by the Developers within one Sprint are deemed 'Ready' for selection in Sprint Planning.",
+    "cat": "Backlog Management",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: Scrum has a defined process for handling bugs.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "Scrum does not prescribe specific practices for handling bugs. Teams decide how to manage bugs within the Scrum framework.",
+    "cat": "Scrum in Practice",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What does the Product Owner do during the Sprint?",
+    "opts": [
+      "Assigns tasks to Developers",
+      "Inspects progress at the Daily Scrum",
+      "Collaborates with stakeholders and Developers, answers questions about PBI, and may update the Product Backlog",
+      "Writes code alongside the Developers"
+    ],
+    "ans": 2,
+    "exp": "The PO clarifies Product Backlog items, collaborates with stakeholders, and may adjust the Product Backlog during the Sprint.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "A new stakeholder requests a feature midway through a Sprint. What should the Product Owner do?",
+    "opts": [
+      "Add it to the Sprint Backlog immediately",
+      "Reject it outright",
+      "Evaluate it, add it to the Product Backlog if valuable, and prioritize accordingly for a future Sprint",
+      "Ask the Scrum Master to decide"
+    ],
+    "ans": 2,
+    "exp": "New requests go into the Product Backlog. The PO evaluates their value and orders them accordingly — the Sprint is not disrupted.",
+    "cat": "Stakeholder Management",
+    "src": "thescrummaster.co.uk"
+  },
+  {
+    "q": "True or False: A Scrum Team should not change its composition during active Sprints.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "Changing team composition during a Sprint disrupts cohesion and reduces predictability. Teams should remain stable across Sprints.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Scrum is based on which type of process control theory?",
+    "opts": [
+      "Defined process control",
+      "Empirical process control",
+      "Predictive planning",
+      "Waterfall methodology"
+    ],
+    "ans": 1,
+    "exp": "Scrum is based on empirical process control theory. Knowledge comes from experience and decisions are based on what is observed.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Increment must be released at the end of every Sprint.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "The Increment must be in a useable condition but the Product Owner decides whether to release it. Multiple Increments may be created in a Sprint.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the Product Vision?",
+    "opts": [
+      "A detailed list of all product requirements",
+      "A clear, inspiring description of what the product will achieve in the long term",
+      "The Sprint Goal",
+      "The Product Backlog"
+    ],
+    "ans": 1,
+    "exp": "The Product Vision describes the long-term goal and purpose of the product. It guides the Scrum Team and stakeholders.",
+    "cat": "Product Vision",
+    "src": "thescrummaster.co.uk"
+  },
+  {
+    "q": "How should the Scrum Team handle impediments?",
+    "opts": [
+      "The Product Owner resolves all impediments",
+      "Developers resolve impediments themselves; the Scrum Master helps with organizational impediments",
+      "Management resolves all impediments",
+      "Impediments are documented and reviewed at Sprint end"
+    ],
+    "ans": 1,
+    "exp": "Developers resolve their own impediments where possible. The Scrum Master removes impediments beyond the team's control.",
+    "cat": "Scrum in Practice",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Scrum Guide recommends specific tools for managing the Product Backlog.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "The Scrum Guide does not prescribe specific tools. Teams choose their own tools to manage the Product Backlog.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the relationship between the Sprint Goal and the Sprint Backlog items?",
+    "opts": [
+      "They are independent",
+      "Sprint Backlog items are selected to achieve the Sprint Goal",
+      "The Sprint Goal is derived from Sprint Backlog items",
+      "They are created by different people"
+    ],
+    "ans": 1,
+    "exp": "Sprint Backlog items are selected to achieve the Sprint Goal. The work may evolve, but the Sprint Goal should remain stable.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who should the Product Owner work with to define acceptance criteria for Product Backlog items?",
+    "opts": [
+      "Only the Scrum Master",
+      "Only the Developers",
+      "Stakeholders, Developers, and other relevant parties",
+      "Only end users"
+    ],
+    "ans": 2,
+    "exp": "The Product Owner works with stakeholders, Developers, and others to clarify PBI details, including acceptance criteria.",
+    "cat": "Backlog Management",
+    "src": "thescrummaster.co.uk"
+  },
+  {
+    "q": "True or False: The Scrum Team should have all the skills necessary to create value every Sprint.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "Scrum Teams are cross-functional, meaning the members have all the skills necessary to create value each Sprint without depending on others outside the team.",
+    "cat": "Scrum Team",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the relationship between Scrum and agility?",
+    "opts": [
+      "Scrum and agility are unrelated",
+      "Adopting Scrum makes an organization automatically agile",
+      "Scrum is a framework that helps teams become more agile through iterative, empirical work",
+      "Agility is a prerequisite for using Scrum"
+    ],
+    "ans": 2,
+    "exp": "Scrum is a framework based on empiricism and lean thinking. Using Scrum helps teams become more agile by generating feedback and adapting.",
+    "cat": "Scrum Theory",
+    "src": "thescrummaster.co.uk"
+  },
+  {
+    "q": "True or False: Scrum Teams should not interact with customers until the Sprint Review.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "Scrum Teams should interact with customers and stakeholders frequently. The Sprint Review is one opportunity but not the only one.",
+    "cat": "Stakeholder Management",
+    "src": "thescrummaster.co.uk"
+  },
+  {
+    "q": "Who forecasts how much work can be completed in a Sprint?",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Developers",
+      "Management"
+    ],
+    "ans": 2,
+    "exp": "The Developers forecast how much work they can complete in a Sprint during Sprint Planning. No one else decides this.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The product roadmap is a required Scrum artifact.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "The Scrum Guide defines three artifacts: Product Backlog, Sprint Backlog, and Increment. A product roadmap is not a required Scrum artifact.",
+    "cat": "Scrum Artifacts",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the key measure of progress in Scrum?",
+    "opts": [
+      "Number of tasks completed",
+      "Hours spent working",
+      "Working product / Done Increments",
+      "Velocity points earned"
+    ],
+    "ans": 2,
+    "exp": "The primary measure of progress in Scrum is working, Done product. This provides real feedback on the product's development.",
+    "cat": "Scrum Theory",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "True or False: The Product Owner can accept or reject work results at the end of a Sprint.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "The Product Owner may accept or decline the work results. Work meeting the Definition of Done is accepted as part of the Increment.",
+    "cat": "Scrum Events",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "All of the following types of requirements are acceptable on a Product Backlog: stability requirements, performance requirements, product functionality, documentation, fixes.",
+    "opts": [
+      "Yes, they all belong on the Product Backlog. It is the Single Source of Truth for all work for the product.",
+      "No, only user-facing features belong on the Product Backlog.",
+      "Only requirements approved by management belong on the Product Backlog.",
+      "Only functional requirements belong on the Product Backlog."
+    ],
+    "ans": 0,
+    "exp": "The Product Backlog is the single source of work for the Scrum Team. Any type of work needed to improve the product can be included.",
+    "cat": "Backlog Management",
+    "src": "github.com/Ditectrev"
+  },
+  {
+    "q": "Who is responsible for monitoring progress toward high-level goals?",
+    "opts": [
+      "The Product Owner",
+      "The Product Owner and The Development Team",
+      "The Scrum Master and The Development Team",
+      "The Scrum Master",
+      "The Development Team",
+      "The Scrum Team"
+    ],
+    "ans": 0,
+    "cat": "Scrum Artifacts",
+    "exp": "The Product Owner tracks total work remaining at least every Sprint Review.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What are the Scrum Artifacts? Select all applicable items.",
+    "opts": [
+      "Product Backlog",
+      "Sprint Backlog",
+      "Increment",
+      "The list of removed impediments",
+      "The Sprint Goal"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "cat": "Scrum Artifacts",
+    "exp": "The Scrum artifacts are Product Backlog, Sprint Backlog and Increment.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What could be a source of requirements for any changes to be made to the product?",
+    "opts": [
+      "The Product Backlog",
+      "The CEO of the Organization",
+      "The Key Stakeholders"
+    ],
+    "ans": 0,
+    "cat": "Backlog Management",
+    "exp": "The Product Backlog is the single source of requirements for any changes to be made to the product.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is responsible for the Product Backlog?",
+    "opts": [
+      "The Product Owner",
+      "The Product Owner and The Scrum Master",
+      "The Scrum Master",
+      "The Product Owner and The Development Team",
+      "The Scrum Master and The Development Team",
+      "The Development Team"
+    ],
+    "ans": 0,
+    "cat": "Backlog Management",
+    "exp": "The Product Owner is responsible for the Product Backlog, including its content, availability, and ordering.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What are Product Backlog features? Select three.",
+    "opts": [
+      "It is never complete",
+      "It is dynamic",
+      "As long as a product exists, its Product Backlog also exists",
+      "When the final version of a product is rolled out, its Product Backlog is dismissed",
+      "A Product Backlog could be closed when it contains no items to include into the next Sprint"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "cat": "Backlog Management",
+    "exp": "A Product Backlog is never complete. It is dynamic — it constantly changes to identify what the product needs to be appropriate, competitive, and useful.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "All Development Teams working on the same Product should use the same Product Backlog.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "cat": "Backlog Management",
+    "exp": "Multiple Scrum Teams often work together on the same product. One Product Backlog is used to describe the upcoming work on the product.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is responsible for all estimates in the Product Backlog?",
+    "opts": [
+      "The Development Team",
+      "The Product Owner",
+      "The Scrum Team",
+      "The Scrum Master",
+      "The Product owner and the Development Team",
+      "The Scrum Master and the Development Team",
+      "The Product owner and the Scrum Master"
+    ],
+    "ans": 0,
+    "cat": "Backlog Management",
+    "exp": "The Development Team is responsible for all estimates in the Product Backlog. The Product Owner may influence the Developers by helping them understand trade-offs.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is responsible for tracking the total work remaining in the Sprint Backlog to project the likelihood of achieving the Sprint Goal?",
+    "opts": [
+      "The Development Team",
+      "The Product Owner",
+      "The Scrum Team",
+      "The Scrum Master",
+      "The Product Owner and the Development Team"
+    ],
+    "ans": 0,
+    "cat": "Scrum Events",
+    "exp": "The Development Team tracks total work remaining in the Sprint Backlog at every Daily Scrum to project likelihood of achieving the Sprint Goal.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is allowed to change the Sprint Backlog during the Sprint?",
+    "opts": [
+      "The Development Team",
+      "The Product Owner",
+      "The Scrum Team",
+      "The Scrum Master",
+      "The Development Team and the Product Owner"
+    ],
+    "ans": 0,
+    "cat": "Scrum Artifacts",
+    "exp": "Only the Development Team can change its Sprint Backlog during a Sprint. It is a real-time picture of the work that the Development Team plans to accomplish.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the Increment?",
+    "opts": [
+      "The sum of all the Product Backlog items completed during the Sprint",
+      "The sum of all Product Backlog items completed during the Sprint and the value of increments of all previous Sprints",
+      "All Done items in the Sprint Backlog",
+      "All items in the Sprint Backlog that could be released"
+    ],
+    "ans": 1,
+    "cat": "Scrum Artifacts",
+    "exp": "The Increment is the sum of all PBIs completed during the Sprint and the value of the increments of all previous Sprints.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is responsible for creation of the Definition of Done?",
+    "opts": [
+      "The Development Team",
+      "The Scrum Team",
+      "The Product Owner",
+      "The Scrum Master"
+    ],
+    "ans": 0,
+    "cat": "Scrum Artifacts",
+    "exp": "If DoD is not an organizational standard, the Development Team creates it. If multiple teams share a product, they must define DoD together.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is allowed to participate in the Daily Scrum?",
+    "opts": [
+      "The Development Team",
+      "The Scrum Master",
+      "The Product Owner",
+      "The Key Stakeholders"
+    ],
+    "ans": 0,
+    "cat": "Scrum Events",
+    "exp": "The Daily Scrum is an internal meeting for the Development Team. If others are present, the Scrum Master ensures they do not disrupt the meeting.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the order of items in the Product Backlog?",
+    "opts": [
+      "Alphabetical",
+      "Less valuable and most unclear items at the bottom",
+      "The recently added items at the top",
+      "The less clear items at the top"
+    ],
+    "ans": 1,
+    "cat": "Backlog Management",
+    "exp": "The Product Owner places the most valuable and clear items at the top. Less valuable and unclear items are at the bottom.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "All the Scrum Teams working on the same product should have the same Sprint length.",
+    "opts": [
+      "False",
+      "True"
+    ],
+    "ans": 0,
+    "cat": "Scrum in Practice",
+    "exp": "Scrum does not require aligned Sprint lengths for multiple teams working on the same product.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "How does the Scrum Master help the Product Owner? Select three.",
+    "opts": [
+      "Facilitating Scrum events as requested or needed",
+      "Finding techniques for effective Product Backlog management",
+      "Understanding product planning in an empirical environment",
+      "Introducing cutting edge development practices",
+      "Leading and coaching the organization in its Scrum adoption"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "cat": "Scrum Team",
+    "exp": "The Scrum Master serves the PO by facilitating Scrum events, finding techniques for PB management, and helping understand product planning empirically.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What does Cone of Uncertainty show?",
+    "opts": [
+      "Hierarchy of tasks that comprise a project",
+      "How much work remains till the end of the Sprint",
+      "How much is known about the Product over time",
+      "Dependencies, start times and stop times for project tasks"
+    ],
+    "ans": 2,
+    "cat": "Scrum Theory",
+    "exp": "The Cone of Uncertainty describes the evolution of the amount of uncertainty during a project. Early on, much is unknown; it narrows over time.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "If a Sprint Backlog item cannot be finished by end of Sprint, the Sprint is cancelled.",
+    "opts": [
+      "False",
+      "True"
+    ],
+    "ans": 0,
+    "cat": "Scrum Events",
+    "exp": "The Sprint is cancelled only if the Sprint Goal becomes obsolete. Unfinished items return to the Product Backlog for re-negotiation.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "How does the Definition of Done help the Scrum Team? Select three.",
+    "opts": [
+      "DoD is used to assess when work is complete on the product Increment",
+      "Guides the Development Team in knowing how many PBIs it can select during Sprint Planning",
+      "DoD ensures artifact transparency",
+      "DoD helps in inspection and adaptation",
+      "DoD helps to calculate velocity"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "cat": "Scrum Artifacts",
+    "exp": "DoD assesses increment completeness, guides sprint planning capacity, and ensures artifact transparency.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What part of the Development Team capacity does Product Backlog refinement usually consume?",
+    "opts": [
+      "Not more than 10%",
+      "Not more than 20%",
+      "Not more than 5%",
+      "The Development Team is not authorized for Product Backlog refinement"
+    ],
+    "ans": 0,
+    "cat": "Backlog Management",
+    "exp": "Product Backlog refinement usually consumes no more than 10% of the capacity of the Development Team.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "In which Scrum events can people outside the Scrum Team participate?",
+    "opts": [
+      "Sprint Planning",
+      "Sprint Review",
+      "Sprint Retrospective",
+      "Daily Scrum"
+    ],
+    "ans": [
+      0,
+      1
+    ],
+    "cat": "Stakeholder Management",
+    "exp": "Outsiders may participate in Sprint Planning (by invitation) and Sprint Review. Sprint Retrospective is for the Scrum Team only. Daily Scrum is for Developers.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What are the three most applicable characteristics of the Product Owner?",
+    "opts": [
+      "Product Value Maximizer",
+      "Lead Facilitator of Key Stakeholder Involvement",
+      "Product Marketplace Expert",
+      "Lead Scrum evangelist in the Organization",
+      "Facilitator of Scrum events"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "cat": "Scrum Team",
+    "exp": "The PO is: Product Value Maximizer, Lead Facilitator of Key Stakeholder Involvement, and Product Marketplace Expert.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Sprint Backlog is created at Sprint Planning. New work cannot be added to it by the Development Team later.",
+    "opts": [
+      "False",
+      "True"
+    ],
+    "ans": 0,
+    "cat": "Scrum Artifacts",
+    "exp": "The Development Team modifies the Sprint Backlog throughout the Sprint as more is learned. The Sprint Backlog emerges during the Sprint.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "In which meetings are Key Stakeholders allowed to participate?",
+    "opts": [
+      "The Sprint Review",
+      "The Sprint Retrospective",
+      "The Sprint Planning",
+      "The Daily Scrum"
+    ],
+    "ans": 0,
+    "cat": "Stakeholder Management",
+    "exp": "Key Stakeholders are allowed to participate only in the Sprint Review. Any Scrum Team member can interact with them any time, however.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is allowed to make changes in the Product Backlog? Select two.",
+    "opts": [
+      "The Product Owner",
+      "The Development Team, but with permission of the Product Owner",
+      "The Key Stakeholders",
+      "Anyone",
+      "The Scrum Master"
+    ],
+    "ans": [
+      0,
+      1
+    ],
+    "cat": "Backlog Management",
+    "exp": "The PO is solely responsible for the Product Backlog but may delegate some management to the Development Team with permission.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is responsible for crafting the Sprint Goal at Sprint Planning?",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Team",
+      "The Scrum Master",
+      "The Development Team",
+      "The Key Stakeholders"
+    ],
+    "ans": 1,
+    "cat": "Scrum Events",
+    "exp": "After the Development Team forecasts the PBIs it will deliver, the Scrum Team crafts a Sprint Goal together.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who participates in Sprint Planning? Select three.",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Development Team",
+      "The Key Stakeholders",
+      "The Team Manager"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "cat": "Scrum Events",
+    "exp": "Sprint Planning is planned by the collaborative work of the entire Scrum Team: Product Owner, Scrum Master, and Development Team.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Scrum Team consists of...",
+    "opts": [
+      "The Scrum Master",
+      "The Product Owner",
+      "The Development Team",
+      "The Key Stakeholders"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "cat": "Scrum Team",
+    "exp": "The Scrum Team consists of a Product Owner, the Development Team, and a Scrum Master. There are no sub-teams or hierarchies.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is allowed to tell the Development Team to work from a specific set of requirements?",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Key Stakeholders",
+      "Upper Management",
+      "The Product Owner and the Scrum Master"
+    ],
+    "ans": 0,
+    "cat": "Scrum Team",
+    "exp": "Only the Product Owner, through the ordered Product Backlog, tells the Development Team what to work on. No one else gives them work orders.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Development Team should be able to explain to the Product Owner and Scrum Master how it intends to work as a self-organizing team to accomplish the Sprint Goal.",
+    "opts": [
+      "False",
+      "True"
+    ],
+    "ans": 1,
+    "cat": "Scrum Events",
+    "exp": "By end of Sprint Planning, the Development Team should be able to explain how it intends to work as a self-organizing team to accomplish the Sprint Goal.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Product Backlog Refinement... Select three most applicable endings.",
+    "opts": [
+      "Is the act of adding detail, estimates, and order to Product Backlog items",
+      "Is an ongoing process",
+      "Usually happens 2-4 times depending on Sprint length",
+      "Is time-boxed to maximum 4 hours",
+      "Answers how work will be achieved",
+      "Usually takes no more than 10% of Development Team capacity"
+    ],
+    "ans": [
+      0,
+      1,
+      5
+    ],
+    "cat": "Backlog Management",
+    "exp": "Product Backlog refinement is the act of adding detail, estimates, and order to PBIs. It is ongoing and consumes no more than 10% of team capacity.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Which KVA categories should the Product Owner consider to measure value delivery? Select three.",
+    "opts": [
+      "Current Value",
+      "Time-to-Market",
+      "Ability to Innovate",
+      "Risk Reduction",
+      "Employee Satisfaction",
+      "Capability Building"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "cat": "Product Value",
+    "exp": "Evidence Based Management focuses on: Current Value, Time-to-Market, and Ability to Innovate as key value area categories.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is the chief product visionary?",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Chief Executive Officer (CEO)",
+      "The Chief Marketing Officer (CMO)"
+    ],
+    "ans": 0,
+    "cat": "Product Vision",
+    "exp": "The Product Owner is the chief product visionary, articulating the product vision to the Scrum Team and key stakeholders.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who should do the legwork of gathering marketplace data for the Product Owner?",
+    "opts": [
+      "It does not matter who does the legwork",
+      "The Product Owner",
+      "The Scrum Team",
+      "The Scrum Team and the Key Stakeholders"
+    ],
+    "ans": 0,
+    "cat": "Product Value",
+    "exp": "The PO may or may not do the legwork personally, but must be aware of the data and results to inform Product Backlog decisions.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "How does the Product Owner communicate marketplace knowledge to the Scrum Team? Select three.",
+    "opts": [
+      "Daily ad hoc interactions",
+      "Product Backlog Refinement",
+      "Sprint Reviews",
+      "Daily Scrums",
+      "Sprint Retrospectives"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "cat": "Stakeholder Management",
+    "exp": "The PO communicates market knowledge through daily interactions, Product Backlog Refinement, and Sprint Reviews.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who decides whether to release the latest Increment of the product?",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Scrum Team",
+      "The Development Team",
+      "The Product Owner and The Scrum Master"
+    ],
+    "ans": 0,
+    "cat": "Release Management",
+    "exp": "The Product Owner is the one and only person who can decide whether to release the latest Increment of the product.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What factors should the Product Owner consider in the release decision? Select four.",
+    "opts": [
+      "The risk that product value gets out of line with the marketplace",
+      "Can customers absorb the new release?",
+      "The costs and benefits of the upgrade",
+      "The customers constrained by the new release",
+      "Amount of work remaining toward Sprint Goal",
+      "Approval of Key Stakeholders",
+      "Does the Increment meet the Definition of Done?"
+    ],
+    "ans": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "cat": "Release Management",
+    "exp": "Release decisions consider: marketplace risk, customer absorption capacity, upgrade cost/benefit, and constrained customers.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who identifies the Key Stakeholders for the Product?",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Development Team",
+      "The Scrum Team",
+      "The Upper Management"
+    ],
+    "ans": 0,
+    "cat": "Stakeholder Management",
+    "exp": "The Product Owner identifies Key Stakeholders to maximize value. The PO must understand their needs and represent them in the Product Backlog.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "If multiple Stakeholders have varied interests and viewpoints, what is the best strategy for the Product Owner?",
+    "opts": [
+      "Do an intelligent balancing of interests and try to maximize the value of the Product as a whole",
+      "Listen to the people that fund the product because they always have the last word",
+      "Stick to the viewpoint promising the fastest time-to-market",
+      "Calculate ROI for every viewpoint and select the maximal one"
+    ],
+    "ans": 0,
+    "cat": "Stakeholder Management",
+    "exp": "The PO weighs and balances differing stakeholder viewpoints to maximize overall product value — not just the loudest or richest voice.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Where can Scrum be used? Check all applicable items.",
+    "opts": [
+      "Research and identifying of viable markets, technologies, and product capabilities",
+      "Development and sustaining of Cloud and other operational environments",
+      "Development of software and hardware",
+      "Development of products and enhancements",
+      "Managing the operation of an organization",
+      "Development of almost everything we use in our daily lives"
+    ],
+    "ans": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "cat": "Scrum Theory",
+    "exp": "Scrum has been used to develop software, hardware, embedded software, networks, autonomous vehicles, schools, government, and more.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What is the essence of Scrum?",
+    "opts": [
+      "A small team of people that is highly flexible and adaptive",
+      "The Scrum Guide",
+      "The Development Team",
+      "The Scrum Master and the Product Owner"
+    ],
+    "ans": 0,
+    "cat": "Scrum Theory",
+    "exp": "The essence of Scrum is a small team of people. The individual team is highly flexible and adaptive.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who is responsible for promoting and supporting Scrum?",
+    "opts": [
+      "The Scrum Master",
+      "The Product Owner",
+      "The Scrum Master and the Product Owner",
+      "The Scrum Team",
+      "The Development Team"
+    ],
+    "ans": 0,
+    "cat": "Scrum Team",
+    "exp": "The Scrum Master is responsible for promoting and supporting Scrum as defined in the Scrum Guide, helping everyone understand its theory and practice.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "At Sprint Retrospective, the team identified improvements. What should they do?",
+    "opts": [
+      "Include at least one high priority process improvement in the next Sprint Backlog",
+      "Include all improvements in the next Sprint Backlog",
+      "Assign responsible members for every improvement and check progress at next Retro",
+      "Assign one member for at least one improvement and check at next Retro"
+    ],
+    "ans": 0,
+    "cat": "Scrum Events",
+    "exp": "To ensure continuous improvement, the Sprint Backlog for the next Sprint should include at least one high priority process improvement identified at the Retrospective.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Who has the last say on the order of items in the Product Backlog?",
+    "opts": [
+      "The Product Owner",
+      "The Scrum Master",
+      "The Development Team",
+      "The Product Owner and The Scrum Master"
+    ],
+    "ans": 0,
+    "cat": "Backlog Management",
+    "exp": "The Product Owner is the sole person responsible for managing the Product Backlog, including its ordering. No one can override the PO.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Product Backlog Refinement focuses on items for upcoming Sprints, not the current Sprint in progress.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "cat": "Backlog Management",
+    "exp": "Product Backlog refinement focuses on upcoming Sprint items. Items in the current Sprint are part of the Sprint Backlog and managed by Developers.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "What are characteristics of a Product Backlog Item Ready for Sprint Planning? Select three.",
+    "opts": [
+      "Can be Done within one Sprint",
+      "Somewhere at the top of the Product Backlog",
+      "Well refined",
+      "Somewhere at the bottom of the Product Backlog",
+      "Can be implemented in one Sprint and tested in the next",
+      "Has less detail"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "cat": "Backlog Management",
+    "exp": "Ready PBIs can be Done in one Sprint, are near the top of the backlog, and are well-refined with enough detail for planning.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "Technical debt... Select three best options.",
+    "opts": [
+      "Is a real risk which can genuinely be incurred",
+      "Compromises long-term quality of the Product",
+      "Reflects some extra development work",
+      "Belongs entirely to the Development Team — no one else should know",
+      "Is a lack of technical supplies"
+    ],
+    "ans": [
+      0,
+      1,
+      2
+    ],
+    "cat": "Scrum in Practice",
+    "exp": "Technical debt is a real risk that compromises long-term product quality and reflects extra development work needed due to shortcut decisions.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "The Scrum Master should not allow the Product Owner to attend Sprint Planning if the PO is not ready with a Sprint Goal.",
+    "opts": [
+      "False",
+      "True"
+    ],
+    "ans": 0,
+    "cat": "Scrum Events",
+    "exp": "False. The Scrum Team crafts a Sprint Goal together during Sprint Planning. The PO does not need a pre-defined Sprint Goal to attend.",
+    "src": "mlapshin.com"
+  },
+  {
+    "q": "When something about Scrum frustrates the Product Owner, the best action is to...",
+    "opts": [
+      "Raise concerns at the Sprint Retrospective",
+      "Ask the Scrum Master to handle it",
+      "Raise concerns with Management",
+      "Ignore it and focus on the Product Backlog"
+    ],
+    "ans": 0,
+    "cat": "Scrum in Practice",
+    "exp": "The Sprint Retrospective is the correct forum for the Scrum Team to inspect itself and plan improvements, including addressing frustrations.",
+    "src": "mlapshin.com"
+  }
+]

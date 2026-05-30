@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmallTalk Trainer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #fafaf8;
+    --bg-card: #ffffff;
+    --text: #111111;
+    --text-muted: #888888;
+    --border: #e2e2e0;
+    --accent: #111111;
+    --accent-light: #f0f0ee;
+    --font-head: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, .nav-btn, .btn, .stat-num, .stat-label, .badge,
+  .opt-btn, .feedback-box, .next-btn, .progress-label, .theory-num {
+    font-family: var(--font-body);
+  }
+  h1, h2 { font-family: var(--font-head); }
+
+  /* HEADER */
+  .header {
+    padding: 48px 20px 24px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .header p { font-size: 1.1rem; color: var(--text-muted); }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .nav-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 10px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--accent-light); color: var(--text); }
+  .nav-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+
+  /* SCREENS */
+  .screen { display: none; padding: 40px 20px 100px; max-width: 800px; margin: 0 auto; animation: fadeIn 0.3s; }
+  .screen.active { display: block; }
+  h2 { font-size: 2rem; margin-bottom: 8px; font-weight: 600; letter-spacing: -0.01em; }
+  .subtitle { color: var(--text-muted); margin-bottom: 40px; font-size: 1.1rem; }
+
+  /* BUTTONS */
+  .btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #333333; }
+  .btn-secondary { background: var(--accent-light); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--border); }
+
+  /* ======== TRENER SCREEN ======== */
+  .situation-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .sit-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .sit-emoji { font-size: 2rem; }
+  .sit-badges { display: flex; flex-direction: column; gap: 4px; }
+  .sit-place {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+  .sit-person {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 4px;
+    background: var(--accent-light);
+    color: var(--text);
+    border: 1px solid var(--border);
+    width: fit-content;
+  }
+  .sit-opis {
+    font-size: 1.1rem;
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .sit-counter {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 12px;
+  }
+
+  /* PROGRESS PIPS */
+  .pips {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .pip {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .pip.current { background: var(--accent); transform: scale(1.3); }
+  .pip.ok { background: var(--accent); }
+  .pip.bad { background: var(--text-muted); }
+
+  /* OPTIONS */
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .opt-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--text);
+    text-align: left;
+    transition: all 0.15s;
+    line-height: 1.5;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-light); }
+  .opt-btn.correct { background: var(--accent-light); border-color: var(--accent); color: var(--accent); font-weight: 600; pointer-events: none; }
+  .opt-btn.wrong   { background: #f5f5f5; border-color: var(--border); border-left: 3px solid var(--text-muted); color: var(--text-muted); pointer-events: none; }
+  .opt-btn.show-correct { background: var(--accent-light); border-color: var(--accent); color: var(--accent); pointer-events: none; }
+  .opt-btn.disabled { opacity: 0.45; pointer-events: none; }
+
+  /* FEEDBACK */
+  .feedback-box {
+    display: none;
+    background: var(--accent-light);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    animation: slideDown 0.3s;
+  }
+  .feedback-box.show { display: block; }
+
+  /* NEXT BTN */
+  .next-btn {
+    display: none;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .next-btn:hover { background: #333333; }
+  .next-btn.show { display: inline-block; }
+
+  /* RESULT SCREEN */
+  .result-wrap {
+    display: none;
+    text-align: center;
+    padding: 20px 0 40px;
+    animation: fadeIn 0.4s;
+  }
+  .result-wrap.show { display: block; }
+  .result-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    border: 6px solid var(--accent);
+  }
+  .result-circle span { font-family: var(--font-body); font-size: 2.8rem; font-weight: 600; color: var(--accent); line-height: 1; }
+  .result-circle small { font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; color: var(--text-muted); margin-top: 4px; }
+  .result-msg { font-size: 1.2rem; margin-bottom: 8px; font-weight: 500; }
+  .result-sub { font-size: 1rem; color: var(--text-muted); margin-bottom: 28px; }
+
+  /* ======== TEORIA SCREEN ======== */
+  .theory-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .theory-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .theory-num {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .theory-card h4 { font-size: 1rem; font-weight: 600; color: var(--text); }
+  .theory-card p { font-size: 0.95rem; color: #555555; line-height: 1.6; }
+  .theory-example {
+    margin-top: 10px;
+    background: var(--accent-light);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: #555555;
+    font-style: italic;
+  }
+
+  /* ======== POSTEP SCREEN ======== */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .stat-num { font-size: 2.4rem; font-weight: 600; color: var(--accent); margin-bottom: 4px; letter-spacing: -0.02em; }
+  .stat-label { font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+
+  .progress-bar-wrap { background: var(--border); border-radius: 4px; height: 10px; margin: 8px 0 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.5s; }
+
+  .cat-progress { margin-bottom: 24px; }
+  .cat-row { margin-bottom: 12px; }
+  .cat-label { font-size: 0.9rem; font-weight: 600; color: #555555; margin-bottom: 2px; display: flex; justify-content: space-between; }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+  .info-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    font-size: 1rem;
+    color: #555555;
+    line-height: 1.7;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .info-box h4 { color: var(--text); font-size: 1.15rem; margin-bottom: 12px; font-weight: 600; }
+
+  @keyframes fadeIn  { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 500px) {
+    .header h1 { font-size: 2rem; }
+    .situation-card { padding: 20px; }
+    .options { gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>SmallTalk Trainer</h1>
+  <p>Ćwicz rozmowy, poznaj zasady, buduj pewność siebie</p>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showScreen('trener')">Trener</button>
+  <button class="nav-btn" onclick="showScreen('teoria')">Teoria</button>
+  <button class="nav-btn" onclick="showScreen('postep')">Postęp</button>
+</div>
+
+<!-- ===== TRENER ===== -->
+<div id="screen-trener" class="screen active">
+  <h2>Trener</h2>
+  <p class="subtitle">Kliknij odpowiedź — dowiedz się dlaczego dziala lub nie</p>
+
+  <div class="pips" id="pips"></div>
+
+  <div id="trener-quiz">
+    <div class="situation-card" id="sit-card">
+      <div class="sit-meta">
+        <div class="sit-emoji" id="sit-emoji"></div>
+        <div class="sit-badges">
+          <div class="sit-place" id="sit-place"></div>
+          <div class="sit-person" id="sit-person"></div>
+        </div>
+      </div>
+      <div class="sit-opis" id="sit-opis"></div>
+      <div class="sit-counter" id="sit-counter"></div>
+    </div>
+
+    <div class="options" id="options"></div>
+    <div class="feedback-box" id="feedback-box"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">Następna sytuacja &rarr;</button>
+  </div>
+
+  <div class="result-wrap" id="result-wrap">
+    <div class="result-circle">
+      <span id="result-score"></span>
+      <small>poprawnych</small>
+    </div>
+    <div class="result-msg" id="result-msg"></div>
+    <div class="result-sub" id="result-sub"></div>
+    <button class="btn btn-primary" onclick="restartQuiz()">Zacznij od nowa</button>
+  </div>
+</div>
+
+<!-- ===== TEORIA ===== -->
+<div id="screen-teoria" class="screen">
+  <h2>Teoria</h2>
+  <p class="subtitle">9 kluczowych zasad skutecznego small talk</p>
+
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">1</div>
+      <h4>Zasada bezpiecznych tematów</h4>
+    </div>
+    <p>Pogoda, otoczenie, neutralne wydarzenia — zawsze bezpieczne. Z nieznajomymi unikaj polityki, pieniędzy, religii i spraw osobistych. Im mniejsza znajomość, tym bardziej powierzchowny temat.</p>
+    <div class="theory-example">Przyklad: "Ładna pogoda dziś, prawda?" zamiast "Co Pan sądzi o rzadzie?"</div>
+  </div>
+
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">2</div>
+      <h4>Pytania otwarte > zamkniete</h4>
+    </div>
+    <p>Pytania otwarte zaczynające się od "Co", "Jak", "Dlaczego" otwierają rozmowę. Pytania zamkniete (tak/nie) ja zabijają. Zawsże dawaj rozmówcy szanse się wypowiedzieć.</p>
+    <div class="theory-example">Lepiej: "Co sądziśz o..." zamiast "Czy lubisz...?"</div>
+  </div>
+
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">3</div>
+      <h4>Zasada proporcji</h4>
+    </div>
+    <p>Z nieznajomym: lekko, krótko, powierzchownie. Z przyjacielem: możesz być glebszy, osobisty i szczery. Dostosuj glebokosc rozmowy do bliskosci relacji — nie przeskakuj poziomow.</p>
+    <div class="theory-example">Z nieznajomym w windzie: 1-2 zdania. Z kolegą przy kawie: możesz porozmawiać dłużej.</div>
+  </div>
+
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">4</div>
+      <h4>Komentarz + pytanie</h4>
+    </div>
+    <p>Formulka small talk: obserwacja/komentarz o tym co widzisz lub czujesz, a potem pytanie zwrotne. Ta formuła jest naturalnym otwarciem bez poczucia przesłuchania.</p>
+    <div class="theory-example">"Dzis strasznie goraco. Dokad się Pan wybiera?" — obserwacja + pytanie.</div>
+  </div>
+
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">5</div>
+      <h4>Unikanie zbyt osobistych pytan</h4>
+    </div>
+    <p>Wiek, zarobki, zwiazki, problemy zdrowotne — to tabu z nieznajomymi i znajomymi z widzenia. Nawet z kolegi trzeba wyczuc czy może poruszyc te tematy. Nigdy nie zaczynaj od nich.</p>
+    <div class="theory-example">Zle: "Ile Pan zarabia?" Dobrze: "Jak się Panu podoba ta branża?"</div>
+  </div>
+
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">6</div>
+      <h4>Aktywne słuchanie</h4>
+    </div>
+    <p>Nawiązuj do tego, co powiedziala osoba wczesniej. Powtorz kluczowe slowo, dopytaj o szczegol. To pokazuje, że naprawde sluchasz, a nie tylko czekasz na swoją kolej.</p>
+    <div class="theory-example">"Wspomnial Pan o Barcelonie — to był wyjazd służbowy czy prywatny?"</div>
+  </div>
+
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">7</div>
+      <h4>Zasada FORD</h4>
+    </div>
+    <p>Cztery bezpieczne obszary tematyczne: <strong>F</strong>amily (Rodzina), <strong>O</strong>ccupation (Praca), <strong>R</strong>ecreation (Hobby), <strong>D</strong>reams (Marzenia/Plany). Zawsże można poruszac te tematy — sa naturalne i buduja relacje.</p>
+    <div class="theory-example">"Jak Panu mija ten rok w pracy?" (Occupation) lub "Co Pan planuje w wakacje?" (Dreams)</div>
+  </div>
+
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">8</div>
+      <h4>Dostosowanie tonu</h4>
+    </div>
+    <p>Formalny jezyk z nieznajomymi (Pan/Pani), luz z przyjaciolmi. Nigdy nie przeskakuj do "ty" bez wyraznej zgody rozmówcy. Dostosuj slowa, humor i dystans do kontekstu spotkania.</p>
+    <div class="theory-example">Nieznajomy w biurze: "Dzień dobry, czy może mi Pan pomoc?" Kolega: "Hej, możesz mi pomóc?"</div>
+  </div>
+
+  <div class="theory-card">
+    <div class="theory-header">
+      <div class="theory-num">9</div>
+      <h4>Graceful exit — jak zakończyć rozmowę</h4>
+    </div>
+    <p>Zawsże kończ rozmowę pozytywnie i z wyjściem. Nie urywaj nagle. Daj znak że rozmowa się kończy, podsumuj i zostań z dobrym wrażeniem. Rozmowca zapamięta początek i koniec.</p>
+    <div class="theory-example">"Świetnie bylo porozmawiac — mam nadzieje że powtorzmy to wkrotce!"</div>
+  </div>
+</div>
+
+<!-- ===== POSTEP ===== -->
+<div id="screen-postep" class="screen">
+  <h2>Postęp</h2>
+  <p class="subtitle">Twoje statystyki z wszystkich sesji</p>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-num" id="p-total">0</div>
+      <div class="stat-label">Odpowiedzi</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="p-correct">0</div>
+      <div class="stat-label">Poprawnych</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="p-pct">—</div>
+      <div class="stat-label">Skuteczność</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="p-sessions">0</div>
+      <div class="stat-label">Sesji</div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <h4>Postęp ogólny</h4>
+    <div class="progress-bar-wrap"><div class="progress-fill" id="p-bar" style="width:0%"></div></div>
+    <div style="font-size:0.85rem;color:#78716C;margin-top:4px" id="p-bar-label">Wykonaj pierwsze pytania, aby zobaczyc postep.</div>
+  </div>
+
+  <div class="info-box cat-progress">
+    <h4>Postęp wg miejsca</h4>
+    <div class="cat-row">
+      <div class="cat-label"><span>Winda</span><span id="c-winda">—</span></div>
+      <div class="progress-bar-wrap"><div class="progress-fill" id="c-winda-bar" style="width:0%"></div></div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-label"><span>Biuro</span><span id="c-biuro">—</span></div>
+      <div class="progress-bar-wrap"><div class="progress-fill" id="c-biuro-bar" style="width:0%"></div></div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-label"><span>Autobus/komunikacja</span><span id="c-autobus">—</span></div>
+      <div class="progress-bar-wrap"><div class="progress-fill" id="c-autobus-bar" style="width:0%"></div></div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-label"><span>Miasto</span><span id="c-miasto">—</span></div>
+      <div class="progress-bar-wrap"><div class="progress-fill" id="c-miasto-bar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <button class="reset-btn" onclick="resetStats()">Wyczysc statystyki</button>
+</div>
+
+<script>
+// =================== DANE ===================
+let SYTUACJE = [];
+
+// =================== STATE ===================
+let currentIdx = 0;
+let answered = false;
+let session = { total: 0, correct: 0, answers: [] };
+
+// Shuffle pomocnicza
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let quizOrder = [];
+
+// =================== LOCALSTORAGE ===================
+const LS_KEY = 'smalltalk_stats_v1';
+
+function loadStats() {
+  try { return JSON.parse(localStorage.getItem(LS_KEY)) || { total: 0, correct: 0, sessions: 0, byKat: {} }; }
+  catch { return { total: 0, correct: 0, sessions: 0, byKat: {} }; }
+}
+
+function saveStats(stats) {
+  localStorage.setItem(LS_KEY, JSON.stringify(stats));
+}
+
+function commitSession() {
+  if (session.total === 0) return;
+  const stats = loadStats();
+  stats.total += session.total;
+  stats.correct += session.correct;
+  stats.sessions += 1;
+  session.answers.forEach(a => {
+    if (!stats.byKat[a.kat]) stats.byKat[a.kat] = { total: 0, correct: 0 };
+    stats.byKat[a.kat].total += 1;
+    if (a.ok) stats.byKat[a.kat].correct += 1;
+  });
+  saveStats(stats);
+}
+
+// =================== SCREENS ===================
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.querySelector(`.nav-btn[onclick="showScreen('${name}')"]`).classList.add('active');
+  if (name === 'postęp') renderStats();
+}
+
+// =================== QUIZ ===================
+function renderPips() {
+  const pips = document.getElementById('pips');
+  pips.innerHTML = '';
+  quizOrder.forEach((_, i) => {
+    const pip = document.createElement('div');
+    pip.className = 'pip';
+    if (i < currentIdx) {
+      const ans = session.answers[i];
+      pip.classList.add(ans && ans.ok ? 'ok' : 'bad');
+    } else if (i === currentIdx) {
+      pip.classList.add('current');
+    }
+    pips.appendChild(pip);
+  });
+}
+
+function renderQuestion() {
+  const idx = quizOrder[currentIdx];
+  const sit = SYTUACJE[idx];
+
+  document.getElementById('sit-emoji').textContent = sit.emoji;
+  document.getElementById('sit-place').textContent = sit.miejsce.toUpperCase();
+  document.getElementById('sit-person').textContent = sit.osoba;
+  document.getElementById('sit-opis').textContent = sit.opis;
+  document.getElementById('sit-counter').textContent = `Sytuacja ${currentIdx + 1} z ${quizOrder.length}`;
+
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  sit.opcje.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt.tekst;
+    btn.onclick = () => selectOption(i);
+    opts.appendChild(btn);
+  });
+
+  document.getElementById('feedback-box').classList.remove('show');
+  document.getElementById('feedback-box').textContent = '';
+  document.getElementById('next-btn').classList.remove('show');
+
+  answered = false;
+  renderPips();
+}
+
+function selectOption(i) {
+  if (answered) return;
+  answered = true;
+
+  const idx = quizOrder[currentIdx];
+  const sit = SYTUACJE[idx];
+  const opt = sit.opcje[i];
+  const btns = document.querySelectorAll('.opt-btn');
+
+  btns.forEach((btn, j) => {
+    if (j === i) {
+      btn.classList.add(opt.poprawna ? 'correct' : 'wrong');
+    } else if (sit.opcje[j].poprawna) {
+      btn.classList.add('show-correct');
+    } else {
+      btn.classList.add('disabled');
+    }
+  });
+
+  const fb = document.getElementById('feedback-box');
+  fb.textContent = opt.feedback;
+  fb.classList.add('show');
+
+  session.total += 1;
+  if (opt.poprawna) session.correct += 1;
+  session.answers.push({ kat: sit.kategoria, ok: opt.poprawna });
+
+  renderPips();
+
+  if (currentIdx + 1 >= quizOrder.length) {
+    document.getElementById('next-btn').textContent = 'Zobacz wyniki';
+  } else {
+    document.getElementById('next-btn').textContent = 'Następna sytuacja \u2192';
+  }
+  document.getElementById('next-btn').classList.add('show');
+}
+
+function nextQuestion() {
+  currentIdx += 1;
+  if (currentIdx >= quizOrder.length) {
+    showResult();
+    return;
+  }
+  renderQuestion();
+}
+
+function showResult() {
+  commitSession();
+  document.getElementById('trener-quiz').style.display = 'none';
+  const wrap = document.getElementById('result-wrap');
+  wrap.classList.add('show');
+
+  const pct = Math.round((session.correct / session.total) * 100);
+  document.getElementById('result-score').textContent = `${session.correct}/${session.total}`;
+
+  let msg = '', sub = '';
+  if (pct >= 80) { msg = 'Świetna robota!'; sub = 'Jesteś naturalnym gawędziarzem. Małe szlify i będziesz mistrzem small talk.'; }
+  else if (pct >= 55) { msg = 'Dobry wynik!'; sub = 'Znasz zasady — pamietaj o pytaniach zwrotnych i dostosowaniu tonu.'; }
+  else { msg = 'Ćwicz dalej!'; sub = 'Przejrzyj teorię i sprawdz zasady FORD, komentarz+pytanie oraz granice tematów.'; }
+
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('result-sub').textContent = sub;
+}
+
+function restartQuiz() {
+  quizOrder = shuffle(SYTUACJE.map((_, i) => i));
+  currentIdx = 0;
+  answered = false;
+  session = { total: 0, correct: 0, answers: [] };
+
+  document.getElementById('trener-quiz').style.display = '';
+  document.getElementById('result-wrap').classList.remove('show');
+  renderQuestion();
+}
+
+// =================== STATS ===================
+function renderStats() {
+  const s = loadStats();
+  document.getElementById('p-total').textContent = s.total;
+  document.getElementById('p-correct').textContent = s.correct;
+  document.getElementById('p-sessions').textContent = s.sessions;
+  const pct = s.total > 0 ? Math.round((s.correct / s.total) * 100) : null;
+  document.getElementById('p-pct').textContent = pct !== null ? pct + '%' : '—';
+  document.getElementById('p-bar').style.width = (pct || 0) + '%';
+  document.getElementById('p-bar-label').textContent = pct !== null
+    ? `${s.correct} poprawnych z ${s.total} odpowiedzi (${pct}%)`
+    : 'Wykonaj pierwsze pytania, aby zobaczyć postęp.';
+
+  const cats = { 'Winda': 'winda', 'Biuro': 'biuro', 'Autobus': 'autobus', 'Miasto': 'miasto' };
+  Object.entries(cats).forEach(([kat, id]) => {
+    const d = s.byKat[kat] || { total: 0, correct: 0 };
+    const p = d.total > 0 ? Math.round((d.correct / d.total) * 100) : null;
+    document.getElementById('c-' + id).textContent = p !== null ? p + '%' : '—';
+    document.getElementById('c-' + id + '-bar').style.width = (p || 0) + '%';
+  });
+}
+
+function resetStats() {
+  if (confirm('Na pewno chcesz wyczyścić statystyki?')) {
+    localStorage.removeItem(LS_KEY);
+    renderStats();
+  }
+}
+
+// =================== INIT ===================
+function initApp() {
+  quizOrder = shuffle(SYTUACJE.map((_, i) => i));
+  renderQuestion();
+}
+
+fetch('pl.json')
+  .then(r => r.json())
+  .then(data => {
+    SYTUACJE = data;
+    initApp();
+  });
+</script>
+</body>
+</html>
