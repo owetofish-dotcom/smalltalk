@@ -144,12 +144,12 @@
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 8px;
-    min-width: 56px;
-    min-height: 56px;
+    min-width: 40px;
+    min-height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 700;
     letter-spacing: -0.02em;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -453,7 +453,7 @@
   }
 
   // --- Place chord on stage ---
-  function addChord(chord, x, y) {
+  function addChord(chord, x, y, cw, ch) {
     snapshot();
     const id = ++idCounter;
 
@@ -474,9 +474,13 @@
     });
     el.appendChild(rm);
 
-    // Position: center the card on drop point
-    const W = 80 + chord.length * 10;
-    const H = 80;
+    // Position: if cw/ch provided (flow layout), snap to grid cell; else center on drop point
+    const W = cw || (56 + chord.length * 6);
+    const H = ch || 56;
+    if (cw && ch) {
+      el.style.width = cw + 'px';
+      el.style.height = ch + 'px';
+    }
     const cx = Math.max(0, Math.min(x - W / 2, stage.clientWidth - W));
     const cy = Math.max(0, Math.min(y - H / 2, stage.clientHeight - H));
 
@@ -560,10 +564,12 @@
 
   // --- Flow-layout: następna wolna pozycja w siatce ---
   function nextFlowPosition() {
-    const PAD = 12;
-    const CARD_W = 100; // przybliżona szerokość karty
-    const CARD_H = 90;  // przybliżona wysokość karty
-    const cols = Math.max(1, Math.floor((stage.clientWidth - PAD) / (CARD_W + PAD)));
+    const COLS = 5;
+    const ROWS = 6;
+    const PAD = 6;
+    const CARD_W = Math.floor((stage.clientWidth - PAD * (COLS + 1)) / COLS);
+    const CARD_H = Math.floor((stage.clientHeight - PAD * (ROWS + 1)) / ROWS);
+    const cols = COLS;
 
     // Znajdź pierwsze wolne miejsce w siatce
     const usedSlots = new Set(cards.map(c => {
@@ -577,12 +583,13 @@
         if (!usedSlots.has(row * 100 + col)) {
           return {
             x: PAD + col * (CARD_W + PAD),
-            y: PAD + row * (CARD_H + PAD)
+            y: PAD + row * (CARD_H + PAD),
+            cw: CARD_W, ch: CARD_H
           };
         }
       }
     }
-    return { x: PAD, y: PAD };
+    return { x: PAD, y: PAD, cw: CARD_W, ch: CARD_H };
   }
 
   // --- Chord tiles: tap to add ---
@@ -592,7 +599,7 @@
       if (stage.classList.contains('locked')) return; // zablokowane
       const chord = tile.dataset.chord;
       const pos = nextFlowPosition();
-      addChord(chord, pos.x + 50, pos.y + 45);
+      addChord(chord, pos.x + pos.cw/2, pos.y + pos.ch/2, pos.cw, pos.ch);
 
       // Visual feedback
       tile.style.transform = 'scale(0.9)';
