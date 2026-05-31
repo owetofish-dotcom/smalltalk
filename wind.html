@@ -261,7 +261,7 @@ function crosswind(kt, dir) {
 
 /* ---- Vector arrow SVG ---- */
 function arrowSVG(windDir) {
-  const tx = `perspective(180px) rotateX(54deg) rotateZ(${windDir - 270}deg)`;
+  const tx = `perspective(180px) rotateX(54deg) rotateZ(${windDir - 270 + 180}deg)`;
   return `<svg viewBox="0 0 32 32" width="52" height="52"
       style="position:relative;z-index:1;transform:${tx};">
     <line x1="16" y1="28" x2="16" y2="8" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round"/>
@@ -299,7 +299,7 @@ class StreakAnim {
 
     // velocity direction: wind blows TO (windDir + 180)
     // Use same reference frame as arrows: relative to RWY27 (270°)
-    const toRad = ((this.windDir - 270 + 360) % 360) * Math.PI / 180;
+    const toRad = ((this.windDir - 270 + 180 + 360) % 360) * Math.PI / 180;
     this.vx = Math.sin(toRad);
     this.vy = -Math.cos(toRad);   // canvas y increases downward
 
