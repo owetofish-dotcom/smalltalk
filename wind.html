@@ -298,7 +298,7 @@ class StreakAnim {
     this.W = W; this.H = H;
 
     // velocity direction: wind blows TO (windDir + 180)
-    const toRad = ((this.windDir + 180) % 360) * Math.PI / 180;
+    const toRad = (this.windDir % 360) * Math.PI / 180;
     this.vx = Math.sin(toRad);
     this.vy = -Math.cos(toRad);   // canvas y increases downward
 
