@@ -184,6 +184,11 @@
     font-size: 1.2rem; color: var(--danger); font-family: var(--mono);
   }
 
+  .metar-section { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,.07); }
+  .metar-label { font-size: .65rem; color: var(--muted); margin-bottom: 4px; letter-spacing: .06em; text-transform: uppercase; font-family: var(--mono); }
+  .metar-raw { font-family: var(--mono); font-size: .82rem; color: rgba(255,255,255,.7); line-height: 1.5; word-break: break-all; }
+  .metar-time { font-size: .6rem; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
+
   .footer {
     padding: 12px 16px;
     font-size: 0.93rem; color: var(--muted);
@@ -221,6 +226,12 @@
 
   <div id="bands">
     <div class="loading">Ładowanie...</div>
+  </div>
+
+  <div class="metar-section">
+    <div class="metar-label">METAR EPKK</div>
+    <div class="metar-raw" id="metar-text">ładowanie...</div>
+    <div class="metar-time" id="metar-time"></div>
   </div>
 
   <div class="footer">
@@ -362,6 +373,78 @@ class StreakAnim {
   stop()  { this.alive = false; if (this.raf) cancelAnimationFrame(this.raf); }
 }
 
+/* ---- PWS IPOBIE2 fetch ---- */
+async function fetchPWS() {
+  try {
+    const res = await fetch('https://api.weather.com/v2/pws/observations/current?stationId=IPOBIE2&format=json&units=m&apiKey=6532d6454b8aa370768d2ac32b5b8d78');
+    if (!res.ok) return null;
+    const d = await res.json();
+    const obs = d.observations?.[0];
+    if (!obs) return null;
+    return {
+      speed_kmh: obs.metric.windSpeed,
+      dir: obs.winddir,
+      time: obs.obsTimeUtc,
+      source: 'PWS'
+    };
+  } catch(e) { return null; }
+}
+
+/* ---- METAR EPKK fetch ---- */
+async function fetchMetar() {
+  try {
+    const res = await fetch('https://aviationweather.gov/api/data/metar?ids=EPKK&format=json&hours=1');
+    const d = await res.json();
+    const m = d[0];
+    if (!m) return;
+    document.getElementById('metar-text').textContent = m.rawOb || m.metar || '—';
+    document.getElementById('metar-time').textContent = m.reportTime || m.obsTime || '';
+  } catch(e) {
+    document.getElementById('metar-text').textContent = 'brak danych';
+  }
+}
+
+/* ---- Update ground band with PWS data ---- */
+function updateGroundBand(pws) {
+  const band = document.getElementById('band-ground');
+  if (!band || !pws) return;
+
+  const kt = toKt(pws.speed_kmh);
+  const xw = crosswind(kt, pws.dir);
+  const stripe = xw >= 15 ? 'rgba(232,64,64,.4)' : 'rgba(77,142,245,.32)';
+  band.style.setProperty('--stripe', stripe);
+
+  const altEl = band.querySelector('.band-ft');
+  if (altEl) altEl.innerHTML = '~33<sup>ft</sup>';
+  const mEl = band.querySelector('.band-m');
+  if (mEl) mEl.textContent = 'PWS IPOBIE2';
+
+  const arrowEl = band.querySelector('.band-arrow');
+  if (arrowEl) arrowEl.innerHTML = arrowSVG(pws.dir);
+
+  const ktEl = band.querySelector('.band-kt');
+  if (ktEl) ktEl.innerHTML = `${kt.toFixed(0)}<small>kt</small>`;
+  const dirEl = band.querySelector('.band-dir');
+  if (dirEl) dirEl.textContent = `${pws.dir}° ${dirName(pws.dir)}`;
+  const kmhEl = band.querySelector('.band-kmh');
+  if (kmhEl) kmhEl.textContent = `${pws.speed_kmh.toFixed(1)}km/h`;
+
+  // Restart streak animation for ground band
+  const canvas = band.querySelector('.band-streaks');
+  if (canvas) {
+    const existing = activeStreaks.find(s => s.canvas === canvas);
+    if (existing) {
+      existing.stop();
+      activeStreaks = activeStreaks.filter(s => s !== existing);
+    }
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const s = new StreakAnim(canvas, pws.dir, kt);
+      s.start();
+      activeStreaks.push(s);
+    }));
+  }
+}
+
 /* ---- Data fetch & render ---- */
 async function loadData() {
   const bandsEl = document.getElementById('bands');
@@ -377,7 +460,7 @@ async function loadData() {
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&hourly=${fields}&start_date=${today}&end_date=${today}&timezone=UTC`;
 
   try {
-    const res  = await fetch(url);
+    const [res, pws] = await Promise.all([fetch(url), fetchPWS()]);
     const data = await res.json();
     const h    = data.hourly;
     const utcH = new Date().getUTCHours();
@@ -388,8 +471,13 @@ async function loadData() {
     const temp = h.temperature_2m[idx];
     document.getElementById('hdr-time').textContent =
       h.time[idx].slice(11, 16) + 'Z';
-    document.getElementById('hdr-qnh').textContent =
-      qnh  ? `QNH ${Math.round(qnh)} hPa` : 'QNH —';
+    if (qnh) {
+      const inHg = (qnh * 0.02953).toFixed(2);
+      document.getElementById('hdr-qnh').textContent =
+        `QNH ${Math.round(qnh)} hPa / ${inHg}"Hg`;
+    } else {
+      document.getElementById('hdr-qnh').textContent = 'QNH —';
+    }
     document.getElementById('hdr-temp').textContent =
       temp != null ? `T ${temp.toFixed(1)}°C` : '';
 
@@ -397,6 +485,7 @@ async function loadData() {
     let html = '';
 
     LVLS.forEach((lv, i) => {
+      const isGround = i === LVLS.length - 1;
       const spd_kmh = h[lv.ws][idx] || 0;
       const dir     = h[lv.wd][idx] || 0;
       const ft      = ftMSL(lv.m);
@@ -406,12 +495,15 @@ async function loadData() {
       bandData.push({ dir, kt });
 
       const stripe = xw >= 15 ? 'rgba(232,64,64,.4)' : 'rgba(77,142,245,.32)';
+      const altFt  = (isGround && pws) ? '~33<sup>ft</sup>' : `${ft}<sup>ft</sup>`;
+      const altM   = (isGround && pws) ? 'PWS IPOBIE2' : (isGround ? '10m AGL' : `${lv.m}m AGL`);
+      const idAttr = isGround ? ' id="band-ground"' : '';
 
       html += `
-      <div class="band" style="--stripe:${stripe}">
+      <div class="band" style="--stripe:${stripe}"${idAttr}>
         <div class="band-alt">
-          <div class="band-ft">${ft}<sup>ft</sup></div>
-          <div class="band-m">${lv.m}m AGL</div>
+          <div class="band-ft">${altFt}</div>
+          <div class="band-m">${altM}</div>
         </div>
         <div class="band-arrow">
           ${arrowSVG(dir)}
@@ -438,6 +530,9 @@ async function loadData() {
         s.start();
         activeStreaks.push(s);
       });
+
+      // Override ground band with live PWS data if available
+      if (pws) updateGroundBand(pws);
     }));
 
   } catch (e) {
@@ -447,7 +542,19 @@ async function loadData() {
 }
 
 loadData();
-setInterval(loadData, 30 * 60 * 1000);
+fetchMetar();
+
+// Wind data (Open-Meteo + PWS): every 5 minutes
+setInterval(loadData, 5 * 60 * 1000);
+
+// METAR: every 5 minutes
+setInterval(fetchMetar, 5 * 60 * 1000);
+
+// PWS ground band: every 30 seconds independently
+setInterval(async () => {
+  const pws = await fetchPWS();
+  if (pws) updateGroundBand(pws);
+}, 30 * 1000);
 </script>
 </body>
 </html>
