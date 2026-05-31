@@ -178,7 +178,7 @@
     font-size: 1.2rem; color: var(--danger); font-family: var(--mono);
   }
 
-  .metar-section { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,.07); }
+  .metar-section { padding: 12px 16px; }
   .metar-label { font-size: .65rem; color: var(--muted); margin-bottom: 4px; letter-spacing: .06em; text-transform: uppercase; font-family: var(--mono); }
   .metar-raw { font-family: var(--mono); font-size: .82rem; color: rgba(255,255,255,.7); line-height: 1.5; word-break: break-all; }
   .metar-time { font-size: .6rem; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
@@ -187,7 +187,6 @@
     padding: 12px 16px;
     font-size: 0.93rem; color: var(--muted);
     font-family: var(--mono);
-    border-top: 1px solid var(--line);
     display: flex; justify-content: space-between; align-items: center;
   }
   .refresh-btn {
@@ -218,7 +217,10 @@
 
   <div class="hdr">
     <div>
-      <div class="hdr-icao">EPKP</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="hdr-icao">EPKP</div>
+        <button class="refresh-btn" onclick="loadData()" style="margin:0;">↻</button>
+      </div>
       <div class="hdr-sub">KRAKÓW POBIEDNIK</div>
       <div class="hdr-sub" style="font-size:0.78rem;">664ft AMSL &middot; RADIO 118.605</div>
     </div>
@@ -246,9 +248,6 @@
     <div class="metar-time" id="metar-time"></div>
   </div>
 
-  <div class="footer">
-    <button class="refresh-btn" onclick="loadData()">↻</button>
-  </div>
 
 </div>
 
