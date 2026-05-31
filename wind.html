@@ -5,117 +5,292 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>EPKP Wind</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-  :root { --bg:#fafaf8; --card:#fff; --text:#111; --muted:#888; --border:#e2e2e0; --font:'Inter',system-ui,sans-serif; }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;}
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap');
 
-  .header{padding:12px 16px 8px;border-bottom:1px solid var(--border);background:var(--card);}
-  .header-top{display:flex;justify-content:space-between;align-items:baseline;}
-  .header-icao{font-size:1.1rem;font-weight:700;letter-spacing:0.05em;}
-  .header-elev{font-size:0.72rem;color:var(--muted);}
-  .header-meta{font-size:0.72rem;color:var(--muted);margin-top:3px;display:flex;gap:12px;}
-  .header-time{font-size:0.72rem;color:var(--muted);}
+  :root {
+    --bg: #07090f;
+    --bg2: #0d1120;
+    --line: rgba(255,255,255,0.07);
+    --text: #e8eaf0;
+    --muted: #5a6070;
+    --accent: #4d8ef5;
+    --warn: #f5a623;
+    --danger: #e84040;
+    --green: #3ec87a;
+    --mono: 'Share Tech Mono', monospace;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
 
-  .levels{padding:0;}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
 
-  .level{display:flex;align-items:center;gap:0;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--card);border-left:3px solid transparent;transition:border-color .2s;}
-  .level.xw-warn{border-left-color:#f59e0b;}
-  .level.xw-danger{border-left-color:#dc2626;}
+  /* HEADER */
+  .hdr {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .hdr-icao { font-family: var(--mono); font-size: 1.1rem; color: var(--text); letter-spacing: .08em; }
+  .hdr-sub { font-size: 0.68rem; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
+  .hdr-right { text-align: right; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); line-height: 1.6; }
+  .hdr-time { color: var(--accent); }
 
-  .level-alt{width:68px;flex-shrink:0;}
-  .level-alt-ft{font-size:1rem;font-weight:700;display:block;line-height:1.1;}
-  .level-alt-label{font-size:0.62rem;color:var(--muted);}
+  /* RUNWAY LABEL */
+  .rwy-bar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+  }
+  .rwy-badge {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px; padding: 2px 8px;
+    color: var(--text); font-size: 0.72rem;
+  }
+  .rwy-xw { margin-left: auto; }
+  .xw-ok { color: var(--green); }
+  .xw-warn { color: var(--warn); }
+  .xw-danger { color: var(--danger); }
 
-  .level-arrow{width:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-  .level-arrow svg{width:36px;height:36px;}
+  /* MAIN VISUAL */
+  .visual {
+    position: relative;
+    padding: 16px;
+    overflow: hidden;
+  }
 
-  .level-data{flex:1;}
-  .level-kt{font-size:1.2rem;font-weight:700;display:inline;line-height:1;}
-  .level-kt-unit{font-size:0.72rem;color:var(--muted);margin-left:2px;}
-  .level-dir{font-size:0.75rem;color:var(--muted);margin-top:2px;}
-  .level-kmh{font-size:0.65rem;color:var(--muted);margin-top:1px;}
+  /* Runway strip (vertical line) */
+  .rwy-strip {
+    position: absolute;
+    right: 56px; top: 0; bottom: 0;
+    width: 44px;
+    background: linear-gradient(to bottom,
+      rgba(255,255,255,0.03) 0%,
+      rgba(255,255,255,0.06) 50%,
+      rgba(255,255,255,0.03) 100%);
+    border-left: 1px solid rgba(255,255,255,0.1);
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .rwy-strip::after {
+    content: '27';
+    position: absolute;
+    bottom: 12px;
+    left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 0.75rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: .05em;
+  }
+  /* Runway centerline dashes */
+  .rwy-cl {
+    position: absolute;
+    right: 78px; top: 0; bottom: 0;
+    width: 1px;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.3) 0px,
+      rgba(255,255,255,0.3) 14px,
+      transparent 14px,
+      transparent 28px
+    );
+  }
 
-  .level-xw{width:42px;flex-shrink:0;text-align:right;}
-  .xw-label{font-size:0.55rem;color:var(--muted);display:block;}
-  .xw-val{font-size:0.82rem;font-weight:600;}
-  .xw-val.warn{color:#f59e0b;}
-  .xw-val.danger{color:#dc2626;}
+  /* Altitude bands (horizontal zones) */
+  .band {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    min-height: 80px;
+  }
+  .band:last-child { border-bottom: none; }
 
-  .loading{padding:40px 16px;text-align:center;color:var(--muted);font-size:0.85rem;}
-  .error{padding:16px;background:#fff5f5;border-left:3px solid #dc2626;margin:12px 16px;font-size:0.82rem;color:#dc2626;border-radius:4px;}
+  /* Background gradient per band */
+  .band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--band-bg, transparent);
+    pointer-events: none;
+  }
 
-  .footer{padding:12px 16px;font-size:0.65rem;color:var(--muted);text-align:center;border-top:1px solid var(--border);}
-  .refresh-btn{display:block;margin:8px auto 0;padding:6px 16px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.75rem;cursor:pointer;color:var(--text);}
+  .band-alt {
+    width: 72px; flex-shrink: 0;
+    font-family: var(--mono);
+    z-index: 1;
+  }
+  .band-ft { font-size: 0.95rem; font-weight: 600; color: var(--text); line-height: 1; }
+  .band-ft sup { font-size: 0.55rem; }
+  .band-m { font-size: 0.6rem; color: var(--muted); margin-top: 3px; }
 
-  .rwy-info{font-size:0.65rem;color:var(--muted);padding:6px 16px;background:#f8f8f6;border-bottom:1px solid var(--border);display:flex;gap:12px;}
+  /* Arrow circle */
+  .band-arrow {
+    flex-shrink: 0;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--arrow-bg, rgba(77,142,245,0.15));
+    border: 1.5px solid var(--arrow-border, rgba(77,142,245,0.4));
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    z-index: 1;
+    transition: all .3s;
+  }
+  .band-arrow.warn {
+    --arrow-bg: rgba(245,166,35,0.15);
+    --arrow-border: rgba(245,166,35,0.5);
+  }
+  .band-arrow.danger {
+    --arrow-bg: rgba(232,64,64,0.15);
+    --arrow-border: rgba(232,64,64,0.6);
+  }
+  .band-arrow svg {
+    width: 28px; height: 28px;
+    overflow: visible;
+  }
+
+  .band-data {
+    flex: 1; padding-left: 12px; z-index: 1;
+  }
+  .band-kt { font-family: var(--mono); font-size: 1.3rem; line-height: 1; color: var(--text); }
+  .band-kt span { font-size: 0.65rem; color: var(--muted); margin-left: 2px; }
+  .band-dir { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); margin-top: 4px; }
+  .band-kmh { font-size: 0.62rem; color: var(--muted); margin-top: 2px; }
+
+  .band-xw { 
+    width: 42px; flex-shrink: 0; text-align: right;
+    font-family: var(--mono); z-index: 1;
+  }
+  .band-xw-val { font-size: 0.82rem; }
+  .band-xw-lbl { font-size: 0.55rem; color: var(--muted); display: block; }
+
+  /* Horizontal wind line from arrow toward runway */
+  .wind-line {
+    position: absolute;
+    top: 50%; height: 1px;
+    background: var(--wl-color, rgba(77,142,245,0.25));
+    z-index: 0;
+    transform-origin: left center;
+    pointer-events: none;
+  }
+
+  .loading { padding: 40px 16px; text-align: center; color: var(--muted); font-size: 0.85rem; font-family: var(--mono); }
+  .error { padding: 16px; margin: 12px 16px; background: rgba(232,64,64,.08); border: 1px solid rgba(232,64,64,.3); border-radius: 6px; font-size: 0.8rem; color: var(--danger); font-family: var(--mono); }
+
+  .footer {
+    padding: 12px 16px;
+    font-size: 0.62rem; color: var(--muted);
+    font-family: var(--mono);
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .refresh-btn {
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    color: var(--muted); font-family: var(--mono); font-size: 0.65rem;
+    padding: 4px 10px; border-radius: 4px; cursor: pointer;
+  }
+  .refresh-btn:active { opacity: .7; }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-top">
-    <span class="header-icao">EPKP</span>
-    <span class="header-time" id="hdr-time">—</span>
+<div class="hdr">
+  <div>
+    <div class="hdr-icao">EPKP</div>
+    <div class="hdr-sub">KRAKÓW BALICE · 664ft AMSL</div>
   </div>
-  <div class="header-meta">
-    <span id="hdr-elev">664 ft AMSL</span>
-    <span id="hdr-qnh">QNH: —</span>
-    <span id="hdr-temp">T: —</span>
+  <div class="hdr-right">
+    <div id="hdr-time" class="hdr-time">——:——Z</div>
+    <div id="hdr-qnh">QNH ——</div>
+    <div id="hdr-temp">T ——°C</div>
   </div>
 </div>
 
-<div class="rwy-info">
-  <span>RWY 09/27 (090°/270°)</span>
-  <span id="rwy-wind">XW: —</span>
+<div class="rwy-bar">
+  <span class="rwy-badge">RWY 09/27</span>
+  <span>hdg 090°/270°</span>
+  <span class="rwy-xw" id="rwy-xw-label">XW: ——</span>
 </div>
 
-<div class="levels" id="levels">
-  <div class="loading">Ładowanie danych...</div>
+<div class="visual" id="visual">
+  <div class="loading">Ładowanie...</div>
 </div>
 
 <div class="footer">
-  Open-Meteo · Kraków Balice · 50.087°N 20.201°E
-  <button class="refresh-btn" onclick="loadData()">↻ Odśwież</button>
+  <span>Open-Meteo · 50.087°N 20.201°E</span>
+  <button class="refresh-btn" onclick="loadData()">↻</button>
 </div>
 
 <script>
-const LAT = 50.087, LON = 20.201, ELEV_FT = 664, ELEV_M = 202;
-const RWY_HDG = 270; // runway 27 heading
+const LAT = 50.087, LON = 20.201, ELEV_FT = 664;
+const RWY = 270; // runway 27 heading
 
-// Height levels: [m AGL, label]
-const LEVELS = [
-  { m: 180, suffix: 'windspeed_180m', dirSuffix: 'winddirection_180m' },
-  { m: 120, suffix: 'windspeed_120m', dirSuffix: 'winddirection_120m' },
-  { m: 80,  suffix: 'windspeed_80m',  dirSuffix: 'winddirection_80m'  },
-  { m: 10,  suffix: 'windspeed_10m',  dirSuffix: 'winddirection_10m'  },
+const LVLS = [
+  { m: 180, ws: 'windspeed_180m', wd: 'winddirection_180m' },
+  { m: 120, ws: 'windspeed_120m', wd: 'winddirection_120m' },
+  { m:  80, ws: 'windspeed_80m',  wd: 'winddirection_80m'  },
+  { m:  10, ws: 'windspeed_10m',  wd: 'winddirection_10m'  },
 ];
 
-function mToFtMSL(m) { return Math.round(ELEV_FT + m * 3.281); }
-function kmhToKt(kmh) { return (kmh * 0.5399).toFixed(0); }
-function dirName(deg) {
-  const dirs = ['N','NE','E','SE','S','SW','W','NW','N'];
-  return dirs[Math.round(deg / 45) % 8];
+function ftMSL(m) { return Math.round(ELEV_FT + m * 3.281); }
+function toKt(kmh) { return (kmh * 0.5399); }
+function dirName(d) {
+  const n = ['N','NE','E','SE','S','SW','W','NW'];
+  return n[Math.round(((d % 360) + 360) % 360 / 45) % 8];
 }
-function crosswind(speed_kt, dir_deg) {
-  // component perpendicular to RWY 09/27
-  const angle = Math.abs(dir_deg - RWY_HDG) % 360;
-  const rel = angle > 180 ? 360 - angle : angle;
-  return Math.abs(Math.round(speed_kt * Math.sin(rel * Math.PI / 180)));
+function crosswind(kt, dir) {
+  const a = ((dir - RWY) % 360 + 360) % 360;
+  const rel = a > 180 ? 360 - a : a;
+  return Math.abs(Math.round(kt * Math.sin(rel * Math.PI / 180)));
+}
+// Angle of wind arrow relative to runway (RWY 27 = "up" on screen)
+// wind FROM dir → arrow points FROM that direction → relative to runway heading
+function relAngle(windDir) {
+  // RWY 27 = 270° is "up" (toward bottom of screen = landing direction)
+  // We want: wind from 270° = from ahead = arrow points DOWN (toward us, headwind)
+  // wind from 090° = from behind = arrow points UP (away, tailwind)
+  // wind from 360° = from right = arrow points right
+  // wind from 180° = from left = arrow points left
+  // formula: relAngle = windDir - RWY (so 270→0=up, 090→180=down, 360→90=right, 180→270=left)
+  // But "up" in our circle means wind FROM above = headwind
+  // Arrow should point FROM wind direction: rotate = windDir - RWY
+  return ((windDir - RWY + 360) % 360);
 }
 
-function arrowSVG(dir_deg) {
-  // Arrow pointing DOWN by default = wind from N (dir=0)
-  // Rotate by dir_deg to show correct direction
-  return `<svg viewBox="0 0 40 40" style="transform:rotate(${dir_deg}deg);transition:transform .3s">
-    <line x1="20" y1="6" x2="20" y2="28" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"/>
-    <polyline points="12,20 20,30 28,20" stroke="var(--text)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+// Arrow SVG — points UP at 0°, then rotated
+function arrowSVG(relDeg, color) {
+  return `<svg viewBox="0 0 28 28" style="transform:rotate(${relDeg}deg);transition:transform .4s">
+    <line x1="14" y1="4" x2="14" y2="22" stroke="${color}" stroke-width="2" stroke-linecap="round"/>
+    <polyline points="8,15 14,23 20,15" stroke="${color}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- tail feathers (headwind indicator) -->
+    <line x1="14" y1="4" x2="9" y2="9" stroke="${color}" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+    <line x1="14" y1="4" x2="19" y2="9" stroke="${color}" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
   </svg>`;
 }
 
+// Band gradient based on altitude
+function bandGradient(idx) {
+  const grads = [
+    'linear-gradient(to right, rgba(77,142,245,0.04) 0%, transparent 60%)',  // 180m - highest
+    'linear-gradient(to right, rgba(77,142,245,0.03) 0%, transparent 60%)',
+    'linear-gradient(to right, rgba(100,180,100,0.03) 0%, transparent 60%)',
+    'linear-gradient(to right, rgba(200,160,60,0.04) 0%, transparent 60%)',   // 10m - surface
+  ];
+  return grads[idx] || 'transparent';
+}
+
 async function loadData() {
-  const container = document.getElementById('levels');
-  container.innerHTML = '<div class="loading">Ładowanie...</div>';
+  const vis = document.getElementById('visual');
+  vis.innerHTML = '<div class="loading">Ładowanie danych...</div>';
 
   const today = new Date().toISOString().slice(0,10);
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&hourly=pressure_msl,temperature_2m,windspeed_10m,windspeed_80m,windspeed_120m,windspeed_180m,winddirection_10m,winddirection_80m,winddirection_120m,winddirection_180m&start_date=${today}&end_date=${today}&timezone=UTC`;
@@ -123,66 +298,69 @@ async function loadData() {
   try {
     const res = await fetch(url);
     const data = await res.json();
-    const hourly = data.hourly;
-    const times = hourly.time;
-
-    // Find current UTC hour index
-    const now = new Date();
-    const utcHour = now.getUTCHours();
-    let idx = times.findIndex(t => t.endsWith(`T${String(utcHour).padStart(2,'0')}:00`));
+    const h = data.hourly;
+    const utcH = new Date().getUTCHours();
+    let idx = h.time.findIndex(t => t.endsWith(`T${String(utcH).padStart(2,'0')}:00`));
     if (idx < 0) idx = 0;
 
     // Header
-    const qnh = hourly.pressure_msl[idx];
-    const temp = hourly.temperature_2m[idx];
-    const timeStr = times[idx].slice(11,16) + 'Z';
-    document.getElementById('hdr-time').textContent = timeStr;
-    document.getElementById('hdr-qnh').textContent = qnh ? `QNH: ${Math.round(qnh)} hPa / ${(qnh * 0.02953).toFixed(2)}"` : 'QNH: —';
-    document.getElementById('hdr-temp').textContent = temp != null ? `T: ${temp.toFixed(1)}°C` : '';
+    const qnh = h.pressure_msl[idx];
+    const temp = h.temperature_2m[idx];
+    document.getElementById('hdr-time').textContent = h.time[idx].slice(11,16) + 'Z';
+    document.getElementById('hdr-qnh').textContent = qnh ? `QNH ${Math.round(qnh)} hPa / ${(qnh*0.02953).toFixed(2)}"` : 'QNH —';
+    document.getElementById('hdr-temp').textContent = temp != null ? `T ${temp.toFixed(1)}°C` : '';
 
-    // Build levels HTML
-    let html = '';
-    let surfaceXW = 0;
+    // Build bands
+    let html = '<div class="rwy-strip"></div><div class="rwy-cl"></div>';
+    let surfXW = 0;
 
-    LEVELS.forEach(lv => {
-      const spd_kmh = hourly[lv.suffix][idx];
-      const dir = hourly[lv.dirSuffix][idx];
-      const ft = mToFtMSL(lv.m);
-      const kt = parseFloat(kmhToKt(spd_kmh));
+    LVLS.forEach((lv, i) => {
+      const spd_kmh = h[lv.ws][idx];
+      const dir = h[lv.wd][idx];
+      const ft = ftMSL(lv.m);
+      const kt = toKt(spd_kmh);
       const xw = crosswind(kt, dir);
-      if (lv.m === 10) surfaceXW = xw;
+      if (lv.m === 10) surfXW = xw;
 
-      let xwClass = '', rowClass = '';
-      if (xw >= 15) { xwClass = 'danger'; rowClass = 'xw-danger'; }
-      else if (xw >= 10) { xwClass = 'warn'; rowClass = 'xw-warn'; }
+      const rel = relAngle(dir);
+      let arrowColor, arrowClass = '', xwClass = '';
+      if (xw >= 15)      { arrowColor='#e84040'; arrowClass='danger'; xwClass='xw-danger'; }
+      else if (xw >= 10) { arrowColor='#f5a623'; arrowClass='warn';   xwClass='xw-warn';  }
+      else               { arrowColor='#4d8ef5'; xwClass='xw-ok'; }
 
-      html += `<div class="level ${rowClass}">
-        <div class="level-alt">
-          <span class="level-alt-ft">${ft}ft</span>
-          <span class="level-alt-label">${lv.m}m AGL</span>
+      html += `<div class="band" style="--band-bg:${bandGradient(i)}">
+        <div class="band-alt">
+          <div class="band-ft">${ft}<sup>ft</sup></div>
+          <div class="band-m">${lv.m}m AGL</div>
         </div>
-        <div class="level-arrow">${arrowSVG(dir)}</div>
-        <div class="level-data">
-          <span class="level-kt">${kt}</span><span class="level-kt-unit">kt</span>
-          <div class="level-dir">${dir}° ${dirName(dir)} &nbsp;·&nbsp; ${spd_kmh.toFixed(1)} km/h</div>
+        <div class="band-arrow ${arrowClass}">
+          ${arrowSVG(rel, arrowColor)}
         </div>
-        <div class="level-xw">
-          <span class="xw-label">XW</span>
-          <span class="xw-val ${xwClass}">${xw}kt</span>
+        <div class="band-data">
+          <div class="band-kt">${kt.toFixed(0)}<span>kt</span></div>
+          <div class="band-dir">${dir}° ${dirName(dir)}</div>
+          <div class="band-kmh">${spd_kmh.toFixed(1)} km/h</div>
+        </div>
+        <div class="band-xw">
+          <span class="band-xw-lbl">XW</span>
+          <span class="band-xw-val ${xwClass}">${xw}kt</span>
         </div>
       </div>`;
     });
 
-    container.innerHTML = html;
-    document.getElementById('rwy-wind').textContent = `XW: ${surfaceXW}kt`;
+    vis.innerHTML = html;
+
+    // XW label
+    const xwEl = document.getElementById('rwy-xw-label');
+    xwEl.textContent = `XW: ${surfXW}kt`;
+    xwEl.className = 'rwy-xw ' + (surfXW >= 15 ? 'xw-danger' : surfXW >= 10 ? 'xw-warn' : 'xw-ok');
 
   } catch(e) {
-    container.innerHTML = `<div class="error">Błąd ładowania: ${e.message}</div>`;
+    vis.innerHTML = `<div class="error">Błąd: ${e.message}</div>`;
   }
 }
 
 loadData();
-// Auto-refresh co 30 min
 setInterval(loadData, 30 * 60 * 1000);
 </script>
 </body>
