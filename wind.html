@@ -59,22 +59,14 @@
   }
   .hdr-icao { font-family: var(--mono); font-size: 1.65rem; letter-spacing: .08em; }
   .hdr-sub  { font-size: 1.01rem; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
-  .hdr-right { text-align: right; font-family: var(--mono); font-size: 1.08rem; color: var(--muted); line-height: 1.75; }
+  .hdr-right { text-align: right; font-family: var(--mono); font-size: 0.6rem; color: var(--muted); line-height: 1.75; }
   .hdr-time  { color: var(--accent); }
 
-  /* RUNWAY BAR */
-  .rwy-bar {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 16px;
-    border-bottom: 1px solid var(--line);
-    font-family: var(--mono); font-size: 1.05rem; color: var(--muted);
-  }
-  .rwy-badge {
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 4px; padding: 2px 8px;
-    color: var(--text); font-size: 1.08rem;
-  }
+  /* RUNWAY SELECTOR */
+  .rwy-selector { display:flex; gap:8px; padding:10px 16px; border-bottom:1px solid rgba(255,255,255,.07); }
+  .rwy-btn { flex:1; padding:8px; border:1px solid rgba(255,255,255,.15); border-radius:6px; background:transparent; color:var(--muted); font-family:var(--mono); font-size:0.9rem; font-weight:600; cursor:pointer; transition:all .15s; letter-spacing:.05em; }
+  .rwy-btn.active { background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.35); color:var(--text); }
+  .rwy-btn:hover:not(.active) { border-color:rgba(255,255,255,.25); color:rgba(255,255,255,.6); }
 
   /* BAND */
   .band {
@@ -111,6 +103,8 @@
   .band-ft  { font-size: 1.31rem; font-weight: 600; color: var(--text); line-height: 1; }
   .band-ft sup { font-size: 0.69rem; }
   .band-m   { font-size: 0.84rem; color: var(--muted); margin-top: 3px; }
+  .pws-badge { font-size: 0.65rem; color: var(--muted); vertical-align: middle; }
+  .pws-time  { font-size: 0.62rem; color: var(--muted); font-family: var(--mono); margin-top: 2px; opacity: .7; }
 
   /* Isometric arrow area */
   .band-arrow {
@@ -210,18 +204,20 @@
   <div class="hdr">
     <div>
       <div class="hdr-icao">EPKP</div>
-      <div class="hdr-sub">KRAKÓW POBIEDNIK · 664ft AMSL</div>
+      <div class="hdr-sub">KRAKÓW POBIEDNIK</div>
+      <div class="hdr-sub" style="font-size:0.78rem;">664ft AMSL &middot; INFO 119.750</div>
     </div>
     <div class="hdr-right">
-      <div id="hdr-time" class="hdr-time">——:——Z</div>
+      <div><span id="hdr-time" class="hdr-time">——:——Z</span>&nbsp; <span id="hdr-date">——</span></div>
+      <div id="hdr-lt">——:—— LT</div>
       <div id="hdr-qnh">QNH ——</div>
       <div id="hdr-temp">T ——°C</div>
     </div>
   </div>
 
-  <div class="rwy-bar">
-    <span class="rwy-badge">RWY 09/27</span>
-    <span>hdg 090°/270°</span>
+  <div class="rwy-selector">
+    <button class="rwy-btn active" data-rwy="27" data-hdg="270">RWY 27</button>
+    <button class="rwy-btn" data-rwy="09" data-hdg="90">RWY 09</button>
   </div>
 
   <div id="bands">
@@ -249,7 +245,9 @@
 </svg>
 <script>
 const LAT = 50.087, LON = 20.201, ELEV_FT = 664;
-const RWY = 270;
+let RWY_HDG = 270;
+let currentBandData = null;
+let currentPws = null;
 
 const LVLS = [
   { m: 180, ws: 'windspeed_180m', wd: 'winddirection_180m' },
@@ -264,15 +262,26 @@ function dirName(d) {
   const n = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
   return n[Math.round(((d % 360) + 360) % 360 / 22.5) % 16];
 }
+function getLT() {
+  return new Intl.DateTimeFormat('pl-PL', { timeZone: 'Europe/Warsaw', hour:'2-digit', minute:'2-digit', hour12:false }).format(new Date());
+}
+function getDate() {
+  return new Intl.DateTimeFormat('pl-PL', { timeZone: 'Europe/Warsaw', day:'2-digit', month:'2-digit', year:'numeric' }).format(new Date());
+}
+function updateTimeDisplay() {
+  document.getElementById('hdr-lt').textContent = getLT() + ' LT';
+  document.getElementById('hdr-date').textContent = getDate();
+}
+
 function crosswind(kt, dir) {
-  const a = ((dir - RWY) % 360 + 360) % 360;
+  const a = ((dir - RWY_HDG) % 360 + 360) % 360;
   const rel = a > 180 ? 360 - a : a;
   return Math.abs(Math.round(kt * Math.sin(rel * Math.PI / 180)));
 }
 
 /* ---- Vector arrow SVG ---- */
 function arrowSVG(windDir) {
-  const tx = `perspective(180px) rotateX(54deg) rotateZ(${windDir - 270 + 180}deg)`;
+  const tx = `perspective(180px) rotateX(54deg) rotateZ(${windDir - RWY_HDG + 180}deg)`;
   return `<svg viewBox="0 0 32 32" width="52" height="52"
       style="position:relative;z-index:1;transform:${tx};">
     <line x1="16" y1="28" x2="16" y2="8" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round"/>
@@ -310,7 +319,7 @@ class StreakAnim {
 
     // velocity direction: wind blows TO (windDir + 180)
     // Use same reference frame as arrows: relative to RWY27 (270°)
-    const toRad = ((this.windDir - 270 + 180 + 360) % 360) * Math.PI / 180;
+    const toRad = ((this.windDir - RWY_HDG + 180 + 360) % 360) * Math.PI / 180;
     this.vx = Math.sin(toRad);
     this.vy = -Math.cos(toRad);   // canvas y increases downward
 
@@ -393,19 +402,32 @@ async function fetchPWS() {
 /* ---- METAR EPKK fetch ---- */
 async function fetchMetar() {
   try {
-    const res = await fetch('https://aviationweather.gov/api/data/metar?ids=EPKK&format=json&hours=1');
-    const d = await res.json();
-    const m = d[0];
-    if (!m) return;
-    document.getElementById('metar-text').textContent = m.rawOb || m.metar || '—';
-    document.getElementById('metar-time').textContent = m.reportTime || m.obsTime || '';
+    const res = await fetch('https://metar.vatsim.net/metar.php?id=EPKK');
+    if (res.ok) {
+      const text = (await res.text()).trim();
+      if (text && text.includes('EPKK')) {
+        document.getElementById('metar-text').textContent = text;
+        const m = text.match(/EPKK\s+(\d{6})Z/);
+        if (m) document.getElementById('metar-time').textContent = m[1].slice(0,2) + ':' + m[1].slice(2,4) + 'Z';
+        return;
+      }
+    }
+  } catch(e) {}
+  try {
+    const res2 = await fetch('https://tgftp.nws.noaa.gov/data/observations/metar/stations/EPKK.TXT');
+    if (res2.ok) {
+      const lines = (await res2.text()).trim().split('\n');
+      const metar = lines.find(l => l.includes('EPKK')) || lines[lines.length-1];
+      document.getElementById('metar-text').textContent = metar.trim();
+    }
   } catch(e) {
-    document.getElementById('metar-text').textContent = 'brak danych';
+    document.getElementById('metar-text').textContent = 'brak połączenia';
   }
 }
 
 /* ---- Update ground band with PWS data ---- */
 function updateGroundBand(pws) {
+  currentPws = pws;
   const band = document.getElementById('band-ground');
   if (!band || !pws) return;
 
@@ -416,8 +438,23 @@ function updateGroundBand(pws) {
 
   const altEl = band.querySelector('.band-ft');
   if (altEl) altEl.innerHTML = '~33<sup>ft</sup>';
-  const mEl = band.querySelector('.band-m');
-  if (mEl) mEl.textContent = 'PWS IPOBIE2';
+
+  // PWS badge with freshness dot
+  const badgeEl = document.getElementById('pws-badge');
+  if (badgeEl) {
+    const ageMin = pws.time ? (Date.now() - new Date(pws.time).getTime()) / 60000 : 99;
+    const dotColor = ageMin < 5 ? '#3ec87a' : '#f5a623';
+    badgeEl.innerHTML = `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${dotColor};margin-right:2px;vertical-align:middle;"></span>PWS`;
+  }
+
+  // PWS timestamp
+  const timeEl = document.getElementById('pws-time');
+  if (timeEl && pws.time) {
+    const t = new Date(pws.time);
+    const hh = String(t.getUTCHours()).padStart(2,'0');
+    const mm = String(t.getUTCMinutes()).padStart(2,'0');
+    timeEl.textContent = `${hh}:${mm}Z`;
+  }
 
   const arrowEl = band.querySelector('.band-arrow');
   if (arrowEl) arrowEl.innerHTML = arrowSVG(pws.dir);
@@ -443,6 +480,44 @@ function updateGroundBand(pws) {
       activeStreaks.push(s);
     }));
   }
+}
+
+/* ---- Rerender arrows when RWY changes ---- */
+function rerenderArrows() {
+  if (!currentBandData) return;
+  stopAllStreaks();
+
+  document.querySelectorAll('.band').forEach((band, i) => {
+    const isGround = band.id === 'band-ground';
+    const entry = currentBandData[i];
+    if (!entry) return;
+
+    const { dir, kt } = (isGround && currentPws)
+      ? { dir: currentPws.dir, kt: toKt(currentPws.speed_kmh) }
+      : entry;
+
+    const xw = crosswind(kt, dir);
+    band.style.setProperty('--stripe', xw >= 15 ? 'rgba(232,64,64,.4)' : 'rgba(77,142,245,.32)');
+
+    const arrowEl = band.querySelector('.band-arrow');
+    if (arrowEl) arrowEl.innerHTML = arrowSVG(dir);
+  });
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    document.querySelectorAll('.band').forEach((band, i) => {
+      const isGround = band.id === 'band-ground';
+      const entry = currentBandData[i];
+      if (!entry) return;
+      const { dir, kt } = (isGround && currentPws)
+        ? { dir: currentPws.dir, kt: toKt(currentPws.speed_kmh) }
+        : entry;
+      const canvas = band.querySelector('.band-streaks');
+      if (!canvas) return;
+      const s = new StreakAnim(canvas, dir, kt);
+      s.start();
+      activeStreaks.push(s);
+    });
+  }));
 }
 
 /* ---- Data fetch & render ---- */
@@ -471,6 +546,7 @@ async function loadData() {
     const temp = h.temperature_2m[idx];
     document.getElementById('hdr-time').textContent =
       h.time[idx].slice(11, 16) + 'Z';
+    updateTimeDisplay();
     if (qnh) {
       const inHg = (qnh * 0.02953).toFixed(2);
       document.getElementById('hdr-qnh').textContent =
@@ -481,7 +557,7 @@ async function loadData() {
     document.getElementById('hdr-temp').textContent =
       temp != null ? `T ${temp.toFixed(1)}°C` : '';
 
-    const bandData = [];
+    currentBandData = [];
     let html = '';
 
     LVLS.forEach((lv, i) => {
@@ -492,18 +568,23 @@ async function loadData() {
       const kt      = toKt(spd_kmh);
       const xw      = crosswind(kt, dir);
 
-      bandData.push({ dir, kt });
+      currentBandData.push({ dir, kt });
 
       const stripe = xw >= 15 ? 'rgba(232,64,64,.4)' : 'rgba(77,142,245,.32)';
       const altFt  = (isGround && pws) ? '~33<sup>ft</sup>' : `${ft}<sup>ft</sup>`;
-      const altM   = (isGround && pws) ? 'PWS IPOBIE2' : (isGround ? '10m AGL' : `${lv.m}m AGL`);
       const idAttr = isGround ? ' id="band-ground"' : '';
+
+      const altSection = isGround
+        ? `<div class="band-ft">${altFt}</div>
+          <div class="band-m">10m AGL <span class="pws-badge" id="pws-badge"></span></div>
+          <div class="pws-time" id="pws-time"></div>`
+        : `<div class="band-ft">${altFt}</div>
+          <div class="band-m">${lv.m}m AGL</div>`;
 
       html += `
       <div class="band" style="--stripe:${stripe}"${idAttr}>
         <div class="band-alt">
-          <div class="band-ft">${altFt}</div>
-          <div class="band-m">${altM}</div>
+          ${altSection}
         </div>
         <div class="band-arrow">
           ${arrowSVG(dir)}
@@ -525,7 +606,7 @@ async function loadData() {
     requestAnimationFrame(() => requestAnimationFrame(() => {
       bandsEl.querySelectorAll('.band-streaks').forEach(canvas => {
         const i = +canvas.dataset.idx;
-        const { dir, kt } = bandData[i];
+        const { dir, kt } = currentBandData[i];
         const s = new StreakAnim(canvas, dir, kt);
         s.start();
         activeStreaks.push(s);
@@ -541,8 +622,22 @@ async function loadData() {
   }
 }
 
+// RWY selector
+document.querySelectorAll('.rwy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.rwy-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    RWY_HDG = parseInt(btn.dataset.hdg);
+    rerenderArrows();
+  });
+});
+
 loadData();
 fetchMetar();
+updateTimeDisplay();
+
+// Update LT every minute
+setInterval(updateTimeDisplay, 60 * 1000);
 
 // Wind data (Open-Meteo + PWS): every 5 minutes
 setInterval(loadData, 5 * 60 * 1000);
