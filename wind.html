@@ -261,7 +261,7 @@ function crosswind(kt, dir) {
 
 /* ---- Vector arrow SVG ---- */
 function arrowSVG(windDir) {
-  const tx = `perspective(180px) rotateX(54deg) rotateZ(${windDir}deg)`;
+  const tx = `perspective(180px) rotateX(54deg) rotateZ(${windDir - 270}deg)`;
   return `<svg viewBox="0 0 32 32" width="52" height="52"
       style="position:relative;z-index:1;transform:${tx};">
     <line x1="16" y1="28" x2="16" y2="8" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round"/>
