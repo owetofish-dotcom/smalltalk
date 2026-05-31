@@ -57,9 +57,9 @@
     justify-content: space-between;
     align-items: flex-start;
   }
-  .hdr-icao { font-family: var(--mono); font-size: 1.1rem; letter-spacing: .08em; }
-  .hdr-sub  { font-size: 0.67rem; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
-  .hdr-right { text-align: right; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); line-height: 1.75; }
+  .hdr-icao { font-family: var(--mono); font-size: 1.65rem; letter-spacing: .08em; }
+  .hdr-sub  { font-size: 1.01rem; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
+  .hdr-right { text-align: right; font-family: var(--mono); font-size: 1.08rem; color: var(--muted); line-height: 1.75; }
   .hdr-time  { color: var(--accent); }
 
   /* RUNWAY BAR */
@@ -67,18 +67,14 @@
     display: flex; align-items: center; gap: 10px;
     padding: 8px 16px;
     border-bottom: 1px solid var(--line);
-    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    font-family: var(--mono); font-size: 1.05rem; color: var(--muted);
   }
   .rwy-badge {
     background: rgba(255,255,255,.06);
     border: 1px solid rgba(255,255,255,.12);
     border-radius: 4px; padding: 2px 8px;
-    color: var(--text); font-size: 0.72rem;
+    color: var(--text); font-size: 1.08rem;
   }
-  .rwy-xw { margin-left: auto; }
-  .xw-ok     { color: var(--green); }
-  .xw-warn   { color: var(--warn); }
-  .xw-danger { color: var(--danger); }
 
   /* BAND */
   .band {
@@ -112,9 +108,9 @@
     flex-shrink: 0;
     font-family: var(--mono);
   }
-  .band-ft  { font-size: 0.87rem; font-weight: 600; color: var(--text); line-height: 1; }
-  .band-ft sup { font-size: 0.46rem; }
-  .band-m   { font-size: 0.56rem; color: var(--muted); margin-top: 3px; }
+  .band-ft  { font-size: 1.31rem; font-weight: 600; color: var(--text); line-height: 1; }
+  .band-ft sup { font-size: 0.69rem; }
+  .band-m   { font-size: 0.84rem; color: var(--muted); margin-top: 3px; }
 
   /* Isometric arrow area */
   .band-arrow {
@@ -174,37 +170,30 @@
     font-family: var(--mono);
     flex-shrink: 0;
   }
-  .band-kt  { font-size: 1.05rem; color: var(--text); }
-  .band-kt small { font-size: 0.57rem; color: var(--muted); margin-left: 1px; }
-  .band-dir { font-size: 0.63rem; color: var(--muted); }
-  .band-kmh { font-size: 0.57rem; color: rgba(255,255,255,.18); }
-  .band-xw  {
-    margin-left: auto;
-    text-align: right;
-    font-size: 0.72rem;
-    flex-shrink: 0;
-  }
-  .band-xw small { font-size: 0.5rem; color: var(--muted); display: block; margin-top: 1px; }
+  .band-kt  { font-size: 1.58rem; color: var(--text); }
+  .band-kt small { font-size: 0.86rem; color: var(--muted); margin-left: 1px; }
+  .band-dir { font-size: 0.95rem; color: var(--muted); }
+  .band-kmh { font-size: 0.86rem; color: rgba(255,255,255,.18); }
 
-  .loading { padding: 40px 16px; text-align: center; color: var(--muted); font-size: 0.85rem; font-family: var(--mono); }
+  .loading { padding: 40px 16px; text-align: center; color: var(--muted); font-size: 1.28rem; font-family: var(--mono); }
   .error   {
     padding: 16px; margin: 12px 16px;
     background: rgba(232,64,64,.08);
     border: 1px solid rgba(232,64,64,.3);
     border-radius: 6px;
-    font-size: 0.8rem; color: var(--danger); font-family: var(--mono);
+    font-size: 1.2rem; color: var(--danger); font-family: var(--mono);
   }
 
   .footer {
     padding: 12px 16px;
-    font-size: 0.62rem; color: var(--muted);
+    font-size: 0.93rem; color: var(--muted);
     font-family: var(--mono);
     border-top: 1px solid var(--line);
     display: flex; justify-content: space-between; align-items: center;
   }
   .refresh-btn {
     background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
-    color: var(--muted); font-family: var(--mono); font-size: 0.65rem;
+    color: var(--muted); font-family: var(--mono); font-size: 0.98rem;
     padding: 4px 10px; border-radius: 4px; cursor: pointer;
   }
   .refresh-btn:active { opacity: .7; }
@@ -216,7 +205,7 @@
   <div class="hdr">
     <div>
       <div class="hdr-icao">EPKP</div>
-      <div class="hdr-sub">KRAKÓW BALICE · 664ft AMSL</div>
+      <div class="hdr-sub">KRAKÓW POBIEDNIK · 664ft AMSL</div>
     </div>
     <div class="hdr-right">
       <div id="hdr-time" class="hdr-time">——:——Z</div>
@@ -228,7 +217,6 @@
   <div class="rwy-bar">
     <span class="rwy-badge">RWY 09/27</span>
     <span>hdg 090°/270°</span>
-    <span class="rwy-xw" id="rwy-xw-label">XW: ——</span>
   </div>
 
   <div id="bands">
@@ -236,11 +224,18 @@
   </div>
 
   <div class="footer">
-    <span>Open-Meteo · 50.087°N 20.201°E</span>
+    <span>Gradient wiatru na pułapach — Kraków Pobiednik</span>
     <button class="refresh-btn" onclick="loadData()">↻</button>
   </div>
 
 </div>
+
+<!-- RWY 27 diagram — bottom right -->
+<svg style="position:fixed;bottom:10px;right:10px;pointer-events:none;" width="120" height="80" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="22,78 98,78 80,8 40,8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <line x1="60" y1="70" x2="60" y2="18" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" stroke-dasharray="6,5"/>
+  <text x="60" y="76" text-anchor="middle" font-size="11" font-family="monospace" fill="rgba(255,255,255,0.45)" font-weight="bold" letter-spacing="1">27</text>
+</svg>
 <script>
 const LAT = 50.087, LON = 20.201, ELEV_FT = 664;
 const RWY = 270;
@@ -264,36 +259,13 @@ function crosswind(kt, dir) {
   return Math.abs(Math.round(kt * Math.sin(rel * Math.PI / 180)));
 }
 
-/* ---- Isometric arrow SVG ---- */
-/*
-  Arrow tip points FROM windDir (meteorological convention).
-  SVG has tip at top (0 deg = North), rotated by windDir degrees via CSS.
-  perspective(180px) rotateX(54deg) gives the 2.5D isometric tilt.
-  rotateZ(windDir) sets the direction.
-*/
-function isoArrowSVG(windDir, color, idx) {
-  const gid = 'ag' + idx;
-  const tx  = `perspective(180px) rotateX(54deg) rotateZ(${windDir}deg)`;
-  return `<svg viewBox="-18 -24 36 42" width="52" height="52" overflow="visible"
+/* ---- Vector arrow SVG ---- */
+function arrowSVG(windDir) {
+  const tx = `perspective(180px) rotateX(54deg) rotateZ(${windDir}deg)`;
+  return `<svg viewBox="0 0 32 32" width="52" height="52"
       style="position:relative;z-index:1;transform:${tx};">
-    <defs>
-      <linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"   stop-color="${color}" stop-opacity="1"/>
-        <stop offset="100%" stop-color="${color}" stop-opacity=".62"/>
-      </linearGradient>
-    </defs>
-    <!-- depth/shadow copy (offset) -->
-    <polygon points="0,-22 -12,-5 12,-5"
-      fill="${color}" opacity=".18" transform="translate(2,3)"/>
-    <rect x="-5" y="-5" width="10" height="18" rx="1.5"
-      fill="${color}" opacity=".18" transform="translate(2,3)"/>
-    <!-- main face -->
-    <polygon points="0,-22 -12,-5 12,-5" fill="url(#${gid})"/>
-    <rect x="-5" y="-5" width="10" height="18" rx="1.5" fill="url(#${gid})"/>
-    <!-- lit-side highlight (left edge of head + shaft) -->
-    <polygon points="0,-22 -12,-5 -5,-5 -5,13" fill="rgba(255,255,255,.21)"/>
-    <!-- tip shine -->
-    <circle cx="0" cy="-21" r="1.4" fill="rgba(255,255,255,.5)"/>
+    <line x1="16" y1="28" x2="16" y2="8" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="16,4 11,12 21,12" fill="rgba(255,255,255,0.9)"/>
   </svg>`;
 }
 
@@ -421,7 +393,6 @@ async function loadData() {
       temp != null ? `T ${temp.toFixed(1)}°C` : '';
 
     const bandData = [];
-    let surfXW = 0;
     let html = '';
 
     LVLS.forEach((lv, i) => {
@@ -430,14 +401,10 @@ async function loadData() {
       const ft      = ftMSL(lv.m);
       const kt      = toKt(spd_kmh);
       const xw      = crosswind(kt, dir);
-      if (lv.m === 10) surfXW = xw;
 
       bandData.push({ dir, kt });
 
-      let color, xwCls, stripe;
-      if      (xw >= 15) { color = '#e84040'; xwCls = 'xw-danger'; stripe = 'rgba(232,64,64,.4)'; }
-      else if (xw >= 10) { color = '#f5a623'; xwCls = 'xw-warn';   stripe = 'rgba(245,166,35,.38)'; }
-      else               { color = '#4d8ef5'; xwCls = 'xw-ok';     stripe = 'rgba(77,142,245,.32)'; }
+      const stripe = xw >= 15 ? 'rgba(232,64,64,.4)' : 'rgba(77,142,245,.32)';
 
       html += `
       <div class="band" style="--stripe:${stripe}">
@@ -446,7 +413,7 @@ async function loadData() {
           <div class="band-m">${lv.m}m AGL</div>
         </div>
         <div class="band-arrow">
-          ${isoArrowSVG(dir, color, i)}
+          ${arrowSVG(dir)}
         </div>
         <div class="band-right">
           <canvas class="band-streaks" data-idx="${i}"></canvas>
@@ -454,21 +421,12 @@ async function loadData() {
             <span class="band-kt">${kt.toFixed(0)}<small>kt</small></span>
             <span class="band-dir">${dir}° ${dirName(dir)}</span>
             <span class="band-kmh">${spd_kmh.toFixed(1)}km/h</span>
-            <div class="band-xw">
-              <span class="${xwCls}">${xw}kt</span>
-              <small>XW</small>
-            </div>
           </div>
         </div>
       </div>`;
     });
 
     bandsEl.innerHTML = html;
-
-    const xwEl = document.getElementById('rwy-xw-label');
-    xwEl.textContent = `XW: ${surfXW}kt`;
-    xwEl.className   = 'rwy-xw ' +
-      (surfXW >= 15 ? 'xw-danger' : surfXW >= 10 ? 'xw-warn' : 'xw-ok');
 
     // Start streaks after layout is complete (double rAF ensures paint)
     requestAnimationFrame(() => requestAnimationFrame(() => {
