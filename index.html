@@ -200,6 +200,8 @@
     transform: rotate(45deg);
     border-radius: 1px;
   }
+  .cal-day.ideal { box-shadow: inset 0 0 0 2px #2d6a4f; border-radius: 4px; }
+  .cal-day.good  { box-shadow: inset 0 0 0 2px #e6a817; border-radius: 4px; }
 
   /* Weight input popup */
   .weight-popup {
@@ -973,7 +975,10 @@
       const isToday = d === today.getDate() && viewMonth === today.getMonth() && viewYear === today.getFullYear();
       const day = getDayData(key);
       const el = document.createElement('div');
-      el.className = 'cal-day' + (isToday ? ' today' : '');
+      const hasActivity = day.steps || (day.km && parseFloat(day.km) > 0);
+      const isIdeal = hasActivity && day.diet && day.no_fizzy;
+      const isGood  = hasActivity && day.diet && !day.no_fizzy;
+      el.className = 'cal-day' + (isToday ? ' today' : '') + (isIdeal ? ' ideal' : isGood ? ' good' : '');
       const DOT_CFG = {
         steps:    { color:'#111',    shape:'circle'  },
         diet:     { color:'#2d6a4f', shape:'triangle' },
