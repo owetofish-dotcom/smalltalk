@@ -1017,12 +1017,13 @@
     btn.style.borderColor = on ? 'var(--text)' : 'var(--border)';
     const dot = btn.querySelector('.toggle-dot');
     if (dot) dot.style.opacity = on ? '1' : '0.3';
-    if (on) { if (dot.style.borderBottom) { dot.style.borderBottomColor = '#fff'; } else { dot.style.background = '#fff'; } } else {
-      const colors = { steps:'#111', diet:'#2d6a4f', no_fizzy:'#2c6db5', flew:'#7c4ea8' };
-      const colors = { steps:'#111', diet:'#2d6a4f', no_fizzy:'#2c6db5', flew:'#7c4ea8' };
-      if (dot && dot.style.borderBottom !== undefined && field === 'diet') {
-        dot.style.borderBottomColor = colors[field]; dot.style.background = 'transparent';
-      } else if (dot) { dot.style.background = colors[field]; }
+    const FIELD_COLORS = { steps:'#111', diet:'#2d6a4f', no_fizzy:'#2c6db5', flew:'#7c4ea8' };
+    if (on) {
+      if (field === 'diet' && dot) { dot.style.borderBottomColor = '#fff'; dot.style.background = 'transparent'; }
+      else if (dot) { dot.style.background = '#fff'; }
+    } else {
+      if (field === 'diet' && dot) { dot.style.borderBottomColor = FIELD_COLORS[field]; dot.style.background = 'transparent'; }
+      else if (dot) { dot.style.background = FIELD_COLORS[field]; }
     }
   }
   document.querySelectorAll('.day-toggle').forEach(btn => {
