@@ -957,7 +957,21 @@
     const lastDay = new Date(viewYear, viewMonth + 1, 0);
     let startOffset = (firstDay.getDay() + 6) % 7;
 
-    label.textContent = MONTHS[viewMonth] + ' ' + viewYear;
+    // Calculate monthly stats
+    const weights_arr = [], kms_arr = [];
+    for (let d = 1; d <= lastDay.getDate(); d++) {
+      const k = viewYear + '-' + String(viewMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+      const dd = getDayData(k);
+      if (dd.weight) { const w = parseFloat(dd.weight); if (!isNaN(w)) weights_arr.push(w); }
+      if (dd.km) { const km = parseFloat(dd.km); if (!isNaN(km) && km > 0) kms_arr.push(km); }
+    }
+    const avgW = weights_arr.length ? (weights_arr.reduce((a,b)=>a+b,0)/weights_arr.length).toFixed(1) : null;
+    const totalKm = kms_arr.length ? kms_arr.reduce((a,b)=>a+b,0).toFixed(1) : null;
+    let stats = [];
+    if (avgW) stats.push(avgW + 'kg');
+    if (totalKm) stats.push(kms_arr.length + '×bieg ' + totalKm + 'km');
+    const statsStr = stats.length ? ' (' + stats.join(' · ') + ')' : '';
+    label.textContent = MONTHS[viewMonth] + ' ' + viewYear + statsStr;
     grid.innerHTML = '';
 
     DOW.forEach(d => {
