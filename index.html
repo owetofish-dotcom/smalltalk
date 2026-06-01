@@ -433,10 +433,7 @@
           </div>
         </div>
         <div>
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
-            <label style="font-size:0.68rem;color:var(--text-muted);">Czas pomiaru</label>
-            <button id="time-toggle" style="font-size:0.62rem;padding:2px 7px;border:1px solid var(--border);border-radius:4px;background:var(--bg);cursor:pointer;color:var(--text-muted);transition:all .15s;">+ dodaj</button>
-          </div>
+          <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:3px;">Czas pomiaru</label>
           <div id="time-row" style="display:flex;gap:4px;align-items:center;">
             <button id="time-minus" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">−</button>
             <input type="text" id="time-input" placeholder="HH:MM" maxlength="5" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:7px 6px;font-size:1rem;font-family:var(--font);font-weight:600;outline:none;color:var(--text);background:var(--bg);text-align:center;">
@@ -1054,7 +1051,7 @@
   }
 
   // Time helpers
-  let _timeActive = false;
+  let _timeActive = true; // always active when weight section open
   function nowHHMM() {
     const n = new Date();
     return String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
@@ -1065,28 +1062,12 @@
     return String(Math.floor(total/60)).padStart(2,'0') + ':' + String(total%60).padStart(2,'0');
   }
   function _setTimeActive(active, timeVal) {
-    _timeActive = active;
-    const row = document.getElementById('time-row');
-    const btn = document.getElementById('time-toggle');
+    // Time is always shown with weight section; just update value
+    // Use saved time if provided, else current time for NEW entries only
     const inp = document.getElementById('time-input');
-    if (active) {
-      row.style.display = 'flex';
-      inp.value = timeVal || nowHHMM();
-      btn.textContent = '× usuń';
-      btn.style.color = 'var(--text)';
-      btn.style.borderColor = 'var(--text)';
-    } else {
-      row.style.display = 'none';
-      inp.value = '';
-      btn.textContent = '+ dodaj';
-      btn.style.color = 'var(--text-muted)';
-      btn.style.borderColor = 'var(--border)';
-    }
+    inp.value = timeVal || nowHHMM();
+    _timeActive = true;
   }
-  document.getElementById('time-toggle').addEventListener('click', () => {
-    _setTimeActive(!_timeActive, null);
-  });
-
   // Weight section toggle
   let _weightActive = false;
   function _setWeightActive(active, weightVal) {
@@ -1103,6 +1084,8 @@
       icon.textContent = '×';
       lbl.textContent = 'Waga';
       if (weightVal !== undefined) input.value = weightVal;
+      // Time is inside weight-section, set it when opening
+      document.getElementById('time-row').style.display = 'flex';
     } else {
       sec.style.display = 'none';
       btn.style.background = 'var(--bg)';
@@ -1111,7 +1094,7 @@
       icon.textContent = '+';
       lbl.textContent = 'Dodaj wagę';
       input.value = '';
-      _setTimeActive(false, null);
+      document.getElementById('time-input').value = '';
     }
   }
   document.getElementById('weight-section-toggle').addEventListener('click', () => {
@@ -1138,8 +1121,10 @@
     const lastW = getLastWeight(key);
     const initWeight = data.weight ? data.weight.replace('kg','') : (lastW ? lastW.toFixed(1) : '');
     _setWeightActive(!!data.weight, initWeight);
-    // Time: show only if already saved for this day
-    _setTimeActive(!!data.time, data.time);
+    // Time: use saved time if exists, else current time (new entry)
+    _setTimeActive(true, data.time || '');
+    // If weight section is open, time was already set in _setWeightActive's show path
+    // But if weight not yet saved, time row will be hidden anyway (inside weight-section div)
     document.getElementById('km-input').value = data.km;
     ['steps','diet','no_fizzy','flew'].forEach(f => { _toggleState[f] = !!data[f]; _updateToggle(f); });
     popup.classList.remove('hidden');
