@@ -419,7 +419,19 @@
     <div style="display:flex;flex-direction:column;gap:10px;">
       <div>
         <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:3px;">Waga</label>
-        <input type="text" id="weight-input" placeholder="101.1kg" inputmode="decimal" maxlength="8" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:1rem;font-family:var(--font);font-weight:600;outline:none;color:var(--text);background:var(--bg);text-align:center;">
+        <div style="display:flex;gap:4px;align-items:center;">
+          <button id="weight-minus" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">−</button>
+          <input type="text" id="weight-input" placeholder="101.1" inputmode="decimal" maxlength="6" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:7px 6px;font-size:1rem;font-family:var(--font);font-weight:600;outline:none;color:var(--text);background:var(--bg);text-align:center;">
+          <button id="weight-plus"  style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">+</button>
+        </div>
+      </div>
+      <div>
+        <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:3px;">Czas pomiaru</label>
+        <div style="display:flex;gap:4px;align-items:center;">
+          <button id="time-minus" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">−</button>
+          <input type="text" id="time-input" placeholder="HH:MM" maxlength="5" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:7px 6px;font-size:1rem;font-family:var(--font);font-weight:600;outline:none;color:var(--text);background:var(--bg);text-align:center;">
+          <button id="time-plus"  style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">+</button>
+        </div>
       </div>
       <div>
         <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:3px;">Bieg (km)</label>
@@ -834,19 +846,20 @@
     if (typeof w[key] === 'string') w[key] = { weight: w[key] }; // migrate legacy
     if (val.weight !== undefined) { if (val.weight) w[key].weight = val.weight; else delete w[key].weight; }
     if (val.km !== undefined) { if (val.km) w[key].km = val.km; else delete w[key].km; }
+    if (val.time !== undefined) { if (val.time) w[key].time = val.time; else delete w[key].time; }
     if (val.steps !== undefined) { w[key].steps = val.steps; }
     if (val.diet !== undefined) { w[key].diet = val.diet; }
     if (val.no_fizzy !== undefined) { w[key].no_fizzy = val.no_fizzy; }
     if (val.flew !== undefined) { w[key].flew = val.flew; }
-    if (!w[key].weight && !w[key].km && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew) delete w[key];
+    if (!w[key].weight && !w[key].time && !w[key].km && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew) delete w[key];
     saveWeightsLocal(w);
   }
   function getDayData(key) {
     const w = getWeights();
     const d = w[key];
-    if (!d) return { weight:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false };
-    if (typeof d === 'string') return { weight:d, km:'', steps:false, diet:false, no_fizzy:false, flew:false };
-    return { weight: d.weight||'', km: d.km||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew };
+    if (!d) return { weight:'', time:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false };
+    if (typeof d === 'string') return { weight:d, time:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false };
+    return { weight: d.weight||'', time: d.time||'', km: d.km||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew };
   }
 
   // Sync status display
@@ -1010,17 +1023,69 @@
     }
   }
 
+  // Find the most recent weight entry before this key
+  function getLastWeight(beforeKey) {
+    const w = getWeights();
+    const keys = Object.keys(w).sort().reverse();
+    for (const k of keys) {
+      if (k < beforeKey) {
+        const d = getDayData(k);
+        if (d.weight) return parseFloat(d.weight.replace('kg','').trim()) || null;
+      }
+    }
+    return null;
+  }
+
+  // Time helpers
+  function nowHHMM() {
+    const n = new Date();
+    return String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+  }
+  function adjustTime(hhmm, deltaMin) {
+    const [hh, mm] = hhmm.split(':').map(Number);
+    const total = (hh * 60 + mm + deltaMin + 1440) % 1440;
+    return String(Math.floor(total/60)).padStart(2,'0') + ':' + String(total%60).padStart(2,'0');
+  }
+  function adjustWeight(val, delta) {
+    const n = parseFloat(val) || 0;
+    return Math.round((n + delta) * 10) / 10;
+  }
+
   const _toggleState = { steps:false, diet:false, no_fizzy:false, flew:false };
   function openPopup(key, day) {
     selectedKey = key;
     popupDate.textContent = day + ' ' + MONTHS[viewMonth] + ' ' + viewYear;
     const data = getDayData(key);
-    input.value = data.weight;
+    // Default weight = saved value OR last recorded weight
+    const lastW = getLastWeight(key);
+    input.value = data.weight ? data.weight.replace('kg','') : (lastW ? lastW.toFixed(1) : '');
+    // Default time = saved value OR current time
+    document.getElementById('time-input').value = data.time || nowHHMM();
     document.getElementById('km-input').value = data.km;
     ['steps','diet','no_fizzy','flew'].forEach(f => { _toggleState[f] = !!data[f]; _updateToggle(f); });
     popup.classList.remove('hidden');
     setTimeout(() => input.focus(), 50);
   }
+
+  // Weight ± buttons
+  document.getElementById('weight-minus').addEventListener('click', () => {
+    const v = parseFloat(input.value) || 0;
+    input.value = adjustWeight(v, -0.1).toFixed(1);
+  });
+  document.getElementById('weight-plus').addEventListener('click', () => {
+    const v = parseFloat(input.value) || 0;
+    input.value = adjustWeight(v, +0.1).toFixed(1);
+  });
+
+  // Time ± buttons
+  document.getElementById('time-minus').addEventListener('click', () => {
+    const t = document.getElementById('time-input');
+    t.value = adjustTime(t.value || nowHHMM(), -15);
+  });
+  document.getElementById('time-plus').addEventListener('click', () => {
+    const t = document.getElementById('time-input');
+    t.value = adjustTime(t.value || nowHHMM(), +15);
+  });
   function _updateToggle(field) {
     const btn = document.getElementById('toggle-' + field);
     if (!btn) return;
@@ -1082,13 +1147,14 @@
   document.getElementById('weight-save').addEventListener('click', async () => {
     let wval = input.value.trim().replace(',', '.');
     if (wval && !wval.endsWith('kg')) wval += 'kg';
+    const tval = document.getElementById('time-input').value.trim();
     let kmval = document.getElementById('km-input').value.trim().replace(',', '.');
-    setWeight(selectedKey, { weight: wval, km: kmval, ...Object.fromEntries(Object.entries(_toggleState)) });
+    setWeight(selectedKey, { weight: wval, time: tval, km: kmval, ...Object.fromEntries(Object.entries(_toggleState)) });
     closePopup(); renderCal();
     await pushToGist();
   });
   document.getElementById('weight-clear').addEventListener('click', async () => {
-    setWeight(selectedKey, { weight:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false });
+    setWeight(selectedKey, { weight:'', time:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false });
     closePopup(); renderCal();
     await pushToGist();
   });
