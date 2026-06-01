@@ -417,23 +417,31 @@
   <div class="weight-dialog">
     <div class="weight-dialog-title" id="weight-popup-date"></div>
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <div>
-        <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:3px;">Waga</label>
-        <div style="display:flex;gap:4px;align-items:center;">
-          <button id="weight-minus" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">−</button>
-          <input type="text" id="weight-input" placeholder="101.1" inputmode="decimal" maxlength="6" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:7px 6px;font-size:1rem;font-family:var(--font);font-weight:600;outline:none;color:var(--text);background:var(--bg);text-align:center;">
-          <button id="weight-plus"  style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">+</button>
+      <!-- Weight section toggle -->
+      <button id="weight-section-toggle" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.82rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;color:var(--text-muted);">
+        <span id="weight-section-icon">+</span>
+        <span id="weight-section-label">Dodaj wagę</span>
+      </button>
+      <!-- Collapsible weight + time -->
+      <div id="weight-section" style="display:none;flex-direction:column;gap:10px;">
+        <div>
+          <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:3px;">Waga (kg)</label>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <button id="weight-minus" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">−</button>
+            <input type="text" id="weight-input" placeholder="101.1" inputmode="decimal" maxlength="6" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:7px 6px;font-size:1rem;font-family:var(--font);font-weight:600;outline:none;color:var(--text);background:var(--bg);text-align:center;">
+            <button id="weight-plus" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">+</button>
+          </div>
         </div>
-      </div>
-      <div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
-          <label style="font-size:0.68rem;color:var(--text-muted);">Czas pomiaru</label>
-          <button id="time-toggle" style="font-size:0.62rem;padding:2px 7px;border:1px solid var(--border);border-radius:4px;background:var(--bg);cursor:pointer;color:var(--text-muted);transition:all .15s;">+ dodaj</button>
-        </div>
-        <div id="time-row" style="display:flex;gap:4px;align-items:center;">
-          <button id="time-minus" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">−</button>
-          <input type="text" id="time-input" placeholder="HH:MM" maxlength="5" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:7px 6px;font-size:1rem;font-family:var(--font);font-weight:600;outline:none;color:var(--text);background:var(--bg);text-align:center;">
-          <button id="time-plus"  style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">+</button>
+        <div>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
+            <label style="font-size:0.68rem;color:var(--text-muted);">Czas pomiaru</label>
+            <button id="time-toggle" style="font-size:0.62rem;padding:2px 7px;border:1px solid var(--border);border-radius:4px;background:var(--bg);cursor:pointer;color:var(--text-muted);transition:all .15s;">+ dodaj</button>
+          </div>
+          <div id="time-row" style="display:flex;gap:4px;align-items:center;">
+            <button id="time-minus" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">−</button>
+            <input type="text" id="time-input" placeholder="HH:MM" maxlength="5" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:7px 6px;font-size:1rem;font-family:var(--font);font-weight:600;outline:none;color:var(--text);background:var(--bg);text-align:center;">
+            <button id="time-plus" style="width:36px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:1.1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">+</button>
+          </div>
         </div>
       </div>
       <div>
@@ -1078,6 +1086,43 @@
   document.getElementById('time-toggle').addEventListener('click', () => {
     _setTimeActive(!_timeActive, null);
   });
+
+  // Weight section toggle
+  let _weightActive = false;
+  function _setWeightActive(active, weightVal) {
+    _weightActive = active;
+    const sec = document.getElementById('weight-section');
+    const btn = document.getElementById('weight-section-toggle');
+    const icon = document.getElementById('weight-section-icon');
+    const lbl = document.getElementById('weight-section-label');
+    if (active) {
+      sec.style.display = 'flex';
+      btn.style.background = 'var(--text)';
+      btn.style.color = '#fff';
+      btn.style.borderColor = 'var(--text)';
+      icon.textContent = '×';
+      lbl.textContent = 'Waga';
+      if (weightVal !== undefined) input.value = weightVal;
+    } else {
+      sec.style.display = 'none';
+      btn.style.background = 'var(--bg)';
+      btn.style.color = 'var(--text-muted)';
+      btn.style.borderColor = 'var(--border)';
+      icon.textContent = '+';
+      lbl.textContent = 'Dodaj wagę';
+      input.value = '';
+      _setTimeActive(false, null);
+    }
+  }
+  document.getElementById('weight-section-toggle').addEventListener('click', () => {
+    if (_weightActive) {
+      _setWeightActive(false);
+    } else {
+      const lastW = selectedKey ? getLastWeight(selectedKey) : null;
+      _setWeightActive(true, lastW ? lastW.toFixed(1) : '');
+      setTimeout(() => input.focus(), 50);
+    }
+  });
   function adjustWeight(val, delta) {
     const n = parseFloat(val) || 0;
     return Math.round((n + delta) * 10) / 10;
@@ -1089,9 +1134,10 @@
     const data = getDayData(key);
     const _displayTime = data.time || data.first_entry_time;
     popupDate.innerHTML = day + ' ' + MONTHS[viewMonth] + ' ' + viewYear + (_displayTime ? '<span style="margin-left:6px;font-size:0.72rem;color:var(--text-muted);font-weight:400;">' + _displayTime + '</span>' : '');
-    // Default weight = saved value OR last recorded weight
+    // Weight section: show if weight already saved
     const lastW = getLastWeight(key);
-    input.value = data.weight ? data.weight.replace('kg','') : (lastW ? lastW.toFixed(1) : '');
+    const initWeight = data.weight ? data.weight.replace('kg','') : (lastW ? lastW.toFixed(1) : '');
+    _setWeightActive(!!data.weight, initWeight);
     // Time: show only if already saved for this day
     _setTimeActive(!!data.time, data.time);
     document.getElementById('km-input').value = data.km;
@@ -1178,7 +1224,7 @@
 
   // Weight popup actions
   document.getElementById('weight-save').addEventListener('click', async () => {
-    let wval = input.value.trim().replace(',', '.');
+    let wval = _weightActive ? input.value.trim().replace(',', '.') : '';
     if (wval && !wval.endsWith('kg')) wval += 'kg';
     const tval = _timeActive ? document.getElementById('time-input').value.trim() : '';
     let kmval = document.getElementById('km-input').value.trim().replace(',', '.');
