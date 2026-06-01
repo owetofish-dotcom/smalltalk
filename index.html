@@ -969,9 +969,9 @@
     const totalKm = kms_arr.length ? kms_arr.reduce((a,b)=>a+b,0).toFixed(1) : null;
     let stats = [];
     if (avgW) stats.push(avgW + 'kg');
-    if (totalKm) stats.push(kms_arr.length + '×bieg ' + totalKm + 'km');
-    const statsStr = stats.length ? ' (' + stats.join(' · ') + ')' : '';
-    label.textContent = MONTHS[viewMonth] + ' ' + viewYear + statsStr;
+    if (totalKm) stats.push(kms_arr.length + '× ' + totalKm + 'km');
+    const statsStr = stats.length ? stats.join(' · ') : '';
+    label.innerHTML = MONTHS[viewMonth] + ' ' + viewYear + (statsStr ? '<span style="font-size:0.65rem;color:var(--text-muted);font-weight:400;margin-left:5px;">(' + statsStr + ')</span>' : '');
     grid.innerHTML = '';
 
     DOW.forEach(d => {
