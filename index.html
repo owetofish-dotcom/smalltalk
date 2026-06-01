@@ -1086,9 +1086,9 @@
   const _toggleState = { steps:false, diet:false, no_fizzy:false, flew:false };
   function openPopup(key, day) {
     selectedKey = key;
+    const data = getDayData(key);
     const _displayTime = data.time || data.first_entry_time;
     popupDate.innerHTML = day + ' ' + MONTHS[viewMonth] + ' ' + viewYear + (_displayTime ? '<span style="margin-left:6px;font-size:0.72rem;color:var(--text-muted);font-weight:400;">' + _displayTime + '</span>' : '');
-    const data = getDayData(key);
     // Default weight = saved value OR last recorded weight
     const lastW = getLastWeight(key);
     input.value = data.weight ? data.weight.replace('kg','') : (lastW ? lastW.toFixed(1) : '');
