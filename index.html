@@ -845,6 +845,7 @@
   }
   function setWeight(key, val) {
     const w = getWeights();
+    const isFirstEntry = !w[key];
     if (!w[key]) w[key] = {};
     if (typeof w[key] === 'string') w[key] = { weight: w[key] }; // migrate legacy
     if (val.weight !== undefined) { if (val.weight) w[key].weight = val.weight; else delete w[key].weight; }
@@ -854,15 +855,20 @@
     if (val.diet !== undefined) { w[key].diet = val.diet; }
     if (val.no_fizzy !== undefined) { w[key].no_fizzy = val.no_fizzy; }
     if (val.flew !== undefined) { w[key].flew = val.flew; }
+    // Auto-record first entry time of the day
+    if (isFirstEntry && !w[key].first_entry_time) {
+      const _n = new Date();
+      w[key].first_entry_time = String(_n.getHours()).padStart(2,'0') + ':' + String(_n.getMinutes()).padStart(2,'0');
+    }
     if (!w[key].weight && !w[key].time && !w[key].km && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew) delete w[key];
     saveWeightsLocal(w);
   }
   function getDayData(key) {
     const w = getWeights();
     const d = w[key];
-    if (!d) return { weight:'', time:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false };
-    if (typeof d === 'string') return { weight:d, time:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false };
-    return { weight: d.weight||'', time: d.time||'', km: d.km||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew };
+    if (!d) return { weight:'', time:'', first_entry_time:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false };
+    if (typeof d === 'string') return { weight:d, time:'', first_entry_time:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false };
+    return { weight: d.weight||'', time: d.time||'', first_entry_time: d.first_entry_time||'', km: d.km||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew };
   }
 
   // Sync status display
@@ -1080,7 +1086,8 @@
   const _toggleState = { steps:false, diet:false, no_fizzy:false, flew:false };
   function openPopup(key, day) {
     selectedKey = key;
-    popupDate.textContent = day + ' ' + MONTHS[viewMonth] + ' ' + viewYear;
+    const _displayTime = data.time || data.first_entry_time;
+    popupDate.innerHTML = day + ' ' + MONTHS[viewMonth] + ' ' + viewYear + (_displayTime ? '<span style="margin-left:6px;font-size:0.72rem;color:var(--text-muted);font-weight:400;">' + _displayTime + '</span>' : '');
     const data = getDayData(key);
     // Default weight = saved value OR last recorded weight
     const lastW = getLastWeight(key);
