@@ -177,12 +177,19 @@
     line-height: 1;
     white-space: nowrap;
   }
-  .cal-day-steps {
-    line-height: 1;
+  .cal-day-dots {
     display: flex;
+    gap: 2px;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+    padding: 0 2px;
   }
-  .cal-day-steps svg { width: 10px; height: 10px; }
+  .cal-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    flex-shrink: 0;
+  }
 
   /* Weight input popup */
   .weight-popup {
@@ -407,13 +414,22 @@
         <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:3px;">Bieg (km)</label>
         <input type="text" id="km-input" placeholder="5.2" inputmode="decimal" maxlength="6" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:1rem;font-family:var(--font);font-weight:600;outline:none;color:var(--text);background:var(--bg);text-align:center;">
       </div>
-      <div>
-        <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:6px;">Kroki 10 000+</label>
-        <button id="steps-toggle" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="5" r="2"/><path d="M5 22v-4l2-4 2 2 2-6 3 8 1-3 2 3v4"/><path d="M5 13l2-4"/>
-          </svg>
-          <span id="steps-label">Nie wykonano</span>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <button class="day-toggle" data-field="steps" id="toggle-steps" style="padding:7px 4px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;">
+          <span class="toggle-dot" style="width:8px;height:8px;border-radius:50%;background:#111;flex-shrink:0;opacity:0.3;"></span>
+          <span>Kroki 10k+</span>
+        </button>
+        <button class="day-toggle" data-field="diet" id="toggle-diet" style="padding:7px 4px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;">
+          <span class="toggle-dot" style="width:8px;height:8px;border-radius:50%;background:#2d6a4f;flex-shrink:0;opacity:0.3;"></span>
+          <span>Dieta ✓</span>
+        </button>
+        <button class="day-toggle" data-field="no_fizzy" id="toggle-no_fizzy" style="padding:7px 4px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;">
+          <span class="toggle-dot" style="width:8px;height:8px;border-radius:50%;background:#2c6db5;flex-shrink:0;opacity:0.3;"></span>
+          <span>Bez nap. gaz.</span>
+        </button>
+        <button class="day-toggle" data-field="flew" id="toggle-flew" style="padding:7px 4px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;">
+          <span class="toggle-dot" style="width:8px;height:8px;border-radius:50%;background:#7c4ea8;flex-shrink:0;opacity:0.3;"></span>
+          <span>Lot samolotem</span>
         </button>
       </div>
     </div>
@@ -808,15 +824,18 @@
     if (val.weight !== undefined) { if (val.weight) w[key].weight = val.weight; else delete w[key].weight; }
     if (val.km !== undefined) { if (val.km) w[key].km = val.km; else delete w[key].km; }
     if (val.steps !== undefined) { w[key].steps = val.steps; }
-    if (!w[key].weight && !w[key].km && !w[key].steps) delete w[key];
+    if (val.diet !== undefined) { w[key].diet = val.diet; }
+    if (val.no_fizzy !== undefined) { w[key].no_fizzy = val.no_fizzy; }
+    if (val.flew !== undefined) { w[key].flew = val.flew; }
+    if (!w[key].weight && !w[key].km && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew) delete w[key];
     saveWeightsLocal(w);
   }
   function getDayData(key) {
     const w = getWeights();
     const d = w[key];
-    if (!d) return { weight:'', km:'', steps:false };
-    if (typeof d === 'string') return { weight:d, km:'', steps:false };
-    return { weight: d.weight||'', km: d.km||'', steps: !!d.steps };
+    if (!d) return { weight:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false };
+    if (typeof d === 'string') return { weight:d, km:'', steps:false, diet:false, no_fizzy:false, flew:false };
+    return { weight: d.weight||'', km: d.km||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew };
   }
 
   // Sync status display
@@ -945,36 +964,46 @@
       const day = getDayData(key);
       const el = document.createElement('div');
       el.className = 'cal-day' + (isToday ? ' today' : '');
-      const stepsIcon = day.steps ? `<span class="cal-day-steps"><svg viewBox="0 0 24 24" fill="var(--text)" stroke="none"><circle cx="12" cy="4" r="2"/><path d="M6 22v-5l2-3 2 2 2-5 2 6 1-2 2 2v5"/></svg></span>` : '';
-      el.innerHTML = `<span class="cal-day-num">${d}</span>${day.weight ? `<span class="cal-day-weight">${day.weight}</span>` : ''}${day.km ? `<span class="cal-day-km">${day.km}km</span>` : ''}${stepsIcon}`;
+      const DOT_COLORS = { steps:'#111', diet:'#2d6a4f', no_fizzy:'#2c6db5', flew:'#7c4ea8' };
+      const dots = ['steps','diet','no_fizzy','flew'].filter(f => day[f]).map(f => `<span class="cal-dot" style="background:${DOT_COLORS[f]}"></span>`).join('');
+      const dotsHtml = dots ? `<span class="cal-day-dots">${dots}</span>` : '';
+      el.innerHTML = `<span class="cal-day-num">${d}</span>${day.weight ? `<span class="cal-day-weight">${day.weight}</span>` : ''}${day.km ? `<span class="cal-day-km">${day.km}km</span>` : ''}${dotsHtml}`;
       el.addEventListener('click', () => openPopup(key, d));
       grid.appendChild(el);
     }
   }
 
-  let _stepsActive = false;
+  const _toggleState = { steps:false, diet:false, no_fizzy:false, flew:false };
   function openPopup(key, day) {
     selectedKey = key;
     popupDate.textContent = day + ' ' + MONTHS[viewMonth] + ' ' + viewYear;
     const data = getDayData(key);
     input.value = data.weight;
     document.getElementById('km-input').value = data.km;
-    _stepsActive = data.steps;
-    _updateStepsBtn();
+    ['steps','diet','no_fizzy','flew'].forEach(f => { _toggleState[f] = !!data[f]; _updateToggle(f); });
     popup.classList.remove('hidden');
     setTimeout(() => input.focus(), 50);
   }
-  function _updateStepsBtn() {
-    const btn = document.getElementById('steps-toggle');
-    const lbl = document.getElementById('steps-label');
-    btn.style.background = _stepsActive ? 'var(--text)' : 'var(--bg)';
-    btn.style.color = _stepsActive ? '#fff' : 'var(--text)';
-    btn.style.borderColor = _stepsActive ? 'var(--text)' : 'var(--border)';
-    lbl.textContent = _stepsActive ? '✓ Wykonano 10 000+' : 'Nie wykonano';
+  function _updateToggle(field) {
+    const btn = document.getElementById('toggle-' + field);
+    if (!btn) return;
+    const on = _toggleState[field];
+    btn.style.background = on ? 'var(--text)' : 'var(--bg)';
+    btn.style.color = on ? '#fff' : 'var(--text)';
+    btn.style.borderColor = on ? 'var(--text)' : 'var(--border)';
+    const dot = btn.querySelector('.toggle-dot');
+    if (dot) dot.style.opacity = on ? '1' : '0.3';
+    if (on) { dot.style.background = '#fff'; } else {
+      const colors = { steps:'#111', diet:'#2d6a4f', no_fizzy:'#2c6db5', flew:'#7c4ea8' };
+      if (dot) dot.style.background = colors[field];
+    }
   }
-  document.getElementById('steps-toggle').addEventListener('click', () => {
-    _stepsActive = !_stepsActive;
-    _updateStepsBtn();
+  document.querySelectorAll('.day-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.field;
+      _toggleState[f] = !_toggleState[f];
+      _updateToggle(f);
+    });
   });
   function closePopup() {
     popup.classList.add('hidden');
@@ -1013,12 +1042,12 @@
     let wval = input.value.trim().replace(',', '.');
     if (wval && !wval.endsWith('kg')) wval += 'kg';
     let kmval = document.getElementById('km-input').value.trim().replace(',', '.');
-    setWeight(selectedKey, { weight: wval, km: kmval, steps: _stepsActive });
+    setWeight(selectedKey, { weight: wval, km: kmval, ...Object.fromEntries(Object.entries(_toggleState)) });
     closePopup(); renderCal();
     await pushToGist();
   });
   document.getElementById('weight-clear').addEventListener('click', async () => {
-    setWeight(selectedKey, { weight:'', km:'', steps:false });
+    setWeight(selectedKey, { weight:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false });
     closePopup(); renderCal();
     await pushToGist();
   });
