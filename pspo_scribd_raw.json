@@ -1,0 +1,174 @@
+[
+  {
+    "q": "Every Product Backlog Item should be created by the Product Owner personally and only then can the Development Team add details.",
+    "opts": [
+      "False",
+      "True"
+    ],
+    "ans": 0,
+    "exp": "False. The Product Owner is solely accountable for decisions in the Product Backlog, but the legwork of managing it might be fully delegated to the Development Team.",
+    "cat": "Backlog Management"
+  },
+  {
+    "q": "During Product Backlog Refinement, who is allowed to update the estimates on Product Backlog Items?",
+    "opts": [
+      "The Product Owner and the Stakeholders",
+      "The Product Owner and the Development Team",
+      "Only the Development Team",
+      "Any member of the Scrum Team"
+    ],
+    "ans": 1,
+    "exp": "Product Backlog Refinement is a collaborative practice involving the Product Owner and the Development Team — these two groups update estimates.",
+    "cat": "Backlog Management"
+  },
+  {
+    "q": "What provides guidance to the Development Team on why it is building the Increment?",
+    "opts": [
+      "The Sprint Goal",
+      "The Sprint Backlog",
+      "The Product Goal",
+      "The Definition of Done"
+    ],
+    "ans": 0,
+    "exp": "The Sprint Goal is an objective set for the Sprint that provides guidance to the Development Team on why it is building the Increment.",
+    "cat": "Scrum Events"
+  },
+  {
+    "q": "The Scrum Master should refuse entry to the Sprint Planning if the Product Owner has not prepared a Sprint Goal in advance.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 1,
+    "exp": "False. The Scrum Team crafts the Sprint Goal collaboratively during Sprint Planning — the Product Owner does not need to arrive with one pre-made.",
+    "cat": "Scrum Events"
+  },
+  {
+    "q": "When a product grows large it is possible the PO will get help from others. Who remains accountable for the Product Backlog?",
+    "opts": [
+      "The Development Team",
+      "The Scrum Master",
+      "The Product Owner",
+      "The Stakeholders"
+    ],
+    "ans": 2,
+    "exp": "The Product Owner remains accountable for the Product Backlog even when the day-to-day management is delegated to others.",
+    "cat": "Backlog Management"
+  },
+  {
+    "q": "The Product Owner can delegate Product Backlog management activities to the Development Team but remains accountable.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "True. The PO may delegate the legwork to the Development Team; however, the Product Owner remains solely accountable for the outcomes.",
+    "cat": "Backlog Management"
+  },
+  {
+    "q": "To whom should the Product Owner formally report in Scrum?",
+    "opts": [
+      "The Scrum Master",
+      "The Development Team",
+      "No one — the PO is accountable to stakeholders but has no formal reporting line in Scrum",
+      "Senior Management"
+    ],
+    "ans": 2,
+    "exp": "Scrum does not prescribe a formal reporting line for the Product Owner. The PO is accountable to the organization and stakeholders for maximizing product value.",
+    "cat": "Scrum Team"
+  },
+  {
+    "q": "Who is responsible for ordering and prioritizing the Product Backlog?",
+    "opts": [
+      "The Development Team",
+      "The Scrum Master",
+      "The Product Owner",
+      "The Key Stakeholders"
+    ],
+    "ans": 2,
+    "exp": "The Product Owner is solely responsible for ordering the Product Backlog to maximize the value of the work performed by the Scrum Team.",
+    "cat": "Backlog Management"
+  },
+  {
+    "q": "Which of the following statements is true about the Sprint Review?",
+    "opts": [
+      "It is a formal status meeting where the team reports to management.",
+      "It is an informal working session where the Scrum Team and stakeholders inspect what was done and adapt the Product Backlog.",
+      "Only the Scrum Team is allowed to attend.",
+      "The Product Owner presents a formal demo to management."
+    ],
+    "ans": 1,
+    "exp": "The Sprint Review is an informal working session. The Scrum Team and invited stakeholders inspect the Increment and collaborate on next steps for the Product Backlog.",
+    "cat": "Scrum Events"
+  },
+  {
+    "q": "Who has the authority to cancel a Sprint?",
+    "opts": [
+      "The Scrum Master",
+      "The Development Team",
+      "The Product Owner",
+      "The Stakeholders"
+    ],
+    "ans": 2,
+    "exp": "Only the Product Owner has the authority to cancel a Sprint, though it is a drastic action typically taken only when the Sprint Goal becomes obsolete.",
+    "cat": "Scrum Events"
+  },
+  {
+    "q": "What are three key characteristics of the Product Owner role?",
+    "opts": [
+      "Product Value Maximizer, Lead Facilitator of Key Stakeholder Involvement, Product Marketplace Expert",
+      "Sprint Planner, Team Manager, Budget Controller",
+      "Backlog Writer, Meeting Organizer, Risk Manager",
+      "Technical Lead, Architecture Reviewer, Code Approver"
+    ],
+    "ans": 0,
+    "exp": "The PO maximizes product value, facilitates key stakeholder involvement, and maintains expertise in the marketplace the product serves.",
+    "cat": "Scrum Team"
+  },
+  {
+    "q": "Who is the chief product visionary on a Scrum Team?",
+    "opts": [
+      "The Scrum Master",
+      "The Development Team collectively",
+      "The Product Owner",
+      "Senior Management"
+    ],
+    "ans": 2,
+    "exp": "The Product Owner is the chief product visionary — responsible for the Product Goal and maximizing the value of the product.",
+    "cat": "Scrum Team"
+  },
+  {
+    "q": "True or False: The Product Owner has enough authority to cancel a Sprint even if the Development Team disagrees.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": 0,
+    "exp": "True. The Product Owner is the only person who can cancel a Sprint. No one else can override this authority.",
+    "cat": "Scrum Events"
+  },
+  {
+    "q": "What does a Burn-down Chart track?",
+    "opts": [
+      "Hierarchy of tasks in a project",
+      "How much work remains until the end of the Sprint or Release",
+      "Dependencies and start/stop times for project tasks",
+      "The uncertainty level over time"
+    ],
+    "ans": 1,
+    "exp": "A Burn-down Chart tracks remaining work vs. time. Scrum does not mandate it but it is a widely used practice to visualize Sprint progress.",
+    "cat": "Scrum in Practice"
+  },
+  {
+    "q": "How frequently should a product be released to optimize value?",
+    "opts": [
+      "Only when all planned features are complete",
+      "Every 3 months regardless of progress",
+      "Frequently enough to elicit feedback and validate hypotheses",
+      "Only when the Product Owner approves a major milestone"
+    ],
+    "ans": 2,
+    "exp": "Releases should be frequent enough to gather meaningful stakeholder feedback and allow the team to validate hypotheses about the product.",
+    "cat": "Release Management"
+  }
+]
