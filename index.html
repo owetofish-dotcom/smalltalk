@@ -110,6 +110,9 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .cal-btn {
     background: none;
@@ -1000,7 +1003,7 @@
     if (avgW) stats.push(avgW + 'kg');
     if (totalKm) stats.push(kms_arr.length + '× ' + totalKm + 'km');
     const statsStr = stats.length ? stats.join(' · ') : '';
-    label.innerHTML = MONTHS[viewMonth] + ' ' + viewYear + (statsStr ? '<span style="font-size:0.65rem;color:var(--text-muted);font-weight:400;margin-left:5px;">(' + statsStr + ')</span>' : '');
+    label.innerHTML = '<span>' + MONTHS[viewMonth] + ' ' + viewYear + '</span>' + (statsStr ? '<span style="display:block;font-size:0.6rem;color:var(--text-muted);font-weight:400;text-align:center;margin-top:1px;letter-spacing:0;text-transform:none;">(' + statsStr + ')</span>' : '');
     grid.innerHTML = '';
 
     DOW.forEach(d => {
