@@ -45,16 +45,15 @@
     background: var(--bg-card);
     min-height: 52px;
   }
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
   .toolbar-title {
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: -0.01em;
-  }
-  .toolbar-title span {
-    font-weight: 300;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-left: 6px;
   }
   .toolbar-btns {
     display: flex;
@@ -92,6 +91,235 @@
     border-color: #111;
   }
   .btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vertical-align: -2px; }
+  .btn--save {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 7px 12px;
+  }
+
+  /* BURGER BUTTON */
+  .burger-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--text);
+    padding: 4px 6px;
+    border-radius: 5px;
+    -webkit-tap-highlight-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.12s;
+    font-family: var(--font);
+  }
+  .burger-btn:active { background: var(--accent-light); }
+
+  /* BURGER MENU OVERLAY */
+  .burger-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+  }
+  .burger-overlay.open { display: block; }
+  .burger-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+  }
+  .burger-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(320px, 88vw);
+    background: #07090f;
+    color: #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+  }
+  .burger-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px 14px;
+    border-bottom: 1px solid #1e2030;
+  }
+  .burger-header-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #9999aa;
+  }
+  .burger-close {
+    background: none;
+    border: none;
+    color: #9999aa;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 2px 6px;
+    line-height: 1;
+    border-radius: 4px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .burger-close:active { background: #1a1a2a; }
+  .burger-sets {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+  }
+  .burger-empty {
+    text-align: center;
+    color: #555566;
+    font-size: 0.85rem;
+    padding: 32px 16px;
+  }
+  .set-item {
+    display: flex;
+    align-items: center;
+    padding: 11px 18px;
+    gap: 12px;
+    border-bottom: 1px solid #0e1018;
+    cursor: pointer;
+    transition: background 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .set-item:last-child { border-bottom: none; }
+  .set-item:active { background: #111520; }
+  .set-item-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .set-item-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #e8e8e8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .set-item-date {
+    font-size: 0.73rem;
+    color: #555566;
+    margin-top: 2px;
+  }
+  .set-item-chords {
+    font-size: 0.72rem;
+    color: #444455;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .set-delete {
+    background: none;
+    border: none;
+    color: #444455;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 4px 6px;
+    line-height: 1;
+    border-radius: 4px;
+    -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
+  }
+  .set-delete:active { background: #1a1a2a; color: #cc4444; }
+
+  /* SAVE POPUP */
+  .save-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+  }
+  .save-overlay.open { display: flex; }
+  .save-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+  }
+  .save-popup {
+    position: relative;
+    background: #07090f;
+    border: 1px solid #1e2030;
+    border-radius: 12px;
+    padding: 20px 20px 16px;
+    width: min(300px, 88vw);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  }
+  .save-popup-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #9999aa;
+    margin-bottom: 12px;
+  }
+  .save-input {
+    width: 100%;
+    background: #0d1018;
+    border: 1px solid #232535;
+    border-radius: 7px;
+    padding: 9px 12px;
+    color: #e8e8e8;
+    font-family: var(--font);
+    font-size: 0.9rem;
+    outline: none;
+    margin-bottom: 14px;
+    -webkit-appearance: none;
+  }
+  .save-input:focus { border-color: #3a3d55; }
+  .save-input::placeholder { color: #444455; }
+  .save-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .save-btn {
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-family: var(--font);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid #1e2030;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .save-btn--cancel {
+    background: none;
+    color: #9999aa;
+  }
+  .save-btn--cancel:active { background: #111520; }
+  .save-btn--confirm {
+    background: #e8e8e8;
+    color: #07090f;
+    border-color: #e8e8e8;
+    font-weight: 600;
+  }
+  .save-btn--confirm:active { background: #cccccc; }
+  .save-btn--confirm:disabled { background: #2a2a3a; color: #444455; border-color: #1e2030; cursor: default; }
+
+  /* Gist status dot */
+  .gist-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-left: 6px;
+    vertical-align: middle;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .gist-dot.show { opacity: 1; }
+  .gist-dot.ok { background: #4caf50; }
+  .gist-dot.err { background: #e53935; }
 
   /* STAGE */
   .stage {
@@ -110,10 +338,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    gap: 8px;
-    color: var(--border);
-    font-size: 0.9rem;
     pointer-events: none;
     transition: opacity 0.2s;
   }
@@ -240,12 +464,14 @@
 
 <!-- TOOLBAR -->
 <div class="toolbar">
-  <div class="toolbar-title">ALKOrdy<span>tap to add &bull; drag on stage</span></div>
+  <div class="toolbar-left">
+    <button class="burger-btn" id="btn-burger" title="Zapisane zestawy">&#9776;</button>
+    <div class="toolbar-title">ALKOrdy<span class="gist-dot" id="gist-dot"></span></div>
+  </div>
   <div class="toolbar-btns">
-    <button class="btn btn--lock" id="btn-lock" title="Blokuj ekran (nie wygaszaj)">
-      <!-- unlocked icon (default) -->
+    <button class="btn btn--save" id="btn-save">SAVE</button>
+    <button class="btn btn--lock" id="btn-lock" title="Chroń ekran przed wygaszeniem">
       <svg id="icon-unlocked" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
-      <!-- locked icon (hidden by default) -->
       <svg id="icon-locked" viewBox="0 0 24 24" style="display:none"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     </button>
     <button class="btn btn--danger" id="btn-undo">
@@ -259,11 +485,37 @@
   </div>
 </div>
 
+<!-- BURGER MENU OVERLAY -->
+<div class="burger-overlay" id="burger-overlay">
+  <div class="burger-backdrop" id="burger-backdrop"></div>
+  <div class="burger-panel">
+    <div class="burger-header">
+      <div class="burger-header-title">Zapisane zestawy</div>
+      <button class="burger-close" id="burger-close">&#215;</button>
+    </div>
+    <div class="burger-sets" id="burger-sets">
+      <div class="burger-empty">Brak zapisanych zestawów</div>
+    </div>
+  </div>
+</div>
+
+<!-- SAVE POPUP -->
+<div class="save-overlay" id="save-overlay">
+  <div class="save-backdrop" id="save-backdrop"></div>
+  <div class="save-popup">
+    <div class="save-popup-title">Zapisz zestaw</div>
+    <input class="save-input" id="save-input" type="text" placeholder="Nazwa zestawu" maxlength="60" autocomplete="off">
+    <div class="save-actions">
+      <button class="save-btn save-btn--cancel" id="save-cancel">Anuluj</button>
+      <button class="save-btn save-btn--confirm" id="save-confirm">Zapisz</button>
+    </div>
+  </div>
+</div>
+
 <!-- STAGE -->
 <div class="stage" id="stage">
   <div class="stage-hint">
     <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg>
-    Dotknij akordu poni&#380;ej, aby doda&#263;
   </div>
 </div>
 
@@ -375,8 +627,7 @@
 </div>
 
 <script>
-  // --- NoSleep: wideo-pętla (jedyna metoda działająca na iOS Safari) ---
-  // Tiny 1-frame silent MP4 zakodowane jako base64 — iOS nie wygasza ekranu gdy gra wideo
+  // --- NoSleep ---
   const NOSLEEP_VIDEO = 'data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAA2dtZGF0AAACrAYF//+c3EXpvebZSLeWLNgg2SPu73gyNjQgLSBjb3JlIDE0OCByMjYwMSBhMGNkN2QzIC0gSC4yNjQvTVBFRy00IEFWQyBjb2RlYyAtIENvcHlsZWZ0IDIwMDMtMjAxNSAtIGh0dHA6Ly93d3cudmlkZW9sYW4ub3JnL3gyNjQuaHRtbCAtIG9wdGlvbnM6IGNhYmFjPTEgcmVmPTMgZGVibG9jaz0xOjA6MCBhbmFseXNlPTB4MzoweDExMyBtZT1oZXggc3VibWU9NyBwc3k9MSBwc3lfcmQ9MS4wMDowLjAwIG1peGVkX3JlZj0xIG1lX3JhbmdlPTE2IGNocm9tYV9tZT0xIHRyZWxsaXM9MSA4eDhkY3Q9MSBjcW09MCBkZWFkem9uZT0yMSwxMSBmYXN0X3Bza2lwPTEgY2hyb21hX3FwX29mZnNldD0tMiB0aHJlYWRzPTYgbG9va2FoZWFkX3RocmVhZHM9MSBzbGljZWRfdGhyZWFkcz0wIG5yPTAgZGVjaW1hdGU9MSBpbnRlcmxhY2VkPTAgYmx1cmF5X2NvbXBhdD0wIGNvbnN0cmFpbmVkX2ludHJhPTAgYmZyYW1lcz0zIGJfcHlyYW1pZD0yIGJfYWRhcHQ9MSBiX2JpYXM9MCBkaXJlY3Q9MSB3ZWlnaHRiPTEgb3Blbl9nb3A9MCB3ZWlnaHRwPTIga2V5aW50PTI1MCBrZXlpbnRfbWluPTI1IHNjZW5lY3V0PTQwIGludHJhX3JlZnJlc2g9MCByY19sb29rYWhlYWQ9NDAgcmM9Y3JmIG1idHJlZT0xIGNyZj0yMy4wIHFjb21wPTAuNjAgcXBtaW49MCBxcG1heD02OSBxcHN0ZXA9NCBpcF9yYXRpbz0xLjQwIGFxPTE6MS4wMACAAAAFZ2xpYmFzc29jaWF0ZWQAAAAAAAAB';
 
   const _noSleepVideo = document.createElement('video');
@@ -391,10 +642,9 @@
   _noSleepVideo.appendChild(_src);
   document.body.appendChild(_noSleepVideo);
 
-  // --- Przycisk kłódki — ręczna aktywacja ekranu --------------------------------
+  // --- Lock button ---
   let _screenLocked = false;
   const _lockBtn = document.getElementById('btn-lock');
-
   const _iconUnlocked = document.getElementById('icon-unlocked');
   const _iconLocked   = document.getElementById('icon-locked');
 
@@ -408,14 +658,9 @@
   }
 
   function _activateScreenLock() {
-    // UI zmienia się NATYCHMIAST — nie czekamy na Promise
     _setLockUI(true);
-    // Wideo w tle (NoSleep dla iOS)
     _noSleepVideo.play().catch(() => {});
-    // Natywny Wake Lock (Chrome/Android)
-    if ('wakeLock' in navigator) {
-      navigator.wakeLock.request('screen').catch(() => {});
-    }
+    if ('wakeLock' in navigator) navigator.wakeLock.request('screen').catch(() => {});
   }
 
   function _deactivateScreenLock() {
@@ -429,7 +674,6 @@
     if (_screenLocked) { _deactivateScreenLock(); } else { _activateScreenLock(); }
   });
 
-  // Auto-reaktywuj po powrocie z tła
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && _screenLocked) {
       _noSleepVideo.play().catch(() => {});
@@ -439,9 +683,9 @@
 
   // --- State ---
   const stage = document.getElementById('stage');
-  let cards = []; // { id, chord, x, y, el }
+  let cards = [];
   let idCounter = 0;
-  let history = []; // stack of snapshots for undo
+  let history = [];
 
   function snapshot() {
     history.push(cards.map(c => ({ id: c.id, chord: c.chord, x: c.x, y: c.y })));
@@ -474,7 +718,6 @@
     });
     el.appendChild(rm);
 
-    // Position: if cw/ch provided (flow layout), snap to grid cell; else center on drop point
     const W = cw || (56 + chord.length * 6);
     const H = ch || 56;
     if (cw && ch) {
@@ -487,18 +730,14 @@
     el.style.left = cx + 'px';
     el.style.top = cy + 'px';
 
-    // Long-press to show remove button on mobile
     let longPressTimer = null;
     el.addEventListener('pointerdown', (e) => {
       if (e.target === rm) return;
-      longPressTimer = setTimeout(() => {
-        el.classList.add('show-remove');
-      }, 500);
+      longPressTimer = setTimeout(() => { el.classList.add('show-remove'); }, 500);
     });
     el.addEventListener('pointerup', () => clearTimeout(longPressTimer));
     el.addEventListener('pointercancel', () => clearTimeout(longPressTimer));
 
-    // Click outside to hide remove
     document.addEventListener('pointerdown', (e) => {
       if (!el.contains(e.target)) el.classList.remove('show-remove');
     }, { passive: true });
@@ -519,13 +758,13 @@
     updateStageClass();
   }
 
-  // --- Drag (pointer events, works on touch & mouse) ---
+  // --- Drag ---
   function makeDraggable(el, id) {
     let startX, startY, startLeft, startTop, dragging = false;
 
     el.addEventListener('pointerdown', (e) => {
       if (e.target.classList.contains('remove-btn')) return;
-      if (stage.classList.contains('locked')) return; // zablokowane
+      if (stage.classList.contains('locked')) return;
       e.preventDefault();
       el.setPointerCapture(e.pointerId);
       dragging = true;
@@ -552,26 +791,16 @@
       if (card) { card.x = newLeft; card.y = newTop; }
     });
 
-    el.addEventListener('pointerup', () => {
-      dragging = false;
-      el.classList.remove('dragging');
-    });
-    el.addEventListener('pointercancel', () => {
-      dragging = false;
-      el.classList.remove('dragging');
-    });
+    el.addEventListener('pointerup', () => { dragging = false; el.classList.remove('dragging'); });
+    el.addEventListener('pointercancel', () => { dragging = false; el.classList.remove('dragging'); });
   }
 
-  // --- Flow-layout: następna wolna pozycja w siatce ---
+  // --- Flow layout ---
   function nextFlowPosition() {
-    const COLS = 5;
-    const ROWS = 6;
-    const PAD = 6;
+    const COLS = 5, ROWS = 6, PAD = 6;
     const CARD_W = Math.floor((stage.clientWidth - PAD * (COLS + 1)) / COLS);
     const CARD_H = Math.floor((stage.clientHeight - PAD * (ROWS + 1)) / ROWS);
-    const cols = COLS;
 
-    // Znajdź pierwsze wolne miejsce w siatce
     const usedSlots = new Set(cards.map(c => {
       const col = Math.round((c.x - PAD) / (CARD_W + PAD));
       const row = Math.round((c.y - PAD) / (CARD_H + PAD));
@@ -579,29 +808,23 @@
     }));
 
     for (let row = 0; row < 20; row++) {
-      for (let col = 0; col < cols; col++) {
+      for (let col = 0; col < COLS; col++) {
         if (!usedSlots.has(row * 100 + col)) {
-          return {
-            x: PAD + col * (CARD_W + PAD),
-            y: PAD + row * (CARD_H + PAD),
-            cw: CARD_W, ch: CARD_H
-          };
+          return { x: PAD + col * (CARD_W + PAD), y: PAD + row * (CARD_H + PAD), cw: CARD_W, ch: CARD_H };
         }
       }
     }
     return { x: PAD, y: PAD, cw: CARD_W, ch: CARD_H };
   }
 
-  // --- Chord tiles: tap to add ---
+  // --- Chord tiles ---
   document.querySelectorAll('.chord-tile').forEach(tile => {
     tile.addEventListener('pointerdown', (e) => {
       e.preventDefault();
-      if (stage.classList.contains('locked')) return; // zablokowane
+      if (stage.classList.contains('locked')) return;
       const chord = tile.dataset.chord;
       const pos = nextFlowPosition();
-      addChord(chord, pos.x + pos.cw/2, pos.y + pos.ch/2, pos.cw, pos.ch);
-
-      // Visual feedback
+      addChord(chord, pos.x + pos.cw / 2, pos.y + pos.ch / 2, pos.cw, pos.ch);
       tile.style.transform = 'scale(0.9)';
       setTimeout(() => tile.style.transform = '', 150);
     });
@@ -650,6 +873,258 @@
     });
     updateStageClass();
   });
+
+  // =========================================================
+  // GIST INTEGRATION
+  // =========================================================
+  const GIST_FILE = 'miniapps-data.json';
+  const gistDot = document.getElementById('gist-dot');
+  let _chordSets = []; // loaded from Gist
+
+  function gistToken() { return localStorage.getItem('miniapps-gist-token') || ''; }
+  function gistId()    { return localStorage.getItem('miniapps-gist-id') || ''; }
+
+  function showDot(type) {
+    gistDot.className = 'gist-dot show ' + type;
+    clearTimeout(gistDot._timer);
+    gistDot._timer = setTimeout(() => { gistDot.className = 'gist-dot'; }, 2500);
+  }
+
+  async function fetchGistData() {
+    const token = gistToken(), id = gistId();
+    if (!token || !id) return null;
+    try {
+      const res = await fetch(`https://api.github.com/gists/${id}`, {
+        headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+      });
+      if (!res.ok) return null;
+      const gist = await res.json();
+      const raw = gist.files[GIST_FILE]?.content;
+      if (!raw) return {};
+      return JSON.parse(raw);
+    } catch { return null; }
+  }
+
+  async function patchGistData(data) {
+    const token = gistToken(), id = gistId();
+    if (!token || !id) return false;
+    try {
+      const res = await fetch(`https://api.github.com/gists/${id}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ files: { [GIST_FILE]: { content: JSON.stringify(data, null, 2) } } })
+      });
+      return res.ok;
+    } catch { return false; }
+  }
+
+  async function loadChordSets() {
+    const data = await fetchGistData();
+    if (!data) return;
+    _chordSets = Array.isArray(data.chord_sets) ? data.chord_sets : [];
+  }
+
+  async function saveChordSet(name) {
+    const data = await fetchGistData();
+    if (data === null) { showDot('err'); return false; }
+    const existing = data || {};
+    if (!Array.isArray(existing.chord_sets)) existing.chord_sets = [];
+    const newSet = {
+      name,
+      chords: cards.map(c => ({ chord: c.chord, x: c.x, y: c.y })),
+      createdAt: new Date().toISOString()
+    };
+    existing.chord_sets.push(newSet);
+    const ok = await patchGistData(existing);
+    if (ok) {
+      _chordSets = existing.chord_sets;
+      showDot('ok');
+    } else {
+      showDot('err');
+    }
+    return ok;
+  }
+
+  async function deleteChordSet(index) {
+    const data = await fetchGistData();
+    if (data === null) { showDot('err'); return; }
+    const existing = data || {};
+    if (!Array.isArray(existing.chord_sets)) return;
+    existing.chord_sets.splice(index, 1);
+    const ok = await patchGistData(existing);
+    if (ok) {
+      _chordSets = existing.chord_sets;
+      showDot('ok');
+    } else {
+      showDot('err');
+    }
+    renderBurgerSets();
+  }
+
+  // =========================================================
+  // BURGER MENU
+  // =========================================================
+  const burgerOverlay = document.getElementById('burger-overlay');
+  const burgerSets    = document.getElementById('burger-sets');
+
+  function openBurger() {
+    renderBurgerSets();
+    burgerOverlay.classList.add('open');
+  }
+  function closeBurger() {
+    burgerOverlay.classList.remove('open');
+  }
+
+  function formatDate(iso) {
+    try {
+      const d = new Date(iso);
+      return d.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' })
+           + ' ' + d.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+    } catch { return iso; }
+  }
+
+  function renderBurgerSets() {
+    if (_chordSets.length === 0) {
+      burgerSets.innerHTML = '<div class="burger-empty">Brak zapisanych zestawów</div>';
+      return;
+    }
+    burgerSets.innerHTML = '';
+    _chordSets.forEach((set, i) => {
+      const item = document.createElement('div');
+      item.className = 'set-item';
+
+      const info = document.createElement('div');
+      info.className = 'set-item-info';
+
+      const nameEl = document.createElement('div');
+      nameEl.className = 'set-item-name';
+      nameEl.textContent = set.name || 'Bez nazwy';
+
+      const dateEl = document.createElement('div');
+      dateEl.className = 'set-item-date';
+      dateEl.textContent = formatDate(set.createdAt);
+
+      const chordsEl = document.createElement('div');
+      chordsEl.className = 'set-item-chords';
+      const chordNames = (set.chords || []).map(c => c.chord).join('  ');
+      chordsEl.textContent = chordNames || '—';
+
+      info.appendChild(nameEl);
+      info.appendChild(dateEl);
+      info.appendChild(chordsEl);
+
+      const delBtn = document.createElement('button');
+      delBtn.className = 'set-delete';
+      delBtn.textContent = '×';
+      delBtn.title = 'Usuń zestaw';
+      delBtn.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+        deleteChordSet(i);
+      });
+
+      item.appendChild(info);
+      item.appendChild(delBtn);
+
+      // Load set on click
+      item.addEventListener('pointerdown', (e) => {
+        if (e.target === delBtn) return;
+        loadSetToStage(set);
+        closeBurger();
+      });
+
+      burgerSets.appendChild(item);
+    });
+  }
+
+  function loadSetToStage(set) {
+    snapshot();
+    cards.forEach(c => c.el.remove());
+    cards = [];
+    (set.chords || []).forEach(({ chord, x, y }) => {
+      const id = ++idCounter;
+      const el = document.createElement('div');
+      el.className = 'chord-card';
+      el.dataset.id = id;
+      const label = document.createElement('span');
+      label.textContent = chord;
+      el.appendChild(label);
+      const rm = document.createElement('button');
+      rm.className = 'remove-btn';
+      rm.textContent = '×';
+      rm.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); removeCard(id); });
+      el.appendChild(rm);
+      el.style.left = x + 'px';
+      el.style.top  = y + 'px';
+      stage.appendChild(el);
+      cards.push({ id, chord, x, y, el });
+      makeDraggable(el, id);
+
+      let lpt = null;
+      el.addEventListener('pointerdown', (ev) => {
+        if (ev.target === rm) return;
+        lpt = setTimeout(() => el.classList.add('show-remove'), 500);
+      });
+      el.addEventListener('pointerup', () => clearTimeout(lpt));
+      el.addEventListener('pointercancel', () => clearTimeout(lpt));
+    });
+    updateStageClass();
+  }
+
+  document.getElementById('btn-burger').addEventListener('click', (e) => {
+    e.stopPropagation();
+    openBurger();
+  });
+  document.getElementById('burger-close').addEventListener('click', closeBurger);
+  document.getElementById('burger-backdrop').addEventListener('click', closeBurger);
+
+  // =========================================================
+  // SAVE POPUP
+  // =========================================================
+  const saveOverlay  = document.getElementById('save-overlay');
+  const saveInput    = document.getElementById('save-input');
+  const saveConfirm  = document.getElementById('save-confirm');
+
+  function openSavePopup() {
+    if (!gistToken() || !gistId()) {
+      // No Gist configured — show dot error and bail
+      showDot('err');
+      return;
+    }
+    saveInput.value = '';
+    saveConfirm.disabled = true;
+    saveOverlay.classList.add('open');
+    setTimeout(() => saveInput.focus(), 50);
+  }
+  function closeSavePopup() {
+    saveOverlay.classList.remove('open');
+  }
+
+  saveInput.addEventListener('input', () => {
+    saveConfirm.disabled = saveInput.value.trim().length === 0;
+  });
+  saveInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !saveConfirm.disabled) doSave();
+    if (e.key === 'Escape') closeSavePopup();
+  });
+
+  async function doSave() {
+    const name = saveInput.value.trim();
+    if (!name) return;
+    closeSavePopup();
+    await saveChordSet(name);
+  }
+
+  document.getElementById('btn-save').addEventListener('click', openSavePopup);
+  document.getElementById('save-cancel').addEventListener('click', closeSavePopup);
+  saveConfirm.addEventListener('click', doSave);
+  document.getElementById('save-backdrop').addEventListener('click', closeSavePopup);
+
+  // --- Load sets on startup ---
+  loadChordSets();
 </script>
 </body>
 </html>
