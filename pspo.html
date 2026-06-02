@@ -1009,7 +1009,7 @@ function renderStudyQ() {
   document.getElementById('study-explanation').className = 'explanation';
   document.getElementById('study-next-btn').style.display = 'none';
   state.studyAnswered = false;
-  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   const opts = document.getElementById('study-options');
   opts.innerHTML = '';
   if (isMulti) {
@@ -1129,7 +1129,7 @@ function renderExamQ() {
   document.getElementById('exam-num').textContent = `${state.examIndex + 1} / ${total}`;
   document.getElementById('exam-progress').style.width = Math.round((state.examIndex + 1) / total * 100) + '%';
   document.getElementById('exam-question').textContent = q.q + (isMulti ? ` (Select ${q.ans.length} correct answers)` : '');
-  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   const opts = document.getElementById('exam-options');
   opts.innerHTML = '';
   const answered = userAns !== null;
@@ -1279,7 +1279,7 @@ function reviewExam() {
   document.getElementById('exam-review').style.display = 'block';
   const list = document.getElementById('review-list');
   list.innerHTML = '';
-  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   state.examQuestions.forEach((q, i) => {
     const userAns = state.examAnswers[i];
     const isMulti = Array.isArray(q.ans);
@@ -1337,7 +1337,7 @@ function renderMiniQ() {
   state.miniAnswered = false;
   document.getElementById('mini-next-btn').style.display = 'none';
   document.getElementById('mini-explanation').style.display = 'none';
-  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   const opts = document.getElementById('mini-options');
   opts.innerHTML = '';
   if (isMulti) {
@@ -1450,7 +1450,7 @@ function finishMini() {
     `<span style="font-size:0.85rem; color:#888">Pass mark: 85% (9/10 at this scale)</span>`;
   const reviewList = document.getElementById('mini-review-list');
   reviewList.innerHTML = '';
-  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   state.miniQuestions.forEach((q, i) => {
     const userAns = state.miniAnswers[i];
     const isMulti = Array.isArray(q.ans);
