@@ -472,7 +472,7 @@
           <span>Bez nap. gaz.</span>
         </button>
         <button class="day-toggle" data-field="flew" id="toggle-flew" style="padding:7px 4px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;">
-          <span class="toggle-dot" style="width:7px;height:7px;border-radius:1px;background:#7c4ea8;flex-shrink:0;opacity:0.3;display:inline-block;transform:rotate(45deg);"></span>
+          <span class="toggle-dot" style="width:7px;height:7px;border-radius:1px;background:#7a8c3b;flex-shrink:0;opacity:0.3;display:inline-block;transform:rotate(45deg);"></span>
           <span>Lot samolotem</span>
         </button>
       </div>
@@ -1037,7 +1037,7 @@
         steps:    { color:'#111',    shape:'circle'  },
         diet:     { color:'#2d6a4f', shape:'triangle' },
         no_fizzy: { color:'#2c6db5', shape:'square'  },
-        flew:     { color:'#7c4ea8', shape:'diamond' },
+        flew:     { color:'#7a8c3b', shape:'diamond' },
         activity: { color:'#b45309', shape:'hexagon' }
       };
       const dotFields = ['steps','diet','no_fizzy','flew'];
@@ -1177,7 +1177,7 @@
     btn.style.borderColor = on ? 'var(--text)' : 'var(--border)';
     const dot = btn.querySelector('.toggle-dot');
     if (dot) dot.style.opacity = on ? '1' : '0.3';
-    const FIELD_COLORS = { steps:'#111', diet:'#2d6a4f', no_fizzy:'#2c6db5', flew:'#7c4ea8' };
+    const FIELD_COLORS = { steps:'#111', diet:'#2d6a4f', no_fizzy:'#2c6db5', flew:'#7a8c3b' };
     if (on) {
       if (field === 'diet' && dot) { dot.style.borderBottomColor = '#fff'; dot.style.background = 'transparent'; }
       else if (dot) { dot.style.background = '#fff'; }
