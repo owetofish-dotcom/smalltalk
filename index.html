@@ -203,8 +203,12 @@
     transform: rotate(45deg);
     border-radius: 1px;
   }
+  .cal-dot-hexagon {
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    border-radius: 0;
+  }
   .cal-day.ideal { box-shadow: inset 0 0 0 1.5px #2d6a4f; border-radius: 4px; }
-  .cal-day.good  { box-shadow: inset 0 0 0 1.5px #e6a817; border-radius: 4px; }
+  .cal-day.good  { box-shadow: inset 0 0 0 1.5px #bdbdba; border-radius: 4px; }
 
   /* Weight input popup */
   .weight-popup {
@@ -448,6 +452,10 @@
       <div>
         <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:3px;">Bieg (km)</label>
         <input type="text" id="km-input" placeholder="5.2" inputmode="decimal" maxlength="6" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:1rem;font-family:var(--font);font-weight:600;outline:none;color:var(--text);background:var(--bg);text-align:center;">
+      </div>
+      <div>
+        <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:3px;">Aktywność (np. 30 pompek)</label>
+        <input type="text" id="activity-input" placeholder="np. 30 pompek, 20 podciągnięć..." maxlength="80" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:0.85rem;font-family:var(--font);outline:none;color:var(--text);background:var(--bg);">
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
@@ -865,20 +873,21 @@
     if (val.diet !== undefined) { w[key].diet = val.diet; }
     if (val.no_fizzy !== undefined) { w[key].no_fizzy = val.no_fizzy; }
     if (val.flew !== undefined) { w[key].flew = val.flew; }
+    if (val.activity !== undefined) { if (val.activity) w[key].activity = val.activity; else delete w[key].activity; }
     // Auto-record first entry time of the day
     if (isFirstEntry && !w[key].first_entry_time) {
       const _n = new Date();
       w[key].first_entry_time = String(_n.getHours()).padStart(2,'0') + ':' + String(_n.getMinutes()).padStart(2,'0');
     }
-    if (!w[key].weight && !w[key].time && !w[key].km && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew) delete w[key];
+    if (!w[key].weight && !w[key].time && !w[key].km && !w[key].activity && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew) delete w[key];
     saveWeightsLocal(w);
   }
   function getDayData(key) {
     const w = getWeights();
     const d = w[key];
-    if (!d) return { weight:'', time:'', first_entry_time:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false };
-    if (typeof d === 'string') return { weight:d, time:'', first_entry_time:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false };
-    return { weight: d.weight||'', time: d.time||'', first_entry_time: d.first_entry_time||'', km: d.km||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew };
+    if (!d) return { weight:'', time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false };
+    if (typeof d === 'string') return { weight:d, time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false };
+    return { weight: d.weight||'', time: d.time||'', first_entry_time: d.first_entry_time||'', km: d.km||'', activity: d.activity||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew };
   }
 
   // Sync status display
@@ -1028,9 +1037,12 @@
         steps:    { color:'#111',    shape:'circle'  },
         diet:     { color:'#2d6a4f', shape:'triangle' },
         no_fizzy: { color:'#2c6db5', shape:'square'  },
-        flew:     { color:'#7c4ea8', shape:'diamond' }
+        flew:     { color:'#7c4ea8', shape:'diamond' },
+        activity: { color:'#b45309', shape:'hexagon' }
       };
-      const dots = ['steps','diet','no_fizzy','flew'].filter(f => day[f]).map(f => {
+      const dotFields = ['steps','diet','no_fizzy','flew'];
+      if (day.activity) dotFields.push('activity');
+      const dots = dotFields.filter(f => f==='activity' ? day.activity : day[f]).map(f => {
         const {color, shape} = DOT_CFG[f];
         if (shape === 'triangle') return `<span class="cal-dot cal-dot-triangle" style="--dot-color:${color}"></span>`;
         return `<span class="cal-dot cal-dot-${shape}" style="background:${color}"></span>`;
@@ -1131,6 +1143,7 @@
     // If weight section is open, time was already set in _setWeightActive's show path
     // But if weight not yet saved, time row will be hidden anyway (inside weight-section div)
     document.getElementById('km-input').value = data.km;
+    document.getElementById('activity-input').value = data.activity || '';
     ['steps','diet','no_fizzy','flew'].forEach(f => { _toggleState[f] = !!data[f]; _updateToggle(f); });
     popup.classList.remove('hidden');
     setTimeout(() => input.focus(), 50);
@@ -1218,12 +1231,13 @@
     if (wval && !wval.endsWith('kg')) wval += 'kg';
     const tval = _timeActive ? document.getElementById('time-input').value.trim() : '';
     let kmval = document.getElementById('km-input').value.trim().replace(',', '.');
-    setWeight(selectedKey, { weight: wval, time: tval, km: kmval, ...Object.fromEntries(Object.entries(_toggleState)) });
+    const actval = document.getElementById('activity-input').value.trim();
+    setWeight(selectedKey, { weight: wval, time: tval, km: kmval, activity: actval, ...Object.fromEntries(Object.entries(_toggleState)) });
     closePopup(); renderCal();
     await pushToGist();
   });
   document.getElementById('weight-clear').addEventListener('click', async () => {
-    setWeight(selectedKey, { weight:'', time:'', km:'', steps:false, diet:false, no_fizzy:false, flew:false });
+    setWeight(selectedKey, { weight:'', time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false });
     closePopup(); renderCal();
     await pushToGist();
   });
