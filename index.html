@@ -141,18 +141,17 @@
     font-weight: 500;
   }
   .cal-day {
-    aspect-ratio: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-rows: 22px 11px 11px 10px;
+    align-items: start;
+    justify-items: center;
     font-size: 0.8rem;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.1s;
-    gap: 1px;
-    min-height: 36px;
+    min-height: 54px;
     position: relative;
+    padding-bottom: 2px;
   }
   .cal-day:hover { background: var(--hover-bg); }
   .cal-day.empty { cursor: default; }
@@ -165,8 +164,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 0;
   }
-  .cal-day { min-height: 48px; }
   .cal-day-num { font-size: 0.8rem; line-height: 1; }
   .cal-day-weight {
     font-size: 0.52rem;
@@ -1022,7 +1021,7 @@
         return `<span class="cal-dot cal-dot-${shape}" style="background:${color}"></span>`;
       }).join('');
       const dotsHtml = dots ? `<span class="cal-day-dots">${dots}</span>` : '';
-      el.innerHTML = `<span class="cal-day-num">${d}</span>${day.weight ? `<span class="cal-day-weight">${day.weight}</span>` : ''}${day.km ? `<span class="cal-day-km">${day.km}km</span>` : ''}${dotsHtml}`;
+      el.innerHTML = `<span class="cal-day-num">${d}</span><span class="cal-day-weight">${day.weight || ''}</span><span class="cal-day-km">${day.km ? day.km+'km' : ''}</span>${dotsHtml || '<span class="cal-day-dots"></span>'}`;
       el.addEventListener('click', () => openPopup(key, d));
       grid.appendChild(el);
     }
