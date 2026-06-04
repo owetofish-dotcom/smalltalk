@@ -301,6 +301,84 @@
   <h2>PSPO I Theory</h2>
   <p class="subtitle">Key concepts for the exam</p>
 
+  <!-- MIND MAP -->
+  <div style="margin-bottom:32px; padding:24px 20px 16px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px;">
+    <p style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); font-weight:600; margin-bottom:14px; text-align:center;">Mapa Myśli — PSPO I</p>
+    <svg viewBox="0 0 900 490" style="width:100%; max-width:900px; display:block; margin:0 auto;" xmlns="http://www.w3.org/2000/svg">
+      <!-- Lines from center to each node -->
+      <line x1="450" y1="280" x2="450" y2="159" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+      <line x1="450" y1="280" x2="553" y2="201" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+      <line x1="450" y1="280" x2="595" y2="280" stroke="#ca8a04" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+      <line x1="450" y1="280" x2="553" y2="359" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+      <line x1="450" y1="280" x2="450" y2="425" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+      <line x1="450" y1="280" x2="347" y2="359" stroke="#9333ea" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+      <line x1="450" y1="280" x2="305" y2="280" stroke="#4b5563" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+      <line x1="450" y1="280" x2="347" y2="201" stroke="#0891b2" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+
+      <!-- Center node -->
+      <rect x="390" y="256" width="120" height="48" rx="24" fill="#111111"/>
+      <text x="450" y="276" font-family="Inter,-apple-system,sans-serif" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle">PSPO I</text>
+      <text x="450" y="294" font-family="Inter,-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.72)" text-anchor="middle">Scrum.org Exam</text>
+
+      <!-- 1. Scrum Theory — top (blue) -->
+      <g style="cursor:pointer" onclick="document.getElementById('theory-1').scrollIntoView({behavior:'smooth',block:'start'})">
+        <rect x="375" y="111" width="150" height="48" rx="8" fill="#3b82f6"/>
+        <text x="450" y="131" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">&#x1F535; Scrum Theory</text>
+        <text x="450" y="149" font-family="Inter,-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.9)" text-anchor="middle">TIA &#xB7; 3 pillars &#xB7; C-FORC</text>
+      </g>
+
+      <!-- 2. Scrum Team — top-right (green) -->
+      <g style="cursor:pointer" onclick="document.getElementById('theory-2').scrollIntoView({behavior:'smooth',block:'start'})">
+        <rect x="478" y="177" width="150" height="48" rx="8" fill="#16a34a"/>
+        <text x="553" y="197" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">&#x1F7E2; Scrum Team</text>
+        <text x="553" y="215" font-family="Inter,-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.9)" text-anchor="middle">PO &#xB7; SM &#xB7; Devs (&#x2264;10)</text>
+      </g>
+
+      <!-- 3. Scrum Events — right (yellow) -->
+      <g style="cursor:pointer" onclick="document.getElementById('theory-3').scrollIntoView({behavior:'smooth',block:'start'})">
+        <rect x="520" y="256" width="150" height="48" rx="8" fill="#ca8a04"/>
+        <text x="595" y="276" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">&#x1F7E1; Scrum Events</text>
+        <text x="595" y="294" font-family="Inter,-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.9)" text-anchor="middle">5 events &#xB7; timeboxed</text>
+      </g>
+
+      <!-- 4. Scrum Artifacts — bottom-right (orange) -->
+      <g style="cursor:pointer" onclick="document.getElementById('theory-4').scrollIntoView({behavior:'smooth',block:'start'})">
+        <rect x="478" y="335" width="150" height="48" rx="8" fill="#ea580c"/>
+        <text x="553" y="355" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">&#x1F7E0; Scrum Artifacts</text>
+        <text x="553" y="373" font-family="Inter,-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.9)" text-anchor="middle">PG &#xB7; SG &#xB7; DoD</text>
+      </g>
+
+      <!-- 5. Product Value — bottom (red) -->
+      <g style="cursor:pointer" onclick="document.getElementById('theory-6').scrollIntoView({behavior:'smooth',block:'start'})">
+        <rect x="375" y="401" width="150" height="48" rx="8" fill="#dc2626"/>
+        <text x="450" y="421" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">&#x1F534; Product Value</text>
+        <text x="450" y="439" font-family="Inter,-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.9)" text-anchor="middle">TCO &#xB7; EBM &#xB7; Outcomes</text>
+      </g>
+
+      <!-- 6. Backlog Mgmt — bottom-left (purple) -->
+      <g style="cursor:pointer" onclick="document.getElementById('theory-7').scrollIntoView({behavior:'smooth',block:'start'})">
+        <rect x="272" y="335" width="150" height="48" rx="8" fill="#9333ea"/>
+        <text x="347" y="355" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">&#x1F7E3; Backlog Mgmt</text>
+        <text x="347" y="373" font-family="Inter,-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.9)" text-anchor="middle">ORDERED &#xB7; Refinement</text>
+      </g>
+
+      <!-- 7. Stakeholders — left (dark gray) -->
+      <g style="cursor:pointer" onclick="document.getElementById('theory-8').scrollIntoView({behavior:'smooth',block:'start'})">
+        <rect x="230" y="256" width="150" height="48" rx="8" fill="#4b5563"/>
+        <text x="305" y="276" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">&#x26AB; Stakeholders</text>
+        <text x="305" y="294" font-family="Inter,-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.9)" text-anchor="middle">Sprint Review only</text>
+      </g>
+
+      <!-- 8. Release — top-left (cyan) -->
+      <g style="cursor:pointer" onclick="document.getElementById('theory-9').scrollIntoView({behavior:'smooth',block:'start'})">
+        <rect x="272" y="177" width="150" height="48" rx="8" fill="#0891b2"/>
+        <text x="347" y="197" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">&#x1F4A0; Release</text>
+        <text x="347" y="215" font-family="Inter,-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.9)" text-anchor="middle">PO decides &#xB7; No gaps</text>
+      </g>
+    </svg>
+    <p style="font-size:0.74rem; color:var(--text-muted); text-align:center; margin-top:10px;">Kliknij w&#281;ze&#322; &#x2192; przeskocz do sekcji &nbsp;&#xB7;&nbsp; 8 g&#322;&#xF3;wnych obszar&#xF3;w PSPO I</p>
+  </div>
+
   <!-- QUICK REFERENCE -->
   <div style="margin-bottom:32px; border:2px solid var(--accent); border-radius:12px; overflow:hidden; font-family:'Inter',-apple-system,sans-serif;">
     <div id="qr-header" onclick="var b=document.getElementById('qr-body'); b.style.display=b.style.display==='none'?'block':'none'; this.querySelector('.qr-arrow').textContent=b.style.display==='none'?'&#9654;':'&#9660;';"
@@ -368,7 +446,7 @@
   </div>
 
   <!-- THEORY SECTIONS -->
-  <div class="info-box">
+  <div class="info-box" id="theory-1">
     <h4>1. Scrum Theory &mdash; Empiricism</h4>
     <strong>Scrum = framework</strong>, not methodology. Built on <strong>empiricism</strong> (learn from experience) + <strong>lean thinking</strong> (reduce waste).<br><br>
     <strong>3 Pillars (TIA):</strong><br>
@@ -386,7 +464,7 @@
     </span>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="theory-2">
     <h4>2. Scrum Team &mdash; Roles &amp; Accountabilities</h4>
     <strong>One PO + one SM + Developers</strong> &mdash; max 10 people, self-managing, cross-functional.<br><br>
     <strong>Product Owner:</strong><br>
@@ -406,7 +484,7 @@
     </span>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="theory-3">
     <h4>3. Scrum Events</h4>
     All events = <strong>inspect &amp; adapt</strong> opportunities. Timeboxed = max duration, can end earlier.<br><br>
     <table style="width:100%;border-collapse:collapse;font-size:0.88rem;margin-bottom:10px;">
@@ -431,7 +509,7 @@
     </span>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="theory-4">
     <h4>4. Scrum Artifacts &amp; Commitments</h4>
     <table style="width:100%;border-collapse:collapse;font-size:0.88rem;margin-bottom:10px;">
       <tr style="font-weight:700;border-bottom:1px solid var(--border)"><td>Artifact</td><td>Commitment</td></tr>
@@ -453,7 +531,7 @@
     </span>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="theory-5">
     <h4>5. Product Vision &amp; Strategy</h4>
     <strong>Vision</strong> = long-term purpose (not in Scrum Guide but critical for PO).<br>
     <strong>Product Goal</strong> = medium-term target IN the Product Backlog — must finish or abandon before taking next one.<br>
@@ -468,7 +546,7 @@
     </span>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="theory-6">
     <h4>6. Product Value</h4>
     PO accountable for <strong>maximizing value</strong> — Scrum Guide doesn't prescribe how to measure it.<br><br>
     <strong>Output vs Outcome:</strong><br>
@@ -483,7 +561,7 @@
     </span>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="theory-7">
     <h4>7. Product Backlog Management</h4>
     <strong>Refinement</strong> = ongoing — no timebox in Scrum Guide (typically &le;10% of Sprint).<br>
     NOT a formal Scrum event. Developers collaborate with PO during refinement.<br><br>
@@ -499,7 +577,7 @@
     </span>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="theory-8">
     <h4>8. Stakeholder Management</h4>
     PO = interface between team and stakeholders. Represents stakeholder interests but makes independent ordering decisions.<br><br>
     <strong>Who attends what:</strong><br>
@@ -513,7 +591,7 @@
     </span>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="theory-9">
     <h4>9. Release Management</h4>
     <strong>Release anytime</strong> — PO decides if/when to release a Done Increment. Not tied to Sprint boundaries.<br><br>
     <strong>Key facts:</strong><br>
@@ -527,7 +605,7 @@
     </span>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="theory-10">
     <h4>10. Scrum in Practice</h4>
     <strong>Multiple teams, same product:</strong><br>
     &bull; One Product Backlog &middot; One Product Owner — always<br>
@@ -545,7 +623,7 @@
     </span>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="theory-11">
     <h4>11. Evidence-Based Management (EBM)</h4>
     Complementary Scrum.org framework — PO uses it to measure value and make decisions.<br><br>
     <strong>4 Key Value Areas (KVAs):</strong><br>
@@ -559,7 +637,24 @@
     </span>
   </div>
 
-  <div class="info-box">
+  <div class="info-box" id="theory-13">
+    <h4>13. Community Tips &mdash; Co m&#xF3;wi&#x105; zdaj&#x105;cy</h4>
+    <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+      <li>&#x1F3AF; <strong>&#x201E;Nie zdawaj dop&#xF3;ki nie masz 100% na Open Assessment 3 razy z rz&#x119;du&#x201D;</strong> &mdash; Scrum.org Product Owner Open jest bezp&#x142;atny, &#x107;wicz go codziennie 3&times;</li>
+      <li>&#x1F4D6; <strong>&#x201E;EBM Guide to obowi&#x105;zkowa lektura&#x201D;</strong> &mdash; drugi najwa&#x17C;niejszy dokument po Scrum Guide</li>
+      <li>&#x26A0;&#xFE0F; <strong>&#x201E;Uwa&#x17C;aj na pytania &lsquo;choose 2&rsquo; lub &lsquo;choose 3&rsquo;&#x201D;</strong> &mdash; nie przegap &#x17C;e pytanie wymaga wielu odpowiedzi</li>
+      <li>&#x1F9E0; <strong>&#x201E;Mindset: my&#x15B;l jak PO, nie jak project manager&#x201D;</strong> &mdash; pytania testuj&#x105; rozumienie empiryzmu, nie zarz&#x105;dzania projektem</li>
+      <li>&#x1F511; <strong>&#x201E;&lsquo;Ordered&rsquo; not &lsquo;prioritized&rsquo;&#x201D;</strong> &mdash; Product Backlog jest ORDERED, nie prioritized &mdash; to pu&#x142;apka egzaminacyjna</li>
+      <li>&#x1F4CB; <strong>&#x201E;Sprint Review to nie demo ani approval meeting&#x201D;</strong> &mdash; to inspect-and-adapt event z udzia&#x142;em stakeholders</li>
+      <li>&#x1F464; <strong>&#x201E;PO cannot be a committee&#x201D;</strong> &mdash; jedna osoba, jedna odpowiedzialno&#x15B;&#x107; &mdash; nawet je&#x15B;li reprezentuje wielu interesariuszy</li>
+      <li>&#x23F1; <strong>&#x201E;Timeboxing reduces risk&#x201D;</strong> &mdash; Sprint &le;1 miesi&#x105;c = max ryzyko 1 miesi&#x105;ca, nie wi&#x119;cej</li>
+      <li>&#x2705; <strong>&#x201E;DoD &ne; Acceptance Criteria&#x201D;</strong> &mdash; DoD = standard quality dla Increment; AC = warunki konkretnego PBI</li>
+      <li>&#x1F4CA; <strong>&#x201E;Velocity i story points NIE s&#x105; w Scrum Guide&#x201D;</strong> &mdash; Scrum nie nakazuje ich u&#x17C;ywania</li>
+      <li>&#x1F4DA; <strong>&#x201E;Przeczytaj Scrum Guide co najmniej 3 razy&#x201D;</strong> &mdash; ka&#x17C;de czytanie ujawnia co&#x15B; nowego</li>
+    </ul>
+  </div>
+
+  <div class="info-box" id="theory-12">
     <h4>12. Exam Traps &mdash; Quick Kills</h4>
     <strong>Remember these cold:</strong><br>
     &bull; Backlog = <em>ordered</em> (never "prioritized")<br>
