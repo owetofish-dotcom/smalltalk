@@ -448,7 +448,7 @@
   <!-- TABLE OF CONTENTS -->
   <div id="theory-toc" style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin-bottom:20px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-      <div style="font-weight:600;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);">Spis treści — zaznacz gdy umiesz</div>
+      <div style="font-weight:600;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);">Spis treści — zaznacz gdy umiesz<span id="theory-sync-indicator" style="font-size:0.72rem;margin-left:8px;color:#888;"></span></div>
       <div style="display:flex;align-items:center;gap:10px;">
         <span id="toc-counter" style="font-size:0.8rem;color:var(--text-muted);white-space:nowrap;">0 / 14 sekcji</span>
         <div style="width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
@@ -1278,20 +1278,83 @@ function updateTocProgress() {
   if (bar) bar.style.width = `${Math.round(done / total * 100)}%`;
 }
 
-function loadTheoryMastered() {
-  buildToc();
-  const raw = localStorage.getItem('pspo_theory_mastered');
-  const mastered = raw ? JSON.parse(raw) : [];
+function applyTocCheckboxes(mastered) {
   TOC_SECTIONS.forEach(s => applyTocItem(s.id, mastered.includes(s.id)));
   updateTocProgress();
 }
 
-function saveTheoryMastered() {
+function showTheorySync(state) {
+  const el = document.getElementById('theory-sync-indicator');
+  if (!el) return;
+  if (state === 'ok') {
+    el.textContent = '☁ sync';
+    el.style.color = '#4caf50';
+    setTimeout(() => { el.textContent = ''; }, 2000);
+  } else {
+    el.textContent = '✗ sync error';
+    el.style.color = '#e53935';
+    setTimeout(() => { el.textContent = ''; }, 3000);
+  }
+}
+
+async function loadTheoryMastered() {
+  buildToc();
+  const raw = localStorage.getItem('pspo_theory_mastered');
+  const mastered = raw ? JSON.parse(raw) : [];
+  applyTocCheckboxes(mastered);
+
+  const token = localStorage.getItem('miniapps-gist-token') || '';
+  const gistId = localStorage.getItem('miniapps-gist-id') || '';
+  if (!token || !gistId) return;
+
+  try {
+    const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' }
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const rawContent = data.files?.['miniapps-data.json']?.content;
+    if (!rawContent) return;
+    const parsed = JSON.parse(rawContent);
+    if (parsed.pspo_theory_mastered && Array.isArray(parsed.pspo_theory_mastered)) {
+      localStorage.setItem('pspo_theory_mastered', JSON.stringify(parsed.pspo_theory_mastered));
+      applyTocCheckboxes(parsed.pspo_theory_mastered);
+    }
+  } catch(e) {}
+}
+
+async function saveTheoryMastered() {
   const mastered = TOC_SECTIONS
     .filter(s => { const cb = document.querySelector(`input[data-toc-id="${s.id}"]`); return cb && cb.checked; })
     .map(s => s.id);
   localStorage.setItem('pspo_theory_mastered', JSON.stringify(mastered));
   updateTocProgress();
+
+  const token = localStorage.getItem('miniapps-gist-token') || '';
+  const gistId = localStorage.getItem('miniapps-gist-id') || '';
+  if (!token || !gistId) return;
+
+  try {
+    const getRes = await fetch(`https://api.github.com/gists/${gistId}`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' }
+    });
+    let existing = {};
+    if (getRes.ok) {
+      const gistData = await getRes.json();
+      const raw = gistData.files?.['miniapps-data.json']?.content;
+      if (raw) existing = JSON.parse(raw);
+    }
+    existing.pspo_theory_mastered = mastered;
+
+    await fetch(`https://api.github.com/gists/${gistId}`, {
+      method: 'PATCH',
+      headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ files: { 'miniapps-data.json': { content: JSON.stringify(existing, null, 2) } } })
+    });
+    showTheorySync('ok');
+  } catch(e) {
+    showTheorySync('err');
+  }
 }
 
 function showScreen(name) {
