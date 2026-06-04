@@ -625,15 +625,143 @@
 
   <div class="info-box" id="theory-11">
     <h4>11. Evidence-Based Management (EBM)</h4>
-    Complementary Scrum.org framework — PO uses it to measure value and make decisions.<br><br>
-    <strong>4 Key Value Areas (KVAs):</strong><br>
-    &bull; <strong>CV</strong> (Current Value) — value delivered today: revenue, NPS, satisfaction<br>
-    &bull; <strong>UV</strong> (Unrealized Value) — gap between current &amp; desired state<br>
-    &bull; <strong>A2I</strong> (Ability to Innovate) — reduced by tech debt, legacy systems<br>
-    &bull; <strong>T2M</strong> (Time-to-Market) — how fast new value reaches users<br><br>
+    <em>An empirical approach that helps organizations continuously improve customer outcomes, organizational capabilities, and business results under conditions of uncertainty.</em><br><br>
+    Complementary Scrum.org framework — second most important document after Scrum Guide. PO uses it to measure value and make decisions.<br><br>
+
+    <!-- KVA Relationship Diagram -->
+    <div style="margin:12px 0 16px;">
+      <div style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;color:var(--text);">KVA Relationship: Capability → Value</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <div style="background:#e3f2fd;border:1.5px solid #90caf9;border-radius:8px;padding:10px 14px;text-align:center;flex:1;min-width:120px;">
+          <div style="font-size:0.7rem;color:#1565c0;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Organizational Capability</div>
+          <div style="font-size:0.95rem;font-weight:700;">A2I &amp; T2M</div>
+          <div style="font-size:0.72rem;color:#555;margin-top:3px;">How well we can build &amp; deliver</div>
+        </div>
+        <div style="font-size:1.4rem;color:#999;font-weight:300;">→</div>
+        <div style="background:#e8f5e9;border:1.5px solid #a5d6a7;border-radius:8px;padding:10px 14px;text-align:center;flex:1;min-width:120px;">
+          <div style="font-size:0.7rem;color:#2e7d32;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Market Value</div>
+          <div style="font-size:0.95rem;font-weight:700;">CV &amp; UV</div>
+          <div style="font-size:0.72rem;color:#555;margin-top:3px;">Value delivered &amp; value possible</div>
+        </div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">Inputs → Activities → Outputs → Outcomes → Impacts</div>
+    </div>
+
+    <!-- 4 KVAs -->
+    <strong>4 Key Value Areas (KVAs):</strong><br><br>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px;">
+        <div style="font-weight:700;color:#1565c0;margin-bottom:4px;">CV — Current Value</div>
+        <div style="font-size:0.8rem;margin-bottom:6px;"><em>Maximize value delivered to customers &amp; stakeholders today</em></div>
+        <div style="font-size:0.78rem;color:#555;">
+          &bull; How happy are customers today?<br>
+          &bull; How happy are employees?<br>
+          &bull; How happy are investors/stakeholders?<br>
+          &bull; Is happiness improving or declining?
+        </div>
+        <div style="margin-top:6px;font-size:0.75rem;background:#e3f2fd;border-radius:4px;padding:3px 6px;"><strong>KVM:</strong> Customer Satisfaction score</div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px;">
+        <div style="font-weight:700;color:#6a1b9a;margin-bottom:4px;">UV — Unrealized Value</div>
+        <div style="font-size:0.8rem;margin-bottom:6px;"><em>Maximize value the org could realize over time</em></div>
+        <div style="font-size:0.78rem;color:#555;">
+          &bull; Can additional money be made in this market?<br>
+          &bull; Is it worth the effort/risk to pursue?<br>
+          &bull; Should further investments be made?<br>
+          &bull; <strong>Satisfaction Gap</strong> = Desired − Current experience
+        </div>
+        <div style="margin-top:6px;font-size:0.75rem;background:#f3e5f5;border-radius:4px;padding:3px 6px;"><strong>KVM:</strong> Market Share (% not controlled)</div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px;">
+        <div style="font-weight:700;color:#e65100;margin-bottom:4px;">T2M — Time to Market</div>
+        <div style="font-size:0.8rem;margin-bottom:6px;"><em>Minimize time to deliver value</em></div>
+        <div style="font-size:0.78rem;color:#555;">
+          &bull; How fast can the org learn from new experiments?<br>
+          &bull; How fast can you adapt to new information?<br>
+          &bull; How fast can you deliver new value to customers?
+        </div>
+        <div style="margin-top:6px;font-size:0.75rem;background:#fff3e0;border-radius:4px;padding:3px 6px;"><strong>KVM:</strong> Lead Time (idea → customer benefit)</div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px;">
+        <div style="font-weight:700;color:#2e7d32;margin-bottom:4px;">A2I — Ability to Innovate</div>
+        <div style="font-size:0.8rem;margin-bottom:6px;"><em>Maximize ability to deliver new capabilities</em></div>
+        <div style="font-size:0.78rem;color:#555;">
+          &bull; What prevents delivering new value?<br>
+          &bull; What prevents customers from benefiting from innovation?<br>
+          &bull; Reduced by: tech debt, legacy systems, process waste
+        </div>
+        <div style="margin-top:6px;font-size:0.75rem;background:#e8f5e9;border-radius:4px;padding:3px 6px;"><strong>KVMs:</strong> Defect Trends &middot; Innovation Rate</div>
+      </div>
+    </div>
+
+    <!-- Goals -->
+    <strong>Goals in EBM:</strong><br>
+    &bull; Ambitious — a stretch, not business-as-usual<br>
+    &bull; Focused on <em>outcomes or impacts</em>, not outputs<br>
+    &bull; Measurable and time-bound — clear end state<br>
+    &bull; Derive measures FROM goals (not the other way around)<br><br>
+
+    <!-- Intermediate Goals -->
+    <strong>Intermediate Goals</strong> — practical near-term steps toward the main Goal:<br>
+    &bull; More achievable than the Goal, but still specific &amp; measurable<br>
+    &bull; Can focus on enablers (A2I, T2M) rather than outcomes directly<br>
+    &bull; Success increases confidence in achieving the main Goal<br>
+    <span style="font-size:0.82rem;color:#555;">Example: Startup goal = "1M healthy meals by end of year" → Intermediate goal = "10 deliveries a day for an entire calendar month"</span><br><br>
+
+    <!-- Experiment Loop -->
+    <strong>Experiment Loop:</strong><br>
+    <div style="background:#f5f5f5;border-radius:8px;padding:10px 14px;margin:6px 0 10px;font-size:0.82rem;">
+      <strong>Hypothesis</strong> — intended action + assumed causal link to goal measure<br>
+      <strong>Experiment</strong> — minimal work to prove/disprove hypothesis<br>
+      <strong>Measures</strong> — enabler measures + goal measure together<br>
+      <strong>Evidence</strong> — empirical data from the experiment<br><br>
+      <em>Rules:</em> Test ONE hypothesis per team at a time &middot; Monitor both enabler AND goal measure &middot; Everything about the future is an assumption — even the goal itself
+    </div>
+
+    <!-- Observer / Hawthorne Effect -->
+    <strong>Observer Effect (Hawthorne Effect):</strong><br>
+    Individuals modify behavior when they know they're being measured.<br>
+    <span style="font-size:0.82rem;color:#555;">Example: Using velocity as a performance measure → velocity increases without actual improved performance.</span><br>
+    <strong>Solution:</strong> Balance qualitative + quantitative metrics to prevent unintended consequences.<br><br>
+
+    <!-- Balancing Measures -->
+    <strong>Balancing Measures:</strong><br>
+    <table style="width:100%;border-collapse:collapse;font-size:0.78rem;margin:6px 0 10px;">
+      <thead>
+        <tr style="background:#f0f0f0;">
+          <th style="padding:5px 8px;text-align:left;border:1px solid var(--border);">Measure</th>
+          <th style="padding:5px 8px;text-align:left;border:1px solid var(--border);">Possible Unintended Consequence</th>
+          <th style="padding:5px 8px;text-align:left;border:1px solid var(--border);">Balancing Measure</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:5px 8px;border:1px solid var(--border);">Reduce lead time to deliver new feature</td>
+          <td style="padding:5px 8px;border:1px solid var(--border);">Reduced quality</td>
+          <td style="padding:5px 8px;border:1px solid var(--border);">Decreasing production-found defects</td>
+        </tr>
+        <tr style="background:#fafafa;">
+          <td style="padding:5px 8px;border:1px solid var(--border);">Increase sales to $50M</td>
+          <td style="padding:5px 8px;border:1px solid var(--border);">Low margin sales</td>
+          <td style="padding:5px 8px;border:1px solid var(--border);">At least $10M in maintenance contracts</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Satisfaction Gap -->
+    <strong>Satisfaction Gap &amp; Satisfaction Map:</strong><br>
+    Satisfaction Gap = <em>Desired Experience − Current Experience</em> = indicator of Unrealized Value<br>
+    Closing satisfaction gaps creates/captures UV. For each stakeholder group, map desired vs current experience. Always focus on the goal when analyzing gaps.<br><br>
+
+    <!-- EBM in Practice -->
+    <strong>EBM in Practice:</strong><br>
+    &bull; <strong>EBM Review events</strong> — pause to reflect, inspect experiments, adapt direction<br>
+    &bull; <strong>Evidence Dashboard</strong> — transparent, visible to all, simple — shows progress toward goal, current experiments, changes in key enablers<br>
+    &bull; Everything about the future — including the goal — is a hypothesis<br><br>
+
     <strong>Exam tip:</strong> EBM = outcomes not outputs. Velocity/story points measure output. NPS/revenue measure outcome. PO success = value outcomes, not team speed.<br><br>
     <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
-    <strong>Real life:</strong> PO's boss says "velocity went from 30 to 45 — great job!" PO replies: "Revenue is flat and churn increased. We shipped more but built the wrong things. Let's look at UV — 60% of users still can't complete checkout on mobile. That's our next target."
+    <strong>Real life:</strong> PO's boss says "velocity went from 30 to 45 — great job!" PO replies: "Revenue is flat and churn increased. We shipped more but built the wrong things. Let's look at UV — 60% of users still can't complete checkout on mobile. Satisfaction Gap = our next target. Let's run a hypothesis: if we fix mobile checkout, conversion rate improves by 15% this Sprint."
     </span>
   </div>
 
