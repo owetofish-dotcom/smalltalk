@@ -446,6 +446,18 @@
   </div>
 
   <!-- THEORY SECTIONS -->
+  <div style="background:#f5f5f3;border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:24px;font-size:0.82rem;">
+  <strong style="font-size:0.85rem;">PSPO I — przybliżone wagi tematów egzaminacyjnych:</strong><br>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
+    <span style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:3px 8px;">Backlog Mgmt ~25%</span>
+    <span style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:3px 8px;">Product Value ~20%</span>
+    <span style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:3px 8px;">Scrum Theory ~15%</span>
+    <span style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:3px 8px;">Scrum Events ~15%</span>
+    <span style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:3px 8px;">Scrum Team ~10%</span>
+    <span style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:3px 8px;">Release Mgmt ~10%</span>
+    <span style="background:#fff;border:1px solid var(--border);border-radius:4px;padding:3px 8px;">Stakeholders ~5%</span>
+  </div>
+</div>
   <div class="info-box" id="theory-1">
     <h4>1. Scrum Theory &mdash; Empiricism</h4>
     <strong>Scrum = framework</strong>, not methodology. Built on <strong>empiricism</strong> (learn from experience) + <strong>lean thinking</strong> (reduce waste).<br><br>
@@ -478,7 +490,7 @@
     <strong>Developers:</strong><br>
     &bull; Create Done Increments &amp; own the Sprint Backlog<br>
     &bull; Self-organize — no one tells them <em>how</em> to work<br>
-    &bull; Estimate PBIs (PO does NOT estimate)<br><br>
+    &bull; Estimate Product Backlog Items (PBIs) (PO does NOT estimate)<br><br>
     <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
     <strong>Real life:</strong> The CTO tells the PO to put "refactor authentication" at the top of the backlog. The PO says no — a customer-facing payment bug is far more valuable to fix first. The CTO must respect this: PO authority is unlimited. The SM helps the PO communicate this decision to stakeholders.
     </span>
@@ -524,7 +536,7 @@
     &bull; Increment must meet Definition of Done (DoD) — PO decides IF/WHEN to release it<br>
     &bull; Multiple Increments can be created in one Sprint<br>
     &bull; DoD: updated at Sprint Retro — can only get stricter, never looser<br>
-    &bull; DoD ≠ Acceptance Criteria — DoD = quality floor for ALL; AC = specific to one PBI<br>
+    &bull; DoD ≠ Acceptance Criteria — DoD = quality floor for ALL; AC = specific to one Product Backlog Item (PBI)<br>
     &bull; Undone work → returns to Product Backlog<br><br>
     <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
     <strong>Real life:</strong> Developers finish a "dark mode" feature but skip security review (part of DoD). The PO cannot release it — DoD is not met. It goes back to the backlog. At the Retrospective, the team adds "penetration test" to the DoD to prevent recurrence.
@@ -765,25 +777,42 @@
     </span>
   </div>
 
-  <div class="info-box" id="theory-13">
-    <h4>13. Community Tips &mdash; Co m&#xF3;wi&#x105; zdaj&#x105;cy</h4>
-    <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
-      <li>&#x1F3AF; <strong>&#x201E;Nie zdawaj dop&#xF3;ki nie masz 100% na Open Assessment 3 razy z rz&#x119;du&#x201D;</strong> &mdash; Scrum.org Product Owner Open jest bezp&#x142;atny, &#x107;wicz go codziennie 3&times;</li>
-      <li>&#x1F4D6; <strong>&#x201E;EBM Guide to obowi&#x105;zkowa lektura&#x201D;</strong> &mdash; drugi najwa&#x17C;niejszy dokument po Scrum Guide</li>
-      <li>&#x26A0;&#xFE0F; <strong>&#x201E;Uwa&#x17C;aj na pytania &lsquo;choose 2&rsquo; lub &lsquo;choose 3&rsquo;&#x201D;</strong> &mdash; nie przegap &#x17C;e pytanie wymaga wielu odpowiedzi</li>
-      <li>&#x1F9E0; <strong>&#x201E;Mindset: my&#x15B;l jak PO, nie jak project manager&#x201D;</strong> &mdash; pytania testuj&#x105; rozumienie empiryzmu, nie zarz&#x105;dzania projektem</li>
-      <li>&#x1F511; <strong>&#x201E;&lsquo;Ordered&rsquo; not &lsquo;prioritized&rsquo;&#x201D;</strong> &mdash; Product Backlog jest ORDERED, nie prioritized &mdash; to pu&#x142;apka egzaminacyjna</li>
-      <li>&#x1F4CB; <strong>&#x201E;Sprint Review to nie demo ani approval meeting&#x201D;</strong> &mdash; to inspect-and-adapt event z udzia&#x142;em stakeholders</li>
-      <li>&#x1F464; <strong>&#x201E;PO cannot be a committee&#x201D;</strong> &mdash; jedna osoba, jedna odpowiedzialno&#x15B;&#x107; &mdash; nawet je&#x15B;li reprezentuje wielu interesariuszy</li>
-      <li>&#x23F1; <strong>&#x201E;Timeboxing reduces risk&#x201D;</strong> &mdash; Sprint &le;1 miesi&#x105;c = max ryzyko 1 miesi&#x105;ca, nie wi&#x119;cej</li>
-      <li>&#x2705; <strong>&#x201E;DoD &ne; Acceptance Criteria&#x201D;</strong> &mdash; DoD = standard quality dla Increment; AC = warunki konkretnego PBI</li>
-      <li>&#x1F4CA; <strong>&#x201E;Velocity i story points NIE s&#x105; w Scrum Guide&#x201D;</strong> &mdash; Scrum nie nakazuje ich u&#x17C;ywania</li>
-      <li>&#x1F4DA; <strong>&#x201E;Przeczytaj Scrum Guide co najmniej 3 razy&#x201D;</strong> &mdash; ka&#x17C;de czytanie ujawnia co&#x15B; nowego</li>
-    </ul>
-  </div>
+  <div class="info-box" id="theory-14">
+  <h4>12. User Stories &amp; Acceptance Criteria</h4>
+  <strong>User Story</strong> = lightweight format for expressing PBI from user perspective.<br>
+  Format: <em>"As a [user type], I want [goal], so that [reason]."</em><br>
+  <strong>NOT required by Scrum Guide</strong> — but widely used and commonly tested.<br><br>
+
+  <strong>INVEST criteria</strong> for a good User Story:<br>
+  &bull; <strong>I</strong>ndependent — can be developed alone<br>
+  &bull; <strong>N</strong>egotiable — details can change<br>
+  &bull; <strong>V</strong>aluable — delivers value to user/customer<br>
+  &bull; <strong>E</strong>stimable — Developers can estimate it<br>
+  &bull; <strong>S</strong>mall — fits in a Sprint<br>
+  &bull; <strong>T</strong>estable — can be verified as Done<br><br>
+
+  <strong>Acceptance Criteria (AC)</strong> vs <strong>Definition of Done (DoD):</strong><br>
+  <table style="width:100%;border-collapse:collapse;font-size:0.88rem;margin-bottom:10px;">
+    <tr style="font-weight:700;border-bottom:1px solid var(--border)"><td style="padding:4px 8px;">Acceptance Criteria</td><td style="padding:4px 8px;">Definition of Done (DoD)</td></tr>
+    <tr><td style="padding:4px 8px;">Specific to ONE PBI</td><td style="padding:4px 8px;">Applies to ALL Increments</td></tr>
+    <tr><td style="padding:4px 8px;">Written by PO / stakeholders</td><td style="padding:4px 8px;">Created by Scrum Team</td></tr>
+    <tr><td style="padding:4px 8px;">What makes THIS story done</td><td style="padding:4px 8px;">Quality floor for every Increment</td></tr>
+    <tr><td style="padding:4px 8px;">Can vary per story</td><td style="padding:4px 8px;">Same for all items in Sprint</td></tr>
+  </table>
+
+  <strong>Story Map</strong> = visual technique to organize backlog by user journey:<br>
+  &bull; Horizontal axis = user journey steps (backbone)<br>
+  &bull; Vertical axis = stories ordered by value/priority<br>
+  &bull; Helps PO identify MVP slice and plan releases<br><br>
+
+  <strong>Exam tip:</strong> AC ≠ DoD. PBI not meeting AC → not shippable even if DoD met. DoD is the absolute minimum; AC are additional conditions per story.<br><br>
+  <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
+  <strong>Real life:</strong> DoD says "code reviewed + unit tested + deployed to staging." Story AC says "user can upload max 5MB PDF only." A story passes DoD (code reviewed, tested, deployed) but if it allows 10MB uploads — AC not met, PO cannot release it.
+  </span>
+</div>
 
   <div class="info-box" id="theory-12">
-    <h4>12. Exam Traps &mdash; Quick Kills</h4>
+    <h4>13. Exam Traps &mdash; Quick Kills</h4>
     <strong>Remember these cold:</strong><br>
     &bull; Backlog = <em>ordered</em> (never "prioritized")<br>
     &bull; PO = 1 person; unlimited backlog authority; no exceptions<br>
@@ -803,6 +832,23 @@
     &bull; Stakeholders: Sprint Review only (not Planning/Daily/Retro)<br>
     &bull; Definition of Ready = NOT in Scrum Guide<br>
     &bull; Velocity increase ≠ PO success (outcome matters, not output)<br>
+  </div>
+
+  <div class="info-box" id="theory-13">
+    <h4>14. Community Tips &mdash; Co m&#xF3;wi&#x105; zdaj&#x105;cy</h4>
+    <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+      <li>&#x1F3AF; <strong>&#x201E;Nie zdawaj dop&#xF3;ki nie masz 100% na Open Assessment 3 razy z rz&#x119;du&#x201D;</strong> &mdash; Scrum.org Product Owner Open jest bezp&#x142;atny, &#x107;wicz go codziennie 3&times;</li>
+      <li>&#x1F4D6; <strong>&#x201E;EBM Guide to obowi&#x105;zkowa lektura&#x201D;</strong> &mdash; drugi najwa&#x17C;niejszy dokument po Scrum Guide</li>
+      <li>&#x26A0;&#xFE0F; <strong>&#x201E;Uwa&#x17C;aj na pytania &lsquo;choose 2&rsquo; lub &lsquo;choose 3&rsquo;&#x201D;</strong> &mdash; nie przegap &#x17C;e pytanie wymaga wielu odpowiedzi</li>
+      <li>&#x1F9E0; <strong>&#x201E;Mindset: my&#x15B;l jak PO, nie jak project manager&#x201D;</strong> &mdash; pytania testuj&#x105; rozumienie empiryzmu, nie zarz&#x105;dzania projektem</li>
+      <li>&#x1F511; <strong>&#x201E;&lsquo;Ordered&rsquo; not &lsquo;prioritized&rsquo;&#x201D;</strong> &mdash; Product Backlog jest ORDERED, nie prioritized &mdash; to pu&#x142;apka egzaminacyjna</li>
+      <li>&#x1F4CB; <strong>&#x201E;Sprint Review to nie demo ani approval meeting&#x201D;</strong> &mdash; to inspect-and-adapt event z udzia&#x142;em stakeholders</li>
+      <li>&#x1F464; <strong>&#x201E;PO cannot be a committee&#x201D;</strong> &mdash; jedna osoba, jedna odpowiedzialno&#x15B;&#x107; &mdash; nawet je&#x15B;li reprezentuje wielu interesariuszy</li>
+      <li>&#x23F1; <strong>&#x201E;Timeboxing reduces risk&#x201D;</strong> &mdash; Sprint &le;1 miesi&#x105;c = max ryzyko 1 miesi&#x105;ca, nie wi&#x119;cej</li>
+      <li>&#x2705; <strong>&#x201E;DoD &ne; Acceptance Criteria&#x201D;</strong> &mdash; DoD = standard quality dla Increment; AC = warunki konkretnego PBI</li>
+      <li>&#x1F4CA; <strong>&#x201E;Velocity i story points NIE s&#x105; w Scrum Guide&#x201D;</strong> &mdash; Scrum nie nakazuje ich u&#x17C;ywania</li>
+      <li>&#x1F4DA; <strong>&#x201E;Przeczytaj Scrum Guide co najmniej 3 razy&#x201D;</strong> &mdash; ka&#x17C;de czytanie ujawnia co&#x15B; nowego</li>
+    </ul>
   </div>
 </div>
 
