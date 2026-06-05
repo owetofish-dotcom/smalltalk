@@ -505,6 +505,7 @@
     &bull; ONE person (not a committee) — accountable for maximizing product value<br>
     &bull; Orders Product Backlog (value, risk, learning, dependencies)<br>
     &bull; Authority = unlimited — no CFO/CEO/architect overrides PO ordering<br>
+    &bull; <strong>Entire organization must respect PO decisions</strong> — visible in PB content/ordering + Increment at Review<br>
     &bull; PO is mandatory at Sprint Retrospective<br><br>
     <strong>Scrum Master:</strong><br>
     &bull; Accountable for Scrum effectiveness &amp; removing impediments<br>
@@ -535,7 +536,7 @@
     &bull; Review BEFORE Retrospective — always<br>
     &bull; Sprint Review ≠ demo/sign-off — it's inspect &amp; adapt the product<br>
     &bull; Retro ≠ Developers only — full Scrum Team (PO required)<br>
-    &bull; Daily Scrum = Developers only (SM optional, PO not invited)<br>
+    &bull; Daily Scrum = Developers only — SM optional; PO <strong>may participate if actively working on Sprint Backlog items</strong> (as Developer)<br>
     &bull; Stakeholders attend Sprint Review only — not Planning/Daily/Retro<br>
     &bull; No pre-conditions for Sprint Planning defined in Scrum Guide<br>
     &bull; Sprint cancelled ONLY if Sprint Goal becomes obsolete (PO decides)<br>
@@ -567,7 +568,9 @@
     &bull; Multiple Increments can be created in one Sprint<br>
     &bull; DoD: updated at Sprint Retro — can only get stricter, never looser<br>
     &bull; DoD ≠ Acceptance Criteria — DoD = quality floor for ALL; AC = specific to one Product Backlog Item (PBI)<br>
-    &bull; Undone work → returns to Product Backlog<br><br>
+    &bull; Undone work → returns to Product Backlog<br>
+    &bull; <strong>Sprint Review should NEVER be considered a gate to releasing value</strong> — release can happen anytime during Sprint<br>
+    &bull; The moment a PBI meets the DoD, <strong>an Increment is born</strong><br><br>
     <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
     <strong>Real life:</strong> Developers finish a "dark mode" feature but skip security review (part of DoD). The PO cannot release it — DoD is not met. It goes back to the backlog. At the Retrospective, the team adds "penetration test" to the DoD to prevent recurrence.
     </span>
@@ -576,7 +579,8 @@
   <div class="info-box" id="theory-5">
     <h4>5. Product Vision &amp; Strategy</h4>
     <strong>Vision</strong> = long-term purpose (not in Scrum Guide but critical for PO).<br>
-    <strong>Product Goal</strong> = medium-term target IN the Product Backlog — must finish or abandon before taking next one.<br>
+    <strong>Product Goal</strong> = <strong>long-term objective</strong> IN the Product Backlog — must fulfill or abandon before taking next one.<br>
+    <span style="font-size:0.82rem;color:#c0392b;"><em>Exam trap: Scrum Guide says "long-term objective", NOT "medium-term". Vision ≠ Product Goal — both are long-term but at different scopes.</em></span><br>
     <strong>Roadmap</strong> = communication tool showing product evolution — not prescribed by Scrum, owned by PO.<br><br>
     <strong>PO balances 3 horizons:</strong><br>
     &bull; Long-term: Vision<br>
@@ -678,7 +682,7 @@
     &bull; Sprint 0 = does NOT exist in Scrum<br><br>
     <strong>Continuous improvement:</strong><br>
     &bull; Retro = formal improvement event; DoD becomes stricter over time<br>
-    &bull; At least 1 improvement from Retro → added to next Sprint Backlog<br><br>
+    &bull; Improvements from Retro <strong>may</strong> be added to next Sprint Backlog — Scrum Guide says "may even", not "must at least 1"<br><br>
     <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
     <strong>Real life:</strong> 3 teams build the same e-commerce platform. All start Sprint 5 on Monday. One PO orders a single shared backlog. Teams pick their PBIs at Sprint Planning. At Sprint Review on Friday, all three present to the same stakeholders. Integration issues are visible and fixed before Sprint 6.
     </span>
@@ -686,7 +690,7 @@
 
   <div class="info-box" id="theory-11">
     <h4>11. Evidence-Based Management (EBM)</h4>
-    <em>An empirical approach that helps organizations continuously improve customer outcomes, organizational capabilities, and business results under conditions of uncertainty.</em><br><br>
+    <em>"A framework that helps people, teams, and organizations make better-informed decisions to help them achieve their goals by using <strong>intentional experimentation and feedback</strong>."</em> — EBM Guide 2024<br><br>
     Complementary Scrum.org framework — second most important document after Scrum Guide. PO uses it to measure value and make decisions.<br><br>
 
     <!-- KVA Relationship Diagram -->
@@ -756,18 +760,16 @@
     </div>
 
     <!-- Goals -->
-    <strong>Goals in EBM:</strong><br>
-    &bull; Ambitious — a stretch, not business-as-usual<br>
+    <strong>3 poziomy celów w EBM:</strong><br>
+    &bull; <strong>Strategic Goal</strong> — wielki, aspiracyjny cel organizacji (realizacja Mission/Vision); ścieżka niepewna → wymaga empiryzmu<br>
+    &bull; <strong>Intermediate Goal</strong> — osiągnięcie wskazujące, że jesteśmy na drodze do Strategic Goal; jeszcze nieco niepewne, ale nie całkiem nieznane<br>
+    &bull; <strong>Immediate Tactical Goal</strong> — bieżący fokus wysiłków ulepszeniowych; konkretne, mierzalne, krótkoterminowe<br><br>
+    <span style="font-size:0.82rem;color:#555;">Przykład: Strategic = "eradykacja choroby" → Intermediate = "udany test szczepionki" → Immediate = "sekwencja DNA wirusa"</span><br><br>
+    <strong>Dobre cele:</strong><br>
+    &bull; Mierzalne — wiadomo kiedy osiągnięte<br>
     &bull; Focused on <em>outcomes or impacts</em>, not outputs<br>
-    &bull; Measurable and time-bound — clear end state<br>
-    &bull; Derive measures FROM goals (not the other way around)<br><br>
-
-    <!-- Intermediate Goals -->
-    <strong>Intermediate Goals</strong> — practical near-term steps toward the main Goal:<br>
-    &bull; More achievable than the Goal, but still specific &amp; measurable<br>
-    &bull; Can focus on enablers (A2I, T2M) rather than outcomes directly<br>
-    &bull; Success increases confidence in achieving the main Goal<br>
-    <span style="font-size:0.82rem;color:#555;">Example: Startup goal = "1M healthy meals by end of year" → Intermediate goal = "10 deliveries a day for an entire calendar month"</span><br><br>
+    &bull; Derive measures FROM goals (nie odwrotnie)<br>
+    &bull; Transparent — widoczne dla całej organizacji (alignment)<br><br>
 
     <!-- Experiment Loop -->
     <strong>Experiment Loop:</strong><br>
