@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPLA Prep — Tecnam P2008 JC / EPKP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #fafaf8;
+    --bg-card: #ffffff;
+    --text: #111111;
+    --text-muted: #888888;
+    --border: #e2e2e0;
+    --accent: #111111;
+    --accent-light: #f0f0ee;
+    --font-head: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --emergency-bg: #fff5f5;
+    --emergency-border: #dc2626;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2 { font-family: var(--font-head); }
+
+  .header {
+    padding: 36px 20px 20px;
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 { font-size: 2.6rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .header p { font-size: 1rem; color: var(--text-muted); }
+
+  .nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    max-width: 860px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 9px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: var(--font-body);
+  }
+  .nav-btn:hover { background: var(--accent-light); color: var(--text); }
+  .nav-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+
+  .screen { display: none; padding: 32px 20px 100px; max-width: 860px; margin: 0 auto; animation: fadeIn 0.3s; }
+  .screen.active { display: block; }
+
+  h2 { font-size: 1.9rem; margin-bottom: 6px; font-weight: 600; letter-spacing: -0.01em; }
+  .subtitle { color: var(--text-muted); margin-bottom: 28px; font-size: 1.05rem; }
+
+  /* ---- Sticky speed bar ---- */
+  .speed-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    justify-content: center;
+    padding: 8px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    border-radius: 0 0 6px 6px;
+    margin-bottom: 24px;
+  }
+  .speed-bar span { white-space: nowrap; }
+
+  /* ---- Checklist section ---- */
+  .cl-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .cl-section-head {
+    padding: 14px 20px 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .cl-section-title {
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+  }
+  .cl-section-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .cl-section-actions { display: flex; align-items: center; gap: 10px; }
+  .cl-progress-wrap { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
+
+  .cl-reset {
+    background: var(--accent-light);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .cl-reset:hover { background: var(--border); color: var(--text); }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+
+  .cl-group {
+    padding: 4px 0;
+  }
+  .cl-group-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    padding: 10px 20px 4px;
+  }
+
+  .cl-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 20px;
+    cursor: pointer;
+    transition: background 0.1s;
+    user-select: none;
+  }
+  .cl-item:hover { background: var(--accent-light); }
+  .cl-item input[type="checkbox"] {
+    margin-top: 2px;
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    accent-color: var(--accent);
+  }
+  .cl-item label {
+    font-size: 0.92rem;
+    cursor: pointer;
+    line-height: 1.5;
+    flex: 1;
+    transition: all 0.2s;
+  }
+  .cl-item.done label {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+
+  /* ---- Emergency sections ---- */
+  .cl-section.emergency {
+    border-color: #fca5a5;
+    background: var(--emergency-bg);
+  }
+  .cl-section.emergency .cl-section-head {
+    background: #dc2626;
+    border-bottom-color: #b91c1c;
+  }
+  .cl-section.emergency .cl-section-title {
+    color: #fff;
+  }
+  .cl-section.emergency .cl-section-sub {
+    color: #fecaca;
+  }
+  .cl-section.emergency .cl-reset {
+    background: #b91c1c;
+    color: #fecaca;
+    border-color: #991b1b;
+  }
+  .cl-section.emergency .cl-reset:hover { background: #991b1b; color: #fff; }
+  .cl-section.emergency .cl-progress-wrap { color: #fecaca; }
+  .cl-section.emergency .cl-group-label { color: #b91c1c; }
+  .cl-section.emergency .cl-item:hover { background: #fee2e2; }
+  .cl-section.emergency .progress-fill { background: #dc2626; }
+  .cl-section.emergency .progress-bar { background: #fca5a5; }
+
+  .emergency-header {
+    font-family: var(--font-head);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #dc2626;
+    margin: 36px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #dc2626;
+  }
+
+  .global-reset-wrap {
+    text-align: center;
+    margin-top: 32px;
+  }
+  .btn-global-reset {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: background 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .btn-global-reset:hover { background: #333; }
+
+  /* ---- Tecnam Ref ---- */
+  .ref-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .ref-section h3 {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.93rem;
+  }
+  .ref-table th {
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ref-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--accent-light);
+    vertical-align: top;
+  }
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-table tr:hover td { background: var(--accent-light); }
+  .speed-val {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .ref-code {
+    font-weight: 600;
+    font-size: 0.88rem;
+    background: var(--accent-light);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .ref-spec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .ref-spec-item {
+    background: var(--accent-light);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  .ref-spec-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .ref-spec-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* ---- EPKP ---- */
+  .epkp-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .epkp-section h3 {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .info-row {
+    display: flex;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--accent-light);
+    font-size: 0.92rem;
+    align-items: flex-start;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-label {
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    min-width: 120px;
+    padding-top: 1px;
+  }
+  .info-val { flex: 1; }
+  .freq-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-family: monospace;
+    letter-spacing: 0.03em;
+  }
+  .notice-box {
+    background: #fffbeb;
+    border: 1px solid #fbbf24;
+    border-left: 4px solid #f59e0b;
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    color: #92400e;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+  .map-wrap {
+    margin-top: 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>PPLA Prep</h1>
+  <p>Tecnam P2008 JC &middot; EPKP Krak&oacute;w Pobiednik</p>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showScreen('checklist')">Checklist</button>
+  <button class="nav-btn" onclick="showScreen('tecnam')">Tecnam Ref</button>
+  <button class="nav-btn" onclick="showScreen('epkp')">EPKP</button>
+</div>
+
+<!-- =============================== CHECKLIST =============================== -->
+<div id="screen-checklist" class="screen active">
+
+  <div class="speed-bar">
+    <span>Vfe 70 KIAS</span>
+    <span>Vapp 55 KIAS (LND FLAP)</span>
+    <span>Vs1 48 KIAS</span>
+    <span>Vso 40 KIAS</span>
+  </div>
+
+  <!-- SECTION A -->
+  <div class="cl-section" id="sec-a">
+    <div class="cl-section-head">
+      <div>
+        <div class="cl-section-title">A — PRZEG&Ocirc;D PRZED LOTEM</div>
+        <div class="cl-section-sub">Glide ratio 12:1 at 71 KIAS &nbsp;|&nbsp; Vy 71 KIAS &nbsp;|&nbsp; Vx 65 KIAS</div>
+      </div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-a-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('a')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-a" style="width:0%"></div></div>
+
+    <div class="cl-group">
+      <div class="cl-group-label">Og&oacute;lny przegl&aograve;d</div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>MSI / PDT: Sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Master i iskrowniki: Wy&lstrok;&aograve;czone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Pozycje kad&lstrok;uba: Ci&aograve;g&lstrok;e</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Ster wysoko&sacute;ci i anteny: Sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Statecznik pionowy i ster kier.: Sprawdzone</label></div>
+
+      <div class="cl-group-label">Prawe skrzyd&lstrok;o</div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Lotka i hamulec: Sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Klapy i lotki: Sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Przew&oacute;d paliwa i wentyl: Sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Czujnik przeci&aograve;&zdot;enia: Sprawdzony</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Dajniki ci&sacute;nienia stat. x2: Sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Szyba przednia: Czysta</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Starter CB OFF + Obr&oacute;&cacute; &sacute;mig&lstrok;o 15x</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Poziom oleju: Na skali</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>&Sacute;mig&lstrok;o i ko&lstrok;pak: Umocowane</label></div>
+
+      <div class="cl-group-label">Lewa strona i hamulce</div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>St&oacute;jka przednia i opona: Bez luz&oacute;w</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Filtr powietrza, ch&lstrok;odnica: Czyste</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Reflektor i strobes: Dzia&lstrok;a</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>P&lstrok;yn ch&lstrok;odz&aograve;cy: min. 2/3</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>L. skrzyd&lstrok;o paliwo i wentylacja: Sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Lotka: Zabezp. zdj&eograve;te, czysta</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>&lstrok;&oacute;&zdot;ka i klapy: Sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Opona: Napompowana</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Hamulce: Brak wycieku</label></div>
+
+      <div class="cl-group-label">Przed wej&sacute;ciem do kabiny</div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Przegl&aograve;d przedlotowy: Wykonany</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Siedzenia i pasy: Ustawione i zapi&eograve;te</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Papas, dajnik ci&sacute;., stat.: Normal</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Bezpieczniki: Sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Dr&aograve;&zdot;ek sterowy: Ruchy swobodne</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Hamulce: Zaci&aograve;gni&eograve;te</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Drzwi kabiny: Zabezpieczone</label></div>
+    </div>
+  </div>
+
+  <!-- SECTION B -->
+  <div class="cl-section" id="sec-b">
+    <div class="cl-section-head">
+      <div>
+        <div class="cl-section-title">B &mdash; URUCHOMIENIE SILNIKA</div>
+      </div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-b-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('b')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-b" style="width:0%"></div></div>
+
+    <div class="cl-group">
+      <div class="cl-group-label">Uruchomienie</div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Master: W&lstrok;&aograve;czony</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>ATIS/QNH: Zapisany / Ustawione</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Obroty: Neutralne</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Panel powiadomie&nacute; radiowych: Sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Avionik Master: Wy&lstrok;&aograve;czone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Podgrzew ga&zacute;nika: Wy&lstrok;&aograve;czone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Przepustnica: IDLE</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Zaw&oacute;r paliwa: W&lstrok;&aograve;czony</label></div>
+
+      <div class="cl-group-label">Odpalenie</div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Choke/Ssanie: Zimny ON / ciep&lstrok;y OFF</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>El. pompa paliwa: W&lstrok;&aograve;czona</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>&Sacute;wiat&lstrok;a Strobe: W&lstrok;&aograve;czone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Strefa &sacute;mig&lstrok;a: Wolna</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Zap&lstrok;on: START</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Ci&sacute;nienie oleju: Zielone pole</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Obroty: 1000 rpm</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Generator: W&lstrok;&aograve;czony (&gt;14V)</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>EL: W&lstrok;&aograve;czone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Odmro&zdot;enie szyby przedniej: W&lstrok;&aograve;czone</label></div>
+
+      <div class="cl-group-label">Po uruchomieniu</div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>OP LOW, FP LOW, ALT OUT: sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Avionik Master: W&lstrok;&aograve;czony</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Audio panel, Radia: G&lstrok;o&sacute;no</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Transpondery: Ustawione</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>&Sacute;wiat&lstrok;a NAV: W&lstrok;&aograve;cz</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Choke/Ssanie: Wy&lstrok;&aograve;czone</label></div>
+    </div>
+  </div>
+
+  <!-- SECTION C -->
+  <div class="cl-section" id="sec-c">
+    <div class="cl-section-head">
+      <div><div class="cl-section-title">C &mdash; PR&Oacute;BA SILNIKA</div></div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-c-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('c')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-c" style="width:0%"></div></div>
+    <div class="cl-group">
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Temperatura oleju: &gt; 50&deg;C</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Klapy: UP &rarr; LND &rarr; UP</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Obroty (pr&oacute;ba): Pe&lstrok;ne w d&oacute;&lstrok;</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>El. pompa paliwa: W&lstrok;&aograve;czona</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Przepustnica: 1640 obr.</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Iskrowniki: Spadek 130/50</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Podgrzew ga&zacute;nika: Sprawdzony</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Wska&zacute;niki silnika: Zielone pole</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Obroty min.: 600 RPM</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Hamulce: Sprawdzone lewy i prawy</label></div>
+    </div>
+  </div>
+
+  <!-- SECTION D -->
+  <div class="cl-section" id="sec-d">
+    <div class="cl-section-head">
+      <div><div class="cl-section-title">D &mdash; START I WZNOSZENIE</div></div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-d-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('d')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-d" style="width:0%"></div></div>
+    <div class="cl-group">
+      <div class="cl-group-label">Start</div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Active RWY: Strobes ON, LDG Lgt ON, XPDR ALT</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Wysoko&sacute;&cacute; wznoszenia: Ustawiona</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Podgrzew ga&zacute;nika: Wy&lstrok;&aograve;czony</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Klapy: T/O</label></div>
+
+      <div class="cl-group-label">Po starcie 200 ft AGL</div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Pr&eograve;dko&sacute;&cacute;: 71 KIAS</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Train, LDG Lgt: UP</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Klapy: UP</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Obroty: redukcja o 100 obr.</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>El. pompa paliwa: OFF</label></div>
+    </div>
+  </div>
+
+  <!-- SECTION E -->
+  <div class="cl-section" id="sec-e">
+    <div class="cl-section-head">
+      <div><div class="cl-section-title">E &mdash; PODEJ&Sacute;CIE DO L&Aograve;DOWANIA</div></div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-e-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('e')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-e" style="width:0%"></div></div>
+    <div class="cl-group">
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>El. pompa paliwa: W&lstrok;&aograve;czona</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Podgrzew ga&zacute;nika: W&lstrok;&aograve;czony</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Mac, Klapy: Ustawione</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>&Sacute;wiat&lstrok;o do l&aograve;dowania: W&lstrok;&aograve;czone</label></div>
+    </div>
+  </div>
+
+  <!-- SECTION F -->
+  <div class="cl-section" id="sec-f">
+    <div class="cl-section-head">
+      <div><div class="cl-section-title">F &mdash; PO L&Aograve;DOWANIU</div></div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-f-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('f')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-f" style="width:0%"></div></div>
+    <div class="cl-group">
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Active RWY: Strobe OFF, LDG Lgt OFF, XPDR STBY</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Zaw&oacute;r paliwa: Wy&lstrok;&aograve;czony</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Podgrzew ga&zacute;nika: Wy&lstrok;&aograve;czony</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Iskrowniki: Sprawdzone</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Wska&zacute;niki silnika: Sprawdzone</label></div>
+    </div>
+  </div>
+
+  <!-- SECTION G -->
+  <div class="cl-section" id="sec-g">
+    <div class="cl-section-head">
+      <div><div class="cl-section-title">G &mdash; WY&lstrok;&Aograve;CZENIE NA ZIEMI</div></div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-g-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('g')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-g" style="width:0%"></div></div>
+    <div class="cl-group">
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Zaw&oacute;r paliwa: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>El. pompa paliwa: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Iskrowniki: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Przepustnica: PE&lstrok;NA MOC (chwilowo dla wych&lstrok;odzenia)</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Ogrzewanie kabiny: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Avionik Master: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Master i Generator: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Zaw&oacute;r paliwa: WY&lstrok;&Aograve;CZ (kontr.)</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Ewakuacja: check</label></div>
+    </div>
+  </div>
+
+  <!-- EMERGENCY SECTIONS -->
+  <div class="emergency-header">PROCEDURY AWARYJNE</div>
+
+  <!-- AWARIA SILNIKA W LOCIE -->
+  <div class="cl-section emergency" id="sec-em1">
+    <div class="cl-section-head">
+      <div>
+        <div class="cl-section-title">AWARIA SILNIKA W LOCIE</div>
+        <div class="cl-section-sub">Szybowanie bez klap: 71 KIAS</div>
+      </div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-em1-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('em1')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-em1" style="width:0%"></div></div>
+    <div class="cl-group">
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Pr&eograve;dko&sacute;&cacute; szybowania bez klap: 71 KIAS</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Klapy: LND</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Zaw&oacute;r paliwa: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Iskrowniki: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Generator i Master: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Drzwi kabiny: ODBLOKUJ</label></div>
+
+      <div class="cl-group-label">Przy braku mocy &mdash; spr&oacute;buj restart</div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Podgrzew ga&zacute;nika: ZMIE&Nacute; &zdot;EBROWNIK</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Iskrowniki: BOTH/START</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Dalszy brak mocy: L&Aograve;DUJ AWARYJNIE</label></div>
+    </div>
+  </div>
+
+  <!-- LADOWANIE AWARYJNE -->
+  <div class="cl-section emergency" id="sec-em2">
+    <div class="cl-section-head">
+      <div>
+        <div class="cl-section-title">L&Aograve;DOWANIE AWARYJNE</div>
+        <div class="cl-section-sub">Przyziemienie: 45 KIAS</div>
+      </div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-em2-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('em2')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-em2" style="width:0%"></div></div>
+    <div class="cl-group">
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Pr&eograve;dko&sacute;&cacute;: 71 KIAS</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>El. pompa paliwa: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Iskrowniki: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Mayday + pozycja: NADAJ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Pasy: LRG (leg restraint)</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Generator i Master: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Drzwi: ODBLOKUJ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Przyziemienie: 45 KIAS</label></div>
+    </div>
+  </div>
+
+  <!-- AWARIA KLAP -->
+  <div class="cl-section emergency" id="sec-em3">
+    <div class="cl-section-head">
+      <div>
+        <div class="cl-section-title">AWARIA KLAP</div>
+        <div class="cl-section-sub">Dystans l&aograve;dowania: +85%</div>
+      </div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-em3-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('em3')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-em3" style="width:0%"></div></div>
+    <div class="cl-group">
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Pr&eograve;dko&sacute;&cacute; do l&aograve;dowania: 65 KIAS</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Dystans do l&aograve;dowania: +85% (d&lstrok;u&zdot;szy pas!)</label></div>
+    </div>
+  </div>
+
+  <!-- AWARIA SILNIKA W KABINIE / POZAR -->
+  <div class="cl-section emergency" id="sec-em4">
+    <div class="cl-section-head">
+      <div>
+        <div class="cl-section-title">PO&zdot;AR / AWARIA W KABINIE</div>
+      </div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-em4-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('em4')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-em4" style="width:0%"></div></div>
+    <div class="cl-group">
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Ogrzewanie kabiny: WY&lstrok;&Aograve;CZONE</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Zaw&oacute;r paliwa: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>El. pompa paliwa: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Przepustnica: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Iskrowniki: WY&lstrok;&Aograve;CZ</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>&Sacute;lug na skrzydle: WG POTRZEB</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>L&aograve;dowanie awaryjne: WYKONAJ</label></div>
+    </div>
+  </div>
+
+  <!-- AWARIA ALTERNATORA -->
+  <div class="cl-section emergency" id="sec-em5">
+    <div class="cl-section-head">
+      <div>
+        <div class="cl-section-title">AWARIA ALTERNATORA (ALT OUT)</div>
+        <div class="cl-section-sub">Zabezpieczenie do 25 min</div>
+      </div>
+      <div class="cl-section-actions">
+        <span class="cl-progress-wrap" id="prog-em5-text">0 / 0</span>
+        <button class="cl-reset" onclick="resetSection('em5')">RESET</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-em5" style="width:0%"></div></div>
+    <div class="cl-group">
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>&Sacute;wiat&lstrok;a, XPDR, Radio: Wy&lstrok;&aograve;cz niepotrzebne</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>Master i Generator: Wy&lstrok;&aograve;cz</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>ALT OUT &Sacute;wieci: Generator Wy&lstrok;&aograve;cz</label></div>
+      <div class="cl-item" onclick="toggleItem(this)"><input type="checkbox"><label>L&aograve;dowanie: zabezpieczenie do 25 min</label></div>
+    </div>
+  </div>
+
+  <div class="global-reset-wrap">
+    <button class="btn-global-reset" onclick="resetAll()">RESET WSZYSTKIE LISTY</button>
+  </div>
+
+</div><!-- /screen-checklist -->
+
+<!-- =============================== TECNAM REF =============================== -->
+<div id="screen-tecnam" class="screen">
+
+  <h2>Tecnam Ref</h2>
+  <p class="subtitle">Tecnam P2008 JC &mdash; pr&eograve;dko&sacute;ci, limity, silnik</p>
+
+  <div class="ref-section">
+    <h3>Pr&eograve;dko&sacute;ci</h3>
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Oznaczenie</th>
+          <th>Pr&eograve;dko&sacute;&cacute;</th>
+          <th>Opis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="ref-code">Vfe</span></td><td><span class="speed-val">70 KIAS</span></td><td>Maks. pr&eograve;dko&sacute;&cacute; z klapami</td></tr>
+        <tr><td><span class="ref-code">Vapp</span></td><td><span class="speed-val">55 KIAS</span></td><td>Podej&sacute;cie z klapami LND</td></tr>
+        <tr><td><span class="ref-code">Vs1</span></td><td><span class="speed-val">48 KIAS</span></td><td>Przeci&aograve;gni&eograve;cie bez klap</td></tr>
+        <tr><td><span class="ref-code">Vso</span></td><td><span class="speed-val">40 KIAS</span></td><td>Przeci&aograve;gni&eograve;cie z klapami</td></tr>
+        <tr><td><span class="ref-code">Vy</span></td><td><span class="speed-val">71 KIAS</span></td><td>Najlepsza pr&eograve;dko&sacute;&cacute; wznoszenia</td></tr>
+        <tr><td><span class="ref-code">Vx</span></td><td><span class="speed-val">65 KIAS</span></td><td>Najlepszy k&aograve;t wznoszenia</td></tr>
+        <tr><td><span class="ref-code">Vg (glide)</span></td><td><span class="speed-val">71 KIAS</span></td><td>Szybowanie (glide ratio 12:1)</td></tr>
+        <tr><td><span class="ref-code">Va</span></td><td><span class="speed-val">97 KIAS</span></td><td>Maks. pr&eograve;dko&sacute;&cacute; manewrowa</td></tr>
+        <tr><td><span class="ref-code">Vno</span></td><td><span class="speed-val">126 KIAS</span></td><td>Maks. pr&eograve;dko&sacute;&cacute; normalna</td></tr>
+        <tr><td><span class="ref-code">Vne</span></td><td><span class="speed-val">148 KIAS</span></td><td>Pr&eograve;dko&sacute;&cacute; nigdy nie przekracza&cacute;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ref-section">
+    <h3>Silnik Rotax 912 ULS</h3>
+    <div class="ref-spec-grid">
+      <div class="ref-spec-item">
+        <div class="ref-spec-label">Maks. obroty ci&aograve;g&lstrok;e</div>
+        <div class="ref-spec-value">5500 RPM</div>
+      </div>
+      <div class="ref-spec-item">
+        <div class="ref-spec-label">Maks. startowe (5 min)</div>
+        <div class="ref-spec-value">5800 RPM</div>
+      </div>
+      <div class="ref-spec-item">
+        <div class="ref-spec-label">Moc startowa</div>
+        <div class="ref-spec-value">100 HP</div>
+      </div>
+      <div class="ref-spec-item">
+        <div class="ref-spec-label">Temp. oleju</div>
+        <div class="ref-spec-value">50&ndash;130&deg;C</div>
+      </div>
+      <div class="ref-spec-item">
+        <div class="ref-spec-label">Ci&sacute;nienie oleju</div>
+        <div class="ref-spec-value">2.0&ndash;7.0 bar</div>
+      </div>
+      <div class="ref-spec-item">
+        <div class="ref-spec-label">Temp. g&lstrok;owicy (maks.)</div>
+        <div class="ref-spec-value">135&deg;C</div>
+      </div>
+      <div class="ref-spec-item">
+        <div class="ref-spec-label">Zu&zdot;ycie paliwa</div>
+        <div class="ref-spec-value">~22 l/h</div>
+      </div>
+      <div class="ref-spec-item">
+        <div class="ref-spec-label">Paliwo</div>
+        <div class="ref-spec-value">AVGAS 100LL / MOGAS 95</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ref-section">
+    <h3>Masy i wywa&zdot;enie</h3>
+    <div class="ref-spec-grid">
+      <div class="ref-spec-item">
+        <div class="ref-spec-label">MTOW</div>
+        <div class="ref-spec-value">600 kg</div>
+      </div>
+      <div class="ref-spec-item">
+        <div class="ref-spec-label">Maks. paliwo</div>
+        <div class="ref-spec-value">100 L (2&times;50 L)</div>
+      </div>
+      <div class="ref-spec-item">
+        <div class="ref-spec-label">&lstrok;adowno&sacute;&cacute; (bez paliwa)</div>
+        <div class="ref-spec-value">~260 kg</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ref-section">
+    <h3>Klapy</h3>
+    <table class="ref-table">
+      <thead>
+        <tr><th>Pozycja</th><th>K&aograve;t</th><th>Zastosowanie</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="ref-code">UP</span></td><td>0&deg;</td><td>Przelot, wznoszenie</td></tr>
+        <tr><td><span class="ref-code">T/O</span></td><td>+15&deg;</td><td>Start</td></tr>
+        <tr><td><span class="ref-code">LND</span></td><td>+30&deg;</td><td>L&aograve;dowanie</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /screen-tecnam -->
+
+<!-- =============================== EPKP =============================== -->
+<div id="screen-epkp" class="screen">
+
+  <h2>EPKP</h2>
+  <p class="subtitle">Krak&oacute;w Pobiednik &mdash; lotnisko macierzyste</p>
+
+  <div class="epkp-section">
+    <h3>Dane lotniska</h3>
+    <div class="info-row"><span class="info-label">ICAO</span><span class="info-val"><strong>EPKP</strong></span></div>
+    <div class="info-row"><span class="info-label">Nazwa</span><span class="info-val">Krak&oacute;w Pobiednik (Aerodrome)</span></div>
+    <div class="info-row"><span class="info-label">Operator</span><span class="info-val">Aeroklub Krakowski</span></div>
+    <div class="info-row"><span class="info-label">Elewacja</span><span class="info-val">768 ft / 234 m AMSL</span></div>
+    <div class="info-row"><span class="info-label">Droga startowa</span><span class="info-val">09 / 27 &mdash; 890 m &times; 30 m &mdash; trawa</span></div>
+    <div class="info-row"><span class="info-label">Typ</span><span class="info-val">Niekontrolowane &mdash; AFIS (nie TWR)</span></div>
+    <div class="info-row"><span class="info-label">Tankownie</span><span class="info-val">AVGAS 100LL dost&eograve;pna na lotnisku</span></div>
+    <div class="info-row"><span class="info-label">Kontakt AK</span><span class="info-val">733 778 804 &nbsp;/&nbsp; 603 639 842</span></div>
+  </div>
+
+  <div class="epkp-section">
+    <h3>Cz&eograve;stotliwo&sacute;ci</h3>
+    <table class="ref-table">
+      <thead>
+        <tr><th>S&lstrok;u&zdot;ba</th><th>Cz&eograve;stotliwo&sacute;&cacute;</th><th>Callsign</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AFIS / Radio</td>
+          <td><span class="freq-badge">118.605 MHz</span></td>
+          <td>Pobiedniki Radio</td>
+        </tr>
+        <tr>
+          <td>Krak&oacute;w INFO</td>
+          <td><span class="freq-badge">119.275 MHz</span></td>
+          <td>Krak&oacute;w Info</td>
+        </tr>
+        <tr>
+          <td>Emergency</td>
+          <td><span class="freq-badge" style="background:#dc2626">121.500 MHz</span></td>
+          <td>Emergency</td>
+        </tr>
+        <tr>
+          <td>Plan lotu (ARO)</td>
+          <td>+48 22 574 71 73</td>
+          <td>ARO</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="epkp-section">
+    <h3>Procedury VFR</h3>
+    <div class="info-row"><span class="info-label">Wys. kr&eograve;gu</span><span class="info-val">1000 ft AGL (ok. 1800 ft AMSL)</span></div>
+    <div class="info-row"><span class="info-label">RWY 27</span><span class="info-val">Kr&aograve;g lewy</span></div>
+    <div class="info-row"><span class="info-label">RWY 09</span><span class="info-val">Kr&aograve;g lewy</span></div>
+    <div class="info-row"><span class="info-label">CTR EPKK</span><span class="info-val">Kontakt z Pobiedniki Radio przed wej&sacute;ciem w stref&eograve;</span></div>
+    <div class="info-row"><span class="info-label">Meldunki</span><span class="info-val">Na punktach meldowania wg IO EPKP</span></div>
+    <div class="info-row"><span class="info-label">L&aograve;dowanie</span><span class="info-val">Pozwolenie od AFIS wymagane</span></div>
+  </div>
+
+  <div class="epkp-section">
+    <h3>Punkty meldowania VFR</h3>
+    <table class="ref-table">
+      <thead>
+        <tr><th>Punkt</th><th>Opis / Pozycja</th><th>Uwagi</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="ref-code">PAPA (P)</span></td><td>Wiadukt autostrady A4, N lotniska</td><td>Dol&oacute;t z N/NE</td></tr>
+        <tr><td><span class="ref-code">ALFA (A)</span></td><td>Niepo&lstrok;omice, E lotniska</td><td>Dol&oacute;t z E/SE</td></tr>
+        <tr><td><span class="ref-code">BRAVO (B)</span></td><td>Wieliczka okolice</td><td>Dol&oacute;t z S</td></tr>
+        <tr><td><span class="ref-code">GOLF (G)</span></td><td>Okolice Bochni</td><td>Dol&oacute;t z E</td></tr>
+      </tbody>
+    </table>
+    <div class="notice-box">
+      Dok&lstrok;adne wsp&oacute;&lstrok;rz&eograve;dne punkt&oacute;w meldowania &mdash; wg aktualnej Instrukcji Operacyjnej EPKP. Przed lotem sprawdzi&cacute; IO w AIS/ForeFlight.
+    </div>
+  </div>
+
+  <div class="epkp-section">
+    <h3>Mapa lotniska EPKP</h3>
+    <div class="map-wrap">
+      <iframe
+        src="https://www.openstreetmap.org/export/embed.html?bbox=20.17,50.07,20.23,50.10&layer=mapnik&marker=50.0865,20.2010"
+        style="width:100%;height:320px;border:none;"
+        loading="lazy"
+        title="EPKP Krak&oacute;w Pobiednik"></iframe>
+    </div>
+    <div style="margin-top:8px;font-size:0.8rem;color:var(--text-muted);">
+      Wsp&oacute;&lstrok;rz&eograve;dne: 50.0865&deg;N, 20.2010&deg;E &nbsp;&middot;&nbsp;
+      <a href="https://www.openstreetmap.org/?mlat=50.0865&mlon=20.2010#map=14/50.0865/20.2010" target="_blank" rel="noopener" style="color:var(--text-muted);">Otw&oacute;rz w OSM</a>
+    </div>
+  </div>
+
+  <div class="epkp-section">
+    <h3>Wa&zdot;ne informacje</h3>
+    <div class="info-row"><span class="info-label">Status</span><span class="info-val">Lotnisko niekontrolowane (AFIS, nie TWR)</span></div>
+    <div class="info-row"><span class="info-label">Godziny</span><span class="info-val">Wg harmonogramu Aeroklubu Krakowskiego</span></div>
+    <div class="info-row"><span class="info-label">Strefa</span><span class="info-val">CTR EPKK &mdash; wymagane zezwolenie Krak&oacute;w INFO przed lotem</span></div>
+    <div class="info-row"><span class="info-label">NOTAM</span><span class="info-val">Sprawdzi&cacute; przed ka&zdot;dym lotem w pansa.pl / EAD</span></div>
+  </div>
+
+</div><!-- /screen-epkp -->
+
+<script>
+const STORAGE_KEY = 'ppla_checklist_state';
+const SECTIONS = ['a','b','c','d','e','f','g','em1','em2','em3','em4','em5'];
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  const idx = {checklist:0, tecnam:1, epkp:2}[name];
+  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+}
+
+function toggleItem(row) {
+  const cb = row.querySelector('input[type="checkbox"]');
+  cb.checked = !cb.checked;
+  row.classList.toggle('done', cb.checked);
+  saveState();
+  updateSection(getSectionId(row));
+}
+
+function getSectionId(el) {
+  const sec = el.closest('.cl-section');
+  if (!sec) return null;
+  return sec.id.replace('sec-', '');
+}
+
+function updateSection(id) {
+  const sec = document.getElementById('sec-' + id);
+  if (!sec) return;
+  const items = sec.querySelectorAll('.cl-item input[type="checkbox"]');
+  const total = items.length;
+  const done = Array.from(items).filter(i => i.checked).length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  document.getElementById('prog-' + id).style.width = pct + '%';
+  document.getElementById('prog-' + id + '-text').textContent = done + ' / ' + total;
+}
+
+function resetSection(id) {
+  const sec = document.getElementById('sec-' + id);
+  sec.querySelectorAll('.cl-item').forEach(row => {
+    row.querySelector('input').checked = false;
+    row.classList.remove('done');
+  });
+  saveState();
+  updateSection(id);
+}
+
+function resetAll() {
+  SECTIONS.forEach(id => resetSection(id));
+}
+
+function saveState() {
+  const state = {};
+  SECTIONS.forEach(id => {
+    const sec = document.getElementById('sec-' + id);
+    state[id] = Array.from(sec.querySelectorAll('.cl-item input')).map(i => i.checked);
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadState() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+  let state;
+  try { state = JSON.parse(raw); } catch(e) { return; }
+  SECTIONS.forEach(id => {
+    if (!state[id]) return;
+    const sec = document.getElementById('sec-' + id);
+    const rows = sec.querySelectorAll('.cl-item');
+    rows.forEach((row, i) => {
+      if (state[id][i]) {
+        row.querySelector('input').checked = true;
+        row.classList.add('done');
+      }
+    });
+  });
+}
+
+// Init
+loadState();
+SECTIONS.forEach(id => updateSection(id));
+</script>
+</body>
+</html>
