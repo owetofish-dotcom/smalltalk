@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PPLA Prep — Tecnam P2008 JC / EPKP</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Share+Tech+Mono&display=swap');
 
   :root {
     --bg: #fafaf8;
@@ -396,6 +396,205 @@
   }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ======================== WIND TAB ======================== */
+
+  #screen-wind {
+    padding: 0 0 60px;
+    /* Wind-specific custom properties scoped to this tab */
+    --accent: #1e6ef5;
+    --line: #e2e2e0;
+    --muted: #888888;
+    --warn: #d97706;
+    --danger: #dc2626;
+    --green: #16a34a;
+    --mono: 'Share Tech Mono', monospace;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
+
+  #screen-wind .wind-wrapper {
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (min-width: 500px) {
+    #screen-wind .wind-wrapper {
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.07),
+        0 40px 100px rgba(0,0,0,0.18);
+    }
+  }
+
+  /* WIND: HEADER */
+  #screen-wind .hdr {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  #screen-wind .hdr-icao { font-family: var(--mono); font-size: 1.65rem; letter-spacing: .08em; }
+  #screen-wind .hdr-sub  { font-size: 1.01rem; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
+  #screen-wind .hdr-right { text-align: right; font-family: var(--mono); font-size: 0.6rem; color: var(--muted); line-height: 1.75; }
+  #screen-wind .hdr-time  { color: var(--accent); }
+
+  /* WIND: RUNWAY SELECTOR */
+  #screen-wind .rwy-selector { display:flex; gap:8px; padding:10px 16px; border-bottom:1px solid rgba(0,0,0,.09); }
+  #screen-wind .rwy-btn { flex:1; padding:8px; border:1px solid rgba(0,0,0,.15); border-radius:6px; background:transparent; color:var(--muted); font-family:var(--mono); font-size:0.9rem; font-weight:600; cursor:pointer; transition:all .15s; letter-spacing:.05em; }
+  #screen-wind .rwy-btn.active { background:rgba(0,0,0,.07); border-color:rgba(0,0,0,.3); color:var(--text); }
+  #screen-wind .rwy-btn:hover:not(.active) { border-color:rgba(0,0,0,.22); color:rgba(0,0,0,.65); }
+
+  /* WIND: BAND */
+  #screen-wind .band {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    padding: 11px 14px 11px 16px;
+    gap: 0 10px;
+    min-height: 88px;
+    position: relative;
+    background: rgba(0,0,0,0.02);
+    overflow: hidden;
+    transition: background .12s;
+  }
+  #screen-wind .band:last-child { border-bottom: none; }
+  #screen-wind .band:hover { background: rgba(0,0,0,.04); }
+
+  /* Left accent stripe */
+  #screen-wind .band::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 18%; bottom: 18%;
+    width: 2px;
+    background: var(--stripe, rgba(77,142,245,.35));
+    border-radius: 0 1px 1px 0;
+  }
+
+  /* Alt label */
+  #screen-wind .band-alt {
+    width: 56px;
+    flex-shrink: 0;
+    font-family: var(--mono);
+  }
+  #screen-wind .band-ft  { font-size: 1.31rem; font-weight: 600; color: var(--text); line-height: 1; }
+  #screen-wind .band-ft sup { font-size: 0.69rem; }
+  #screen-wind .band-m   { font-size: 0.84rem; color: var(--muted); margin-top: 3px; }
+  #screen-wind .pws-badge { font-size: 0.65rem; color: var(--muted); vertical-align: middle; }
+  #screen-wind .pws-time  { font-size: 0.62rem; color: var(--muted); font-family: var(--mono); margin-top: 2px; opacity: .7; }
+
+  /* Isometric arrow area */
+  #screen-wind .band-arrow {
+    width: 62px;
+    height: 62px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Disc platform under arrow */
+  #screen-wind .band-arrow::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.04);
+    border: 1px solid rgba(0,0,0,.1);
+  }
+
+  /* Elliptical cast shadow */
+  #screen-wind .band-arrow::after {
+    content: '';
+    position: absolute;
+    bottom: 7px; left: 50%;
+    transform: translateX(-50%);
+    width: 26px; height: 5px;
+    background: rgba(0,0,0,.18);
+    border-radius: 50%;
+    filter: blur(3px);
+  }
+
+  /* Right column: streaks + info */
+  #screen-wind .band-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  #screen-wind .band-streaks {
+    display: block;
+    width: 100%;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 3px;
+  }
+
+  #screen-wind .band-info {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    font-family: var(--mono);
+    flex-shrink: 0;
+  }
+  #screen-wind .band-kt  { font-size: 1.58rem; color: var(--text); }
+  #screen-wind .band-kt small { font-size: 0.86rem; color: var(--muted); margin-left: 1px; }
+  #screen-wind .band-dir { font-size: 0.95rem; color: var(--muted); }
+  #screen-wind .band-kmh { font-size: 0.86rem; color: rgba(0,0,0,.28); }
+
+  #screen-wind .loading { padding: 40px 16px; text-align: center; color: var(--muted); font-size: 1.28rem; font-family: var(--mono); }
+  #screen-wind .error {
+    padding: 16px; margin: 12px 16px;
+    background: rgba(232,64,64,.08);
+    border: 1px solid rgba(232,64,64,.3);
+    border-radius: 6px;
+    font-size: 1.2rem; color: var(--danger); font-family: var(--mono);
+  }
+
+  #screen-wind .metar-section { padding: 12px 16px; }
+  #screen-wind .metar-label { font-size: .65rem; color: var(--muted); margin-bottom: 4px; letter-spacing: .06em; text-transform: uppercase; font-family: var(--mono); }
+  #screen-wind .metar-raw { font-family: var(--mono); font-size: .82rem; color: rgba(0,0,0,.65); line-height: 1.5; word-break: break-all; }
+  #screen-wind .metar-time { font-size: .6rem; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
+
+  #screen-wind .wind-footer {
+    padding: 12px 16px;
+    font-size: 0.93rem; color: var(--muted);
+    font-family: var(--mono);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  #screen-wind .refresh-btn {
+    background: rgba(0,0,0,.05); border: 1px solid rgba(0,0,0,.12);
+    color: var(--muted); font-family: var(--mono); font-size: 0.98rem;
+    padding: 4px 10px; border-radius: 4px; cursor: pointer;
+  }
+  #screen-wind .refresh-btn:active { opacity: .7; }
+
+  /* RWY SVG diagram inside wrapper */
+  #wind-rwy-svg {
+    position: absolute;
+    bottom: 10px; right: 10px;
+    pointer-events: none;
+  }
+
+  /* WIND: Micro-animations */
+  @keyframes fadeRefresh {
+    0%  { opacity: 0.3; transform: scale(0.97); }
+    100%{ opacity: 1;   transform: scale(1); }
+  }
+  @keyframes rwyFlash {
+    0%  { opacity: 1; }
+    30% { opacity: 0.4; }
+    100%{ opacity: 1; }
+  }
+  #screen-wind .band { transition: opacity .25s; }
+  #screen-wind .band.refreshing { animation: fadeRefresh 0.4s ease forwards; }
+  #screen-wind .rwy-btn.switching { animation: rwyFlash 0.3s ease; }
 </style>
 </head>
 <body>
@@ -409,6 +608,7 @@
   <button class="nav-btn active" onclick="showScreen('checklist')">Checklist</button>
   <button class="nav-btn" onclick="showScreen('tecnam')">Tecnam Ref</button>
   <button class="nav-btn" onclick="showScreen('epkp')">EPKP</button>
+  <button class="nav-btn" onclick="showScreen('wind')">Wiatr</button>
 </div>
 
 <!-- =============================== CHECKLIST =============================== -->
@@ -634,6 +834,53 @@
 
 </div><!-- /screen-epkp -->
 
+<!-- =============================== WIATR =============================== -->
+<div id="screen-wind" class="screen">
+  <div class="wind-wrapper">
+
+    <div class="hdr">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="hdr-icao">EPKP</div>
+          <button class="refresh-btn" onclick="Wind.loadData()">&#8635;</button>
+        </div>
+        <div class="hdr-sub">KRAKÓW POBIEDNIK</div>
+        <div class="hdr-sub" style="font-size:0.78rem;">664ft AMSL &middot; RADIO 118.605</div>
+      </div>
+      <div class="hdr-right">
+        <div id="wind-hdr-date" style="font-size:0.55rem;opacity:0.7;">——.——.——</div>
+        <div><span id="wind-hdr-time" class="hdr-time">——:——Z</span></div>
+        <div id="wind-hdr-lt" style="font-size:0.6rem;opacity:0.7;">——:—— LT</div>
+        <div id="wind-hdr-qnh">QNH ——</div>
+        <div id="wind-hdr-temp">T ——&deg;C</div>
+      </div>
+    </div>
+
+    <div class="rwy-selector">
+      <button class="rwy-btn active" data-rwy="27" data-hdg="270">RWY 27</button>
+      <button class="rwy-btn" data-rwy="09" data-hdg="90">RWY 09</button>
+    </div>
+
+    <div id="wind-bands">
+      <div class="loading">Wybierz zakładkę Wiatr aby załadować dane.</div>
+    </div>
+
+    <div class="metar-section">
+      <div class="metar-label">METAR EPKK</div>
+      <div class="metar-raw" id="wind-metar-text">—</div>
+      <div class="metar-time" id="wind-metar-time"></div>
+    </div>
+
+    <!-- RWY diagram — positioned absolute inside wind-wrapper -->
+    <svg id="wind-rwy-svg" width="120" height="80" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="22,78 98,78 80,8 40,8" fill="rgba(0,0,0,0.07)" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+      <line x1="60" y1="70" x2="60" y2="18" stroke="rgba(0,0,0,0.25)" stroke-width="1.5" stroke-dasharray="6,5"/>
+      <text id="wind-rwy-svg-label" x="60" y="76" text-anchor="middle" font-size="11" font-family="monospace" fill="rgba(0,0,0,0.45)" font-weight="bold" letter-spacing="1">27</text>
+    </svg>
+
+  </div>
+</div><!-- /screen-wind -->
+
 <script src="ppla-checklist.js"></script>
 <script>
 const STORAGE_KEY = 'ppla_checklist_state';
@@ -675,11 +922,17 @@ function renderChecklist() {
 }
 
 function showScreen(name) {
+  const prevWind = document.getElementById('screen-wind').classList.contains('active');
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
-  const idx = {checklist:0, tecnam:1, epkp:2}[name];
+  const idx = {checklist:0, tecnam:1, epkp:2, wind:3}[name];
   document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  if (name === 'wind') {
+    Wind.activate();
+  } else if (prevWind) {
+    Wind.deactivate();
+  }
 }
 
 function toggleItem(row) {
@@ -752,6 +1005,432 @@ function loadState() {
 renderChecklist();
 loadState();
 SECTIONS.forEach(id => updateSection(id));
+</script>
+
+<!-- ======================== WIND NAMESPACE ======================== -->
+<script>
+const Wind = (function() {
+  const LAT = 50.087, LON = 20.201, ELEV_FT = 664;
+  let RWY_HDG = 270;
+  let currentBandData = null;
+  let currentPws = null;
+  let activeStreaks = [];
+  let _timerTime = null, _timerData = null, _timerMetar = null, _timerPws = null;
+  let _initialized = false;
+
+  const LVLS = [
+    { m: 180, ws: 'windspeed_180m', wd: 'winddirection_180m' },
+    { m: 120, ws: 'windspeed_120m', wd: 'winddirection_120m' },
+    { m:  80, ws: 'windspeed_80m',  wd: 'winddirection_80m'  },
+    { m:  10, ws: 'windspeed_10m',  wd: 'winddirection_10m'  },
+  ];
+
+  function ftMSL(m)    { return Math.round(ELEV_FT + m * 3.281); }
+  function toKt(kmh)   { return kmh * 0.5399; }
+  function dirName(d) {
+    const n = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+    return n[Math.round(((d % 360) + 360) % 360 / 22.5) % 16];
+  }
+  function getLT() {
+    return new Intl.DateTimeFormat('pl-PL', { timeZone: 'Europe/Warsaw', hour:'2-digit', minute:'2-digit', hour12:false }).format(new Date());
+  }
+  function getDate() {
+    return new Intl.DateTimeFormat('pl-PL', { timeZone: 'Europe/Warsaw', day:'2-digit', month:'2-digit', year:'numeric' }).format(new Date());
+  }
+  function updateTimeDisplay() {
+    document.getElementById('wind-hdr-lt').textContent = getLT() + ' LT';
+    document.getElementById('wind-hdr-date').textContent = getDate();
+  }
+
+  function crosswind(kt, dir) {
+    const a = ((dir - RWY_HDG) % 360 + 360) % 360;
+    const rel = a > 180 ? 360 - a : a;
+    return Math.abs(Math.round(kt * Math.sin(rel * Math.PI / 180)));
+  }
+
+  function arrowSVG(windDir) {
+    const tx = `perspective(180px) rotateX(54deg) rotateZ(${windDir - RWY_HDG + 180}deg)`;
+    return `<svg viewBox="0 0 32 32" width="52" height="52"
+        style="position:relative;z-index:1;transform:${tx};">
+      <line x1="16" y1="28" x2="16" y2="8" stroke="rgba(30,110,245,0.9)" stroke-width="2" stroke-linecap="round"/>
+      <polygon points="16,4 11,12 21,12" fill="rgba(30,110,245,0.9)"/>
+    </svg>`;
+  }
+
+  function stopAllStreaks() {
+    activeStreaks.forEach(s => s.stop());
+    activeStreaks = [];
+  }
+
+  class StreakAnim {
+    constructor(canvas, windDir, windKt) {
+      this.canvas  = canvas;
+      this.ctx     = canvas.getContext('2d');
+      this.windDir = windDir;
+      this.windKt  = windKt;
+      this.alive   = true;
+      this.raf     = null;
+      this._setup();
+    }
+
+    _setup() {
+      const dpr = window.devicePixelRatio || 1;
+      const W = this.canvas.clientWidth  || 200;
+      const H = this.canvas.clientHeight || 44;
+      this.canvas.width  = W * dpr;
+      this.canvas.height = H * dpr;
+      this.ctx.scale(dpr, dpr);
+      this.W = W; this.H = H;
+
+      const toRad = ((this.windDir - RWY_HDG + 180 + 360) % 360) * Math.PI / 180;
+      this.vx = Math.sin(toRad);
+      this.vy = -Math.cos(toRad);
+
+      this.speed = Math.max(0.35, this.windKt * 0.13);
+
+      const N = Math.max(8, Math.floor(W / 17));
+      this.particles = Array.from({ length: N }, () => ({
+        x:     Math.random() * W,
+        y:     Math.random() * H,
+        len:   7 + Math.random() * 13,
+        alpha: 0.10 + Math.random() * 0.28,
+        lw:    0.7  + Math.random() * 0.9,
+      }));
+    }
+
+    _tick() {
+      if (!this.alive) return;
+      this._update();
+      this._draw();
+      this.raf = requestAnimationFrame(() => this._tick());
+    }
+
+    _update() {
+      const { vx, vy, speed, W, H } = this;
+      const pad = 35;
+      this.particles.forEach(p => {
+        p.x += vx * speed;
+        p.y += vy * speed;
+        if      (p.x < -pad)    p.x += W + pad * 2;
+        else if (p.x > W + pad) p.x -= W + pad * 2;
+        if      (p.y < -pad)    p.y += H + pad * 2;
+        else if (p.y > H + pad) p.y -= H + pad * 2;
+      });
+    }
+
+    _draw() {
+      const { ctx, vx, vy, W, H } = this;
+      ctx.clearRect(0, 0, W, H);
+      this.particles.forEach(p => {
+        const tx = p.x - vx * p.len;
+        const ty = p.y - vy * p.len;
+        const g = ctx.createLinearGradient(tx, ty, p.x, p.y);
+        g.addColorStop(0,   `rgba(30,110,245,0)`);
+        g.addColorStop(0.4, `rgba(30,110,245,${p.alpha * 0.5})`);
+        g.addColorStop(1,   `rgba(30,110,245,${p.alpha})`);
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(p.x, p.y);
+        ctx.strokeStyle = g;
+        ctx.lineWidth   = p.lw;
+        ctx.lineCap     = 'round';
+        ctx.stroke();
+      });
+    }
+
+    start() { this._tick(); }
+    stop()  { this.alive = false; if (this.raf) cancelAnimationFrame(this.raf); }
+  }
+
+  async function fetchPWS() {
+    try {
+      const res = await fetch('https://api.weather.com/v2/pws/observations/current?stationId=IPOBIE2&format=json&units=m&apiKey=6532d6454b8aa370768d2ac32b5b8d78');
+      if (!res.ok) return null;
+      const d = await res.json();
+      const obs = d.observations?.[0];
+      if (!obs) return null;
+      return { speed_kmh: obs.metric.windSpeed, dir: obs.winddir, time: obs.obsTimeUtc, source: 'PWS' };
+    } catch(e) { return null; }
+  }
+
+  async function fetchMetar() {
+    try {
+      const res = await fetch('https://metar.vatsim.net/metar.php?id=EPKK');
+      if (res.ok) {
+        const text = (await res.text()).trim();
+        if (text && text.includes('EPKK')) {
+          document.getElementById('wind-metar-text').textContent = text;
+          const m = text.match(/EPKK\s+(\d{6})Z/);
+          if (m) document.getElementById('wind-metar-time').textContent = m[1].slice(0,2) + ':' + m[1].slice(2,4) + 'Z';
+          return;
+        }
+      }
+    } catch(e) {}
+    try {
+      const res2 = await fetch('https://tgftp.nws.noaa.gov/data/observations/metar/stations/EPKK.TXT');
+      if (res2.ok) {
+        const lines = (await res2.text()).trim().split('\n');
+        const metar = lines.find(l => l.includes('EPKK')) || lines[lines.length-1];
+        document.getElementById('wind-metar-text').textContent = metar.trim();
+      }
+    } catch(e) {
+      document.getElementById('wind-metar-text').textContent = 'brak połączenia';
+    }
+  }
+
+  function updateGroundBand(pws) {
+    currentPws = pws;
+    const band = document.getElementById('wind-band-ground');
+    if (!band || !pws) return;
+
+    const kt = toKt(pws.speed_kmh);
+    const xw = crosswind(kt, pws.dir);
+    const stripe = xw >= 15 ? 'rgba(232,64,64,.4)' : 'rgba(77,142,245,.32)';
+    band.style.setProperty('--stripe', stripe);
+
+    const altEl = band.querySelector('.band-ft');
+    if (altEl) altEl.innerHTML = '~33<sup>ft</sup>';
+
+    const badgeEl = document.getElementById('wind-pws-badge');
+    if (badgeEl) {
+      const ageMin = pws.time ? (Date.now() - new Date(pws.time).getTime()) / 60000 : 99;
+      const dotColor = ageMin < 5 ? '#3ec87a' : '#f5a623';
+      badgeEl.innerHTML = `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${dotColor};margin-right:2px;vertical-align:middle;"></span>PWS`;
+    }
+
+    const timeEl = document.getElementById('wind-pws-time');
+    if (timeEl && pws.time) {
+      const t = new Date(pws.time);
+      const hh = String(t.getUTCHours()).padStart(2,'0');
+      const mm = String(t.getUTCMinutes()).padStart(2,'0');
+      timeEl.textContent = `${hh}:${mm}Z`;
+    }
+
+    const arrowEl = band.querySelector('.band-arrow');
+    if (arrowEl) arrowEl.innerHTML = arrowSVG(pws.dir);
+
+    const ktEl = band.querySelector('.band-kt');
+    if (ktEl) ktEl.innerHTML = `${kt.toFixed(0)}<small>kt</small>`;
+    const dirEl = band.querySelector('.band-dir');
+    if (dirEl) dirEl.textContent = `${pws.dir}° ${dirName(pws.dir)}`;
+    const kmhEl = band.querySelector('.band-kmh');
+    if (kmhEl) kmhEl.textContent = `${pws.speed_kmh.toFixed(1)}km/h`;
+
+    const canvas = band.querySelector('.band-streaks');
+    if (canvas) {
+      const existing = activeStreaks.find(s => s.canvas === canvas);
+      if (existing) {
+        existing.stop();
+        activeStreaks = activeStreaks.filter(s => s !== existing);
+      }
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        const s = new StreakAnim(canvas, pws.dir, kt);
+        s.start();
+        activeStreaks.push(s);
+      }));
+    }
+  }
+
+  function rerenderArrows() {
+    if (!currentBandData) return;
+    stopAllStreaks();
+
+    document.querySelectorAll('#screen-wind .band').forEach((band, i) => {
+      const isGround = band.id === 'wind-band-ground';
+      const entry = currentBandData[i];
+      if (!entry) return;
+
+      const { dir, kt } = (isGround && currentPws)
+        ? { dir: currentPws.dir, kt: toKt(currentPws.speed_kmh) }
+        : entry;
+
+      const xw = crosswind(kt, dir);
+      band.style.setProperty('--stripe', xw >= 15 ? 'rgba(232,64,64,.4)' : 'rgba(77,142,245,.32)');
+
+      const arrowEl = band.querySelector('.band-arrow');
+      if (arrowEl) arrowEl.innerHTML = arrowSVG(dir);
+    });
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.querySelectorAll('#screen-wind .band').forEach((band, i) => {
+        const isGround = band.id === 'wind-band-ground';
+        const entry = currentBandData[i];
+        if (!entry) return;
+        const { dir, kt } = (isGround && currentPws)
+          ? { dir: currentPws.dir, kt: toKt(currentPws.speed_kmh) }
+          : entry;
+        const canvas = band.querySelector('.band-streaks');
+        if (!canvas) return;
+        const s = new StreakAnim(canvas, dir, kt);
+        s.start();
+        activeStreaks.push(s);
+      });
+    }));
+  }
+
+  async function loadData() {
+    const bandsEl = document.getElementById('wind-bands');
+    bandsEl.innerHTML = '<div class="loading">Ładowanie danych...</div>';
+    stopAllStreaks();
+
+    const today = new Date().toISOString().slice(0, 10);
+    const fields = [
+      'pressure_msl','temperature_2m',
+      'windspeed_10m','windspeed_80m','windspeed_120m','windspeed_180m',
+      'winddirection_10m','winddirection_80m','winddirection_120m','winddirection_180m',
+    ].join(',');
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&hourly=${fields}&start_date=${today}&end_date=${today}&timezone=UTC`;
+
+    try {
+      const [res, pws] = await Promise.all([fetch(url), fetchPWS()]);
+      const data = await res.json();
+      const h    = data.hourly;
+      const utcH = new Date().getUTCHours();
+      let idx = h.time.findIndex(t => t.endsWith(`T${String(utcH).padStart(2,'00')}:00`));
+      if (idx < 0) idx = 0;
+
+      const qnh  = h.pressure_msl[idx];
+      const temp = h.temperature_2m[idx];
+      document.getElementById('wind-hdr-time').textContent = h.time[idx].slice(11, 16) + 'Z';
+      updateTimeDisplay();
+      if (qnh) {
+        const inHg = (qnh * 0.02953).toFixed(2);
+        document.getElementById('wind-hdr-qnh').textContent = `QNH ${Math.round(qnh)} hPa / ${inHg}"Hg`;
+      } else {
+        document.getElementById('wind-hdr-qnh').textContent = 'QNH —';
+      }
+      document.getElementById('wind-hdr-temp').textContent = temp != null ? `T ${temp.toFixed(1)}°C` : '';
+
+      currentBandData = [];
+      let html = '';
+
+      LVLS.forEach((lv, i) => {
+        const isGround = i === LVLS.length - 1;
+        const spd_kmh = h[lv.ws][idx] || 0;
+        const dir     = h[lv.wd][idx] || 0;
+        const ft      = ftMSL(lv.m);
+        const kt      = toKt(spd_kmh);
+        const xw      = crosswind(kt, dir);
+
+        currentBandData.push({ dir, kt });
+
+        const stripe = xw >= 15 ? 'rgba(232,64,64,.4)' : 'rgba(77,142,245,.32)';
+        const altFt  = (isGround && pws) ? '~33<sup>ft</sup>' : `${ft}<sup>ft</sup>`;
+        const idAttr = isGround ? ' id="wind-band-ground"' : '';
+
+        const altSection = isGround
+          ? `<div class="band-ft">${altFt}</div>
+            <div class="band-m">10m AGL <span class="pws-badge" id="wind-pws-badge"></span></div>
+            <div class="pws-time" id="wind-pws-time"></div>`
+          : `<div class="band-ft">${altFt}</div>
+            <div class="band-m">${lv.m}m AGL</div>`;
+
+        html += `
+        <div class="band" style="--stripe:${stripe}"${idAttr}>
+          <div class="band-alt">
+            ${altSection}
+          </div>
+          <div class="band-arrow">
+            ${arrowSVG(dir)}
+          </div>
+          <div class="band-right">
+            <canvas class="band-streaks" data-idx="${i}"></canvas>
+            <div class="band-info">
+              <span class="band-kt">${kt.toFixed(0)}<small>kt</small></span>
+              <span class="band-dir">${dir}° ${dirName(dir)}</span>
+              <span class="band-kmh">${spd_kmh.toFixed(1)}km/h</span>
+            </div>
+          </div>
+        </div>`;
+      });
+
+      bandsEl.innerHTML = html;
+      requestAnimationFrame(() => {
+        document.querySelectorAll('#screen-wind .band').forEach((b, i) => {
+          b.style.animationDelay = (i * 60) + 'ms';
+          b.classList.remove('refreshing');
+          void b.offsetWidth;
+          b.classList.add('refreshing');
+        });
+      });
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        bandsEl.querySelectorAll('.band-streaks').forEach(canvas => {
+          const i = +canvas.dataset.idx;
+          const { dir, kt } = currentBandData[i];
+          const s = new StreakAnim(canvas, dir, kt);
+          s.start();
+          activeStreaks.push(s);
+        });
+        if (pws) updateGroundBand(pws);
+      }));
+
+    } catch (e) {
+      stopAllStreaks();
+      document.getElementById('wind-bands').innerHTML = `<div class="error">Błąd: ${e.message}</div>`;
+    }
+  }
+
+  function activate() {
+    if (!_initialized) {
+      _initialized = true;
+      loadData();
+      fetchMetar();
+    } else {
+      // restart streaks if data is already loaded
+      if (currentBandData) {
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          document.querySelectorAll('#screen-wind .band-streaks').forEach(canvas => {
+            const i = +canvas.dataset.idx;
+            if (!currentBandData[i]) return;
+            const { dir, kt } = currentBandData[i];
+            const s = new StreakAnim(canvas, dir, kt);
+            s.start();
+            activeStreaks.push(s);
+          });
+        }));
+      }
+    }
+    updateTimeDisplay();
+    _timerTime  = setInterval(updateTimeDisplay, 60 * 1000);
+    _timerData  = setInterval(loadData, 5 * 60 * 1000);
+    _timerMetar = setInterval(fetchMetar, 5 * 60 * 1000);
+    _timerPws   = setInterval(async () => {
+      const pws = await fetchPWS();
+      if (pws) updateGroundBand(pws);
+    }, 30 * 1000);
+  }
+
+  function deactivate() {
+    stopAllStreaks();
+    clearInterval(_timerTime);
+    clearInterval(_timerData);
+    clearInterval(_timerMetar);
+    clearInterval(_timerPws);
+    _timerTime = _timerData = _timerMetar = _timerPws = null;
+  }
+
+  // RWY selector event listeners (scoped to wind screen)
+  document.querySelectorAll('#screen-wind .rwy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#screen-wind .rwy-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      RWY_HDG = parseInt(btn.dataset.hdg);
+      const svgLabel = document.getElementById('wind-rwy-svg-label');
+      if (svgLabel) svgLabel.textContent = btn.dataset.rwy;
+      document.querySelectorAll('#screen-wind .band').forEach(b => {
+        b.classList.remove('refreshing');
+        void b.offsetWidth;
+        b.classList.add('refreshing');
+      });
+      btn.classList.add('switching');
+      setTimeout(() => btn.classList.remove('switching'), 350);
+      rerenderArrows();
+    });
+  });
+
+  return { activate, deactivate, loadData };
+})();
 </script>
 </body>
 </html>
