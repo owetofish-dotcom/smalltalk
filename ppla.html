@@ -927,7 +927,9 @@ function showScreen(name) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
   const idx = {checklist:0, tecnam:1, epkp:2, wind:3}[name];
-  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  const activeBtn = document.querySelectorAll('.nav-btn')[idx];
+  activeBtn.classList.add('active');
+  activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   if (name === 'wind') {
     Wind.activate();
   } else if (prevWind) {
@@ -1005,6 +1007,7 @@ function loadState() {
 renderChecklist();
 loadState();
 SECTIONS.forEach(id => updateSection(id));
+document.querySelector('.nav-btn.active')?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'center' });
 </script>
 
 <!-- ======================== WIND NAMESPACE ======================== -->

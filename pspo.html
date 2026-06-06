@@ -1456,7 +1456,11 @@ function showScreen(name) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
   const idx = ['home','study','exam','minitest','theory','stats'].indexOf(name);
-  if (idx >= 0) document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  if (idx >= 0) {
+    const activeBtn = document.querySelectorAll('.nav-btn')[idx];
+    activeBtn.classList.add('active');
+    activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
   if (name === 'stats') renderStatsScreen();
   if (name === 'theory') loadTheoryMastered();
 }
@@ -2029,6 +2033,8 @@ function resetStats() {
     updateStats(); buildCatGrid(); renderStatsScreen();
   }
 }
+
+document.querySelector('.nav-btn.active')?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'center' });
 </script>
 </body>
 </html>
