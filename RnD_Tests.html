@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>RnD Tests</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg:      #fafaf8;
+    --card:    #ffffff;
+    --text:    #111111;
+    --muted:   #888888;
+    --border:  #e2e2e0;
+    --hover:   #f5f5f3;
+    --accent:  #111111;
+    --blue:    #2563eb;
+    --danger:  #dc2626;
+    --green:   #16a34a;
+    --warn:    #d97706;
+    --font:    'Inter', system-ui, sans-serif;
+    --r:       8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { min-height: 100%; background: var(--bg); }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  .wrapper { max-width: 480px; margin: 0 auto; }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* HEADER */
+  .hdr {
+    display: flex; align-items: center; height: 44px;
+    padding: 0 16px; border-bottom: 1px solid var(--border);
+    gap: 8px; position: sticky; top: 0; background: var(--bg); z-index: 10;
+  }
+  .hdr-title { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .hdr-right { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+  .hdr-back {
+    background: none; border: none; color: var(--blue);
+    font-family: var(--font); font-size: 0.85rem; font-weight: 500;
+    cursor: pointer; padding: 4px 6px; border-radius: 6px;
+    -webkit-tap-highlight-color: transparent; margin-right: 4px;
+  }
+  .hdr-back:active { background: #eff6ff; }
+  .icon-btn {
+    background: none; border: none; cursor: pointer; color: var(--muted);
+    padding: 4px 6px; border-radius: 6px; display: flex; align-items: center;
+    -webkit-tap-highlight-color: transparent; transition: color .12s;
+  }
+  .icon-btn:hover { color: var(--text); }
+  .icon-btn:active { background: var(--hover); }
+
+  /* SYNC */
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .sync-status { font-size: 0.64rem; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+  .sync-status.ok  { color: #4a9e6a; }
+  .sync-status.err { color: #c0392b; }
+
+  /* OVERLAY / DIALOGS */
+  .overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.18);
+    backdrop-filter: blur(2px); display: flex;
+    align-items: center; justify-content: center; z-index: 100;
+  }
+  .overlay.hidden { display: none; }
+  .dialog { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 20px; width: 300px; box-shadow: 0 8px 32px rgba(0,0,0,.12); }
+  .dialog-title { font-size: 0.88rem; font-weight: 600; margin-bottom: 14px; }
+  .dlg-field { margin-bottom: 10px; }
+  .dlg-label { font-size: 0.72rem; color: var(--muted); display: block; margin-bottom: 4px; }
+  .dlg-input { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 0.84rem; font-family: var(--font); outline: none; color: var(--text); background: var(--bg); }
+  .dlg-input:focus { border-color: var(--accent); }
+  .dlg-hint { font-size: 0.67rem; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+  .dlg-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+  .dlg-btn { padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border); font-family: var(--font); font-size: 0.8rem; cursor: pointer; background: var(--bg); color: var(--text); -webkit-tap-highlight-color: transparent; }
+  .dlg-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .confirm-dialog { text-align: center; }
+  .confirm-dialog p { font-size: 0.88rem; color: var(--text); margin-bottom: 16px; line-height: 1.5; }
+
+  /* SPINNER */
+  .spin-wrap { position: fixed; inset: 0; background: rgba(250,250,248,.7); display: none; align-items: center; justify-content: center; z-index: 200; }
+  .spin-wrap.on { display: flex; }
+  .spinner { width: 28px; height: 28px; border: 2.5px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .65s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* BUTTONS */
+  .btn-primary { background: var(--accent); color: #fff; border: none; border-radius: var(--r); padding: 13px 16px; font-family: var(--font); font-size: 0.9rem; font-weight: 700; letter-spacing: .04em; cursor: pointer; width: 100%; -webkit-tap-highlight-color: transparent; transition: opacity .12s; }
+  .btn-primary:active { opacity: .78; }
+  .btn-new { background: var(--accent); color: #fff; border: none; border-radius: var(--r); padding: 14px 16px; font-family: var(--font); font-size: 0.9rem; font-weight: 700; letter-spacing: .05em; cursor: pointer; width: 100%; -webkit-tap-highlight-color: transparent; transition: opacity .12s; }
+  .btn-new:active { opacity: .78; }
+  .btn-ghost { background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: var(--r); padding: 10px 14px; font-family: var(--font); font-size: 0.82rem; font-weight: 500; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background .12s; }
+  .btn-ghost:active { background: var(--hover); }
+
+  /* LIST */
+  .list-pad { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .empty { text-align: center; color: var(--muted); padding: 52px 24px; font-size: 0.9rem; line-height: 1.75; }
+
+  /* CARD */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+  .card-top { display: flex; gap: 12px; padding: 13px; align-items: flex-start; }
+  .card-img { width: 56px; height: 56px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+  .card-no-img { width: 56px; height: 56px; border-radius: 6px; flex-shrink: 0; background: var(--hover); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--muted); }
+  .card-info { flex: 1; min-width: 0; }
+  .card-title-row { font-size: 0.88rem; font-weight: 600; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-date { font-size: 0.7rem; color: var(--muted); margin-bottom: 6px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-size: 0.7rem; font-weight: 500; padding: 2px 7px; border-radius: 20px; border: 1px solid; }
+  .chip-dist  { color: #15803d; border-color: #bbf7d0; background: #f0fdf4; font-weight: 700; }
+  .chip-temp  { color: #b45309; border-color: #fde68a; background: #fffbeb; }
+  .chip-red   { color: #b91c1c; border-color: #fecaca; background: #fef2f2; }
+  .chip-green { color: #15803d; border-color: #bbf7d0; background: #f0fdf4; }
+  .chip-dark  { color: #374151; border-color: #d1d5db; background: #f9fafb; }
+  .chip-wind  { color: #1d4ed8; border-color: #bfdbfe; background: #eff6ff; }
+  .card-actions { display: flex; border-top: 1px solid var(--border); }
+  .card-act { flex: 1; padding: 10px; background: none; border: none; font-family: var(--font); font-size: 0.78rem; font-weight: 500; cursor: pointer; -webkit-tap-highlight-color: transparent; color: var(--muted); transition: background .1s; }
+  .card-act:active { background: var(--hover); }
+  .card-act:first-child { border-right: 1px solid var(--border); color: var(--blue); }
+  .card-act:last-child  { color: var(--danger); }
+
+  /* FORM */
+  .form-body { padding: 14px 14px 100px; }
+  .sec-title { font-size: 0.68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .09em; padding: 4px 0 10px; }
+  .sec-title:not(:first-child) { margin-top: 4px; }
+  .f-group { margin-bottom: 13px; }
+  .f-label { display: block; font-size: 0.72rem; color: var(--muted); margin-bottom: 5px; font-weight: 500; }
+  .f-input { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 10px 12px; color: var(--text); font-family: var(--font); font-size: 0.95rem; width: 100%; outline: none; -webkit-appearance: none; appearance: none; }
+  .f-input:focus { border-color: var(--accent); }
+  .f-input::placeholder { color: #bbb; }
+  .f-input[type=number] { -moz-appearance: textfield; }
+  .f-input[type=number]::-webkit-inner-spin-button,
+  .f-input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+  textarea.f-input { resize: none; min-height: 80px; line-height: 1.5; }
+  select.f-input { cursor: pointer; }
+  .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* SEGMENTED */
+  .seg { display: flex; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; background: var(--hover); }
+  .seg-btn { flex: 1; padding: 9px 4px; background: none; border: none; color: var(--muted); font-family: var(--font); font-size: 0.78rem; font-weight: 500; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background .12s, color .12s; white-space: nowrap; }
+  .seg-btn + .seg-btn { border-left: 1px solid var(--border); }
+  .seg-btn.active { background: var(--card); color: var(--text); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .seg-btn.active.s-lekki  { color: #15803d; }
+  .seg-btn.active.s-sredni { color: #b45309; }
+  .seg-btn.active.s-silny  { color: #b91c1c; }
+  .seg-btn.active.s-red    { color: #b91c1c; }
+  .seg-btn.active.s-green  { color: #15803d; }
+  .seg-btn.active.s-black  { color: #374151; }
+
+  /* ACCORDION */
+  .acc { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 8px; overflow: hidden; }
+  .acc-hdr { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .acc-hdr:active { background: var(--hover); }
+  .acc-title { font-size: 0.88rem; font-weight: 600; }
+  .acc-badge { font-size: 0.78rem; font-weight: 400; color: var(--muted); margin-left: 6px; }
+  .acc-arrow { color: var(--muted); font-size: 0.65rem; transition: transform .2s; flex-shrink: 0; }
+  .acc.open .acc-arrow { transform: rotate(180deg); }
+  .acc-body { display: none; border-top: 1px solid var(--border); padding: 4px 14px 14px; }
+  .acc.open .acc-body { display: block; }
+  .acc-body > *:first-child { margin-top: 12px; }
+
+  /* WEIGHT GROUPS */
+  .wg-list { display: flex; flex-direction: column; gap: 8px; }
+  .wg { background: var(--hover); border: 1px solid var(--border); border-radius: 7px; padding: 11px 11px 9px; position: relative; }
+  .wg-rm { position: absolute; top: 7px; right: 8px; background: none; border: none; color: var(--muted); font-size: 0.9rem; cursor: pointer; padding: 2px 6px; border-radius: 4px; -webkit-tap-highlight-color: transparent; }
+  .wg-rm:active { background: #fee2e2; color: var(--danger); }
+  .wg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 9px; }
+  .wg-central { display: flex; align-items: center; gap: 8px; margin-top: 9px; font-size: 0.82rem; color: var(--muted); }
+  .wg-central input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
+
+  /* PHOTOS */
+  .photo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-bottom: 9px; }
+  .photo-cell { position: relative; aspect-ratio: 1; }
+  .photo-cell img { width: 100%; height: 100%; object-fit: cover; border-radius: 7px; display: block; }
+  .photo-del { position: absolute; top: 4px; right: 4px; width: 21px; height: 21px; background: rgba(0,0,0,.6); border: none; border-radius: 50%; color: #fff; font-size: 0.68rem; display: flex; align-items: center; justify-content: center; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .photo-btns { display: flex; gap: 8px; }
+  .photo-btns .btn-ghost { flex: 1; text-align: center; padding: 11px 8px; font-size: 0.8rem; }
+
+  /* SAVE BAR */
+  .save-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; padding: 10px 14px; background: var(--bg); border-top: 1px solid var(--border); z-index: 20; }
+
+  /* PLUG */
+  .plug-list { display: flex; flex-direction: column; gap: 9px; margin-top: 4px; }
+  .plug-opt { display: flex; align-items: center; gap: 9px; font-size: 0.88rem; color: var(--text); cursor: pointer; }
+  .plug-opt input[type=radio] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
+
+  /* VIEW SCREEN */
+  .view-body { padding: 14px 14px 40px; }
+  .view-sec { margin-bottom: 20px; }
+  .view-sec-title { font-size: 0.68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .09em; padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+  .view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .view-label { font-size: 0.68rem; color: var(--muted); font-weight: 500; margin-bottom: 3px; }
+  .view-val { font-size: 0.92rem; color: var(--text); font-weight: 500; }
+  .view-val.muted { color: var(--muted); font-weight: 400; }
+  .view-wg-item { background: var(--hover); border: 1px solid var(--border); border-radius: 7px; padding: 10px 12px; margin-bottom: 7px; }
+  .view-wg-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 0.88rem; }
+  .view-wg-badge { font-size: 0.7rem; font-weight: 500; padding: 2px 7px; border-radius: 20px; border: 1px solid var(--border); color: var(--text); background: var(--card); }
+  .view-photo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+  .view-photo-cell img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 7px; display: block; cursor: pointer; transition: opacity .12s; }
+  .view-photo-cell img:active { opacity: .75; }
+
+  /* LIGHTBOX */
+  .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.9); z-index: 300; display: flex; align-items: center; justify-content: center; }
+  .lightbox.hidden { display: none; }
+  .lightbox-img { max-width: 95vw; max-height: 90vh; border-radius: 6px; object-fit: contain; }
+  .lightbox-close { position: absolute; top: 14px; right: 16px; background: rgba(255,255,255,.15); border: none; color: #fff; font-size: 1.4rem; cursor: pointer; padding: 4px 10px; border-radius: 6px; line-height: 1.4; -webkit-tap-highlight-color: transparent; }
+
+  /* VIEW header action buttons */
+  .hdr-act { background: none; border: none; font-family: var(--font); font-size: 0.78rem; font-weight: 500; cursor: pointer; padding: 4px 8px; border-radius: 6px; -webkit-tap-highlight-color: transparent; }
+  .hdr-act.edit { color: var(--blue); }
+  .hdr-act.del  { color: var(--danger); }
+  .hdr-act:active { background: var(--hover); }
+
+  /* Clickable card top */
+  .card-top { cursor: pointer; }
+  .card-top:active { background: var(--hover); }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="spin-wrap" id="spinner"><div class="spinner"></div></div>
+
+  <!-- SETTINGS POPUP -->
+  <div class="overlay hidden" id="settings-overlay">
+    <div class="dialog">
+      <div class="dialog-title">Synchronizacja RnD Tests</div>
+      <div class="dlg-field">
+        <label class="dlg-label">GitHub Personal Access Token (zakres: gist)</label>
+        <input type="password" class="dlg-input" id="dlg-token" placeholder="github_pat_..." autocomplete="off">
+        <div class="dlg-hint">github.com &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens &rarr; zaznacz tylko <strong>gist</strong></div>
+      </div>
+      <div class="dlg-field">
+        <label class="dlg-label">Gist ID (zostaw puste aby utworzyc nowy)</label>
+        <input type="text" class="dlg-input" id="dlg-gist" placeholder="np. a1b2c3d4e5f6...">
+      </div>
+      <div class="dlg-actions">
+        <button class="dlg-btn" id="dlg-cancel">Anuluj</button>
+        <button class="dlg-btn primary" id="dlg-save">Zapisz i polacz</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRM POPUP -->
+  <div class="overlay hidden" id="confirm-overlay">
+    <div class="dialog confirm-dialog">
+      <p id="confirm-msg"></p>
+      <div class="dlg-actions" style="justify-content:center;">
+        <button class="dlg-btn" id="confirm-no">Anuluj</button>
+        <button class="dlg-btn primary" id="confirm-yes" style="background:#dc2626;border-color:#dc2626;">Usun</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div class="screen active" id="s-list">
+    <div class="hdr">
+      <span class="hdr-title">RnD Tests</span>
+      <div class="hdr-right">
+        <span class="sync-status" id="sync-status"></span>
+        <button class="icon-btn" id="btn-settings" title="Ustawienia sync">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="list-pad">
+      <button class="btn-new" id="btn-new">+ NOWY TEST</button>
+      <div id="cards"></div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox hidden" id="lightbox">
+    <button class="lightbox-close" id="lb-close">&#10005;</button>
+    <img class="lightbox-img" id="lb-img" src="" alt="">
+  </div>
+
+  <!-- VIEW -->
+  <div class="screen" id="s-view">
+    <div class="hdr">
+      <button class="hdr-back" id="btn-view-close">&#8592; Zamknij</button>
+      <span class="hdr-title" id="view-title" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px;"></span>
+      <div class="hdr-right">
+        <button class="hdr-act edit" id="btn-view-edit">&#9998; Edytuj</button>
+        <button class="hdr-act del"  id="btn-view-del">&#10005; Usu&#324;</button>
+      </div>
+    </div>
+    <div class="view-body" id="view-body"></div>
+  </div>
+
+  <!-- FORM -->
+  <div class="screen" id="s-form">
+    <div class="hdr">
+      <button class="hdr-back" id="btn-back">&#8592; Lista</button>
+      <span class="hdr-title" id="form-title">NOWY TEST</span>
+      <div class="hdr-right">
+        <span class="sync-status" id="sync-status-form"></span>
+      </div>
+    </div>
+    <div class="form-body" id="form-body">
+
+      <!-- TYTU&#321; -->
+      <div class="f-group">
+        <label class="f-label">Tytul</label>
+        <input type="text" class="f-input" id="f-title" placeholder="26-06-05 Test#1">
+      </div>
+
+      <!-- WARUNKI -->
+      <div class="sec-title">Warunki</div>
+      <div class="f-row">
+        <div class="f-group">
+          <label class="f-label">Data</label>
+          <input type="date" class="f-input" id="f-date">
+        </div>
+        <div class="f-group">
+          <label class="f-label">Czas</label>
+          <input type="time" class="f-input" id="f-time">
+        </div>
+      </div>
+      <div class="f-group">
+        <label class="f-label">Temperatura &deg;C</label>
+        <input type="number" class="f-input" id="f-temp" placeholder="20">
+      </div>
+      <div class="f-group">
+        <label class="f-label">Wiatr</label>
+        <div class="seg" id="seg-wind">
+          <button class="seg-btn active" data-val="zero">zero</button>
+          <button class="seg-btn s-lekki" data-val="lekki">lekki</button>
+          <button class="seg-btn s-sredni" data-val="sredni">&#347;redni</button>
+          <button class="seg-btn s-silny" data-val="silny">silny</button>
+        </div>
+      </div>
+      <div class="f-group">
+        <label class="f-label">Gaz</label>
+        <div class="seg" id="seg-gas">
+          <button class="seg-btn s-red active" data-val="czerwony">czerwony</button>
+          <button class="seg-btn s-green" data-val="green">green</button>
+          <button class="seg-btn s-black" data-val="black">black</button>
+        </div>
+      </div>
+      <div class="f-group">
+        <label class="f-label">Ci&#347;nienie bar <span style="font-weight:400;color:#bbb;">(opcjonalne)</span></label>
+        <input type="number" class="f-input" id="f-pres" placeholder="&#8212;" step="0.1">
+      </div>
+
+      <!-- WYNIKI -->
+      <div class="sec-title">Wyniki</div>
+      <div class="f-row">
+        <div class="f-group">
+          <label class="f-label">Donos&#324;o&#347;&#263; m</label>
+          <input type="number" class="f-input" id="f-range" placeholder="0">
+        </div>
+        <div class="f-group">
+          <label class="f-label">Rozk&#322;ad linek</label>
+          <select class="f-input" id="f-layout">
+            <option value="">&#8212;</option>
+            <option value="równo">równo</option>
+            <option value="nierówno">nierówno</option>
+            <option value="splątane">splątane</option>
+          </select>
+        </div>
+      </div>
+      <div class="f-group">
+        <label class="f-label">Obserwacje</label>
+        <textarea class="f-input" id="f-obs" placeholder="Obserwacje z testu..."></textarea>
+      </div>
+      <div class="f-group">
+        <label class="f-label">Notatki / pomys&#322;y</label>
+        <textarea class="f-input" id="f-notes" placeholder="Notatki, pomysly na kolejne testy..." style="min-height:100px;"></textarea>
+      </div>
+
+      <!-- Kartridz (open by default) -->
+      <div class="acc open" id="acc-cart">
+        <div class="acc-hdr" onclick="toggleAcc('acc-cart')">
+          <span class="acc-title">Konfiguracja kartrid&#380;a</span>
+          <span class="acc-arrow">&#9660;</span>
+        </div>
+        <div class="acc-body">
+          <div class="f-row">
+            <div class="f-group">
+              <label class="f-label">Liczba luf</label>
+              <input type="number" class="f-input" id="f-barrels" placeholder="1">
+            </div>
+            <div class="f-group">
+              <label class="f-label">&#8960; fi mm</label>
+              <input type="number" class="f-input" id="f-diam" placeholder="12" step="0.1">
+            </div>
+          </div>
+          <div class="f-row">
+            <div class="f-group">
+              <label class="f-label">D&#322;ugo&#347;&#263; mm</label>
+              <input type="number" class="f-input" id="f-len" placeholder="150">
+            </div>
+            <div class="f-group">
+              <label class="f-label">K&#261;t &deg;</label>
+              <input type="number" class="f-input" id="f-angle" placeholder="45">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ciezarki (open by default) -->
+      <div class="acc open" id="acc-wgt">
+        <div class="acc-hdr" onclick="toggleAcc('acc-wgt')">
+          <span class="acc-title">Ci&#281;&#380;arki</span>
+          <span class="acc-arrow">&#9660;</span>
+        </div>
+        <div class="acc-body">
+          <div class="wg-list" id="wg-list"></div>
+          <button class="btn-ghost" style="width:100%;margin-top:8px;text-align:center;" onclick="addWG()">+ Dodaj grup&#281;</button>
+        </div>
+      </div>
+
+      <!-- Zaslepka (collapsed, badge in title) -->
+      <div class="acc" id="acc-plug">
+        <div class="acc-hdr" onclick="toggleAcc('acc-plug')">
+          <span class="acc-title">Za&#347;lepka<span class="acc-badge" id="plug-badge"></span></span>
+          <span class="acc-arrow">&#9660;</span>
+        </div>
+        <div class="acc-body">
+          <div class="plug-list" id="plug-list"></div>
+          <div id="plug-other-wrap" style="display:none;margin-top:10px;">
+            <label class="f-label">Opis (inne)</label>
+            <textarea class="f-input" id="f-plug-other" placeholder="Opisz zaslepke..." style="min-height:64px;"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Linki (open by default) -->
+      <div class="acc open" id="acc-lnk">
+        <div class="acc-hdr" onclick="toggleAcc('acc-lnk')">
+          <span class="acc-title">Linki</span>
+          <span class="acc-arrow">&#9660;</span>
+        </div>
+        <div class="acc-body">
+          <div class="f-row">
+            <div class="f-group">
+              <label class="f-label">D&#322;ugo&#347;&#263; m</label>
+              <input type="number" class="f-input" id="f-llen" placeholder="5" step="0.1">
+            </div>
+            <div class="f-group">
+              <label class="f-label">Kolor</label>
+              <input type="text" class="f-input" id="f-lcol" placeholder="np. z&#243;&#322;ty">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zdjecia -->
+      <div class="sec-title">Zdj&#281;cia</div>
+      <div class="photo-grid" id="photo-grid"></div>
+      <div class="photo-btns">
+        <button class="btn-ghost" onclick="trigCam()">Zrob zdj&#281;cie</button>
+        <button class="btn-ghost" onclick="trigLib()">Z biblioteki</button>
+      </div>
+      <input type="file" id="inp-cam" accept="image/*" capture="environment" multiple style="display:none;">
+      <input type="file" id="inp-lib" accept="image/*" multiple style="display:none;">
+
+    </div>
+    <div class="save-bar">
+      <button class="btn-primary" id="btn-save">ZAPISZ TEST</button>
+    </div>
+  </div>
+
+</div>
+<script>
+const TOKEN_KEY = 'miniapps-gist-token';
+const GIST_KEY  = 'miniapps-gist-id';
+const GIST_FILE = 'rnd-tests.json';
+const PLUGS     = ['brak','plastik','chusteczka','wciskana','gruba','inne'];
+
+let tests     = [];
+let editId    = null;
+let photos    = [];
+let windVal   = 'zero';
+let gasVal    = 'czerwony';
+let wgData    = [];
+let wgCtr     = 0;
+let confirmCb = null;
+
+const $ = id => document.getElementById(id);
+const pad2 = n => String(n).padStart(2,'0');
+const todayStr = () => new Date().toISOString().slice(0,10);
+function nowTimeStr() { const d = new Date(); return pad2(d.getHours())+':'+pad2(d.getMinutes()); }
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
+  if (id === 's-form') $('form-body').scrollTop = 0;
+}
+function spin(on) { $('spinner').classList.toggle('on', on); }
+function setSyncStatus(state, msg) {
+  ['sync-status','sync-status-form'].forEach(id => {
+    const el = $(id);
+    el.className = 'sync-status' + (state ? ' '+state : '');
+    el.innerHTML = state ? `<span class="sync-dot"></span>${msg}` : '';
+  });
+}
+
+// ── TITLE GENERATION ──────────────────────────
+function nextTestTitle() {
+  const d = new Date();
+  const yy = String(d.getFullYear()).slice(2);
+  const prefix = yy + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate());
+  let maxNum = 0;
+  tests.forEach(t => {
+    const m = (t.title || '').match(/Test#(\d+)/i);
+    if (m) maxNum = Math.max(maxNum, parseInt(m[1], 10));
+  });
+  return prefix + ' Test#' + (maxNum + 1);
+}
+
+// ── GIST ──────────────────────────────────────
+function getToken()  { return localStorage.getItem(TOKEN_KEY) || ''; }
+function getGistId() { return localStorage.getItem(GIST_KEY)  || ''; }
+
+async function ghFetch(method, path, body) {
+  const res = await fetch('https://api.github.com' + path, {
+    method,
+    headers: { 'Authorization':'token '+getToken(), 'Content-Type':'application/json', 'Accept':'application/vnd.github+json' },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  if (!res.ok) {
+    let msg = 'HTTP ' + res.status;
+    try { const j = await res.json(); msg += ': ' + (j.message||''); } catch(_) {}
+    throw new Error(msg);
+  }
+  return res.json();
+}
+
+async function fetchTests() {
+  if (!getToken() || !getGistId()) return;
+  setSyncStatus('', '...');
+  try {
+    const gist = await ghFetch('GET', '/gists/'+getGistId());
+    const raw = gist.files[GIST_FILE]?.content;
+    if (raw) { tests = JSON.parse(raw); sortTests(); }
+    setSyncStatus('ok', 'Sync OK');
+  } catch(e) { setSyncStatus('err', 'Blad sync'); }
+}
+
+async function pushTests() {
+  if (!getToken()) return;
+  let gistId = getGistId();
+  const files = { [GIST_FILE]: { content: JSON.stringify(tests, null, 2) } };
+  spin(true);
+  try {
+    if (!gistId) {
+      const g = await ghFetch('POST', '/gists', { description:'MiniApps sync (waga, kolejnosc, PSPO)', public:false, files });
+      gistId = g.id;
+      localStorage.setItem(GIST_KEY, gistId);
+      $('dlg-gist').value = gistId;
+      setSyncStatus('ok', 'Gist utworzony');
+    } else {
+      await ghFetch('PATCH', '/gists/'+gistId, { files });
+      setSyncStatus('ok', 'Zapisano');
+    }
+  } catch(e) {
+    setSyncStatus('err', 'Blad zapisu');
+    spin(false); throw e;
+  }
+  spin(false);
+}
+
+// ── SETTINGS POPUP ────────────────────────────
+$('btn-settings').addEventListener('click', () => {
+  $('dlg-token').value = getToken(); $('dlg-gist').value = getGistId();
+  $('settings-overlay').classList.remove('hidden');
+});
+$('dlg-cancel').addEventListener('click', () => $('settings-overlay').classList.add('hidden'));
+$('settings-overlay').addEventListener('click', e => { if (e.target === $('settings-overlay')) $('settings-overlay').classList.add('hidden'); });
+$('dlg-save').addEventListener('click', async () => {
+  const t = $('dlg-token').value.trim(), g = $('dlg-gist').value.trim();
+  if (t) localStorage.setItem(TOKEN_KEY, t);
+  if (g) localStorage.setItem(GIST_KEY, g);
+  $('settings-overlay').classList.add('hidden');
+  await fetchTests(); renderList();
+});
+
+// ── CONFIRM POPUP ─────────────────────────────
+function showConfirm(msg, cb) {
+  $('confirm-msg').textContent = msg; confirmCb = cb;
+  $('confirm-overlay').classList.remove('hidden');
+}
+$('confirm-no').addEventListener('click',  () => $('confirm-overlay').classList.add('hidden'));
+$('confirm-yes').addEventListener('click', () => { $('confirm-overlay').classList.add('hidden'); if (confirmCb) confirmCb(); });
+
+// ── LIST ──────────────────────────────────────
+function sortTests() {
+  tests.sort((a,b) => ((b.date||'')+(b.time||'')).localeCompare((a.date||'')+(a.time||'')));
+}
+function renderList() {
+  const el = $('cards');
+  if (!tests.length) { el.innerHTML = '<div class="empty">Brak testow.<br>Kliknij &ldquo;+ NOWY TEST&rdquo; aby dodac pierwszy.</div>'; return; }
+  el.innerHTML = tests.map(cardHTML).join('');
+}
+function cardHTML(t) {
+  const thumb = (t.photos && t.photos.length) ? `<img class="card-img" src="${t.photos[0]}" alt="">` : `<div class="card-no-img">&#x1F9EA;</div>`;
+  const gc = t.gas === 'czerwony' ? 'chip-red' : t.gas === 'green' ? 'chip-green' : 'chip-dark';
+  const chips = [
+    t.range ? `<span class="chip chip-dist">${t.range}&thinsp;m</span>` : '',
+    (t.temp !== '' && t.temp != null) ? `<span class="chip chip-temp">${t.temp}&deg;C</span>` : '',
+    t.gas   ? `<span class="chip ${gc}">${t.gas}</span>` : '',
+    (t.wind && t.wind !== 'zero') ? `<span class="chip chip-wind">${t.wind}</span>` : ''
+  ].filter(Boolean).join('');
+  const ds = (t.date||'') + (t.time ? '&nbsp;&nbsp;' + t.time : '');
+  const titleRow = t.title ? `<div class="card-title-row">${t.title}</div>` : '';
+  return `<div class="card" style="margin-bottom:0">
+    <div class="card-top" onclick="openView('${t.id}')">
+      ${thumb}
+      <div class="card-info">
+        ${titleRow}
+        <div class="card-date">${ds}</div>
+        <div class="chips">${chips || '<span style="font-size:0.75rem;color:#bbb;">brak danych</span>'}</div>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="card-act" onclick="openForm('${t.id}')">&#9998; Edytuj</button>
+      <button class="card-act" onclick="delTest('${t.id}')">&#10005; Usun</button>
+    </div>
+  </div>`;
+}
+$('btn-new').addEventListener('click', () => openForm(null));
+async function delTest(id) {
+  showConfirm('Usunac ten test? Operacja nieodwracalna.', async () => {
+    tests = tests.filter(t => t.id !== id);
+    try { await pushTests(); renderList(); showScreen('s-list'); } catch(_) {}
+  });
+}
+
+// ── ACCORDION ─────────────────────────────────
+function toggleAcc(id) { $(id).classList.toggle('open'); }
+
+// ── SEGMENTED ─────────────────────────────────
+function initSeg(cid, setter) {
+  $(cid).querySelectorAll('.seg-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      $(cid).querySelectorAll('.seg-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active'); setter(b.dataset.val);
+    });
+  });
+}
+function setSeg(cid, val) {
+  $(cid).querySelectorAll('.seg-btn').forEach(b => b.classList.toggle('active', b.dataset.val === val));
+}
+initSeg('seg-wind', v => windVal = v);
+initSeg('seg-gas',  v => gasVal  = v);
+
+// ── WEIGHT GROUPS ─────────────────────────────
+function addWG(data) {
+  const id = ++wgCtr;
+  wgData.push(data ? { ...data, _i: id } : { _i: id, qty:'', mass:'', mat:'TPU', central:false });
+  renderWGs();
+}
+function rmWG(i)           { wgData.splice(i,1); renderWGs(); }
+function setWGMat(i, mat)  { wgData[i].mat = mat; renderWGs(); }
+function renderWGs() {
+  $('wg-list').innerHTML = wgData.map((g,i) => `
+    <div class="wg">
+      <button class="wg-rm" onclick="rmWG(${i})">&#10005;</button>
+      <div class="wg-row">
+        <div>
+          <label class="f-label">Ilosc</label>
+          <input type="number" class="f-input" value="${g.qty}" oninput="wgData[${i}].qty=this.value" placeholder="1">
+        </div>
+        <div>
+          <label class="f-label">Masa g</label>
+          <input type="number" class="f-input" value="${g.mass}" oninput="wgData[${i}].mass=this.value" placeholder="5" step="0.1">
+        </div>
+      </div>
+      <div class="f-group" style="margin-bottom:0;">
+        <label class="f-label">Material</label>
+        <div class="seg">
+          <button class="seg-btn ${g.mat==='TPU'?'active':''}"   onclick="setWGMat(${i},'TPU')">TPU</button>
+          <button class="seg-btn ${g.mat==='metal'?'active':''}" onclick="setWGMat(${i},'metal')">metal</button>
+          <button class="seg-btn ${g.mat==='inny'?'active':''}"  onclick="setWGMat(${i},'inny')">inny</button>
+        </div>
+      </div>
+      <div class="wg-central">
+        <input type="checkbox" id="wgc${i}" ${g.central?'checked':''} onchange="wgData[${i}].central=this.checked">
+        <label for="wgc${i}">centralny</label>
+      </div>
+    </div>`).join('');
+}
+
+// ── PLUG ──────────────────────────────────────
+function renderPlugs(sel) {
+  const chosen = sel || 'plastik';
+  $('plug-list').innerHTML = PLUGS.map(p => `
+    <label class="plug-opt">
+      <input type="radio" name="plug-r" value="${p}" ${p === chosen ? 'checked' : ''} onchange="onPlugChange()">
+      ${p}
+    </label>`).join('');
+  updatePlugBadge();
+  $('plug-other-wrap').style.display = chosen === 'inne' ? 'block' : 'none';
+}
+function onPlugChange() {
+  updatePlugBadge();
+  const val = getPlug();
+  $('plug-other-wrap').style.display = val === 'inne' ? 'block' : 'none';
+}
+function updatePlugBadge() {
+  const val = getPlug();
+  $('plug-badge').textContent = val ? ' (' + val + ')' : '';
+}
+function getPlug() {
+  const el = document.querySelector('input[name="plug-r"]:checked');
+  return el ? el.value : 'plastik';
+}
+function getPlugOther() { return $('f-plug-other').value; }
+
+// ── PHOTOS ────────────────────────────────────
+function trigCam() { $('inp-cam').click(); }
+function trigLib() { $('inp-lib').click(); }
+function handleFiles(files) {
+  Array.from(files).forEach(f => {
+    const r = new FileReader();
+    r.onload = e => { photos.push(e.target.result); renderPhotos(); };
+    r.readAsDataURL(f);
+  });
+}
+function rmPhoto(i)    { photos.splice(i,1); renderPhotos(); }
+function renderPhotos() {
+  $('photo-grid').innerHTML = photos.map((src,i) => `
+    <div class="photo-cell">
+      <img src="${src}" alt="">
+      <button class="photo-del" onclick="rmPhoto(${i})">&#10005;</button>
+    </div>`).join('');
+}
+$('inp-cam').addEventListener('change', e => { handleFiles(e.target.files); e.target.value=''; });
+$('inp-lib').addEventListener('change', e => { handleFiles(e.target.files); e.target.value=''; });
+
+// ── FORM OPEN ─────────────────────────────────
+function openForm(id) {
+  editId = id; wgData = []; wgCtr = 0;
+  $('form-title').textContent = id ? 'EDYCJA' : 'NOWY TEST';
+
+  const t   = id ? tests.find(x => x.id === id) : null;
+  photos = t?.photos ? [...t.photos] : [];
+  const src = t || (tests.length ? tests[0] : null); // source for copying config
+
+  // Title
+  $('f-title').value = t?.title || nextTestTitle();
+
+  // Warunki
+  $('f-date').value  = t?.date  || todayStr();
+  $('f-time').value  = t?.time  || nowTimeStr();
+  $('f-temp').value  = t?.temp  ?? '';
+  $('f-pres').value  = t?.pressure ?? '';
+
+  // Wiatr / Gaz
+  windVal = t?.wind || 'zero';
+  gasVal  = t?.gas  || 'czerwony';
+  setSeg('seg-wind', windVal);
+  setSeg('seg-gas',  gasVal);
+
+  // Wyniki (empty for new)
+  $('f-range').value  = t?.range        ?? '';
+  $('f-layout').value = t?.linesLayout  || '';
+  $('f-obs').value    = t?.observations || '';
+  $('f-notes').value  = t?.notes        || '';
+
+  // Kartridz: use test data if editing, else copy from last
+  const cartSrc = t || src;
+  $('f-barrels').value = cartSrc?.barrels  ?? '';
+  $('f-diam').value    = cartSrc?.diameter ?? '';
+  $('f-len').value     = cartSrc?.length   ?? '';
+  $('f-angle').value   = cartSrc?.angle    ?? '';
+
+  // Ciezarki: copy from last
+  const wgtSrc = t?.weights?.length ? t.weights : (src?.weights || []);
+  wgtSrc.forEach(w => addWG(w));
+  if (!wgtSrc.length) renderWGs();
+
+  // Zaslepka
+  const plugSrc = t?.plug || src?.plug || 'plastik';
+  renderPlugs(plugSrc);
+  $('f-plug-other').value = t?.plugOther || (t ? '' : (src?.plugOther || ''));
+
+  // Linki: copy from last
+  const lnkSrc = t || src;
+  $('f-llen').value = lnkSrc?.lineLength ?? '';
+  $('f-lcol').value = lnkSrc?.lineColor  || '';
+
+  // Accordions: all open except zaslepka
+  ['acc-cart','acc-wgt','acc-lnk'].forEach(a => $(a).classList.add('open'));
+  $('acc-plug').classList.remove('open');
+
+  renderPhotos();
+  showScreen('s-form');
+}
+
+// ── SAVE ──────────────────────────────────────
+$('btn-save').addEventListener('click', async () => {
+  const test = {
+    id:           editId || crypto.randomUUID(),
+    title:        $('f-title').value,
+    date:         $('f-date').value,
+    time:         $('f-time').value,
+    temp:         $('f-temp').value,
+    pressure:     $('f-pres').value,
+    wind:         windVal,
+    gas:          gasVal,
+    range:        $('f-range').value,
+    linesLayout:  $('f-layout').value,
+    observations: $('f-obs').value,
+    notes:        $('f-notes').value,
+    barrels:      $('f-barrels').value,
+    diameter:     $('f-diam').value,
+    length:       $('f-len').value,
+    angle:        $('f-angle').value,
+    plug:         getPlug(),
+    plugOther:    getPlugOther(),
+    lineLength:   $('f-llen').value,
+    lineColor:    $('f-lcol').value,
+    weights:      wgData.map(g => ({ qty:g.qty, mass:g.mass, mat:g.mat, central:g.central })),
+    photos:       [...photos],
+    updatedAt:    new Date().toISOString()
+  };
+  if (editId) {
+    const idx = tests.findIndex(x => x.id === editId);
+    if (idx >= 0) tests[idx] = test; else tests.unshift(test);
+  } else {
+    tests.unshift(test);
+  }
+  sortTests();
+  try { await pushTests(); renderList(); showScreen('s-list'); } catch(_) {}
+});
+
+$('btn-back').addEventListener('click', () => showScreen('s-list'));
+
+// ── VIEW ──────────────────────────────────────
+let viewId = null;
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function openView(id) {
+  viewId = id;
+  const t = tests.find(x => x.id === id);
+  if (!t) return;
+  $('view-title').textContent = t.title || t.date || 'Test';
+
+  const mv = val => (val !== '' && val != null) ? String(val) : null;
+  const fld = (lbl, val) => {
+    const v = mv(val);
+    return `<div class="view-field"><div class="view-label">${lbl}</div><div class="view-val${v ? '' : ' muted'}">${v || '—'}</div></div>`;
+  };
+
+  const gcCls = t.gas === 'czerwony' ? 'chip-red' : t.gas === 'green' ? 'chip-green' : 'chip-dark';
+  const windCls = (t.wind && t.wind !== 'zero') ? 'chip-wind' : 'chip-dark';
+
+  let html = '';
+
+  // Warunki
+  html += `<div class="view-sec">
+    <div class="view-sec-title">Warunki</div>
+    <div class="view-grid">
+      ${fld('Data', t.date)}
+      ${fld('Czas', t.time)}
+      ${fld('Temperatura \u00b0C', t.temp)}
+      ${fld('Ci\u015bnienie bar', t.pressure)}
+    </div>
+    <div class="view-grid" style="margin-top:10px;">
+      <div class="view-field"><div class="view-label">Wiatr</div>
+        <div class="view-val">${t.wind ? `<span class="chip ${windCls}">${t.wind}</span>` : '<span class="view-val muted">\u2014</span>'}</div></div>
+      <div class="view-field"><div class="view-label">Gaz</div>
+        <div class="view-val">${t.gas ? `<span class="chip ${gcCls}">${t.gas}</span>` : '<span class="view-val muted">\u2014</span>'}</div></div>
+    </div>
+  </div>`;
+
+  // Konfiguracja kartridża
+  html += `<div class="view-sec">
+    <div class="view-sec-title">Konfiguracja kartrid\u017ca</div>
+    <div class="view-grid">
+      ${fld('Liczba luf', t.barrels)}
+      ${fld('\u2300 fi mm', t.diameter)}
+      ${fld('D\u0142ugo\u015b\u0107 mm', t.length)}
+      ${fld('K\u0105t \u00b0', t.angle)}
+    </div>
+  </div>`;
+
+  // Ciężarki
+  const wgHtml = (t.weights && t.weights.length)
+    ? t.weights.map(g => {
+        const desc = (g.qty && g.mass) ? `${g.qty}\u202f\u00d7\u202f${g.mass}\u202fg`
+                   : g.qty ? `${g.qty} szt.`
+                   : g.mass ? `${g.mass} g` : '\u2014';
+        const mat = g.mat ? `<span class="view-wg-badge">${g.mat}</span>` : '';
+        const cen = g.central ? `<span class="view-wg-badge" style="color:var(--blue);border-color:#bfdbfe;background:#eff6ff;">centralny</span>` : '';
+        return `<div class="view-wg-item"><div class="view-wg-row"><span style="font-weight:600;">${desc}</span>${mat}${cen}</div></div>`;
+      }).join('')
+    : `<div class="view-val muted">Brak ci\u0119\u017carków</div>`;
+
+  html += `<div class="view-sec">
+    <div class="view-sec-title">Ci\u0119\u017carki</div>
+    ${wgHtml}
+  </div>`;
+
+  // Zaślepka i linki
+  html += `<div class="view-sec">
+    <div class="view-sec-title">Za\u015blepka i linki</div>
+    <div class="view-grid">
+      ${fld('Za\u015blepka', t.plug)}
+      ${fld('D\u0142ugo\u015b\u0107 linek m', t.lineLength)}
+    </div>
+    <div class="view-grid" style="margin-top:10px;">
+      ${fld('Kolor linek', t.lineColor)}
+      <div></div>
+    </div>
+    ${t.plugOther ? `<div style="margin-top:8px;">${fld('Opis za\u015blepki', t.plugOther)}</div>` : ''}
+  </div>`;
+
+  // Wyniki
+  html += `<div class="view-sec">
+    <div class="view-sec-title">Wyniki</div>
+    <div class="view-grid">
+      ${fld('Donos\u0142o\u015b\u0107 m', t.range)}
+      ${fld('Rozk\u0142ad linek', t.linesLayout)}
+    </div>
+    ${t.observations ? `<div style="margin-top:10px;"><div class="view-label">Obserwacje</div><div class="view-val" style="white-space:pre-wrap;line-height:1.5;font-weight:400;font-size:0.88rem;margin-top:3px;">${escHtml(t.observations)}</div></div>` : ''}
+  </div>`;
+
+  // Notatki
+  if (t.notes) {
+    html += `<div class="view-sec">
+      <div class="view-sec-title">Notatki / pomys\u0142y</div>
+      <div class="view-val" style="white-space:pre-wrap;line-height:1.5;font-weight:400;font-size:0.88rem;">${escHtml(t.notes)}</div>
+    </div>`;
+  }
+
+  // Zdjęcia
+  if (t.photos && t.photos.length) {
+    html += `<div class="view-sec">
+      <div class="view-sec-title">Zdj\u0119cia (${t.photos.length})</div>
+      <div class="view-photo-grid">
+        ${t.photos.map((src, i) => `<div class="view-photo-cell"><img src="${src}" alt="" onclick="openLightbox(${i})"></div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  $('view-body').innerHTML = html;
+  showScreen('s-view');
+}
+
+$('btn-view-close').addEventListener('click', () => showScreen('s-list'));
+$('btn-view-edit').addEventListener('click', () => openForm(viewId));
+$('btn-view-del').addEventListener('click', () => delTest(viewId));
+
+// ── LIGHTBOX ──────────────────────────────────
+function openLightbox(i) {
+  const t = tests.find(x => x.id === viewId);
+  if (!t || !t.photos) return;
+  $('lb-img').src = t.photos[i];
+  $('lightbox').classList.remove('hidden');
+}
+function closeLightbox() { $('lightbox').classList.add('hidden'); $('lb-img').src = ''; }
+$('lb-close').addEventListener('click', closeLightbox);
+$('lightbox').addEventListener('click', e => { if (e.target !== $('lb-img')) closeLightbox(); });
+
+// ── INIT ──────────────────────────────────────
+async function init() { await fetchTests(); renderList(); }
+init();
+</script>
+</body>
+</html>
