@@ -519,9 +519,15 @@ function getToken()  { return localStorage.getItem(TOKEN_KEY) || ''; }
 function getGistId() { return localStorage.getItem(GIST_KEY)  || ''; }
 
 async function ghFetch(method, path, body) {
+  const headers = {
+    'Authorization': 'Bearer ' + getToken(),
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+  if (body) headers['Content-Type'] = 'application/json';
   const res = await fetch('https://api.github.com' + path, {
     method,
-    headers: { 'Authorization':'token '+getToken(), 'Content-Type':'application/json', 'Accept':'application/vnd.github+json' },
+    headers,
     body: body ? JSON.stringify(body) : undefined
   });
   if (!res.ok) {
@@ -537,10 +543,15 @@ async function fetchTests() {
   setSyncStatus('', '...');
   try {
     const gist = await ghFetch('GET', '/gists/'+getGistId());
-    const raw = gist.files[GIST_FILE]?.content;
+    const fileData = gist.files[GIST_FILE];
+    let raw = fileData?.content;
+    if (fileData?.truncated && fileData?.raw_url) {
+      const r = await fetch(fileData.raw_url);
+      raw = await r.text();
+    }
     if (raw) { tests = JSON.parse(raw); sortTests(); }
     setSyncStatus('ok', 'Sync OK');
-  } catch(e) { setSyncStatus('err', 'Blad sync'); }
+  } catch(e) { console.error('fetchTests:', e); setSyncStatus('err', 'Blad sync'); }
 }
 
 async function pushTests() {
