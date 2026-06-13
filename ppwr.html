@@ -8,8 +8,8 @@
 <style>
 :root {
   --g50:#f0fdf4;--g100:#dcfce7;--g200:#bbf7d0;--g300:#86efac;--g400:#4ade80;
-  --g500:#22c55e;--g600:#16a34a;--g700:#15803d;--g800:#166534;--g900:#14532d;--g950:#052e16;
-  --sidebar:#0d1f12;--sidebar-hover:#1a3d22;--sidebar-active:#16a34a;
+  --g500:#22c55e;--g600:#009b72;--g700:#046865;--g800:#034d4b;--g900:#033d3c;--g950:#192d35;
+  --sidebar:#192d35;--sidebar-hover:#0f3a38;--sidebar-active:#009b72;
   --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
   --s400:#94a3b8;--s500:#64748b;--s600:#475569;--s700:#334155;--s800:#1e293b;
   --white:#fff;--danger:#ef4444;--warn:#f59e0b;
@@ -136,7 +136,7 @@ a{color:var(--g700);text-decoration:none;}
 .bnav-item.active{color:var(--g700);}
 .bnav-fab{flex-shrink:0;display:flex;align-items:center;justify-content:center;}
 .bnav-fab button{width:48px;height:48px;background:var(--g600);border:none;
-  border-radius:14px;color:white;box-shadow:0 4px 14px rgba(22,163,74,.4);
+  border-radius:14px;color:white;box-shadow:0 4px 14px rgba(0,155,114,.4);
   display:flex;align-items:center;justify-content:center;}
 .bnav-fab .ph-duotone{font-size:22px;--ph-color:#fff;color:#fff;}
 .bnav-fab .ph-duotone::after{color:var(--g200);}
@@ -229,7 +229,7 @@ input[type=text],input[type=email],input[type=date],input[type=number],select,te
   font-size:13.5px;color:var(--s800);background:white;outline:none;
   transition:border-color .14s,box-shadow .14s;min-height:40px;}
 input:focus,select:focus,textarea:focus{
-  border-color:var(--g500);box-shadow:0 0 0 3px rgba(34,197,94,.12);}
+  border-color:var(--g500);box-shadow:0 0 0 3px rgba(0,155,114,.12);}
 textarea{resize:vertical;min-height:76px;}
 .input-hint{font-size:11px;color:var(--s400);margin-top:4px;}
 .check-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
@@ -866,7 +866,7 @@ textarea{resize:vertical;min-height:76px;}
         <button class="bnav-item" id="bnav-declarations" onclick="showView('declarations');setBnav('declarations')">
           <i class="ph-duotone ph-files"></i><span>Deklaracje</span>
         </button>
-        <button class="bnav-fab" onclick="openNewDecl()"><button style="all:unset;width:48px;height:48px;background:var(--g600);border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(22,163,74,.4)"><i class="ph-duotone ph-plus" style="font-size:22px;--ph-color:#fff;color:#fff"></i></button></button>
+        <button class="bnav-fab" onclick="openNewDecl()"><button style="all:unset;width:48px;height:48px;background:var(--g600);border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,155,114,.4)"><i class="ph-duotone ph-plus" style="font-size:22px;--ph-color:#fff;color:#fff"></i></button></button>
         <button class="bnav-item" id="bnav-company" onclick="showView('company');setBnav('company')">
           <i class="ph-duotone ph-factory"></i><span>Firma</span>
         </button>
