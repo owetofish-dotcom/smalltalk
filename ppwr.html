@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>PPWRapp — Deklaracje zgodności</title>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<style>
+:root {
+  --g50:#f0fdf4;--g100:#dcfce7;--g200:#bbf7d0;--g300:#86efac;--g400:#4ade80;
+  --g500:#22c55e;--g600:#16a34a;--g700:#15803d;--g800:#166534;--g900:#14532d;--g950:#052e16;
+  --sidebar:#0d1f12;--sidebar-hover:#1a3d22;--sidebar-active:#16a34a;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
+  --s400:#94a3b8;--s500:#64748b;--s600:#475569;--s700:#334155;--s800:#1e293b;
+  --white:#fff;--danger:#ef4444;--warn:#f59e0b;
+  --sh:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.05);
+  --sh-md:0 4px 12px rgba(0,0,0,.08);
+  --sh-lg:0 20px 40px rgba(0,0,0,.12);
+  --r:8px;--r-lg:12px;--r-xl:16px;
+  --sidebar-w:224px;--bottom-nav:60px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
+  background:var(--s50);color:var(--s800);font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;}
+button{cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;}
+input,select,textarea{font-family:inherit;}
+a{color:var(--g700);text-decoration:none;}
+
+/* ── PHOSPHOR DUOTONE GREEN TINT ─────────────────── */
+.ph-duotone{--ph-color:var(--g600);color:var(--g600);}
+.ph-duotone::after{opacity:.25;color:var(--g400);}
+/* sidebar icons */
+.nav-item .ph-duotone{--ph-color:rgba(255,255,255,.6);color:rgba(255,255,255,.6);}
+.nav-item .ph-duotone::after{color:rgba(255,255,255,.3);}
+.nav-item.active .ph-duotone,.nav-item:hover .ph-duotone{--ph-color:#fff;color:#fff;}
+.nav-item.active .ph-duotone::after,.nav-item:hover .ph-duotone::after{color:var(--g300);}
+/* bottom nav */
+.bnav-item .ph-duotone{--ph-color:var(--s400);color:var(--s400);}
+.bnav-item .ph-duotone::after{color:var(--s300);}
+.bnav-item.active .ph-duotone{--ph-color:var(--g700);color:var(--g700);}
+.bnav-item.active .ph-duotone::after{color:var(--g400);}
+/* stat icons */
+.stat-ico .ph-duotone{--ph-color:var(--g700);color:var(--g700);font-size:28px;}
+.stat-ico .ph-duotone::after{color:var(--g400);}
+/* button icons */
+.btn .ph-duotone{--ph-color:currentColor;color:currentColor;font-size:16px;}
+.btn .ph-duotone::after{color:currentColor;opacity:.3;}
+
+/* ── APP SHELL ─────────────────────────────────────── */
+.app-shell{display:flex;height:100vh;overflow:hidden;}
+
+/* ── SIDEBAR ──────────────────────────────────────── */
+.sidebar{
+  width:var(--sidebar-w);background:var(--sidebar);color:#fff;
+  display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;
+  transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:300;
+}
+.sidebar-logo{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.07);}
+.logo-mark{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:34px;height:34px;background:var(--g600);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-icon .ph-duotone{font-size:20px;--ph-color:#fff;color:#fff;}
+.logo-icon .ph-duotone::after{color:var(--g200);}
+.logo-text{font-size:15px;font-weight:700;line-height:1.1;}
+.logo-sub{font-size:10px;color:rgba(255,255,255,.4);font-weight:400;}
+.sidebar-nav{padding:8px 8px;flex:1;}
+.nav-label{font-size:10px;font-weight:600;color:rgba(255,255,255,.3);
+  letter-spacing:.08em;text-transform:uppercase;padding:10px 10px 4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;min-height:44px;
+  border-radius:7px;color:rgba(255,255,255,.65);font-size:13.5px;font-weight:500;
+  cursor:pointer;transition:all .14s;margin-bottom:1px;}
+.nav-item:hover{background:var(--sidebar-hover);color:#fff;}
+.nav-item.active{background:var(--g700);color:#fff;}
+.nav-item .ph-duotone{font-size:18px;flex-shrink:0;}
+.nav-badge{margin-left:auto;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8);
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.nav-item.active .nav-badge{background:rgba(255,255,255,.2);}
+.sidebar-bottom{padding:10px 8px;border-top:1px solid rgba(255,255,255,.07);}
+.plan-badge{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;padding:10px 12px;margin-bottom:8px;}
+.plan-name{font-size:11px;font-weight:600;color:var(--g400);}
+.plan-detail{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;}
+.plan-bar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;margin-top:8px;}
+.plan-bar-fill{height:100%;background:var(--g500);border-radius:2px;}
+.user-row{display:flex;align-items:center;gap:9px;padding:7px 4px;cursor:pointer;border-radius:6px;}
+.user-row:hover{background:rgba(255,255,255,.05);}
+.user-avatar{width:30px;height:30px;background:var(--g700);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.user-info-name{font-size:12px;color:rgba(255,255,255,.8);font-weight:500;}
+.user-info-email{font-size:10px;color:rgba(255,255,255,.35);}
+/* Mobile sidebar overlay */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:299;
+  display:none;backdrop-filter:blur(2px);}
+.sidebar-overlay.open{display:block;}
+@media(max-width:767px){
+  .sidebar{position:fixed;inset:0 auto 0 0;transform:translateX(-100%);
+    width:min(280px,80vw);}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-bottom{padding-bottom:calc(10px + env(safe-area-inset-bottom));}
+}
+
+/* ── MAIN ─────────────────────────────────────────── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.topbar{height:56px;background:white;border-bottom:1px solid var(--s200);
+  display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;
+  box-shadow:var(--sh);position:sticky;top:0;z-index:100;}
+.topbar-menu-btn{display:none;background:none;border:none;padding:8px;
+  color:var(--s600);border-radius:6px;margin-left:-8px;}
+@media(max-width:767px){
+  .topbar-menu-btn{display:flex;align-items:center;}
+  .topbar-menu-btn .ph-duotone{font-size:22px;--ph-color:var(--s600);color:var(--s600);}
+  .topbar-menu-btn .ph-duotone::after{color:var(--s300);}
+}
+.topbar-title{font-size:15px;font-weight:700;color:var(--s800);flex:1;}
+.topbar-sub{font-size:12px;color:var(--s400);font-weight:400;}
+.topbar-actions{display:flex;gap:8px;align-items:center;}
+.content{flex:1;overflow-y:auto;padding:20px;
+  padding-bottom:calc(20px + var(--bottom-nav) + env(safe-area-inset-bottom));}
+@media(min-width:768px){.content{padding-bottom:20px;}}
+
+/* ── BOTTOM NAV (mobile only) ────────────────────── */
+.bottom-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;
+  height:var(--bottom-nav);background:white;
+  border-top:1px solid var(--s200);box-shadow:0 -4px 12px rgba(0,0,0,.06);
+  padding-bottom:env(safe-area-inset-bottom);z-index:200;
+}
+.bottom-nav-inner{display:flex;height:var(--bottom-nav);}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:3px;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  color:var(--s400);font-size:10px;font-weight:500;border:none;background:none;
+  padding:0;transition:color .12s;}
+.bnav-item .ph-duotone{font-size:22px;}
+.bnav-item.active{color:var(--g700);}
+.bnav-fab{flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.bnav-fab button{width:48px;height:48px;background:var(--g600);border:none;
+  border-radius:14px;color:white;box-shadow:0 4px 14px rgba(22,163,74,.4);
+  display:flex;align-items:center;justify-content:center;}
+.bnav-fab .ph-duotone{font-size:22px;--ph-color:#fff;color:#fff;}
+.bnav-fab .ph-duotone::after{color:var(--g200);}
+@media(max-width:767px){.bottom-nav{display:flex;flex-direction:column;}}
+@media(min-width:768px){.topbar .btn-new-decl{display:inline-flex;}}
+
+/* ── VIEWS ────────────────────────────────────────── */
+.view{display:none;animation:fadeIn .18s ease;}
+.view.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* ── CARDS ────────────────────────────────────────── */
+.card{background:white;border-radius:var(--r-lg);border:1px solid var(--s200);box-shadow:var(--sh);}
+.card-header{padding:14px 18px;border-bottom:1px solid var(--s100);
+  display:flex;align-items:center;gap:10px;}
+.card-title{font-size:14px;font-weight:600;color:var(--s800);flex:1;}
+.card-body{padding:18px;}
+
+/* ── STATS ────────────────────────────────────────── */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
+@media(min-width:900px){.stats-grid{grid-template-columns:repeat(4,1fr);}}
+.stat-card{background:white;border-radius:var(--r-lg);border:1px solid var(--s200);
+  padding:16px 18px;box-shadow:var(--sh);display:flex;align-items:flex-start;gap:12px;}
+.stat-ico{width:42px;height:42px;background:var(--g50);border:1px solid var(--g100);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.stat-label{font-size:11.5px;color:var(--s500);font-weight:500;margin-bottom:4px;}
+.stat-value{font-size:24px;font-weight:800;color:var(--s800);line-height:1;}
+.stat-change{font-size:11px;color:var(--g700);margin-top:5px;font-weight:500;
+  display:flex;align-items:center;gap:4px;}
+.stat-change .ph-duotone{font-size:12px;}
+
+/* ── TABLE ────────────────────────────────────────── */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;min-width:520px;}
+th{font-size:11px;font-weight:600;color:var(--s500);text-transform:uppercase;
+  letter-spacing:.05em;padding:10px 14px;text-align:left;
+  background:var(--s50);border-bottom:1px solid var(--s200);}
+td{padding:12px 14px;border-bottom:1px solid var(--s100);font-size:13.5px;vertical-align:middle;}
+tr:hover td{background:var(--g50);}
+tr:last-child td{border-bottom:none;}
+
+/* Mobile card list (replaces table) */
+.decl-cards{display:none;flex-direction:column;gap:10px;}
+@media(max-width:639px){
+  .table-wrap table{display:none;}
+  .decl-cards{display:flex;}
+}
+.decl-card{background:white;border:1px solid var(--s200);border-radius:var(--r-lg);
+  padding:14px;box-shadow:var(--sh);}
+.decl-card-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.decl-card-name{font-size:14px;font-weight:600;flex:1;min-width:0;}
+.decl-card-meta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--s400);}
+.decl-card-meta span{display:flex;align-items:center;gap:4px;}
+.decl-card-meta .ph-duotone{font-size:13px;}
+.decl-card-actions{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--s100);}
+
+/* ── BADGES ───────────────────────────────────────── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;
+  border-radius:20px;font-size:11px;font-weight:600;}
+.badge-green{background:var(--g100);color:var(--g800);}
+.badge-grey{background:var(--s100);color:var(--s600);}
+.badge-yellow{background:#fef9c3;color:#92400e;}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+
+/* ── BUTTONS ──────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;
+  border-radius:var(--r);font-size:13px;font-weight:500;border:1px solid transparent;
+  transition:all .14s;white-space:nowrap;min-height:36px;}
+.btn-primary{background:var(--g600);color:white;border-color:var(--g700);}
+.btn-primary:hover,.btn-primary:focus{background:var(--g700);}
+.btn-outline{background:white;color:var(--s700);border-color:var(--s300);}
+.btn-outline:hover{background:var(--s50);border-color:var(--s400);}
+.btn-ghost{background:transparent;color:var(--s600);border-color:transparent;}
+.btn-ghost:hover{background:var(--s100);}
+.btn-danger{background:white;color:var(--danger);border-color:#fecaca;}
+.btn-danger:hover{background:#fee2e2;}
+.btn-sm{padding:5px 10px;font-size:12px;min-height:30px;}
+.btn-icon{padding:7px;min-height:36px;}
+.w-full{width:100%;}
+
+/* ── FORM ─────────────────────────────────────────── */
+.form-group{margin-bottom:16px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+@media(max-width:480px){.form-row,.form-row-3{grid-template-columns:1fr;}}
+label{display:block;font-size:12px;font-weight:600;color:var(--s600);margin-bottom:5px;}
+.label-req::after{content:" *";color:var(--danger);}
+input[type=text],input[type=email],input[type=date],input[type=number],select,textarea{
+  width:100%;padding:9px 11px;border:1px solid var(--s300);border-radius:var(--r);
+  font-size:13.5px;color:var(--s800);background:white;outline:none;
+  transition:border-color .14s,box-shadow .14s;min-height:40px;}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--g500);box-shadow:0 0 0 3px rgba(34,197,94,.12);}
+textarea{resize:vertical;min-height:76px;}
+.input-hint{font-size:11px;color:var(--s400);margin-top:4px;}
+.check-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:480px){.check-group{grid-template-columns:1fr;}}
+.check-item{display:flex;align-items:center;gap:8px;padding:9px 10px;
+  border:1px solid var(--s200);border-radius:var(--r);cursor:pointer;transition:all .12s;}
+.check-item:hover{border-color:var(--g400);background:var(--g50);}
+.check-item input[type=checkbox]{accent-color:var(--g600);width:15px;height:15px;flex-shrink:0;}
+.check-item label{margin:0;font-size:12.5px;font-weight:400;cursor:pointer;line-height:1.3;}
+
+/* ── SECTION HEADERS ──────────────────────────────── */
+.form-section{margin:22px 0 14px;}
+.form-section-title{font-size:13px;font-weight:700;color:var(--g800);
+  padding-bottom:8px;border-bottom:2px solid var(--g100);
+  display:flex;align-items:center;gap:8px;}
+.form-section-num{width:22px;height:22px;background:var(--g600);color:white;
+  border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;
+  font-weight:700;flex-shrink:0;}
+
+/* ── MODAL ────────────────────────────────────────── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);
+  display:flex;align-items:center;justify-content:center;z-index:500;
+  backdrop-filter:blur(3px);display:none;}
+.modal-overlay.open{display:flex;}
+.modal{background:white;border-radius:var(--r-xl);width:700px;
+  max-width:calc(100vw - 24px);max-height:92vh;display:flex;flex-direction:column;
+  box-shadow:var(--sh-lg);}
+.modal-lg{width:860px;}
+.modal-header{padding:16px 20px;border-bottom:1px solid var(--s100);
+  display:flex;align-items:center;gap:10px;}
+.modal-title{font-size:15px;font-weight:700;flex:1;}
+.modal-body{padding:20px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch;}
+.modal-footer{padding:12px 20px;border-top:1px solid var(--s100);
+  display:flex;align-items:center;gap:8px;justify-content:flex-end;}
+@media(max-width:640px){
+  .modal-overlay{align-items:flex-end;}
+  .modal,.modal-lg{width:100%;max-width:100%;border-radius:var(--r-xl) var(--r-xl) 0 0;
+    max-height:94vh;}
+}
+
+/* ── ALERTS ───────────────────────────────────────── */
+.alert{padding:11px 14px;border-radius:var(--r);margin-bottom:14px;
+  font-size:13px;display:flex;align-items:flex-start;gap:10px;}
+.alert .ph-duotone{font-size:18px;flex-shrink:0;margin-top:1px;}
+.alert-green{background:var(--g50);border:1px solid var(--g200);color:var(--g800);}
+.alert-green .ph-duotone{--ph-color:var(--g600);color:var(--g600);}
+.alert-yellow{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
+.alert-yellow .ph-duotone{--ph-color:#d97706;color:#d97706;--ph-color-after:#fde68a;}
+.alert-info{background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;}
+.alert-info .ph-duotone{--ph-color:#3b82f6;color:#3b82f6;}
+
+/* ── EMPTY STATE ──────────────────────────────────── */
+.empty-state{text-align:center;padding:48px 20px;color:var(--s400);}
+.empty-state .ph-duotone{font-size:52px;display:block;margin-bottom:14px;}
+.empty-state h3{font-size:15px;font-weight:600;color:var(--s600);margin-bottom:8px;}
+.empty-state p{font-size:13px;max-width:300px;margin:0 auto 20px;line-height:1.6;}
+
+/* ── SEARCH ───────────────────────────────────────── */
+.search-bar{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.search-input-wrap{position:relative;flex:1;min-width:200px;}
+.search-input-wrap input{padding-left:34px;}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);}
+.search-icon .ph-duotone{font-size:16px;}
+
+/* ── PRICING ──────────────────────────────────────── */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:20px;}
+.price-card{background:white;border:2px solid var(--s200);border-radius:var(--r-lg);
+  padding:24px 20px;text-align:center;position:relative;}
+.price-card.popular{border-color:var(--g500);}
+.popular-tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:var(--g600);color:white;font-size:10px;font-weight:700;
+  padding:3px 12px;border-radius:20px;}
+.price-plan{font-size:11px;font-weight:700;color:var(--s400);margin-bottom:6px;
+  text-transform:uppercase;letter-spacing:.06em;}
+.price-amount{font-size:34px;font-weight:800;color:var(--s800);}
+.price-period{font-size:12px;color:var(--s400);}
+.price-features{text-align:left;margin:14px 0 20px;}
+.price-feature{font-size:12.5px;color:var(--s700);padding:4px 0;
+  display:flex;align-items:center;gap:8px;}
+.pf-ok .ph-duotone{--ph-color:var(--g600);color:var(--g600);font-size:14px;}
+.pf-no{color:var(--s300);}
+.pf-no .ph-duotone{--ph-color:var(--s300);color:var(--s300);font-size:14px;}
+
+/* ── TABS ─────────────────────────────────────────── */
+.tabs{display:flex;border-bottom:1px solid var(--s200);margin-bottom:20px;overflow-x:auto;}
+.tab{padding:10px 16px;font-size:13px;font-weight:500;color:var(--s400);
+  cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;
+  white-space:nowrap;transition:all .14s;display:flex;align-items:center;gap:6px;}
+.tab .ph-duotone{font-size:15px;}
+.tab.active{color:var(--g700);border-bottom-color:var(--g600);}
+.tab:hover{color:var(--s700);}
+
+/* ── STEPS ────────────────────────────────────────── */
+.steps{display:flex;align-items:center;margin-bottom:24px;overflow-x:auto;padding-bottom:4px;}
+.step{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.step-circle{width:28px;height:28px;border-radius:50%;border:2px solid var(--s300);
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
+  color:var(--s400);background:white;flex-shrink:0;}
+.step.done .step-circle{background:var(--g600);border-color:var(--g600);color:white;}
+.step.active .step-circle{border-color:var(--g600);color:var(--g700);background:var(--g50);}
+.step.done .step-circle .ph-duotone{--ph-color:#fff;color:#fff;font-size:13px;}
+.step-label{font-size:12px;font-weight:500;color:var(--s400);}
+.step.active .step-label{color:var(--g700);font-weight:600;}
+.step.done .step-label{color:var(--s500);}
+.step-line{flex:1;height:1px;background:var(--s200);margin:0 6px;}
+.step-line.done{background:var(--g400);}
+
+/* ── ACTION MENU ──────────────────────────────────── */
+.action-menu{position:relative;display:inline-block;}
+.action-menu-btn{background:white;border:1px solid var(--s200);border-radius:6px;
+  padding:5px 8px;cursor:pointer;transition:all .14s;}
+.action-menu-btn:hover{background:var(--s50);}
+.action-menu-btn .ph-duotone{font-size:18px;--ph-color:var(--s500);color:var(--s500);}
+.action-dropdown{position:absolute;right:0;top:calc(100% + 4px);background:white;
+  border:1px solid var(--s200);border-radius:10px;box-shadow:var(--sh-lg);
+  min-width:160px;z-index:100;display:none;}
+.action-dropdown.open{display:block;}
+.action-item{padding:9px 14px;font-size:13px;color:var(--s700);cursor:pointer;
+  display:flex;align-items:center;gap:9px;transition:background .1s;}
+.action-item:first-child{border-radius:10px 10px 0 0;}
+.action-item:last-child{border-radius:0 0 10px 10px;}
+.action-item:hover{background:var(--s50);}
+.action-item .ph-duotone{font-size:16px;flex-shrink:0;}
+.action-item.danger{color:var(--danger);}
+.action-item.danger:hover{background:#fee2e2;}
+
+/* ── LANDING ──────────────────────────────────────── */
+.landing{display:flex;flex-direction:column;min-height:100vh;background:white;}
+.land-nav{height:62px;border-bottom:1px solid var(--s100);display:flex;
+  align-items:center;padding:0 clamp(16px,5vw,48px);gap:24px;position:sticky;top:0;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(8px);z-index:100;}
+.land-nav-logo{display:flex;align-items:center;gap:10px;}
+.land-nav-links{display:flex;gap:20px;flex:1;}
+.land-nav-link{font-size:14px;color:var(--s600);font-weight:500;cursor:pointer;
+  display:flex;align-items:center;gap:6px;}
+.land-nav-link .ph-duotone{font-size:15px;}
+.land-nav-link:hover{color:var(--g700);}
+@media(max-width:600px){.land-nav-links{display:none;}}
+.land-hero{background:linear-gradient(140deg,var(--g950) 0%,var(--g800) 60%,var(--g700) 100%);
+  color:white;padding:clamp(48px,8vw,96px) clamp(16px,5vw,48px);text-align:center;}
+.land-hero h1{font-size:clamp(28px,5vw,48px);font-weight:900;line-height:1.1;
+  margin-bottom:16px;max-width:680px;margin-left:auto;margin-right:auto;}
+.land-hero h1 span{color:var(--g400);}
+.land-hero p{font-size:clamp(14px,2vw,17px);color:rgba(255,255,255,.7);
+  max-width:520px;margin:0 auto 28px;line-height:1.65;}
+.land-hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.land-btn-main{background:var(--g500);color:white;padding:12px 24px;border-radius:9px;
+  font-size:15px;font-weight:600;border:none;cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:8px;}
+.land-btn-main .ph-duotone{font-size:18px;--ph-color:#fff;color:#fff;}
+.land-btn-main .ph-duotone::after{color:var(--g200);}
+.land-btn-main:hover{background:var(--g400);}
+.land-btn-sec{background:rgba(255,255,255,.1);color:white;padding:12px 24px;
+  border-radius:9px;font-size:15px;font-weight:600;border:1px solid rgba(255,255,255,.2);
+  cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:8px;}
+.land-btn-sec .ph-duotone{font-size:18px;--ph-color:#fff;color:#fff;}
+.land-btn-sec:hover{background:rgba(255,255,255,.18);}
+.land-stats{display:flex;justify-content:center;gap:clamp(20px,4vw,48px);
+  flex-wrap:wrap;margin-top:40px;padding-top:36px;border-top:1px solid rgba(255,255,255,.1);}
+.land-stat-val{font-size:28px;font-weight:800;color:var(--g400);}
+.land-stat-lbl{font-size:12px;color:rgba(255,255,255,.55);margin-top:2px;}
+.land-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:28px;padding:56px clamp(16px,5vw,48px);max-width:1100px;margin:0 auto;}
+.land-feature-ico{width:48px;height:48px;background:var(--g50);border:1px solid var(--g200);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.land-feature-ico .ph-duotone{font-size:26px;}
+.land-feature h3{font-size:15px;font-weight:700;color:var(--s800);margin-bottom:8px;}
+.land-feature p{font-size:13px;color:var(--s500);line-height:1.65;}
+.land-pricing{padding:56px clamp(16px,5vw,48px);background:var(--s50);}
+.land-pricing h2,.land-pricing .sub{text-align:center;}
+.land-pricing h2{font-size:clamp(22px,3vw,30px);font-weight:800;margin-bottom:6px;}
+.land-pricing .sub{color:var(--s500);font-size:14px;}
+.land-cta{background:var(--g700);color:white;padding:56px clamp(16px,5vw,48px);text-align:center;}
+.land-cta h2{font-size:clamp(22px,3vw,28px);font-weight:800;margin-bottom:10px;}
+.land-cta p{color:rgba(255,255,255,.7);font-size:15px;margin-bottom:24px;}
+.land-footer{padding:20px clamp(16px,5vw,48px);border-top:1px solid var(--s100);
+  text-align:center;color:var(--s400);font-size:12px;}
+/* AUTH */
+.auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--s50);padding:16px;}
+.auth-card{background:white;border-radius:var(--r-xl);border:1px solid var(--s200);
+  box-shadow:var(--sh-lg);width:400px;max-width:100%;padding:32px;}
+.auth-logo{text-align:center;margin-bottom:24px;}
+.auth-title{font-size:20px;font-weight:800;text-align:center;margin-bottom:4px;}
+.auth-sub{font-size:13px;color:var(--s400);text-align:center;margin-bottom:22px;}
+/* CHIP */
+.chip{background:var(--g100);color:var(--g800);padding:2px 8px;
+  border-radius:4px;font-size:11px;font-weight:600;}
+/* MISC */
+.ml-auto{margin-left:auto;} .mb-4{margin-bottom:16px;} .mb-6{margin-bottom:22px;}
+.flex{display:flex;} .items-center{align-items:center;} .gap-2{gap:8px;}
+.justify-between{justify-content:space-between;}
+.dash-grid{display:grid;grid-template-columns:1fr;gap:16px;}
+@media(min-width:900px){.dash-grid{grid-template-columns:3fr 2fr;}}
+/* TOAST */
+.toast-stack{position:fixed;bottom:calc(var(--bottom-nav) + 10px);right:16px;
+  display:flex;flex-direction:column;gap:8px;z-index:9999;}
+@media(min-width:768px){.toast-stack{bottom:24px;}}
+.toast{background:var(--s800);color:white;padding:11px 16px;border-radius:9px;
+  font-size:13px;font-weight:500;box-shadow:var(--sh-lg);display:flex;align-items:center;gap:10px;
+  animation:slideUp .2s ease;}
+.toast .ph-duotone{font-size:18px;flex-shrink:0;}
+.toast-ok .ph-duotone{--ph-color:var(--g400);color:var(--g400);}
+.toast-ok .ph-duotone::after{color:var(--g700);}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--s200);border-radius:2px;}
+</style>
+</head>
+<body>
+
+<!-- ═══ LANDING ═══════════════════════════════════════════ -->
+<div id="landing" class="landing">
+  <nav class="land-nav">
+    <div class="land-nav-logo">
+      <div class="logo-icon" style="background:var(--g600)"><i class="ph-duotone ph-leaf" style="font-size:20px;--ph-color:#fff;color:#fff"></i></div>
+      <div><div class="logo-text" style="color:var(--s800)">PPWRapp</div><div class="logo-sub" style="color:var(--s400)">Deklaracje zgodności</div></div>
+    </div>
+    <div class="land-nav-links">
+      <span class="land-nav-link" onclick="scrollSection('features')"><i class="ph-duotone ph-squares-four"></i>Funkcje</span>
+      <span class="land-nav-link" onclick="scrollSection('pricing')"><i class="ph-duotone ph-tag"></i>Cennik</span>
+      <span class="land-nav-link"><i class="ph-duotone ph-chat-dots"></i>Kontakt</span>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="showAuth('login')">Zaloguj</button>
+    <button class="btn btn-primary btn-sm" onclick="showAuth('register')"><i class="ph-duotone ph-rocket-launch"></i>Zacznij</button>
+  </nav>
+
+  <div class="land-hero">
+    <h1>Deklaracje PPWR<br>dla <span>tartaków i paleciarnii</span></h1>
+    <p>Jedyna polska platforma do zarządzania deklaracjami zgodności PPWR. Generuj, przechowuj i udostępniaj klientom dokumenty zgodne z UE 2025/40 — bez prawnika, bez Excela.</p>
+    <div class="land-hero-btns">
+      <button class="land-btn-main" onclick="showAuth('register')"><i class="ph-duotone ph-rocket-launch"></i>Zacznij za darmo</button>
+      <button class="land-btn-sec" onclick="showAuth('login')"><i class="ph-duotone ph-sign-in"></i>Mam konto</button>
+    </div>
+    <div class="land-stats">
+      <div><div class="land-stat-val">12 sie</div><div class="land-stat-lbl">Obowiązek PPWR</div></div>
+      <div><div class="land-stat-val">10 lat</div><div class="land-stat-lbl">Wymagane archiwum</div></div>
+      <div><div class="land-stat-val">2 min</div><div class="land-stat-lbl">Czas wystawienia</div></div>
+      <div><div class="land-stat-val">🇵🇱</div><div class="land-stat-lbl">Tylko po polsku</div></div>
+    </div>
+  </div>
+
+  <div id="features" class="land-features">
+    <div class="land-feature">
+      <div class="land-feature-ico"><i class="ph-duotone ph-tree"></i></div>
+      <h3>Dla branży drzewnej</h3>
+      <p>Szablony do palet drewnianych, kantówki, skrzynek. Drewno z LP, ISPM 15, gwoździe — już pre-wypełnione.</p>
+    </div>
+    <div class="land-feature">
+      <div class="land-feature-ico"><i class="ph-duotone ph-file-doc"></i></div>
+      <h3>Generator PPWR krok po kroku</h3>
+      <p>Kreator prowadzi przez Załącznik VIII. Eksport do PDF i DOCX. Automatycznie wypełnione pola dla materiałów naturalnych.</p>
+    </div>
+    <div class="land-feature">
+      <div class="land-feature-ico"><i class="ph-duotone ph-share-network"></i></div>
+      <h3>Udostępnianie klientom</h3>
+      <p>Wyślij link lub PDF do klienta jednym kliknięciem. Tracking — wiesz kto pobrał i kiedy.</p>
+    </div>
+    <div class="land-feature">
+      <div class="land-feature-ico"><i class="ph-duotone ph-archive-box"></i></div>
+      <h3>Archiwum 10 lat</h3>
+      <p>Wszystkie deklaracje bezpiecznie w chmurze. Zawsze dostępne na żądanie organu nadzoru rynku.</p>
+    </div>
+    <div class="land-feature">
+      <div class="land-feature-ico"><i class="ph-duotone ph-lightning"></i></div>
+      <h3>Pełny CRUD</h3>
+      <p>Dodawaj nowe typy palet, edytuj, duplikuj, archiwizuj. Całe portfolio opakowań z jednego miejsca.</p>
+    </div>
+    <div class="land-feature">
+      <div class="land-feature-ico"><i class="ph-duotone ph-shield-check"></i></div>
+      <h3>Zgodność z UE 2025/40</h3>
+      <p>Wzór zgodny z Załącznikiem VIII, zaktualizowany o wytyczne KE. REACH, SVHC, PFAS, ISPM 15 — obsłużone.</p>
+    </div>
+  </div>
+
+  <div id="pricing" class="land-pricing">
+    <h2>Prosty cennik</h2>
+    <p class="sub">Zacznij za darmo. Skaluj kiedy potrzebujesz. Bez umów — anuluj kiedy chcesz.</p>
+    <div class="pricing-grid" style="max-width:860px;margin-left:auto;margin-right:auto;">
+      <div class="price-card">
+        <div class="price-plan">DARMOWY</div>
+        <div class="price-amount">0 <span class="price-period">zł/mies.</span></div>
+        <div class="price-features">
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>2 deklaracje PPWR</div>
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>PDF + DOCX</div>
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Archiwum 10 lat</div>
+          <div class="price-feature pf-no"><i class="ph-duotone ph-x-circle"></i>Udostępnianie linkiem</div>
+          <div class="price-feature pf-no"><i class="ph-duotone ph-x-circle"></i>Więcej deklaracji</div>
+        </div>
+        <button class="btn btn-outline w-full" onclick="showAuth('register')">Zarejestruj się</button>
+      </div>
+      <div class="price-card popular">
+        <div class="popular-tag">POLECANY</div>
+        <div class="price-plan">BUSINESS</div>
+        <div class="price-amount">49 <span class="price-period">zł/mies.</span></div>
+        <div class="price-features">
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>50 deklaracji</div>
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>PDF + DOCX</div>
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Udostępnianie linkiem</div>
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Tracking pobrań</div>
+          <div class="price-feature pf-no"><i class="ph-duotone ph-x-circle"></i>Wiele firm</div>
+        </div>
+        <button class="btn btn-primary w-full" onclick="showAuth('register')">14 dni gratis →</button>
+      </div>
+      <div class="price-card">
+        <div class="price-plan">ENTERPRISE</div>
+        <div class="price-amount">199 <span class="price-period">zł/mies.</span></div>
+        <div class="price-features">
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Nielimit. deklaracji</div>
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Wiele firm/oddziałów</div>
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>API + integracje</div>
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Wsparcie priorytetowe</div>
+          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Biały label (opcja)</div>
+        </div>
+        <button class="btn btn-outline w-full" onclick="alert('Kontakt: hello@ppwrapp.pl')">Kontakt</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="land-cta">
+    <h2>Gotowy przed 12 sierpnia 2026?</h2>
+    <p>Bez deklaracji PPWR nie wprowadzisz opakowań na rynek UE. Zacznij teraz — 2 deklaracje gratis.</p>
+    <button class="land-btn-main" onclick="showAuth('register')"><i class="ph-duotone ph-rocket-launch"></i>Zacznij bezpłatnie</button>
+  </div>
+  <div class="land-footer">© 2026 PPWRapp · hello@ppwrapp.pl · <a href="#">Regulamin</a> · <a href="#">Prywatność</a></div>
+</div>
+
+<!-- ═══ AUTH ══════════════════════════════════════════════ -->
+<div id="auth-page" class="auth-page" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div style="display:inline-flex;align-items:center;gap:10px;">
+        <div class="logo-icon"><i class="ph-duotone ph-leaf" style="font-size:20px;--ph-color:#fff;color:#fff"></i></div>
+        <div><div class="logo-text" style="color:var(--s800);font-size:17px">PPWRapp</div></div>
+      </div>
+    </div>
+    <div id="login-form">
+      <div class="auth-title">Zaloguj się</div>
+      <div class="auth-sub">Nie masz konta? <a href="#" onclick="switchAuth('register')">Zarejestruj się</a></div>
+      <div class="form-group"><label>E-mail</label><input type="email" value="jan@makodrew.pl"></div>
+      <div class="form-group"><label>Hasło</label><input type="text" value="••••••••"></div>
+      <button class="btn btn-primary w-full" style="padding:11px;justify-content:center;" onclick="enterApp()"><i class="ph-duotone ph-sign-in"></i>Zaloguj się</button>
+      <div style="text-align:center;margin-top:10px;font-size:12px;color:var(--s400)"><a href="#">Zapomniałem hasła</a></div>
+    </div>
+    <div id="register-form" style="display:none">
+      <div class="auth-title">Zarejestruj firmę</div>
+      <div class="auth-sub">Masz konto? <a href="#" onclick="switchAuth('login')">Zaloguj się</a></div>
+      <div class="alert alert-green"><i class="ph-duotone ph-gift"></i><div><strong>2 deklaracje gratis</strong> — bez karty kredytowej</div></div>
+      <div class="form-row">
+        <div class="form-group"><label>Imię</label><input type="text" placeholder="Jan"></div>
+        <div class="form-group"><label>Nazwisko</label><input type="text" placeholder="Kowalski"></div>
+      </div>
+      <div class="form-group"><label>Nazwa firmy</label><input type="text" placeholder="Tartak Kowalski s.c."></div>
+      <div class="form-group"><label>E-mail</label><input type="email" placeholder="jan@firma.pl"></div>
+      <div class="form-group"><label>Hasło</label><input type="text" placeholder="Min. 8 znaków"></div>
+      <button class="btn btn-primary w-full" style="padding:11px;justify-content:center;margin-top:4px" onclick="enterApp()"><i class="ph-duotone ph-rocket-launch"></i>Utwórz konto</button>
+      <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--s400)">Akceptujesz <a href="#">Regulamin</a> i <a href="#">Prywatność</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ APP SHELL ═════════════════════════════════════════ -->
+<div id="app" class="app-shell" style="display:none">
+
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">
+        <div class="logo-icon"><i class="ph-duotone ph-leaf" style="font-size:20px;--ph-color:#fff;color:#fff"></i></div>
+        <div><div class="logo-text">PPWRapp</div><div class="logo-sub">Deklaracje PPWR</div></div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-label">Menu</div>
+      <div class="nav-item active" onclick="showView('dashboard');closeSidebar()">
+        <i class="ph-duotone ph-house"></i>Dashboard
+      </div>
+      <div class="nav-item" onclick="showView('declarations');closeSidebar()">
+        <i class="ph-duotone ph-files"></i>Deklaracje
+        <span class="nav-badge" id="decl-count">7</span>
+      </div>
+      <div class="nav-item" onclick="showView('company');closeSidebar()">
+        <i class="ph-duotone ph-factory"></i>Moja firma
+      </div>
+      <div class="nav-item" onclick="showView('settings');closeSidebar()">
+        <i class="ph-duotone ph-credit-card"></i>Abonament
+      </div>
+      <div class="nav-label">Zasoby</div>
+      <div class="nav-item"><i class="ph-duotone ph-books"></i>Baza wiedzy PPWR</div>
+      <div class="nav-item"><i class="ph-duotone ph-headset"></i>Pomoc</div>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="plan-badge">
+        <div class="plan-name">Plan BUSINESS</div>
+        <div class="plan-detail">7 / 50 deklaracji</div>
+        <div class="plan-bar"><div class="plan-bar-fill" style="width:14%"></div></div>
+      </div>
+      <div class="user-row" onclick="showView('settings');closeSidebar()">
+        <div class="user-avatar">MK</div>
+        <div><div class="user-info-name">Mako-Drew s.c.</div><div class="user-info-email">jan@makodrew.pl</div></div>
+        <i class="ph-duotone ph-caret-right" style="margin-left:auto;font-size:14px;--ph-color:rgba(255,255,255,.3);color:rgba(255,255,255,.3)"></i>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <button class="topbar-menu-btn" onclick="openSidebar()"><i class="ph-duotone ph-list"></i></button>
+      <div>
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div class="topbar-sub" id="topbar-sub" style="display:none" id="topbar-sub">Mako-Drew s.c.</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary btn-new-decl" onclick="openNewDecl()"><i class="ph-duotone ph-plus"></i>Nowa deklaracja</button>
+      </div>
+    </div>
+    <div class="content">
+
+      <!-- ─── DASHBOARD ─────────────────────────────── -->
+      <div class="view active" id="view-dashboard">
+        <div class="alert alert-yellow">
+          <i class="ph-duotone ph-warning-circle"></i>
+          <div><strong>Do obowiązku PPWR zostało 60 dni</strong> — 12 sierpnia 2026 bez deklaracji nie wprowadzisz opakowań na rynek UE. <a href="#">Co zrobić →</a></div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-ico"><i class="ph-duotone ph-files"></i></div>
+            <div>
+              <div class="stat-label">Deklaracje</div>
+              <div class="stat-value">7</div>
+              <div class="stat-change"><i class="ph-duotone ph-trend-up"></i>+3 ten miesiąc</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-ico"><i class="ph-duotone ph-check-circle"></i></div>
+            <div>
+              <div class="stat-label">Pokryte typy</div>
+              <div class="stat-value">7</div>
+              <div class="stat-change"><i class="ph-duotone ph-check"></i>100% portfolio</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-ico"><i class="ph-duotone ph-share-network"></i></div>
+            <div>
+              <div class="stat-label">Udostępniono</div>
+              <div class="stat-value">12</div>
+              <div class="stat-change"><i class="ph-duotone ph-trend-up"></i>+5 ten tydzień</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-ico"><i class="ph-duotone ph-package"></i></div>
+            <div>
+              <div class="stat-label">Pozostało w planie</div>
+              <div class="stat-value">43</div>
+              <div class="stat-change">z 50 deklaracji</div>
+            </div>
+          </div>
+        </div>
+        <div class="dash-grid">
+          <div class="card">
+            <div class="card-header">
+              <i class="ph-duotone ph-clock-countdown" style="font-size:18px"></i>
+              <div class="card-title">Ostatnie deklaracje</div>
+              <button class="btn btn-ghost btn-sm" onclick="showView('declarations')">Wszystkie <i class="ph-duotone ph-arrow-right"></i></button>
+            </div>
+            <div class="table-wrap"><table>
+              <thead><tr><th>Nazwa</th><th>Status</th><th>Data</th><th></th></tr></thead>
+              <tbody id="recent-tbody"></tbody>
+            </table></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><i class="ph-duotone ph-list-checks" style="font-size:18px"></i><div class="card-title">Do zrobienia</div></div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;gap:10px;padding:10px;background:var(--g50);border:1px solid var(--g200);border-radius:8px">
+                <i class="ph-duotone ph-check-circle" style="font-size:22px;--ph-color:var(--g600);color:var(--g600);flex-shrink:0"></i>
+                <div><div style="font-size:12.5px;font-weight:600;color:var(--g800)">Deklaracje wystawione</div><div style="font-size:11px;color:var(--g600)">7 typów palet</div></div>
+              </div>
+              <div style="display:flex;gap:10px;padding:10px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px">
+                <i class="ph-duotone ph-envelope" style="font-size:22px;--ph-color:#d97706;color:#d97706;flex-shrink:0"></i>
+                <div><div style="font-size:12.5px;font-weight:600;color:#92400e">Wyślij do klientów</div><div style="font-size:11px;color:#b45309">Mondi, Canpack, KNAUF</div></div>
+              </div>
+              <div style="display:flex;gap:10px;padding:10px;background:var(--s50);border:1px solid var(--s200);border-radius:8px">
+                <i class="ph-duotone ph-tree" style="font-size:22px;--ph-color:var(--g600);color:var(--g600);flex-shrink:0"></i>
+                <div><div style="font-size:12.5px;font-weight:600;color:var(--s700)">Oświadczenie LP (SVHC)</div><div style="font-size:11px;color:var(--s400)">Nadleśnictwo Mielec</div></div>
+              </div>
+              <div style="display:flex;gap:10px;padding:10px;background:var(--s50);border:1px solid var(--s200);border-radius:8px">
+                <i class="ph-duotone ph-hammer" style="font-size:22px;--ph-color:var(--s500);color:var(--s500);flex-shrink:0"></i>
+                <div><div style="font-size:12.5px;font-weight:600;color:var(--s700)">REACH — gwoździe</div><div style="font-size:11px;color:var(--s400)">Pobierz od dostawcy</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── DECLARATIONS ───────────────────────────── -->
+      <div class="view" id="view-declarations">
+        <div class="search-bar">
+          <div class="search-input-wrap">
+            <span class="search-icon"><i class="ph-duotone ph-magnifying-glass"></i></span>
+            <input type="text" placeholder="Szukaj deklaracji..." oninput="filterDecl(this.value)">
+          </div>
+          <select style="min-width:150px" onchange="filterStatus(this.value)">
+            <option value="">Wszystkie statusy</option>
+            <option value="aktywna">Aktywna</option>
+            <option value="robocza">Robocza</option>
+            <option value="archiwum">Archiwum</option>
+          </select>
+          <button class="btn btn-primary ml-auto" onclick="openNewDecl()"><i class="ph-duotone ph-plus"></i>Nowa</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap"><table>
+            <thead><tr>
+              <th>Numer</th><th>Typ palety</th><th>Wymiary</th>
+              <th>Status</th><th>Data</th><th>Udost.</th><th></th>
+            </tr></thead>
+            <tbody id="decl-tbody"></tbody>
+          </table></div>
+          <div class="decl-cards" id="decl-cards"></div>
+        </div>
+      </div>
+
+      <!-- ─── COMPANY ───────────────────────────────── -->
+      <div class="view" id="view-company">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="ph-duotone ph-factory" style="font-size:18px"></i>
+            <div class="card-title">Dane firmy</div>
+            <button class="btn btn-outline btn-sm" onclick="saveCompany()"><i class="ph-duotone ph-floppy-disk"></i>Zapisz</button>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group"><label class="label-req">Nazwa firmy</label><input type="text" value="Mako-Drew s.c."></div>
+              <div class="form-group"><label>Forma prawna</label><select><option selected>Spółka cywilna (s.c.)</option><option>Sp. z o.o.</option><option>JDG</option></select></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="label-req">Właściciele</label><input type="text" value="Maria Kozak, Ryszard Machnik"></div>
+              <div class="form-group"><label>Stanowisko</label><input type="text" value="Wspólnicy"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>NIP</label><input type="text" placeholder="000-000-00-00"></div>
+              <div class="form-group"><label>REGON</label><input type="text" placeholder="000000000"></div>
+            </div>
+            <div class="form-row-3">
+              <div class="form-group"><label>Ulica</label><input type="text" placeholder="ul. Leśna 1"></div>
+              <div class="form-group"><label>Kod</label><input type="text" placeholder="39-310"></div>
+              <div class="form-group"><label>Miejscowość</label><input type="text" value="Radomyśl Wielki"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><i class="ph-duotone ph-medal" style="font-size:18px"></i><div class="card-title">Certyfikaty</div><button class="btn btn-outline btn-sm"><i class="ph-duotone ph-plus"></i>Dodaj</button></div>
+          <div class="card-body" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+            <div style="padding:14px;border:1px solid var(--g200);border-radius:10px;background:var(--g50)">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><i class="ph-duotone ph-certificate" style="font-size:20px;--ph-color:var(--g600);color:var(--g600)"></i><strong style="font-size:13px;color:var(--g800)">IPPC / ISPM 15</strong></div>
+              <div style="font-size:11px;color:var(--g600)">Obróbka termiczna HT</div>
+              <div style="font-size:11px;color:var(--s400)">Nr: /PL/MIE/2024/001</div>
+            </div>
+            <div style="padding:14px;border:1px solid var(--g200);border-radius:10px;background:var(--g50)">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><i class="ph-duotone ph-certificate" style="font-size:20px;--ph-color:var(--g600);color:var(--g600)"></i><strong style="font-size:13px;color:var(--g800)">CE — drewno konstr.</strong></div>
+              <div style="font-size:11px;color:var(--g600)">EN 14081 — ważny</div>
+              <div style="font-size:11px;color:var(--s400)">Nr: CE-2024-0042</div>
+            </div>
+            <div style="padding:14px;border:1px solid var(--g200);border-radius:10px;background:var(--g50)">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><i class="ph-duotone ph-shield-star" style="font-size:20px;--ph-color:var(--g600);color:var(--g600)"></i><strong style="font-size:13px;color:var(--g800)">NATO NCAGE</strong></div>
+              <div style="font-size:11px;color:var(--g600)">Dostawca NATO</div>
+              <div style="font-size:11px;color:var(--s400)">Kod: [NCAGE]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SETTINGS ──────────────────────────────── -->
+      <div class="view" id="view-settings">
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab(this,'tab-plan')"><i class="ph-duotone ph-credit-card"></i>Abonament</div>
+          <div class="tab" onclick="switchTab(this,'tab-billing')"><i class="ph-duotone ph-receipt"></i>Faktury</div>
+          <div class="tab" onclick="switchTab(this,'tab-users')"><i class="ph-duotone ph-users"></i>Użytkownicy</div>
+        </div>
+        <div id="tab-plan">
+          <div class="alert alert-green mb-4"><i class="ph-duotone ph-check-circle"></i><div>Plan: <strong>BUSINESS — 49 zł/mies.</strong> · Następna płatność: 13 lipca 2026</div></div>
+          <div class="pricing-grid" style="max-width:860px">
+            <div class="price-card">
+              <div class="price-plan">DARMOWY</div>
+              <div class="price-amount">0 <span class="price-period">zł/mies.</span></div>
+              <div class="price-features">
+                <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>2 deklaracje</div>
+                <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>PDF + DOCX</div>
+                <div class="price-feature pf-no"><i class="ph-duotone ph-x-circle"></i>Udostępnianie</div>
+              </div>
+              <button class="btn btn-outline w-full btn-sm" disabled>Poprzedni plan</button>
+            </div>
+            <div class="price-card popular">
+              <div class="popular-tag">✓ AKTYWNY</div>
+              <div class="price-plan">BUSINESS</div>
+              <div class="price-amount">49 <span class="price-period">zł/mies.</span></div>
+              <div class="price-features">
+                <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>50 deklaracji</div>
+                <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Udostępnianie</div>
+                <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Tracking</div>
+              </div>
+              <button class="btn btn-primary w-full btn-sm">Aktywny</button>
+            </div>
+            <div class="price-card">
+              <div class="price-plan">ENTERPRISE</div>
+              <div class="price-amount">199 <span class="price-period">zł/mies.</span></div>
+              <div class="price-features">
+                <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Nielimit.</div>
+                <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Wiele firm</div>
+                <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>API</div>
+              </div>
+              <button class="btn btn-outline w-full btn-sm">Upgrade</button>
+            </div>
+          </div>
+        </div>
+        <div id="tab-billing" style="display:none">
+          <div class="card"><div class="card-body" style="color:var(--s400);font-size:13px;text-align:center;padding:40px">Historia faktur pojawi się tutaj</div></div>
+        </div>
+        <div id="tab-users" style="display:none">
+          <div class="card"><div class="card-body" style="color:var(--s400);font-size:13px;text-align:center;padding:40px">Zarządzanie użytkownikami dostępne w planie Enterprise</div></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+      <div class="bottom-nav-inner">
+        <button class="bnav-item active" id="bnav-dashboard" onclick="showView('dashboard');setBnav('dashboard')">
+          <i class="ph-duotone ph-house"></i><span>Home</span>
+        </button>
+        <button class="bnav-item" id="bnav-declarations" onclick="showView('declarations');setBnav('declarations')">
+          <i class="ph-duotone ph-files"></i><span>Deklaracje</span>
+        </button>
+        <button class="bnav-fab" onclick="openNewDecl()"><button style="all:unset;width:48px;height:48px;background:var(--g600);border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(22,163,74,.4)"><i class="ph-duotone ph-plus" style="font-size:22px;--ph-color:#fff;color:#fff"></i></button></button>
+        <button class="bnav-item" id="bnav-company" onclick="showView('company');setBnav('company')">
+          <i class="ph-duotone ph-factory"></i><span>Firma</span>
+        </button>
+        <button class="bnav-item" id="bnav-settings" onclick="showView('settings');setBnav('settings')">
+          <i class="ph-duotone ph-user-circle"></i><span>Konto</span>
+        </button>
+      </div>
+    </nav>
+
+  </main>
+</div>
+
+<!-- ═══ MODAL: NOWA DEKLARACJA ════════════════════════════ -->
+<div class="modal-overlay" id="modal-decl">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <i class="ph-duotone ph-file-plus" style="font-size:20px"></i>
+      <div class="modal-title" id="modal-decl-title">Nowa deklaracja zgodności PPWR</div>
+      <button class="btn btn-ghost btn-icon" onclick="closeModal('modal-decl')"><i class="ph-duotone ph-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="steps" id="wizard-steps">
+        <div class="step active" id="step-0"><div class="step-circle">1</div><div class="step-label">Produkt</div></div>
+        <div class="step-line" id="line-0"></div>
+        <div class="step" id="step-1"><div class="step-circle">2</div><div class="step-label">Materiał</div></div>
+        <div class="step-line" id="line-1"></div>
+        <div class="step" id="step-2"><div class="step-circle">3</div><div class="step-label">Zgodność</div></div>
+        <div class="step-line" id="line-2"></div>
+        <div class="step" id="step-3"><div class="step-circle">4</div><div class="step-label">Podgląd</div></div>
+      </div>
+
+      <div id="wiz-0">
+        <div class="form-section"><div class="form-section-title"><span class="form-section-num">1</span>Opis opakowania</div></div>
+        <div class="form-group">
+          <label class="label-req">Wewnętrzna nazwa deklaracji</label>
+          <input type="text" id="f-name" placeholder="np. Paleta EUR 1200×800 — KNAUF"><div class="input-hint">Widoczna tylko w Twoim panelu</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="label-req">Typ opakowania</label><select id="f-type"><option>Paleta drewniana EUR (1200×800 mm)</option><option>Paleta drewniana DUSSELDORF (1200×1000 mm)</option><option>Paleta drewniana niestandardowa</option><option>Skrzynka drewniana</option><option>Klatka drewniana</option></select></div>
+          <div class="form-group"><label>Kategoria PPWR</label><select id="f-category"><option>Opakowanie transportowe / przemysłowe</option><option>Opakowanie zbiorcze</option><option>Opakowanie jednostkowe</option></select></div>
+        </div>
+        <div class="form-row-3">
+          <div class="form-group"><label>Długość (mm)</label><input type="number" id="f-len" placeholder="1200"></div>
+          <div class="form-group"><label>Szerokość (mm)</label><input type="number" id="f-wid" placeholder="800"></div>
+          <div class="form-group"><label>Wysokość (mm)</label><input type="number" id="f-hei" placeholder="144"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Nośność (kg)</label><input type="number" id="f-load" placeholder="1000"></div>
+          <div class="form-group"><label>Masa palety (kg)</label><input type="number" id="f-mass" placeholder="20"></div>
+        </div>
+      </div>
+
+      <div id="wiz-1" style="display:none">
+        <div class="form-section"><div class="form-section-title"><span class="form-section-num">2</span>Materiał i surowiec</div></div>
+        <div class="form-row">
+          <div class="form-group"><label class="label-req">Gatunek drewna</label><select id="f-wood"><option>Sosna (Pinus sylvestris)</option><option>Świerk (Picea abies)</option><option>Jodła</option><option>Buk</option><option>Mieszane drewno iglaste</option></select></div>
+          <div class="form-group"><label>Wilgotność</label><select id="f-moisture"><option>≤ 22% (standard)</option><option>≤ 18% (suszone)</option><option>Suszone komorowo KD</option></select></div>
+        </div>
+        <div class="form-group"><label>Dostawca surowca</label><select id="f-supplier"><option>Nadleśnictwo Mielec (RDLP Kraków)</option><option>Nadleśnictwo Tuszyma</option><option>Nadleśnictwo Krasnystaw</option><option>Nadleśnictwo Leżajsk</option><option>Wielu dostawców LP</option></select></div>
+        <div class="form-row">
+          <div class="form-group"><label>Elementy łączące</label><select id="f-fasteners"><option>Gwoździe stalowe ocynkowane</option><option>Gwoździe stalowe</option><option>Klamry stalowe</option></select></div>
+          <div class="form-group"><label>Kod materiału (art. 12)</label><input type="text" value="FOR/W — drewno lite" readonly style="background:var(--s50);color:var(--s500)"></div>
+        </div>
+        <div class="form-group"><label>Nr certyfikatu IPPC/ISPM 15</label><input type="text" id="f-ispm" placeholder="/PL/MIE/____/____"></div>
+      </div>
+
+      <div id="wiz-2" style="display:none">
+        <div class="alert alert-info"><i class="ph-duotone ph-info"></i><div>Pola <strong>✓ auto</strong> są automatycznie spełnione dla drewna litego bez chemii. Tylko odznaczone wymagają Twojego potwierdzenia.</div></div>
+        <div class="form-section"><div class="form-section-title"><span class="form-section-num">3</span>Art. 5 — Substancje</div></div>
+        <div class="check-group">
+          <div class="check-item"><input type="checkbox" id="c-reach" checked><label for="c-reach">REACH — zwolniony ✓ auto</label></div>
+          <div class="check-item"><input type="checkbox" id="c-svhc"><label for="c-svhc">SVHC < 0,1% — potwierdzone u LP</label></div>
+          <div class="check-item"><input type="checkbox" id="c-pfas" checked><label for="c-pfas">PFAS — BRAK ✓ auto</label></div>
+          <div class="check-item"><input type="checkbox" id="c-biocide" checked><label for="c-biocide">Biocydy — BRAK ✓ auto</label></div>
+          <div class="check-item"><input type="checkbox" id="c-glue" checked><label for="c-glue">Formaldehydy/kleje — N/A ✓ auto</label></div>
+          <div class="check-item"><input type="checkbox" id="c-annex" checked><label for="c-annex">Zał. I PPWR — BRAK ✓ auto</label></div>
+        </div>
+        <div class="form-section"><div class="form-section-title"><span class="form-section-num">3</span>Recykling i wielokrotny użytek</div></div>
+        <div class="check-group">
+          <div class="check-item"><input type="checkbox" id="c-recycle" checked><label for="c-recycle">Możliwość recyklingu ✓ auto</label></div>
+          <div class="check-item"><input type="checkbox" id="c-reuse"><label for="c-reuse">Przeznaczone do wielokrotnego obrotu</label></div>
+          <div class="check-item"><input type="checkbox" id="c-repair" checked><label for="c-repair">Możliwość naprawy ✓ auto</label></div>
+          <div class="check-item"><input type="checkbox" id="c-min" checked><label for="c-min">Minimalizacja art. 9 ✓ auto</label></div>
+        </div>
+        <div class="form-section"><div class="form-section-title"><span class="form-section-num">3</span>Dokumentacja w aktach</div></div>
+        <div class="check-group">
+          <div class="check-item"><input type="checkbox" id="d-ispm"><label for="d-ispm">Certyfikat IPPC/ISPM 15</label></div>
+          <div class="check-item"><input type="checkbox" id="d-spec"><label for="d-spec">Specyfikacja techniczna</label></div>
+          <div class="check-item"><input type="checkbox" id="d-svhc"><label for="d-svhc">Oświadczenie LP (SVHC)</label></div>
+          <div class="check-item"><input type="checkbox" id="d-ce"><label for="d-ce">Certyfikat CE</label></div>
+          <div class="check-item"><input type="checkbox" id="d-reach"><label for="d-reach">REACH — gwoździe</label></div>
+          <div class="check-item"><input type="checkbox" id="d-cp"><label for="d-cp">Certyfikat CP</label></div>
+        </div>
+        <div class="form-group" style="margin-top:14px"><label>Uwagi</label><textarea id="f-notes" placeholder="Opcjonalne..."></textarea></div>
+      </div>
+
+      <div id="wiz-3" style="display:none">
+        <div class="alert alert-green"><i class="ph-duotone ph-check-circle"></i><div><strong>Deklaracja gotowa.</strong> Sprawdź dane i wystaw.</div></div>
+        <div id="preview-content" style="background:var(--s50);border:1px solid var(--s200);border-radius:10px;padding:18px;font-size:13px"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" id="btn-prev" onclick="wizPrev()" style="display:none"><i class="ph-duotone ph-arrow-left"></i>Wstecz</button>
+      <div class="ml-auto" style="display:flex;gap:8px">
+        <button class="btn btn-outline" onclick="closeModal('modal-decl')">Anuluj</button>
+        <button class="btn btn-primary" id="btn-next" onclick="wizNext()">Dalej <i class="ph-duotone ph-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: PODGLĄD ═══════════════════════════════════ -->
+<div class="modal-overlay" id="modal-view">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <i class="ph-duotone ph-file-text" style="font-size:20px"></i>
+      <div class="modal-title">Deklaracja PPWR</div>
+      <button class="btn btn-ghost btn-icon" onclick="closeModal('modal-view')"><i class="ph-duotone ph-x"></i></button>
+    </div>
+    <div class="modal-body" id="modal-view-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="exportDecl('pdf')"><i class="ph-duotone ph-file-pdf"></i>PDF</button>
+      <button class="btn btn-outline" onclick="exportDecl('docx')"><i class="ph-duotone ph-file-doc"></i>DOCX</button>
+      <button class="btn btn-primary" onclick="shareDecl()"><i class="ph-duotone ph-share-network"></i>Udostępnij</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-view')">Zamknij</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: USUŃ ════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-delete">
+  <div class="modal" style="width:360px">
+    <div class="modal-header"><i class="ph-duotone ph-trash" style="font-size:20px;--ph-color:var(--danger);color:var(--danger)"></i><div class="modal-title">Usuń deklarację</div></div>
+    <div class="modal-body"><p style="color:var(--s600)">Czy na pewno chcesz usunąć tę deklarację? Operacji nie można cofnąć.</p></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-delete')">Anuluj</button>
+      <button class="btn btn-danger" onclick="confirmDelete()"><i class="ph-duotone ph-trash"></i>Usuń</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack"></div>
+
+<script>
+// ───── DATA ─────────────────────────────────────────────
+let declarations = [
+  {id:1,num:"DZ-PPWR-2026-001",name:"Paleta EUR 1200×800 mm",type:"Paleta drewniana EUR (1200×800 mm)",dims:"1200×800×144",load:1000,mass:20,wood:"Sosna",status:"aktywna",date:"2026-06-01",shared:3},
+  {id:2,num:"DZ-PPWR-2026-002",name:"Paleta Dusseldorf 1200×1000 mm",type:"Paleta drewniana DUSSELDORF",dims:"1200×1000×144",load:1500,mass:25,wood:"Sosna",status:"aktywna",date:"2026-06-02",shared:2},
+  {id:3,num:"DZ-PPWR-2026-003",name:"Paleta niestandardowa 800×600 mm",type:"Paleta drewniana niestandardowa",dims:"800×600×120",load:500,mass:12,wood:"Świerk",status:"aktywna",date:"2026-06-05",shared:1},
+  {id:4,num:"DZ-PPWR-2026-004",name:"Skrzynka transportowa 600×400×300",type:"Skrzynka drewniana",dims:"600×400×300",load:200,mass:8,wood:"Sosna",status:"aktywna",date:"2026-06-08",shared:0},
+  {id:5,num:"DZ-PPWR-2026-005",name:"Paleta eksportowa HT 1200×800",type:"Paleta drewniana EUR (1200×800 mm)",dims:"1200×800×144",load:1000,mass:20,wood:"Sosna",status:"aktywna",date:"2026-06-10",shared:4},
+  {id:6,num:"DZ-PPWR-2026-006",name:"Paleta ciężka 1200×1200 mm",type:"Paleta drewniana niestandardowa",dims:"1200×1200×160",load:2000,mass:35,wood:"Buk",status:"robocza",date:"2026-06-12",shared:0},
+  {id:7,num:"DZ-PPWR-2026-007",name:"Klatka drewniana KNAUF",type:"Klatka drewniana",dims:"1200×800×800",load:800,mass:30,wood:"Sosna",status:"robocza",date:"2026-06-13",shared:0},
+];
+let nextId=8, currentDecl=null, deleteId=null, wizStep=0;
+let filteredDecls=[...declarations], activeMenu=null;
+
+// ───── ROUTING ───────────────────────────────────────────
+function showLanding(){
+  document.getElementById('landing').style.display='flex';
+  document.getElementById('auth-page').style.display='none';
+  document.getElementById('app').style.display='none';
+}
+function showAuth(mode){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('auth-page').style.display='flex';
+  document.getElementById('app').style.display='none';
+  switchAuth(mode);
+}
+function switchAuth(mode){
+  document.getElementById('login-form').style.display=mode==='login'?'block':'none';
+  document.getElementById('register-form').style.display=mode==='register'?'block':'none';
+}
+function enterApp(){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('auth-page').style.display='none';
+  document.getElementById('app').style.display='flex';
+  renderAll();
+}
+function scrollSection(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+
+// ───── SIDEBAR (mobile) ──────────────────────────────────
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebar-overlay').classList.add('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+// ───── VIEWS ─────────────────────────────────────────────
+const viewTitles={dashboard:'Dashboard',declarations:'Deklaracje PPWR',company:'Moja firma',settings:'Abonament'};
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('topbar-title').textContent=viewTitles[name]||name;
+  if(name==='declarations')renderDeclTable();
+}
+function setBnav(name){
+  document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
+  const el=document.getElementById('bnav-'+name);
+  if(el)el.classList.add('active');
+}
+
+// ───── RENDER ─────────────────────────────────────────────
+function statusBadge(s){
+  if(s==='aktywna')return`<span class="badge badge-green"><span class="badge-dot"></span>Aktywna</span>`;
+  if(s==='robocza')return`<span class="badge badge-yellow"><span class="badge-dot"></span>Robocza</span>`;
+  return`<span class="badge badge-grey"><span class="badge-dot"></span>Archiwum</span>`;
+}
+function renderAll(){renderRecent();renderDeclTable();document.getElementById('decl-count').textContent=declarations.length;}
+
+function renderRecent(){
+  document.getElementById('recent-tbody').innerHTML=declarations.slice(-4).reverse().map(d=>`
+    <tr>
+      <td><div style="font-weight:600;font-size:13px">${d.name}</div><div style="font-size:11px;color:var(--s400)">${d.num}</div></td>
+      <td>${statusBadge(d.status)}</td>
+      <td style="color:var(--s400);font-size:12px">${d.date}</td>
+      <td><button class="btn btn-outline btn-sm" onclick="viewDecl(${d.id})"><i class="ph-duotone ph-eye"></i></button></td>
+    </tr>`).join('');
+}
+
+function renderDeclTable(){
+  // Desktop table
+  document.getElementById('decl-tbody').innerHTML=filteredDecls.map(d=>`
+    <tr>
+      <td><span class="chip">${d.num}</span></td>
+      <td><div style="font-weight:600">${d.name}</div><div style="font-size:11px;color:var(--s400)">${d.type}</div></td>
+      <td style="color:var(--s500);font-size:12px">${d.dims||'—'} mm</td>
+      <td>${statusBadge(d.status)}</td>
+      <td style="color:var(--s400);font-size:12px">${d.date}</td>
+      <td style="font-size:12px">${d.shared>0?`<span style="color:var(--g700);display:flex;align-items:center;gap:4px"><i class="ph-duotone ph-share-network" style="font-size:13px;--ph-color:var(--g600);color:var(--g600)"></i>${d.shared}×</span>`:'<span style="color:var(--s200)">—</span>'}</td>
+      <td>
+        <div class="action-menu">
+          <button class="action-menu-btn" onclick="toggleMenu(event,${d.id})"><i class="ph-duotone ph-dots-three-vertical"></i></button>
+          <div class="action-dropdown" id="menu-${d.id}">
+            <div class="action-item" onclick="viewDecl(${d.id});closeMenu()"><i class="ph-duotone ph-eye"></i>Podgląd</div>
+            <div class="action-item" onclick="editDecl(${d.id});closeMenu()"><i class="ph-duotone ph-pencil"></i>Edytuj</div>
+            <div class="action-item" onclick="duplicateDecl(${d.id});closeMenu()"><i class="ph-duotone ph-copy"></i>Duplikuj</div>
+            <div class="action-item" onclick="shareDecl(${d.id});closeMenu()"><i class="ph-duotone ph-share-network"></i>Udostępnij</div>
+            <div class="action-item" onclick="exportDecl('pdf',${d.id});closeMenu()"><i class="ph-duotone ph-file-pdf"></i>PDF</div>
+            <div class="action-item danger" onclick="deleteDecl(${d.id});closeMenu()"><i class="ph-duotone ph-trash"></i>Usuń</div>
+          </div>
+        </div>
+      </td>
+    </tr>`).join('');
+  // Mobile cards
+  document.getElementById('decl-cards').innerHTML=filteredDecls.map(d=>`
+    <div class="decl-card">
+      <div class="decl-card-top">
+        <i class="ph-duotone ph-file-text" style="font-size:22px;flex-shrink:0"></i>
+        <div class="decl-card-name">${d.name}</div>
+        ${statusBadge(d.status)}
+      </div>
+      <div class="decl-card-meta">
+        <span><i class="ph-duotone ph-hash"></i>${d.num}</span>
+        <span><i class="ph-duotone ph-calendar"></i>${d.date}</span>
+        ${d.dims?`<span><i class="ph-duotone ph-ruler"></i>${d.dims} mm</span>`:''}
+      </div>
+      <div class="decl-card-actions">
+        <button class="btn btn-outline btn-sm" onclick="viewDecl(${d.id})" style="flex:1"><i class="ph-duotone ph-eye"></i>Podgląd</button>
+        <button class="btn btn-outline btn-sm" onclick="editDecl(${d.id})"><i class="ph-duotone ph-pencil"></i></button>
+        <button class="btn btn-outline btn-sm" onclick="shareDecl(${d.id})"><i class="ph-duotone ph-share-network"></i></button>
+        <button class="btn btn-danger btn-sm" onclick="deleteDecl(${d.id})"><i class="ph-duotone ph-trash"></i></button>
+      </div>
+    </div>`).join('');
+}
+
+function toggleMenu(e,id){e.stopPropagation();closeMenu();document.getElementById('menu-'+id)?.classList.add('open');activeMenu=id;}
+function closeMenu(){if(activeMenu)document.getElementById('menu-'+activeMenu)?.classList.remove('open');activeMenu=null;}
+document.addEventListener('click',closeMenu);
+function filterDecl(q){filteredDecls=declarations.filter(d=>d.name.toLowerCase().includes(q.toLowerCase())||d.num.toLowerCase().includes(q.toLowerCase()));renderDeclTable();}
+function filterStatus(s){filteredDecls=s?declarations.filter(d=>d.status===s):[...declarations];renderDeclTable();}
+
+// ───── CRUD ───────────────────────────────────────────────
+function viewDecl(id){
+  const d=declarations.find(x=>x.id===id);if(!d)return;
+  document.getElementById('modal-view-body').innerHTML=`
+    <div style="border-bottom:3px solid var(--g600);padding-bottom:14px;margin-bottom:18px">
+      <div style="font-size:11px;color:var(--s400);margin-bottom:4px">Deklaracja Zgodności PPWR (UE 2025/40) — Art. 39 + Zał. VIII</div>
+      <div style="font-size:20px;font-weight:800;color:var(--g800)">${d.name}</div>
+      <div style="font-size:12px;color:var(--s400);margin-top:4px">${d.num} · ${d.date}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px">
+      <div>
+        <div style="font-size:10px;font-weight:700;color:var(--s400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Producent</div>
+        <div style="font-size:13px;font-weight:600">Mako-Drew s.c.</div>
+        <div style="font-size:12px;color:var(--s500)">Maria Kozak, Ryszard Machnik</div>
+        <div style="font-size:12px;color:var(--s400)">Radomyśl Wielki, woj. podkarpackie</div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:700;color:var(--s400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Produkt</div>
+        <div style="font-size:13px;font-weight:600">${d.type}</div>
+        <div style="font-size:12px;color:var(--s500)">Wymiary: ${d.dims||'—'} mm · Nośność: ${d.load||'—'} kg</div>
+        <div style="font-size:12px;color:var(--s500)">Drewno: ${d.wood||'Sosna'} · Kod: FOR/W</div>
+      </div>
+    </div>
+    <div style="background:var(--g50);border:1px solid var(--g200);border-radius:9px;padding:14px;margin-bottom:14px">
+      <div style="font-size:10px;font-weight:700;color:var(--g800);text-transform:uppercase;margin-bottom:8px">Oświadczenia zgodności</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:12px;color:var(--g700)">
+        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 5 — REACH zwolniony</div>
+        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 5 — PFAS: NIE</div>
+        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 5 — Biocydy: BRAK</div>
+        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 6 — Recykling: TAK</div>
+        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 9 — Minimalizacja: TAK</div>
+        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 12 — Kod FOR/W: TAK</div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:11px;color:var(--s400);padding-top:12px;border-top:1px solid var(--s100)">
+      <i class="ph-duotone ph-info" style="font-size:13px"></i> Przechowywać 10 lat (art. 39 ust. 4) · Nie musi być dołączana do każdej dostawy
+    </div>`;
+  openModal('modal-view');
+}
+
+function editDecl(id){
+  const d=declarations.find(x=>x.id===id);if(!d)return;
+  currentDecl=id;
+  document.getElementById('modal-decl-title').textContent='Edytuj deklarację';
+  document.getElementById('f-name').value=d.name;
+  wizStep=0;renderWizard();openModal('modal-decl');
+}
+function duplicateDecl(id){
+  const d=declarations.find(x=>x.id===id);if(!d)return;
+  const copy={...d,id:nextId++,num:`DZ-PPWR-2026-00${nextId-1}`,name:d.name+' (kopia)',date:new Date().toISOString().split('T')[0],status:'robocza',shared:0};
+  declarations.push(copy);filteredDecls=[...declarations];renderAll();showToast('Zduplikowano','ok');
+}
+function deleteDecl(id){deleteId=id;openModal('modal-delete');}
+function confirmDelete(){
+  declarations=declarations.filter(d=>d.id!==deleteId);
+  filteredDecls=[...declarations];renderAll();
+  document.getElementById('decl-count').textContent=declarations.length;
+  closeModal('modal-delete');showToast('Deklaracja usunięta','ok');
+}
+function shareDecl(id){
+  const link=`https://ppwrapp.pl/d/${Math.random().toString(36).substr(2,8)}`;
+  navigator.clipboard?.writeText(link).catch(()=>{});
+  showToast('Link skopiowany! '+link.slice(-8),'ok');
+  if(id){const d=declarations.find(x=>x.id===id);if(d){d.shared++;renderAll();}}
+}
+function exportDecl(fmt){showToast(`Generuję ${fmt.toUpperCase()}...`,'ok');}
+
+// ───── WIZARD ─────────────────────────────────────────────
+function openNewDecl(){
+  currentDecl=null;
+  document.getElementById('modal-decl-title').textContent='Nowa deklaracja zgodności PPWR';
+  document.getElementById('f-name').value='';
+  wizStep=0;renderWizard();openModal('modal-decl');
+}
+function renderWizard(){
+  for(let i=0;i<4;i++){
+    document.getElementById('wiz-'+i).style.display=i===wizStep?'block':'none';
+    const s=document.getElementById('step-'+i);
+    s.className='step'+(i<wizStep?' done':i===wizStep?' active':'');
+    const circ=s.querySelector('.step-circle');
+    if(i<wizStep){circ.innerHTML='<i class="ph-duotone ph-check" style="font-size:13px;--ph-color:#fff;color:#fff"></i>';}
+    else{circ.textContent=i+1;}
+    if(i<3)document.getElementById('line-'+i).className='step-line'+(i<wizStep?' done':'');
+  }
+  document.getElementById('btn-prev').style.display=wizStep>0?'inline-flex':'none';
+  const nextBtn=document.getElementById('btn-next');
+  if(wizStep===3){nextBtn.innerHTML='<i class="ph-duotone ph-file-arrow-up"></i>Wystaw deklarację';}
+  else{nextBtn.innerHTML='Dalej <i class="ph-duotone ph-arrow-right"></i>';}
+  if(wizStep===3)buildPreview();
+}
+function wizNext(){
+  if(wizStep===0&&!document.getElementById('f-name').value.trim()){showToast('Podaj nazwę deklaracji','warn');return;}
+  if(wizStep===3){saveDecl();return;}
+  wizStep++;renderWizard();
+}
+function wizPrev(){if(wizStep>0){wizStep--;renderWizard();}}
+function buildPreview(){
+  const name=document.getElementById('f-name').value||'Nowa paleta';
+  const type=document.getElementById('f-type').value;
+  const len=document.getElementById('f-len').value;
+  const wid=document.getElementById('f-wid').value;
+  const hei=document.getElementById('f-hei').value;
+  const wood=document.getElementById('f-wood').value;
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('preview-content').innerHTML=`
+    <div style="display:flex;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--g600)">
+      <div><div style="font-size:15px;font-weight:800;color:var(--g800)">DEKLARACJA ZGODNOŚCI PPWR</div><div style="font-size:10px;color:var(--s400)">Art. 39, Rozp. (UE) 2025/40 — Zał. VIII</div></div>
+      <div style="text-align:right;font-size:10px;color:var(--s400)"><div>Nr: DZ-PPWR-2026-00${nextId}</div><div>Data: ${today}</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;margin-bottom:12px">
+      <div><span style="color:var(--s400)">Producent:</span> <b>Mako-Drew s.c.</b></div>
+      <div><span style="color:var(--s400)">Produkt:</span> <b>${name}</b></div>
+      <div><span style="color:var(--s400)">Typ:</span> ${type}</div>
+      <div><span style="color:var(--s400)">Wymiary:</span> ${len||'?'}×${wid||'?'}×${hei||'?'} mm</div>
+      <div><span style="color:var(--s400)">Drewno:</span> ${wood}</div>
+      <div><span style="color:var(--s400)">Kod mat.:</span> FOR/W</div>
+    </div>
+    <div style="background:var(--g50);border:1px solid var(--g200);border-radius:7px;padding:10px;font-size:11.5px;color:var(--g800)">
+      <i class="ph-duotone ph-check-circle" style="font-size:14px"></i> Producent oświadcza, że opakowanie spełnia wymagania PPWR (UE 2025/40): Art. 5 (substancje), Art. 6 (recykling), Art. 9 (minimalizacja), Art. 11 (wielokrotny użytek), Art. 12 (oznakowanie).
+    </div>`;
+}
+function saveDecl(){
+  const name=document.getElementById('f-name').value||'Nowa deklaracja';
+  const type=document.getElementById('f-type').value;
+  const len=document.getElementById('f-len').value;
+  const wid=document.getElementById('f-wid').value;
+  const hei=document.getElementById('f-hei').value;
+  const load=document.getElementById('f-load').value;
+  const mass=document.getElementById('f-mass').value;
+  const wood=document.getElementById('f-wood').value.split(' ')[0];
+  const today=new Date().toISOString().split('T')[0];
+  if(currentDecl){
+    const d=declarations.find(x=>x.id===currentDecl);
+    if(d){d.name=name;d.type=type;d.dims=`${len}×${wid}×${hei}`;d.load=load;d.mass=mass;d.wood=wood;}
+  } else {
+    declarations.push({id:nextId,num:`DZ-PPWR-2026-00${nextId}`,name,type,dims:`${len||'?'}×${wid||'?'}×${hei||'?'}`,load,mass,wood,status:'aktywna',date:today,shared:0});
+    nextId++;
+  }
+  filteredDecls=[...declarations];renderAll();
+  document.getElementById('decl-count').textContent=declarations.length;
+  closeModal('modal-decl');
+  showToast(currentDecl?'Deklaracja zaktualizowana':'Deklaracja wystawiona','ok');
+}
+
+// ───── MODALS ─────────────────────────────────────────────
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+
+// ───── TABS ───────────────────────────────────────────────
+function switchTab(el,tabId){
+  document.querySelectorAll('#view-settings .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  ['tab-plan','tab-billing','tab-users'].forEach(t=>document.getElementById(t).style.display='none');
+  document.getElementById(tabId).style.display='block';
+}
+
+// ───── MISC ───────────────────────────────────────────────
+function saveCompany(){showToast('Dane firmy zapisane','ok');}
+
+// ───── TOAST ──────────────────────────────────────────────
+function showToast(msg,type='ok'){
+  const stack=document.getElementById('toast-stack');
+  const t=document.createElement('div');
+  const icons={ok:'ph-check-circle',warn:'ph-warning-circle'};
+  t.className=`toast toast-${type}`;
+  t.innerHTML=`<i class="ph-duotone ${icons[type]||'ph-info'}"></i>${msg}`;
+  stack.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300);},2800);
+}
+
+// ───── INIT ───────────────────────────────────────────────
+renderAll();
+</script>
+</body>
+</html>
