@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>PPWRapp — Deklaracje zgodności</title>
+<title>EkoPako — Deklaracje zgodności</title>
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
 <style>
 :root {
-  --g50:#f0fdf4;--g100:#dcfce7;--g200:#bbf7d0;--g300:#86efac;--g400:#4ade80;
-  --g500:#22c55e;--g600:#009b72;--g700:#046865;--g800:#034d4b;--g900:#033d3c;--g950:#192d35;
+  --g50:#f0faf7;--g100:#d6f0e8;--g200:#aae3d3;--g300:#70cfb8;--g400:#33b99a;
+  --g500:#009b72;--g600:#009b72;--g700:#046865;--g800:#034d4b;--g900:#033d3c;--g950:#192d35;
   --sidebar:#192d35;--sidebar-hover:#0f3a38;--sidebar-active:#009b72;
   --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
   --s400:#94a3b8;--s500:#64748b;--s600:#475569;--s700:#334155;--s800:#1e293b;
@@ -448,7 +448,7 @@ textarea{resize:vertical;min-height:76px;}
   <nav class="land-nav">
     <div class="land-nav-logo">
       <div class="logo-icon" style="background:var(--g600)"><i class="ph-duotone ph-leaf" style="font-size:20px;--ph-color:#fff;color:#fff"></i></div>
-      <div><div class="logo-text" style="color:var(--s800)">PPWRapp</div><div class="logo-sub" style="color:var(--s400)">Deklaracje zgodności</div></div>
+      <div><div class="logo-text" style="color:var(--s800)">EkoPako</div><div class="logo-sub" style="color:var(--s400)">Deklaracje zgodności</div></div>
     </div>
     <div class="land-nav-links">
       <span class="land-nav-link" onclick="scrollSection('features')"><i class="ph-duotone ph-squares-four"></i>Funkcje</span>
@@ -546,7 +546,7 @@ textarea{resize:vertical;min-height:76px;}
           <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Wsparcie priorytetowe</div>
           <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Biały label (opcja)</div>
         </div>
-        <button class="btn btn-outline w-full" onclick="alert('Kontakt: hello@ppwrapp.pl')">Kontakt</button>
+        <button class="btn btn-outline w-full" onclick="alert('Kontakt: hello@ekopako.pl')">Kontakt</button>
       </div>
     </div>
   </div>
@@ -556,7 +556,7 @@ textarea{resize:vertical;min-height:76px;}
     <p>Bez deklaracji PPWR nie wprowadzisz opakowań na rynek UE. Zacznij teraz — 2 deklaracje gratis.</p>
     <button class="land-btn-main" onclick="showAuth('register')"><i class="ph-duotone ph-rocket-launch"></i>Zacznij bezpłatnie</button>
   </div>
-  <div class="land-footer">© 2026 PPWRapp · hello@ppwrapp.pl · <a href="#">Regulamin</a> · <a href="#">Prywatność</a></div>
+  <div class="land-footer">© 2026 EkoPako · hello@ekopako.pl · <a href="#">Regulamin</a> · <a href="#">Prywatność</a></div>
 </div>
 
 <!-- ═══ AUTH ══════════════════════════════════════════════ -->
@@ -565,7 +565,7 @@ textarea{resize:vertical;min-height:76px;}
     <div class="auth-logo">
       <div style="display:inline-flex;align-items:center;gap:10px;">
         <div class="logo-icon"><i class="ph-duotone ph-leaf" style="font-size:20px;--ph-color:#fff;color:#fff"></i></div>
-        <div><div class="logo-text" style="color:var(--s800);font-size:17px">PPWRapp</div></div>
+        <div><div class="logo-text" style="color:var(--s800);font-size:17px">EkoPako</div></div>
       </div>
     </div>
     <div id="login-form">
@@ -602,7 +602,7 @@ textarea{resize:vertical;min-height:76px;}
     <div class="sidebar-logo">
       <div class="logo-mark">
         <div class="logo-icon"><i class="ph-duotone ph-leaf" style="font-size:20px;--ph-color:#fff;color:#fff"></i></div>
-        <div><div class="logo-text">PPWRapp</div><div class="logo-sub">Deklaracje PPWR</div></div>
+        <div><div class="logo-text">EkoPako</div><div class="logo-sub">Deklaracje PPWR</div></div>
       </div>
     </div>
     <nav class="sidebar-nav">
@@ -1203,7 +1203,7 @@ function confirmDelete(){
   closeModal('modal-delete');showToast('Deklaracja usunięta','ok');
 }
 function shareDecl(id){
-  const link=`https://ppwrapp.pl/d/${Math.random().toString(36).substr(2,8)}`;
+  const link=`https://ekopako.pl/d/${Math.random().toString(36).substr(2,8)}`;
   navigator.clipboard?.writeText(link).catch(()=>{});
   showToast('Link skopiowany! '+link.slice(-8),'ok');
   if(id){const d=declarations.find(x=>x.id===id);if(d){d.shared++;renderAll();}}
