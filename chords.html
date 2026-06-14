@@ -458,6 +458,65 @@
     background: var(--accent-light);
     transform: scale(0.94);
   }
+
+  /* ENTER BAR */
+  .enter-bar {
+    padding: 8px 14px 4px;
+    flex-shrink: 0;
+  }
+  .btn--enter {
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+  }
+  .btn--enter.active-flash {
+    background: var(--accent-light);
+  }
+
+  /* BURGER SETTINGS */
+  .burger-footer {
+    border-top: 1px solid #1e2030;
+    padding: 12px 18px 16px;
+    flex-shrink: 0;
+  }
+  .burger-footer-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #555566;
+    margin-bottom: 8px;
+  }
+  .burger-input {
+    width: 100%;
+    background: #0d1018;
+    border: 1px solid #232535;
+    border-radius: 6px;
+    padding: 7px 10px;
+    color: #e8e8e8;
+    font-family: var(--font);
+    font-size: 0.8rem;
+    outline: none;
+    margin-bottom: 6px;
+    -webkit-appearance: none;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+  .burger-input:focus { border-color: #3a3d55; }
+  .burger-input::placeholder { color: #444455; }
+  .burger-save-btn {
+    width: 100%;
+    background: #e8e8e8;
+    color: #07090f;
+    border: none;
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-family: var(--font);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .burger-save-btn:active { background: #cccccc; }
 </style>
 </head>
 <body>
@@ -496,6 +555,12 @@
     <div class="burger-sets" id="burger-sets">
       <div class="burger-empty">Brak zapisanych zestawów</div>
     </div>
+    <div class="burger-footer">
+      <div class="burger-footer-title">Konfiguracja Gist</div>
+      <input class="burger-input" id="gist-token-input" type="password" placeholder="GitHub Token" autocomplete="off">
+      <input class="burger-input" id="gist-id-input" type="text" placeholder="Gist ID" autocomplete="off">
+      <button class="burger-save-btn" id="btn-save-gist-settings">Zapisz ustawienia</button>
+    </div>
   </div>
 </div>
 
@@ -521,6 +586,11 @@
 
 <!-- CHORD LIST -->
 <div class="chord-list">
+
+  <!-- ENTER BAR -->
+  <div class="enter-bar">
+    <button class="btn btn--enter" id="btn-enter" title="Nowa linia — kolejne akordy od nowego wiersza">↵ Enter</button>
+  </div>
 
   <!-- ★ NAJCZĘŚCIEJ UŻYWANE ★ -->
   <div class="chord-group">
@@ -686,6 +756,7 @@
   let cards = [];
   let idCounter = 0;
   let history = [];
+  let _minRow = 0; // current line/row offset for Enter button
 
   function snapshot() {
     history.push(cards.map(c => ({ id: c.id, chord: c.chord, x: c.x, y: c.y })));
@@ -745,6 +816,7 @@
     stage.appendChild(el);
     cards.push({ id, chord, x: cx, y: cy, el });
     updateStageClass();
+    scheduleAutoSave();
 
     makeDraggable(el, id);
   }
@@ -756,6 +828,7 @@
     cards[idx].el.remove();
     cards.splice(idx, 1);
     updateStageClass();
+    scheduleAutoSave();
   }
 
   // --- Drag ---
@@ -791,7 +864,7 @@
       if (card) { card.x = newLeft; card.y = newTop; }
     });
 
-    el.addEventListener('pointerup', () => { dragging = false; el.classList.remove('dragging'); });
+    el.addEventListener('pointerup', () => { if (dragging) { dragging = false; el.classList.remove('dragging'); scheduleAutoSave(); } });
     el.addEventListener('pointercancel', () => { dragging = false; el.classList.remove('dragging'); });
   }
 
@@ -807,7 +880,7 @@
       return row * 100 + col;
     }));
 
-    for (let row = 0; row < 20; row++) {
+    for (let row = _minRow; row < 20; row++) {
       for (let col = 0; col < COLS; col++) {
         if (!usedSlots.has(row * 100 + col)) {
           return { x: PAD + col * (CARD_W + PAD), y: PAD + row * (CARD_H + PAD), cw: CARD_W, ch: CARD_H };
@@ -816,6 +889,24 @@
     }
     return { x: PAD, y: PAD, cw: CARD_W, ch: CARD_H };
   }
+
+  // --- Enter button ---
+  document.getElementById('btn-enter').addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    const btn = e.currentTarget;
+    btn.classList.add('active-flash');
+    setTimeout(() => btn.classList.remove('active-flash'), 180);
+
+    if (cards.length === 0) { _minRow = 0; return; }
+    const COLS = 5, ROWS = 6, PAD = 6;
+    const CARD_H = Math.floor((stage.clientHeight - PAD * (ROWS + 1)) / ROWS);
+    let maxRow = 0;
+    cards.forEach(c => {
+      const row = Math.round((c.y - PAD) / (CARD_H + PAD));
+      if (row > maxRow) maxRow = row;
+    });
+    _minRow = maxRow + 1;
+  });
 
   // --- Chord tiles ---
   document.querySelectorAll('.chord-tile').forEach(tile => {
@@ -836,7 +927,9 @@
     snapshot();
     cards.forEach(c => c.el.remove());
     cards = [];
+    _minRow = 0;
     updateStageClass();
+    scheduleAutoSave();
   });
 
   // --- Undo ---
@@ -872,6 +965,7 @@
       el.addEventListener('pointercancel', () => clearTimeout(longPressTimer));
     });
     updateStageClass();
+    scheduleAutoSave();
   });
 
   // =========================================================
@@ -926,6 +1020,55 @@
     const data = await fetchGistData();
     if (!data) return;
     _chordSets = Array.isArray(data.chord_sets) ? data.chord_sets : [];
+    // Restore last working stage
+    if (data.current_stage && Array.isArray(data.current_stage.chords) && data.current_stage.chords.length > 0) {
+      data.current_stage.chords.forEach(({ chord, x, y }) => {
+        const id = ++idCounter;
+        const el = document.createElement('div');
+        el.className = 'chord-card';
+        el.dataset.id = id;
+        const label = document.createElement('span');
+        label.textContent = chord;
+        el.appendChild(label);
+        const rm = document.createElement('button');
+        rm.className = 'remove-btn';
+        rm.textContent = '×';
+        rm.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); removeCard(id); });
+        el.appendChild(rm);
+        el.style.left = x + 'px';
+        el.style.top  = y + 'px';
+        stage.appendChild(el);
+        cards.push({ id, chord, x, y, el });
+        makeDraggable(el, id);
+        let lpt = null;
+        el.addEventListener('pointerdown', (ev) => {
+          if (ev.target === rm) return;
+          lpt = setTimeout(() => el.classList.add('show-remove'), 500);
+        });
+        el.addEventListener('pointerup', () => clearTimeout(lpt));
+        el.addEventListener('pointercancel', () => clearTimeout(lpt));
+      });
+      updateStageClass();
+    }
+  }
+
+  // --- Auto-save current stage to Gist ---
+  let _autoSaveTimer = null;
+  function scheduleAutoSave() {
+    clearTimeout(_autoSaveTimer);
+    _autoSaveTimer = setTimeout(autoSaveStage, 1500);
+  }
+
+  async function autoSaveStage() {
+    const token = gistToken(), id = gistId();
+    if (!token || !id) return;
+    try {
+      const data = await fetchGistData();
+      if (data === null) return;
+      const existing = data || {};
+      existing.current_stage = { chords: cards.map(c => ({ chord: c.chord, x: c.x, y: c.y })) };
+      await patchGistData(existing);
+    } catch { /* silent */ }
   }
 
   async function saveChordSet(name) {
@@ -973,6 +1116,8 @@
 
   function openBurger() {
     renderBurgerSets();
+    document.getElementById('gist-token-input').value = gistToken();
+    document.getElementById('gist-id-input').value = gistId();
     burgerOverlay.classList.add('open');
   }
   function closeBurger() {
@@ -1044,6 +1189,7 @@
     snapshot();
     cards.forEach(c => c.el.remove());
     cards = [];
+    _minRow = 0;
     (set.chords || []).forEach(({ chord, x, y }) => {
       const id = ++idCounter;
       const el = document.createElement('div');
@@ -1122,6 +1268,23 @@
   document.getElementById('save-cancel').addEventListener('click', closeSavePopup);
   saveConfirm.addEventListener('click', doSave);
   document.getElementById('save-backdrop').addEventListener('click', closeSavePopup);
+
+  // --- Gist settings handler ---
+  document.getElementById('btn-save-gist-settings').addEventListener('click', async () => {
+    const token = document.getElementById('gist-token-input').value.trim();
+    const id    = document.getElementById('gist-id-input').value.trim();
+    if (token) localStorage.setItem('miniapps-gist-token', token);
+    if (id)    localStorage.setItem('miniapps-gist-id', id);
+    // Test connection and reload
+    const data = await fetchGistData();
+    if (data !== null) {
+      _chordSets = Array.isArray(data.chord_sets) ? data.chord_sets : [];
+      renderBurgerSets();
+      showDot('ok');
+    } else {
+      showDot('err');
+    }
+  });
 
   // --- Load sets on startup ---
   loadChordSets();
