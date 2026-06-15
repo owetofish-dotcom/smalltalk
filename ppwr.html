@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>EkoPako — Deklaracje zgodności</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
 <style>
 :root {
@@ -21,7 +24,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{-webkit-text-size-adjust:100%;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
+body{font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   background:var(--s50);color:var(--s800);font-size:14px;line-height:1.5;
   -webkit-font-smoothing:antialiased;}
 button{cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;}
@@ -63,7 +66,7 @@ a{color:var(--g700);text-decoration:none;}
   display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .logo-icon .ph-duotone{font-size:20px;--ph-color:#fff;color:#fff;}
 .logo-icon .ph-duotone::after{color:var(--g200);}
-.logo-text{font-size:15px;font-weight:700;line-height:1.1;}
+.logo-text{font-size:15px;font-weight:800;line-height:1.1;letter-spacing:-.02em;}
 .logo-sub{font-size:10px;color:rgba(255,255,255,.4);font-weight:400;}
 .sidebar-nav{padding:8px 8px;flex:1;}
 .nav-label{font-size:10px;font-weight:600;color:rgba(255,255,255,.3);
@@ -113,7 +116,7 @@ a{color:var(--g700);text-decoration:none;}
   .topbar-menu-btn .ph-duotone{font-size:22px;--ph-color:var(--s600);color:var(--s600);}
   .topbar-menu-btn .ph-duotone::after{color:var(--s300);}
 }
-.topbar-title{font-size:15px;font-weight:700;color:var(--s800);flex:1;}
+.topbar-title{font-size:15px;font-weight:700;color:var(--s800);flex:1;letter-spacing:-.02em;}
 .topbar-sub{font-size:12px;color:var(--s400);font-weight:400;}
 .topbar-actions{display:flex;gap:8px;align-items:center;}
 .content{flex:1;overflow-y:auto;padding:20px;
@@ -152,7 +155,7 @@ a{color:var(--g700);text-decoration:none;}
 .card{background:white;border-radius:var(--r-lg);border:1px solid var(--s200);box-shadow:var(--sh);}
 .card-header{padding:14px 18px;border-bottom:1px solid var(--s100);
   display:flex;align-items:center;gap:10px;}
-.card-title{font-size:14px;font-weight:600;color:var(--s800);flex:1;}
+.card-title{font-size:14px;font-weight:700;color:var(--s800);flex:1;letter-spacing:-.02em;}
 .card-body{padding:18px;}
 
 /* ── STATS ────────────────────────────────────────── */
@@ -163,7 +166,7 @@ a{color:var(--g700);text-decoration:none;}
 .stat-ico{width:42px;height:42px;background:var(--g50);border:1px solid var(--g100);
   border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .stat-label{font-size:11.5px;color:var(--s500);font-weight:500;margin-bottom:4px;}
-.stat-value{font-size:24px;font-weight:800;color:var(--s800);line-height:1;}
+.stat-value{font-size:24px;font-weight:800;color:var(--s800);line-height:1;letter-spacing:-.03em;}
 .stat-change{font-size:11px;color:var(--g700);margin-top:5px;font-weight:500;
   display:flex;align-items:center;gap:4px;}
 .stat-change .ph-duotone{font-size:12px;}
@@ -203,7 +206,7 @@ tr:last-child td{border-bottom:none;}
 
 /* ── BUTTONS ──────────────────────────────────────── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;
-  border-radius:var(--r);font-size:13px;font-weight:500;border:1px solid transparent;
+  border-radius:100px;font-size:13px;font-weight:700;border:1px solid transparent;
   transition:all .14s;white-space:nowrap;min-height:36px;}
 .btn-primary{background:var(--g600);color:white;border-color:var(--g700);}
 .btn-primary:hover,.btn-primary:focus{background:var(--g700);}
