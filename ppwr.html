@@ -243,6 +243,18 @@ textarea{resize:vertical;min-height:76px;}
 .check-item input[type=checkbox]{accent-color:var(--g600);width:15px;height:15px;flex-shrink:0;}
 .check-item label{margin:0;font-size:12.5px;font-weight:400;cursor:pointer;line-height:1.3;}
 
+/* ── ARTICLE TABLE ────────────────────────────────── */
+.art-table{width:100%;border-collapse:collapse;margin-bottom:4px;font-size:12.5px;}
+.art-table th{font-size:10.5px;font-weight:600;color:var(--s500);text-transform:uppercase;
+  letter-spacing:.05em;padding:7px 10px;background:var(--s50);border-bottom:1px solid var(--s200);text-align:left;}
+.art-table td{padding:8px 10px;border-bottom:1px solid var(--s100);vertical-align:middle;}
+.art-table tr:last-child td{border-bottom:none;}
+.art-art{font-size:11px;font-weight:700;color:var(--g700);white-space:nowrap;width:110px;}
+.art-req{color:var(--s700);line-height:1.4;}
+.art-req small{display:block;font-size:10.5px;color:var(--s400);margin-top:1px;}
+.art-status{white-space:nowrap;min-width:130px;}
+.art-cb-wrap{display:flex;align-items:center;gap:6px;cursor:pointer;margin:0;}
+
 /* ── SECTION HEADERS ──────────────────────────────── */
 .form-section{margin:22px 0 14px;}
 .form-section-title{font-size:13px;font-weight:700;color:var(--g800);
@@ -928,32 +940,104 @@ textarea{resize:vertical;min-height:76px;}
           <div class="form-group"><label class="label-req">Gatunek drewna</label><select id="f-wood"><option>Sosna (Pinus sylvestris)</option><option>Świerk (Picea abies)</option><option>Jodła</option><option>Buk</option><option>Mieszane drewno iglaste</option></select></div>
           <div class="form-group"><label>Wilgotność</label><select id="f-moisture"><option>≤ 22% (standard)</option><option>≤ 18% (suszone)</option><option>Suszone komorowo KD</option></select></div>
         </div>
-        <div class="form-group"><label>Dostawca surowca</label><select id="f-supplier"><option>Nadleśnictwo Mielec (RDLP Kraków)</option><option>Nadleśnictwo Tuszyma</option><option>Nadleśnictwo Krasnystaw</option><option>Nadleśnictwo Leżajsk</option><option>Wielu dostawców LP</option></select></div>
+        <div class="form-row">
+          <div class="form-group"><label>Dostawca surowca</label><select id="f-supplier"><option>Nadleśnictwo Mielec (RDLP Kraków)</option><option>Nadleśnictwo Tuszyma</option><option>Nadleśnictwo Krasnystaw</option><option>Nadleśnictwo Leżajsk</option><option>Wielu dostawców LP</option></select></div>
+          <div class="form-group"><label class="label-req">Typ klocków nośnych</label><select id="f-blocks" onchange="updateFormalStatus()"><option value="solid">Klocki lite (solid wood) — brak wymogu REACH dla formaldehydu</option><option value="chipboard">Klocki wiórowe / OSB — wymagana zgodność REACH (formaldehyd, Rozp. 2023/1464)</option><option value="na">Nie dotyczy (np. skrzynka bez klocków)</option></select></div>
+        </div>
         <div class="form-row">
           <div class="form-group"><label>Elementy łączące</label><select id="f-fasteners"><option>Gwoździe stalowe ocynkowane</option><option>Gwoździe stalowe</option><option>Klamry stalowe</option></select></div>
           <div class="form-group"><label>Kod materiału (art. 12)</label><input type="text" value="FOR/W — drewno lite" readonly style="background:var(--s50);color:var(--s500)"></div>
         </div>
         <div class="form-group"><label>Nr certyfikatu IPPC/ISPM 15</label><input type="text" id="f-ispm" placeholder="/PL/MIE/____/____"></div>
+        <div class="form-section"><div class="form-section-title"><span class="form-section-num">2</span>Normy techniczne</div></div>
+        <div class="check-group">
+          <div class="check-item"><input type="checkbox" id="n-en13698"><label for="n-en13698">EN 13698-1 (paleta EUR)</label></div>
+          <div class="check-item"><input type="checkbox" id="n-en13429"><label for="n-en13429">EN 13429:2004 (wielokrotny użytek)</label></div>
+          <div class="check-item"><input type="checkbox" id="n-ispm15"><label for="n-ispm15">ISPM 15 / HT</label></div>
+          <div class="check-item"><input type="checkbox" id="n-other" onchange="document.getElementById('row-n-other').style.display=this.checked?'block':'none'"><label for="n-other">Inne</label></div>
+        </div>
+        <div class="form-group" id="row-n-other" style="display:none;margin-top:8px"><label>Inne normy techniczne</label><input type="text" id="f-other-norms" placeholder="np. EN 13382, ISO 8611-1..."></div>
       </div>
 
       <div id="wiz-2" style="display:none">
-        <div class="alert alert-info"><i class="ph-duotone ph-info"></i><div>Pola <strong>✓ auto</strong> są automatycznie spełnione dla drewna litego bez chemii. Tylko odznaczone wymagają Twojego potwierdzenia.</div></div>
-        <div class="form-section"><div class="form-section-title"><span class="form-section-num">3</span>Art. 5 — Substancje</div></div>
-        <div class="check-group">
-          <div class="check-item"><input type="checkbox" id="c-reach" checked><label for="c-reach">REACH — zwolniony ✓ auto</label></div>
-          <div class="check-item"><input type="checkbox" id="c-svhc"><label for="c-svhc">SVHC < 0,1% — potwierdzone u LP</label></div>
-          <div class="check-item"><input type="checkbox" id="c-pfas" checked><label for="c-pfas">PFAS — BRAK ✓ auto</label></div>
-          <div class="check-item"><input type="checkbox" id="c-biocide" checked><label for="c-biocide">Biocydy — BRAK ✓ auto</label></div>
-          <div class="check-item"><input type="checkbox" id="c-glue" checked><label for="c-glue">Formaldehydy/kleje — N/A ✓ auto</label></div>
-          <div class="check-item"><input type="checkbox" id="c-annex" checked><label for="c-annex">Zał. I PPWR — BRAK ✓ auto</label></div>
-        </div>
-        <div class="form-section"><div class="form-section-title"><span class="form-section-num">3</span>Recykling i wielokrotny użytek</div></div>
-        <div class="check-group">
-          <div class="check-item"><input type="checkbox" id="c-recycle" checked><label for="c-recycle">Możliwość recyklingu ✓ auto</label></div>
-          <div class="check-item"><input type="checkbox" id="c-reuse"><label for="c-reuse">Przeznaczone do wielokrotnego obrotu</label></div>
-          <div class="check-item"><input type="checkbox" id="c-repair" checked><label for="c-repair">Możliwość naprawy ✓ auto</label></div>
-          <div class="check-item"><input type="checkbox" id="c-min" checked><label for="c-min">Minimalizacja art. 9 ✓ auto</label></div>
-        </div>
+        <div class="alert alert-info"><i class="ph-duotone ph-info"></i><div>Pola <strong>SPEŁNIONE ✓ auto</strong> są automatycznie wypełniane dla drewna litego. Pola <strong>DO WERYFIKACJI</strong> wymagają zaznaczenia po potwierdzeniu.</div></div>
+        <div class="form-section"><div class="form-section-title"><span class="form-section-num">3</span>Art. 5 — Substancje niebezpieczne</div></div>
+        <table class="art-table">
+          <thead><tr><th style="width:110px">Artykuł</th><th>Wymaganie</th><th class="art-status">Status</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="art-art">Art. 5 · REACH</td>
+              <td class="art-req">Drewno lite — zwolnione z rejestracji REACH<small>Art. 2(7)(b) Rozp. 1907/2006</small></td>
+              <td><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td>
+            </tr>
+            <tr id="row-formal">
+              <td class="art-art">Art. 5 · REACH formal.</td>
+              <td class="art-req">Formaldehyd w klockach wiórowych / OSB — zgodność REACH (Rozp. 2023/1464)<small>Wymagane oświadczenie dostawcy</small></td>
+              <td id="badge-formal"><span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span></td>
+            </tr>
+            <tr>
+              <td class="art-art">Art. 5 · SVHC</td>
+              <td class="art-req">Substancje SVHC &lt; 0,1% w/w<small>Wymagane oświadczenie dostawcy LP / nadleśnictwa</small></td>
+              <td><label class="art-cb-wrap"><input type="checkbox" id="c-svhc" onchange="toggleBadge('badge-svhc',this.checked)" style="accent-color:var(--g600)"><span id="badge-svhc"><span class="badge badge-yellow"><span class="badge-dot"></span>DO WERYFIKACJI</span></span></label></td>
+            </tr>
+            <tr>
+              <td class="art-art">Art. 5 · PFAS</td>
+              <td class="art-req">Substancje PFAS — nie stosowane w procesie produkcji</td>
+              <td><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td>
+            </tr>
+            <tr>
+              <td class="art-art">Art. 5 · Biocydy</td>
+              <td class="art-req">Biocydy — brak w składzie opakowania</td>
+              <td><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td>
+            </tr>
+            <tr>
+              <td class="art-art">Art. 5 · Zał. I</td>
+              <td class="art-req">Substancje wymienione w Zał. I PPWR — brak</td>
+              <td><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="form-section"><div class="form-section-title"><span class="form-section-num">3</span>Art. 6–12 — Pozostałe wymagania PPWR</div></div>
+        <table class="art-table">
+          <thead><tr><th style="width:110px">Artykuł</th><th>Wymaganie</th><th class="art-status">Status</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="art-art">Art. 6</td>
+              <td class="art-req">Możliwość recyklingu — drewno 100% recyclowalne<small>Klasa recyklingu A; brak substancji utrudniających recykling</small></td>
+              <td><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td>
+            </tr>
+            <tr>
+              <td class="art-art">Art. 7</td>
+              <td class="art-req">Zawartość recyklatu z plastiku<small>NIE DOTYCZY — opakowanie drewniane, nie plastikowe</small></td>
+              <td><span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span></td>
+            </tr>
+            <tr>
+              <td class="art-art">Art. 8</td>
+              <td class="art-req">Surowce bio z plastiku<small>NIE DOTYCZY — opakowanie drewniane</small></td>
+              <td><span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span></td>
+            </tr>
+            <tr>
+              <td class="art-art">Art. 9</td>
+              <td class="art-req">Opakowania kompostowalne<small>NIE DOTYCZY — opakowanie drewniane wielokrotnego użytku</small></td>
+              <td><span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span></td>
+            </tr>
+            <tr>
+              <td class="art-art">Art. 10</td>
+              <td class="art-req">Minimalizacja opakowania<small>Wymiary i masa wynikają z wymagań nośności i bezpieczeństwa</small></td>
+              <td><label class="art-cb-wrap"><input type="checkbox" id="c-min" onchange="toggleBadge('badge-min',this.checked)" style="accent-color:var(--g600)"><span id="badge-min"><span class="badge badge-yellow"><span class="badge-dot"></span>DO WERYFIKACJI</span></span></label></td>
+            </tr>
+            <tr>
+              <td class="art-art">Art. 11</td>
+              <td class="art-req">Opakowanie wielokrotnego użytku — przeznaczone do wielokrotnego obrotu</td>
+              <td><label class="art-cb-wrap"><input type="checkbox" id="c-reuse" onchange="toggleBadge('badge-reuse',this.checked)" style="accent-color:var(--g600)"><span id="badge-reuse"><span class="badge badge-yellow"><span class="badge-dot"></span>DO WERYFIKACJI</span></span></label></td>
+            </tr>
+            <tr>
+              <td class="art-art">Art. 12</td>
+              <td class="art-req">Oznakowanie FOR/W — kod materiału drewna umieszczony na opakowaniu</td>
+              <td><label class="art-cb-wrap"><input type="checkbox" id="c-forw" onchange="toggleBadge('badge-forw',this.checked)" style="accent-color:var(--g600)"><span id="badge-forw"><span class="badge badge-yellow"><span class="badge-dot"></span>DO WERYFIKACJI</span></span></label></td>
+            </tr>
+          </tbody>
+        </table>
         <div class="form-section"><div class="form-section-title"><span class="form-section-num">3</span>Dokumentacja w aktach</div></div>
         <div class="check-group">
           <div class="check-item"><input type="checkbox" id="d-ispm"><label for="d-ispm">Certyfikat IPPC/ISPM 15</label></div>
@@ -1169,16 +1253,29 @@ function viewDecl(id){
         <div style="font-size:12px;color:var(--s500)">Drewno: ${d.wood||'Sosna'} · Kod: FOR/W</div>
       </div>
     </div>
-    <div style="background:var(--g50);border:1px solid var(--g200);border-radius:9px;padding:14px;margin-bottom:14px">
-      <div style="font-size:10px;font-weight:700;color:var(--g800);text-transform:uppercase;margin-bottom:8px">Oświadczenia zgodności</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:12px;color:var(--g700)">
-        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 5 — REACH zwolniony</div>
-        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 5 — PFAS: NIE</div>
-        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 5 — Biocydy: BRAK</div>
-        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 6 — Recykling: TAK</div>
-        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 9 — Minimalizacja: TAK</div>
-        <div style="display:flex;align-items:center;gap:6px"><i class="ph-duotone ph-check-circle" style="font-size:14px"></i>Art. 12 — Kod FOR/W: TAK</div>
-      </div>
+    <div style="font-size:10px;font-weight:700;color:var(--s500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Zgodność per artykuł PPWR</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px">
+      <thead><tr>
+        <th style="text-align:left;padding:5px 8px;background:var(--s50);border-bottom:1px solid var(--s200);font-size:10px;font-weight:600;color:var(--s500);width:110px">Art.</th>
+        <th style="text-align:left;padding:5px 8px;background:var(--s50);border-bottom:1px solid var(--s200);font-size:10px;font-weight:600;color:var(--s500)">Wymaganie</th>
+        <th style="text-align:left;padding:5px 8px;background:var(--s50);border-bottom:1px solid var(--s200);font-size:10px;font-weight:600;color:var(--s500);width:130px">Status</th>
+      </tr></thead>
+      <tbody>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 5 · REACH</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Drewno lite — zwolnione z rejestracji REACH</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 5 · PFAS</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Substancje PFAS — nie stosowane</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 5 · Biocydy</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Biocydy — brak</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 5 · Zał. I</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Substancje Zał. I PPWR — brak</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 6</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Recykling — drewno 100% recyclowalne</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 7</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Zawartość recyklatu z plastiku</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 8</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Surowce bio z plastiku</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 9</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Opakowania kompostowalne</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 10</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Minimalizacja opakowania</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 11</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Opakowanie wielokrotnego użytku</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;font-weight:700;color:var(--g700);font-size:11px">Art. 12</td><td style="padding:6px 8px">Oznakowanie FOR/W</td><td style="padding:6px 8px"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:var(--s500);padding:8px 10px;background:var(--s50);border:1px solid var(--s200);border-radius:6px;margin-bottom:12px">
+      <strong>Jednostka notyfikowana:</strong> Nie dotyczy — brak wymogu zewnętrznej oceny zgodności dla opakowań drewnianych w Rozp. (UE) 2025/40 (stan na sierpień 2026)
     </div>
     <div style="text-align:center;font-size:11px;color:var(--s400);padding-top:12px;border-top:1px solid var(--s100)">
       <i class="ph-duotone ph-info" style="font-size:13px"></i> Przechowywać 10 lat (art. 39 ust. 4) · Nie musi być dołączana do każdej dostawy
@@ -1235,6 +1332,7 @@ function renderWizard(){
   if(wizStep===3){nextBtn.innerHTML='<i class="ph-duotone ph-file-arrow-up"></i>Wystaw deklarację';}
   else{nextBtn.innerHTML='Dalej <i class="ph-duotone ph-arrow-right"></i>';}
   if(wizStep===3)buildPreview();
+  if(wizStep===2)updateFormalStatus();
 }
 function wizNext(){
   if(wizStep===0&&!document.getElementById('f-name').value.trim()){showToast('Podaj nazwę deklaracji','warn');return;}
@@ -1242,6 +1340,21 @@ function wizNext(){
   wizStep++;renderWizard();
 }
 function wizPrev(){if(wizStep>0){wizStep--;renderWizard();}}
+function toggleBadge(badgeId,checked){
+  const el=document.getElementById(badgeId);if(!el)return;
+  el.innerHTML=checked
+    ?'<span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span>'
+    :'<span class="badge badge-yellow"><span class="badge-dot"></span>DO WERYFIKACJI</span>';
+}
+function updateFormalStatus(){
+  const blocks=document.getElementById('f-blocks')?.value;
+  const badge=document.getElementById('badge-formal');if(!badge)return;
+  if(blocks==='chipboard'){
+    badge.innerHTML='<span class="badge badge-yellow"><span class="badge-dot"></span>DO WERYFIKACJI</span>';
+  } else {
+    badge.innerHTML='<span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span>';
+  }
+}
 function buildPreview(){
   const name=document.getElementById('f-name').value||'Nowa paleta';
   const type=document.getElementById('f-type').value;
@@ -1249,13 +1362,26 @@ function buildPreview(){
   const wid=document.getElementById('f-wid').value;
   const hei=document.getElementById('f-hei').value;
   const wood=document.getElementById('f-wood').value;
+  const blocks=document.getElementById('f-blocks').value;
   const today=new Date().toISOString().split('T')[0];
+  const svhc=document.getElementById('c-svhc').checked;
+  const cmin=document.getElementById('c-min').checked;
+  const creuse=document.getElementById('c-reuse').checked;
+  const cforw=document.getElementById('c-forw').checked;
+  const formalStatus=blocks==='chipboard'?'DO WERYFIKACJI':'NIE DOTYCZY';
+  const formalBadge=blocks==='chipboard'?'badge-yellow':'badge-grey';
+  function artBadge(checked,na=false){
+    if(na)return`<span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span>`;
+    return checked
+      ?`<span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span>`
+      :`<span class="badge badge-yellow"><span class="badge-dot"></span>DO WERYFIKACJI</span>`;
+  }
   document.getElementById('preview-content').innerHTML=`
     <div style="display:flex;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--g600)">
       <div><div style="font-size:15px;font-weight:800;color:var(--g800)">DEKLARACJA ZGODNOŚCI PPWR</div><div style="font-size:10px;color:var(--s400)">Art. 39, Rozp. (UE) 2025/40 — Zał. VIII</div></div>
       <div style="text-align:right;font-size:10px;color:var(--s400)"><div>Nr: DZ-PPWR-2026-00${nextId}</div><div>Data: ${today}</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;margin-bottom:12px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;margin-bottom:14px">
       <div><span style="color:var(--s400)">Producent:</span> <b>Mako-Drew s.c.</b></div>
       <div><span style="color:var(--s400)">Produkt:</span> <b>${name}</b></div>
       <div><span style="color:var(--s400)">Typ:</span> ${type}</div>
@@ -1263,8 +1389,34 @@ function buildPreview(){
       <div><span style="color:var(--s400)">Drewno:</span> ${wood}</div>
       <div><span style="color:var(--s400)">Kod mat.:</span> FOR/W</div>
     </div>
-    <div style="background:var(--g50);border:1px solid var(--g200);border-radius:7px;padding:10px;font-size:11.5px;color:var(--g800)">
-      <i class="ph-duotone ph-check-circle" style="font-size:14px"></i> Producent oświadcza, że opakowanie spełnia wymagania PPWR (UE 2025/40): Art. 5 (substancje), Art. 6 (recykling), Art. 9 (minimalizacja), Art. 11 (wielokrotny użytek), Art. 12 (oznakowanie).
+    <div style="font-size:10px;font-weight:700;color:var(--s500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Zgodność per artykuł PPWR</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px">
+      <thead><tr>
+        <th style="text-align:left;padding:5px 8px;background:var(--s50);border-bottom:1px solid var(--s200);font-size:10px;font-weight:600;color:var(--s500);width:90px">Art.</th>
+        <th style="text-align:left;padding:5px 8px;background:var(--s50);border-bottom:1px solid var(--s200);font-size:10px;font-weight:600;color:var(--s500)">Wymaganie</th>
+        <th style="text-align:left;padding:5px 8px;background:var(--s50);border-bottom:1px solid var(--s200);font-size:10px;font-weight:600;color:var(--s500);width:130px">Status</th>
+      </tr></thead>
+      <tbody>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 5 · REACH</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Drewno lite — zwolnione z rejestracji REACH</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 5 · REACH formal.</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Formaldehyd — klocki wiórowe / OSB (Rozp. 2023/1464)</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge ${formalBadge}"><span class="badge-dot"></span>${formalStatus}</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 5 · SVHC</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Substancje SVHC &lt; 0,1% w/w</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">${artBadge(svhc)}</td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 5 · PFAS</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Substancje PFAS — nie stosowane</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 5 · Biocydy</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Biocydy — brak</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 5 · Zał. I</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Substancje Zał. I PPWR — brak</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 6</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Recykling — drewno 100% recyclowalne</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-green"><span class="badge-dot"></span>SPEŁNIONE</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 7</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Zawartość recyklatu z plastiku</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 8</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Surowce bio z plastiku</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 9</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Opakowania kompostowalne</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)"><span class="badge badge-grey"><span class="badge-dot"></span>NIE DOTYCZY</span></td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 10</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Minimalizacja opakowania</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">${artBadge(cmin)}</td></tr>
+        <tr><td style="padding:6px 8px;border-bottom:1px solid var(--s100);font-weight:700;color:var(--g700);font-size:11px">Art. 11</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">Opakowanie wielokrotnego użytku</td><td style="padding:6px 8px;border-bottom:1px solid var(--s100)">${artBadge(creuse)}</td></tr>
+        <tr><td style="padding:6px 8px;font-weight:700;color:var(--g700);font-size:11px">Art. 12</td><td style="padding:6px 8px">Oznakowanie FOR/W</td><td style="padding:6px 8px">${artBadge(cforw)}</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:var(--s500);padding:8px 10px;background:var(--s50);border:1px solid var(--s200);border-radius:6px;margin-bottom:10px">
+      <strong>Jednostka notyfikowana:</strong> Nie dotyczy — brak wymogu zewnetrznej oceny zgodnosci dla opakowan drewnianych w Rozp. (UE) 2025/40 (stan na sierpien 2026)
+    </div>
+    <div style="text-align:center;font-size:11px;color:var(--s400);padding-top:10px;border-top:1px solid var(--s100)">
+      <i class="ph-duotone ph-info" style="font-size:13px"></i> Przechowywac 10 lat (art. 39 ust. 4) · Nie musi byc dolaczana do kazdej dostawy
     </div>`;
 }
 function saveDecl(){
