@@ -5,146 +5,126 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BrakarzAppka — Egzamin Brakarza Wizualnego PN-D-94021</title>
 <style>
-:root{
-  --g50:#f0fdf4;--g100:#dcfce7;--g200:#bbf7d0;--g500:#22c55e;
-  --g600:#16a34a;--g700:#15803d;--g800:#166534;--g900:#14532d;--g950:#052e16;
-  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
-  --s400:#94a3b8;--s500:#64748b;--s700:#334155;--s800:#1e293b;
-  --white:#fff;--red:#ef4444;--amber:#f59e0b;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  background:var(--s50);color:var(--s800);font-size:15px;line-height:1.5;
-  -webkit-font-smoothing:antialiased;}
-.landing{min-height:100vh;display:flex;flex-direction:column;}
-.land-hero{background:linear-gradient(135deg,var(--g950),var(--g800));
-  color:#fff;padding:48px 20px;text-align:center;}
-.land-hero h1{font-size:clamp(24px,5vw,40px);font-weight:900;margin-bottom:8px;}
-.land-hero p{font-size:15px;color:rgba(255,255,255,.75);max-width:500px;margin:0 auto 24px;}
-.land-norm{display:inline-block;background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.25);border-radius:6px;
-  padding:6px 14px;font-size:12px;font-weight:600;letter-spacing:.04em;margin-bottom:24px;}
-.land-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
-  margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);}
-.land-stat-val{font-size:28px;font-weight:800;color:#4ade80;}
-.land-stat-lbl{font-size:12px;color:rgba(255,255,255,.55);}
-.land-cats{padding:32px 20px;max-width:700px;margin:0 auto;width:100%;}
-.land-cats h2{font-size:16px;font-weight:700;color:var(--s700);margin-bottom:14px;text-align:center;}
-.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;}
-.cat-card{background:white;border:1px solid var(--s200);border-radius:10px;
-  padding:14px 16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px;}
-.cat-card:hover{border-color:var(--g500);background:var(--g50);}
-.cat-card.selected{border-color:var(--g600);background:var(--g50);box-shadow:0 0 0 2px var(--g200);}
-.cat-icon{font-size:24px;flex-shrink:0;}
-.cat-title{font-size:13.5px;font-weight:600;color:var(--s800);}
-.cat-count{font-size:11px;color:var(--s400);}
-.land-cta{padding:20px;text-align:center;}
-.btn-start{background:var(--g600);color:white;border:none;padding:14px 32px;
-  border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;
-  transition:background .15s;width:100%;max-width:320px;}
-.btn-start:hover{background:var(--g700);}
-.quiz-shell{display:none;flex-direction:column;min-height:100vh;}
-.quiz-topbar{background:var(--g900);color:white;padding:12px 16px;
-  display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;}
-.quiz-title{font-size:13px;font-weight:600;flex:1;}
-.quiz-score-badge{background:rgba(255,255,255,.12);padding:4px 10px;
-  border-radius:20px;font-size:12px;font-weight:600;}
-.progress-bar{height:4px;background:rgba(255,255,255,.15);}
-.progress-fill{height:100%;background:var(--g400);transition:width .3s;}
-.quiz-content{flex:1;padding:16px;max-width:720px;margin:0 auto;width:100%;}
-.q-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-.q-num{font-size:12px;color:var(--s400);font-weight:500;}
-.q-cat{font-size:11px;background:var(--g100);color:var(--g800);
-  padding:2px 8px;border-radius:10px;font-weight:600;}
-.question-card{background:white;border:1px solid var(--s200);border-radius:12px;
-  padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
-.question-text{font-size:15px;font-weight:600;color:var(--s800);
-  line-height:1.5;margin-bottom:14px;}
-.question-img{width:100%;max-width:500px;border-radius:8px;
-  border:1px solid var(--s200);margin-bottom:14px;display:block;margin-left:auto;margin-right:auto;}
-.options{display:flex;flex-direction:column;gap:8px;}
-.option{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;
-  border:1.5px solid var(--s200);border-radius:8px;cursor:pointer;
-  transition:all .14s;background:white;}
-.option:hover:not(.locked){border-color:var(--g400);background:var(--g50);}
-.option.correct{border-color:#16a34a;background:#f0fdf4;}
-.option.wrong{border-color:var(--red);background:#fef2f2;}
-.option.locked{cursor:default;}
-.opt-letter{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--s300);
-  display:flex;align-items:center;justify-content:center;font-size:11px;
-  font-weight:700;flex-shrink:0;transition:all .14s;margin-top:1px;}
-.option.correct .opt-letter{background:#16a34a;border-color:#16a34a;color:white;}
-.option.wrong .opt-letter{background:var(--red);border-color:var(--red);color:white;}
-.opt-text{font-size:14px;color:var(--s700);line-height:1.4;}
-.explanation{margin-top:12px;padding:12px;background:#fffbeb;
-  border-left:3px solid var(--amber);border-radius:0 8px 8px 0;
-  font-size:13px;color:#92400e;display:none;line-height:1.5;}
-.btn-next{width:100%;padding:13px;background:var(--g600);color:white;
-  border:none;border-radius:10px;font-size:15px;font-weight:700;
-  cursor:pointer;margin-top:10px;transition:background .14s;display:none;}
-.btn-next:hover{background:var(--g700);}
-.results{display:none;padding:24px 16px;max-width:600px;margin:0 auto;}
-.results-hero{text-align:center;padding:32px 20px;background:white;
-  border-radius:16px;border:1px solid var(--s200);margin-bottom:20px;}
-.result-score{font-size:56px;font-weight:900;color:var(--g600);line-height:1;}
-.result-pct{font-size:18px;font-weight:700;color:var(--s700);margin-top:4px;}
-.result-msg{font-size:14px;color:var(--s500);margin-top:8px;}
-.result-badge{display:inline-block;margin-top:12px;padding:6px 16px;
-  border-radius:20px;font-size:14px;font-weight:700;}
-.badge-pass{background:var(--g100);color:var(--g800);}
-.badge-fail{background:#fee2e2;color:#991b1b;}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
-.stat-box{background:white;border:1px solid var(--s200);border-radius:10px;
-  padding:14px;text-align:center;}
-.stat-n{font-size:24px;font-weight:800;color:var(--s800);}
-.stat-l{font-size:11px;color:var(--s400);margin-top:2px;}
-.cat-results{background:white;border:1px solid var(--s200);border-radius:12px;
-  padding:16px;margin-bottom:16px;}
-.cat-result-item{display:flex;align-items:center;gap:10px;padding:8px 0;
-  border-bottom:1px solid var(--s100);}
-.cat-result-item:last-child{border-bottom:none;}
-.cat-bar-wrap{flex:1;height:6px;background:var(--s100);border-radius:3px;overflow:hidden;}
-.cat-bar{height:100%;border-radius:3px;transition:width .5s;}
-.btn-restart{width:100%;padding:13px;background:var(--g600);color:white;
-  border:none;border-radius:10px;font-size:15px;font-weight:700;
-  cursor:pointer;margin-bottom:10px;}
-.btn-review{width:100%;padding:13px;background:white;color:var(--g700);
-  border:1.5px solid var(--g300);border-radius:10px;font-size:15px;font-weight:600;
-  cursor:pointer;}
-@media(max-width:480px){.land-stats{gap:20px;}}
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+  :root {
+    --bg:#fafaf8; --bg-card:#ffffff; --text:#111111; --text-muted:#888888;
+    --border:#e2e2e0; --accent:#111111; --accent-light:#f0f0ee;
+    --correct:#16a34a; --wrong:#dc2626; --warn:#d97706;
+    --font-head:'Cormorant Garamond',Georgia,serif;
+    --font-body:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  h1,h2{font-family:var(--font-head);}
+  /* LANDING */
+  .landing{max-width:860px;margin:0 auto;padding:36px 20px 100px;}
+  .land-header{text-align:center;padding-bottom:24px;border-bottom:1px solid var(--border);margin-bottom:28px;}
+  .land-header h1{font-size:2.8rem;font-weight:600;letter-spacing:-0.01em;margin-bottom:6px;}
+  .norm-tag{display:inline-block;background:var(--accent);color:#fff;font-size:0.75rem;font-weight:600;letter-spacing:0.06em;padding:3px 10px;border-radius:3px;margin-bottom:10px;}
+  .land-header p{color:var(--text-muted);font-size:1rem;max-width:500px;margin:0 auto;}
+  .land-stats{display:flex;justify-content:center;gap:40px;padding:20px 0;border-bottom:1px solid var(--border);margin-bottom:28px;}
+  .stat-item{text-align:center;}
+  .stat-val{font-size:2rem;font-weight:600;font-family:var(--font-head);color:var(--text);}
+  .stat-lbl{font-size:0.8rem;color:var(--text-muted);margin-top:2px;}
+  .cats-title{font-size:0.85rem;font-weight:600;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px;}
+  .cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px;margin-bottom:24px;}
+  .cat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:14px 16px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:12px;}
+  .cat-card:hover{border-color:var(--text);background:var(--accent-light);}
+  .cat-card.selected{border-color:var(--text);background:var(--text);color:#fff;}
+  .cat-card.selected .cat-count{color:rgba(255,255,255,0.55);}
+  .cat-icon{font-size:18px;flex-shrink:0;}
+  .cat-title{font-size:0.9rem;font-weight:500;}
+  .cat-count{font-size:0.78rem;color:var(--text-muted);margin-top:1px;}
+  .cta-area{text-align:center;padding-top:8px;}
+  .btn-start{background:var(--accent);color:#fff;border:none;padding:14px 40px;border-radius:5px;font-size:1rem;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:opacity 0.15s;}
+  .btn-start:hover{opacity:0.85;}
+  .cta-note{font-size:0.78rem;color:var(--text-muted);margin-top:8px;}
+  /* QUIZ */
+  .quiz-shell{display:none;flex-direction:column;min-height:100vh;}
+  .speed-bar{position:sticky;top:0;z-index:10;background:var(--accent);color:#fff;display:flex;gap:20px;justify-content:center;align-items:center;padding:10px 20px;font-size:0.82rem;font-weight:600;letter-spacing:0.04em;}
+  .progress-rail{height:3px;background:rgba(255,255,255,0.2);}
+  .progress-fill{height:100%;background:#fff;transition:width 0.3s;}
+  .quiz-content{flex:1;padding:28px 20px 100px;max-width:780px;margin:0 auto;width:100%;}
+  .q-meta{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .q-num{font-size:0.82rem;color:var(--text-muted);font-weight:500;}
+  .q-cat-tag{font-size:0.72rem;font-weight:600;color:var(--text-muted);border:1px solid var(--border);padding:2px 8px;border-radius:3px;letter-spacing:0.04em;text-transform:uppercase;}
+  .question-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:14px;}
+  .question-text{font-family:var(--font-head);font-size:1.35rem;font-weight:600;line-height:1.4;margin-bottom:18px;}
+  .question-img{width:100%;max-width:520px;border-radius:6px;border:1px solid var(--border);margin-bottom:18px;display:block;margin-left:auto;margin-right:auto;}
+  .options{display:flex;flex-direction:column;gap:8px;}
+  .option{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:all 0.13s;background:var(--bg-card);}
+  .option:hover:not(.locked){border-color:var(--text);background:var(--accent-light);}
+  .opt-letter{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0;margin-top:1px;}
+  .option.correct{border-color:var(--correct);background:#f0fdf4;}
+  .option.correct .opt-letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .option.wrong{border-color:var(--wrong);background:#fef2f2;}
+  .option.wrong .opt-letter{background:var(--wrong);border-color:var(--wrong);color:#fff;}
+  .option.locked{cursor:default;}
+  .opt-text{font-size:0.95rem;color:var(--text);line-height:1.45;}
+  .explanation{margin-top:14px;padding:12px 16px;background:#fffbeb;border-left:3px solid var(--warn);font-size:0.88rem;color:#78350f;border-radius:0 6px 6px 0;display:none;line-height:1.55;}
+  .btn-next{width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:0.95rem;font-weight:500;cursor:pointer;margin-top:12px;font-family:var(--font-body);display:none;transition:opacity 0.15s;}
+  .btn-next:hover{opacity:0.85;}
+  /* RESULTS */
+  .results{display:none;max-width:700px;margin:0 auto;padding:40px 20px 80px;}
+  .results-header{text-align:center;padding-bottom:28px;border-bottom:1px solid var(--border);margin-bottom:28px;}
+  .result-score{font-family:var(--font-head);font-size:5rem;font-weight:700;line-height:1;}
+  .result-pct{font-size:1.3rem;color:var(--text-muted);margin-top:4px;}
+  .result-msg{font-size:0.95rem;color:var(--text-muted);margin:10px 0;}
+  .result-badge{display:inline-block;padding:5px 16px;border-radius:20px;font-size:0.9rem;font-weight:600;margin-top:6px;}
+  .badge-pass{background:#dcfce7;color:#14532d;}
+  .badge-fail{background:#fee2e2;color:#7f1d1d;}
+  .stats-row{display:flex;gap:16px;margin-bottom:24px;}
+  .stat-box{flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;}
+  .stat-box .val{font-family:var(--font-head);font-size:2.2rem;font-weight:600;}
+  .stat-box .lbl{font-size:0.78rem;color:var(--text-muted);margin-top:2px;}
+  .cat-results{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:20px;}
+  .cat-results-title{font-size:0.78rem;font-weight:600;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px;}
+  .cat-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);}
+  .cat-row:last-child{border-bottom:none;}
+  .cat-bar-wrap{width:80px;height:5px;background:var(--border);border-radius:3px;overflow:hidden;flex-shrink:0;}
+  .cat-bar{height:100%;border-radius:3px;}
+  .btn-restart{width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:0.95rem;font-weight:500;cursor:pointer;font-family:var(--font-body);margin-bottom:10px;transition:opacity 0.15s;}
+  .btn-restart:hover{opacity:0.85;}
+  .btn-review{width:100%;padding:13px;background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:0.95rem;font-weight:500;cursor:pointer;font-family:var(--font-body);}
+  .btn-review:hover{background:var(--accent-light);}
+  @media(max-width:500px){
+    .land-header h1{font-size:2rem;}
+    .stats-row{flex-direction:column;gap:10px;}
+    .question-text{font-size:1.15rem;}
+  }
 </style>
 </head>
 <body>
 <div class="landing" id="landing">
-  <div class="land-hero">
-    <div class="land-norm">PN-D-94021:2013-10</div>
+  <div class="land-header">
+    <div class="norm-tag">PN-D-94021:2013-10</div>
     <h1>🪵 BrakarzAppka</h1>
     <p>Egzamin na brakarza wizualnego tarcicy konstrukcyjnej iglastej sortowanej metodami wytrzymałościowymi</p>
     <div class="land-stats">
-      <div><div class="land-stat-val">65</div><div class="land-stat-lbl">pytań w bazie</div></div>
-      <div><div class="land-stat-val">5</div><div class="land-stat-lbl">kategorii</div></div>
-      <div><div class="land-stat-val">75%</div><div class="land-stat-lbl">próg zdania</div></div>
+      <div><div class="stat-val">65</div><div class="stat-lbl">pytań w bazie</div></div>
+      <div><div class="stat-val">5</div><div class="stat-lbl">kategorii</div></div>
+      <div><div class="stat-val">75%</div><div class="stat-lbl">próg zdania</div></div>
     </div>
   </div>
   <div class="land-cats">
-    <h2>Wybierz kategorie do egzaminu</h2>
+    <div class="cats-title">Wybierz kategorie do egzaminu</div>
     <div class="cat-grid" id="catGrid"></div>
   </div>
-  <div class="land-cta">
-    <button class="btn-start" onclick="startQuiz()">Rozpocznij egzamin (30 pyt.) →</button>
-    <p style="font-size:11px;color:var(--s400);margin-top:8px;">Pytania losowane z wybranych kategorii</p>
+  <div class="cta-area">
+    <button class="btn-start" onclick="startQuiz()">Rozpocznij egzamin → 30 pytań</button>
+    <p class="cta-note">Pytania losowane z wybranych kategorii</p>
   </div>
 </div>
 <div class="quiz-shell" id="quizShell">
-  <div class="quiz-topbar">
-    <div class="quiz-title">🪵 BrakarzAppka</div>
-    <div class="quiz-score-badge" id="scoreDisplay">0 / 0</div>
+  <div class="speed-bar">
+    <div style="font-size:0.85rem;font-weight:600;letter-spacing:0.04em">🪵 BrakarzAppka</div>
+    <div style="font-size:0.82rem;font-weight:600" id="scoreDisplay">0 / 0</div>
   </div>
-  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-rail"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   <div class="quiz-content">
-    <div class="q-header">
+    <div class="q-meta">
       <span class="q-num" id="qNum">Pytanie 1 z 30</span>
-      <span class="q-cat" id="qCat"></span>
+      <span class="q-cat-tag" id="qCat"></span>
     </div>
     <div class="question-card">
       <div class="question-text" id="questionText"></div>
@@ -156,16 +136,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   </div>
 </div>
 <div class="results" id="results">
-  <div class="results-hero">
+  <div class="results-header">
     <div class="result-score" id="resultScore">0</div>
     <div class="result-pct" id="resultPct">0%</div>
     <div class="result-msg" id="resultMsg"></div>
     <div class="result-badge" id="resultBadge"></div>
   </div>
-  <div class="stats-grid">
-    <div class="stat-box"><div class="stat-n" id="statCorrect" style="color:#16a34a">0</div><div class="stat-l">Poprawne</div></div>
-    <div class="stat-box"><div class="stat-n" id="statWrong" style="color:#ef4444">0</div><div class="stat-l">Błędne</div></div>
-    <div class="stat-box"><div class="stat-n" id="statTotal">0</div><div class="stat-l">Łącznie</div></div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="val" id="statCorrect" style="color:#16a34a">0</div><div class="lbl">Poprawne</div></div>
+    <div class="stat-box"><div class="val" id="statWrong" style="color:#ef4444">0</div><div class="lbl">Błędne</div></div>
+    <div class="stat-box"><div class="val" id="statTotal">0</div><div class="lbl">Łącznie</div></div>
   </div>
   <div class="cat-results" id="catResults"></div>
   <button class="btn-restart" onclick="restartQuiz()">🔄 Zacznij od nowa</button>
@@ -455,16 +435,16 @@ function showResults(){
     catStats[cid].total++;if(a.correct)catStats[cid].correct++;
   });
   const catEl=document.getElementById('catResults');
-  catEl.innerHTML='<div style="font-size:13px;font-weight:700;color:var(--s700);margin-bottom:10px">Wyniki wg kategorii</div>';
+  catEl.innerHTML='<div class="cat-results-title">Wyniki wg kategorii</div>';
   CATS.filter(c=>selectedCats.has(c.id)&&catStats[c.id]).forEach(c=>{
     const s=catStats[c.id],p=Math.round((s.correct/s.total)*100);
     const col=p>=75?'#16a34a':p>=50?'#d97706':'#ef4444';
     catEl.innerHTML+=`<div class="cat-result-item">
-      <span style="font-size:16px;width:24px">${c.icon}</span>
-      <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500;color:var(--s700);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</div>
-      <div class="cat-bar-wrap"><div class="cat-bar" style="width:${p}%;background:${col}"></div></div></div>
-      <div style="font-size:12px;font-weight:600;color:${col};min-width:30px;text-align:right">${p}%</div>
-      <div style="font-size:11px;color:var(--s400);min-width:36px;text-align:right">${s.correct}/${s.total}</div>
+      <span style="font-size:15px;width:22px">${c.icon}</span>
+      <div style="flex:1;min-width:0;font-size:0.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}
+      </div><div class="cat-bar-wrap"><div class="cat-bar" style="width:${p}%;background:${col}"></div></div>
+      <div style="font-size:0.82rem;font-weight:600;color:${col};min-width:30px;text-align:right">${p}%</div>
+      
     </div>`;
   });
 }
