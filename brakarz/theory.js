@@ -355,10 +355,11 @@ Mierzone jako odchylenie włókien od osi podłużnej (s = BC/AC × 100%).
           }
         ],
         image: {
-          src: 'assets/img/ukosny_przebieg.jpg',
-          alt: 'Ukośny (spiralny) przebieg włókien w drewnie iglastym',
+          src: 'assets/img/ukosny_diagram2.jpg',
+          alt: 'Diagram spiralnego przebiegu włókien w kłodzie — linie czerwona i niebieska pokazują odchylenie od osi',
+          caption: 'Diagram spiralnego przebiegu włókien w kłodzie — linie czerwona i niebieska pokazują odchylenie od osi. Źródło: Wikimedia Commons · CC BY-SA 3.0',
           source: 'Wikimedia Commons',
-          sourceUrl: 'https://commons.wikimedia.org/wiki/File:Lodgepole_pine_spiral_grain.jpg',
+          sourceUrl: 'https://commons.wikimedia.org/wiki/File:Slope_of_grain_beentree.jpg',
           license: 'CC BY-SA 3.0'
         }
       }
@@ -440,10 +441,11 @@ Obecność którejkolwiek z tych wad oznacza natychmiastowe odrzucenie sztuki, b
         ],
         images: [
           {
-            src: 'assets/img/zgnilizna.jpg',
-            alt: 'Zgnilizna brunatna w drewnie iglastym',
+            src: 'assets/img/zgnilizna_brunatna2.jpg',
+            alt: 'Zgnilizna brunatna (sześcienna) na dębie — Białowieża, Polska. Charakterystyczne pękanie sześcienne.',
+            caption: 'Zgnilizna brunatna (sześcienna) na dębie — Białowieża, Polska. Charakterystyczne pękanie sześcienne. Źródło: Wikimedia Commons · CC BY-SA 3.0',
             source: 'Wikimedia Commons',
-            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Braunfaeule_Holz_FI20070208.jpg',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Cubical_rot_checked_quercus_bialowieza_1_beentree.jpg',
             license: 'CC BY-SA 3.0'
           },
           {
