@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrakarzAppka — PN-D-94021:2013-10</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #fafaf8;
+    --bg-card: #ffffff;
+    --text: #111111;
+    --text-muted: #888888;
+    --border: #e2e2e0;
+    --accent: #111111;
+    --accent-light: #f0f0ee;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+    --warn: #d97706;
+    --font-head: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: var(--font-head); }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px; height: 52px;
+  }
+  .topbar-brand {
+    font-family: var(--font-head); font-size: 1.1rem; font-weight: 600;
+    color: var(--text); text-decoration: none;
+  }
+  .topbar-nav { display: flex; gap: 4px; }
+  .tab-btn {
+    background: transparent; border: 1px solid transparent;
+    padding: 6px 16px; border-radius: 4px; cursor: pointer;
+    font-size: 0.9rem; font-weight: 500; color: var(--text-muted);
+    font-family: var(--font-body); transition: all 0.15s;
+  }
+  .tab-btn:hover { color: var(--text); background: var(--accent-light); }
+  .tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+
+  /* ── SCREENS ── */
+  .screen { display: none; max-width: 820px; margin: 0 auto; padding: 40px 20px 100px; animation: fadeIn 0.25s; }
+  .screen.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── HERO ── */
+  .hero { text-align: center; padding-bottom: 32px; border-bottom: 1px solid var(--border); margin-bottom: 36px; }
+  .norm-badge { display: inline-block; background: var(--accent); color: #fff; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 3px; margin-bottom: 12px; }
+  .hero h1 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .hero p { color: var(--text-muted); font-size: 1rem; max-width: 460px; margin: 0 auto; }
+  .stats-row { display: flex; justify-content: center; gap: 48px; padding: 28px 0; border-bottom: 1px solid var(--border); margin-bottom: 36px; }
+  .stat-item { text-align: center; }
+  .stat-val { font-family: var(--font-head); font-size: 2.4rem; font-weight: 600; }
+  .stat-lbl { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; letter-spacing: 0.03em; }
+
+  .modes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 8px; }
+  @media (max-width: 600px) { .modes-grid { grid-template-columns: 1fr; } }
+  .mode-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 28px 22px; cursor: pointer; transition: all 0.18s; text-align: left;
+  }
+  .mode-card:hover { border-color: var(--text); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+  .mode-icon { font-size: 1.8rem; margin-bottom: 14px; }
+  .mode-card h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 6px; }
+  .mode-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; }
+
+  /* ── TEORIA ── */
+  .theory-list { display: flex; flex-direction: column; gap: 8px; }
+  .theory-item {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+  }
+  .theory-item-header {
+    display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer;
+    transition: background 0.13s; user-select: none;
+  }
+  .theory-item-header:hover { background: var(--accent-light); }
+  .theory-item.open .theory-item-header { background: var(--accent-light); }
+  .theory-id { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.06em; width: 28px; flex-shrink: 0; }
+  .theory-title { font-weight: 500; font-size: 0.95rem; flex: 1; }
+  .theory-chevron { color: var(--text-muted); font-size: 0.8rem; transition: transform 0.2s; }
+  .theory-item.open .theory-chevron { transform: rotate(180deg); }
+  .theory-body { display: none; padding: 0 18px 18px; }
+  .theory-item.open .theory-body { display: block; }
+  .theory-content {
+    font-size: 0.9rem; line-height: 1.7; color: var(--text);
+    white-space: pre-wrap; font-family: var(--font-body);
+    border-top: 1px solid var(--border); padding-top: 14px; margin-top: 2px;
+  }
+
+  /* ── NAUKA ── */
+  .study-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 24px; flex-wrap: wrap; }
+  .study-filter {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px;
+    padding: 7px 12px; font-size: 0.88rem; font-family: var(--font-body);
+    color: var(--text); cursor: pointer; transition: all 0.13s;
+  }
+  .study-filter:hover, .study-filter.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .study-progress-label { font-size: 0.82rem; color: var(--text-muted); margin-left: auto; }
+
+  .study-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 28px 24px; margin-bottom: 14px;
+  }
+  .study-card-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; }
+  .s-cat-tag { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); border: 1px solid var(--border); padding: 2px 8px; border-radius: 3px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .s-num { font-size: 0.82rem; color: var(--text-muted); }
+  .study-question { font-family: var(--font-head); font-size: 1.3rem; font-weight: 600; line-height: 1.4; margin-bottom: 16px; }
+  .study-img { width: 100%; max-width: 480px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 16px; display: block; }
+  .study-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .study-option {
+    display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px;
+    border: 1px solid var(--border); border-radius: 6px; cursor: pointer;
+    transition: all 0.13s; background: var(--bg-card); font-size: 0.92rem;
+  }
+  .study-option:hover:not(.revealed) { border-color: var(--text); background: var(--accent-light); }
+  .study-option.correct { border-color: var(--correct); background: #f0fdf4; }
+  .study-option.wrong { border-color: var(--wrong); background: #fef2f2; }
+  .study-option.show-correct { border-color: var(--correct); background: #f0fdf4; }
+  .s-opt-letter {
+    width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+  .study-option.correct .s-opt-letter { background: var(--correct); border-color: var(--correct); color: #fff; }
+  .study-option.wrong .s-opt-letter { background: var(--wrong); border-color: var(--wrong); color: #fff; }
+  .study-option.show-correct .s-opt-letter { background: var(--correct); border-color: var(--correct); color: #fff; }
+  .study-reveal-btn {
+    background: var(--accent-light); border: 1px solid var(--border); border-radius: 5px;
+    padding: 9px 18px; font-size: 0.88rem; font-weight: 500; cursor: pointer;
+    font-family: var(--font-body); transition: all 0.13s; display: block;
+    margin-bottom: 10px;
+  }
+  .study-reveal-btn:hover { background: var(--border); }
+  .study-explanation {
+    margin-top: 10px; padding: 10px 14px; background: #fffbeb;
+    border-left: 3px solid var(--warn); font-size: 0.85rem; color: #78350f;
+    border-radius: 0 5px 5px 0; line-height: 1.55; display: none;
+  }
+  .study-nav { display: flex; gap: 10px; margin-top: 6px; }
+  .study-nav-btn {
+    flex: 1; padding: 11px; background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 5px; font-size: 0.9rem; font-weight: 500; cursor: pointer;
+    font-family: var(--font-body); transition: all 0.13s;
+  }
+  .study-nav-btn:hover { background: var(--accent-light); }
+  .study-nav-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .study-nav-btn.primary:hover { opacity: 0.85; }
+
+  /* ── EGZAMIN ── */
+  .exam-setup { text-align: center; }
+  .exam-setup h2 { font-size: 2.2rem; margin-bottom: 8px; }
+  .exam-setup-sub { color: var(--text-muted); margin-bottom: 36px; font-size: 1rem; }
+  .exam-config { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; text-align: left; }
+  @media (max-width: 500px) { .exam-config { grid-template-columns: 1fr; } }
+  .config-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 18px;
+  }
+  .config-label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+  .config-val { font-family: var(--font-head); font-size: 2rem; font-weight: 600; }
+  .config-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+  .btn-start-exam {
+    background: var(--accent); color: #fff; border: none; padding: 14px 44px;
+    border-radius: 5px; font-size: 1rem; font-weight: 500; cursor: pointer;
+    font-family: var(--font-body); transition: opacity 0.15s;
+  }
+  .btn-start-exam:hover { opacity: 0.85; }
+
+  /* Egzamin — quiz */
+  .exam-bar {
+    position: sticky; top: 52px; z-index: 15;
+    background: var(--accent); color: #fff;
+    display: flex; gap: 20px; justify-content: center; align-items: center;
+    padding: 9px 20px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em;
+  }
+  .exam-progress-rail { height: 2px; background: rgba(255,255,255,0.22); }
+  .exam-progress-fill { height: 100%; background: #fff; transition: width 0.3s; }
+
+  .quiz-wrap { max-width: 780px; margin: 0 auto; padding: 28px 20px 100px; }
+  .q-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .q-num { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; }
+  .q-cat { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); border: 1px solid var(--border); padding: 2px 8px; border-radius: 3px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .question-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 22px; margin-bottom: 14px; }
+  .question-text { font-family: var(--font-head); font-size: 1.35rem; font-weight: 600; line-height: 1.4; margin-bottom: 18px; }
+  .question-img { width: 100%; max-width: 520px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 18px; display: block; margin-left: auto; margin-right: auto; }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option {
+    display: flex; align-items: flex-start; gap: 12px; padding: 11px 15px;
+    border: 1px solid var(--border); border-radius: 6px; cursor: pointer;
+    transition: all 0.13s; background: var(--bg-card);
+  }
+  .option:hover:not(.locked) { border-color: var(--text); background: var(--accent-light); }
+  .opt-letter {
+    width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+  .option.correct { border-color: var(--correct); background: #f0fdf4; }
+  .option.correct .opt-letter { background: var(--correct); border-color: var(--correct); color: #fff; }
+  .option.wrong { border-color: var(--wrong); background: #fef2f2; }
+  .option.wrong .opt-letter { background: var(--wrong); border-color: var(--wrong); color: #fff; }
+  .option.show-correct { border-color: var(--correct); background: #f0fdf4; }
+  .option.show-correct .opt-letter { background: var(--correct); border-color: var(--correct); color: #fff; }
+  .option.locked { cursor: default; }
+  .opt-text { font-size: 0.93rem; line-height: 1.45; }
+  .explanation {
+    margin-top: 13px; padding: 11px 15px; background: #fffbeb;
+    border-left: 3px solid var(--warn); font-size: 0.86rem; color: #78350f;
+    border-radius: 0 6px 6px 0; display: none; line-height: 1.55;
+  }
+  .btn-next {
+    width: 100%; padding: 13px; background: var(--accent); color: #fff; border: none;
+    border-radius: 6px; font-size: 0.95rem; font-weight: 500; cursor: pointer;
+    margin-top: 12px; font-family: var(--font-body); display: none; transition: opacity 0.15s;
+  }
+  .btn-next:hover { opacity: 0.85; }
+
+  /* Results */
+  .results-wrap { max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; text-align: center; }
+  .result-score { font-family: var(--font-head); font-size: 5.5rem; font-weight: 700; line-height: 1; }
+  .result-pct { font-size: 1.2rem; color: var(--text-muted); margin-top: 4px; }
+  .result-badge { display: inline-block; padding: 5px 18px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; margin: 10px 0 24px; }
+  .badge-pass { background: #dcfce7; color: #14532d; }
+  .badge-fail { background: #fee2e2; color: #7f1d1d; }
+  .r-stats { display: flex; gap: 14px; margin-bottom: 28px; }
+  .r-stat { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px; text-align: center; }
+  .r-stat .val { font-family: var(--font-head); font-size: 2.2rem; font-weight: 600; }
+  .r-stat .lbl { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+  .r-cats { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px; margin-bottom: 22px; text-align: left; }
+  .r-cats-title { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
+  .r-cat-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+  .r-cat-row:last-child { border-bottom: none; }
+  .r-bar-wrap { width: 80px; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
+  .r-bar { height: 100%; border-radius: 3px; }
+  .r-actions { display: flex; flex-direction: column; gap: 10px; }
+  .btn-redo {
+    padding: 13px; background: var(--accent); color: #fff; border: none;
+    border-radius: 6px; font-size: 0.95rem; font-weight: 500; cursor: pointer;
+    font-family: var(--font-body); transition: opacity 0.15s;
+  }
+  .btn-redo:hover { opacity: 0.85; }
+  .btn-study-wrong {
+    padding: 13px; background: var(--bg-card); color: var(--text);
+    border: 1px solid var(--border); border-radius: 6px; font-size: 0.95rem;
+    font-weight: 500; cursor: pointer; font-family: var(--font-body); transition: all 0.13s;
+  }
+  .btn-study-wrong:hover { background: var(--accent-light); }
+
+  @media (max-width: 500px) {
+    .hero h1 { font-size: 2rem; }
+    .stats-row { gap: 28px; }
+    .r-stats { flex-direction: column; gap: 10px; }
+    .question-text { font-size: 1.15rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<nav class="topbar">
+  <a class="topbar-brand" href="../index.html">BrakarzAppka</a>
+  <div class="topbar-nav">
+    <button class="tab-btn" data-tab="teoria" onclick="showTab('teoria')">Teoria</button>
+    <button class="tab-btn" data-tab="nauka" onclick="showTab('nauka')">Nauka</button>
+    <button class="tab-btn active" data-tab="home" onclick="showTab('home')">Egzamin</button>
+  </div>
+</nav>
+
+<!-- ══════════════ HOME / EGZAMIN SETUP ══════════════ -->
+<div class="screen active" id="screen-home">
+  <div class="hero">
+    <div class="norm-badge">PN-D-94021:2013-10</div>
+    <h1>Brakarz Wizualny</h1>
+    <p>Tarcica konstrukcyjna iglasta — sortowanie wizualne</p>
+  </div>
+  <div class="stats-row">
+    <div class="stat-item"><div class="stat-val" id="total-q-count">58</div><div class="stat-lbl">pytań w bazie</div></div>
+    <div class="stat-item"><div class="stat-val">5</div><div class="stat-lbl">kategorii</div></div>
+    <div class="stat-item"><div class="stat-val">75%</div><div class="stat-lbl">próg zaliczenia</div></div>
+  </div>
+  <div class="modes-grid">
+    <div class="mode-card" onclick="showTab('teoria')">
+      <div class="mode-icon">📖</div>
+      <h3>Teoria</h3>
+      <p>Przeglądaj treść normy podzieloną na 12 sekcji tematycznych</p>
+    </div>
+    <div class="mode-card" onclick="showTab('nauka')">
+      <div class="mode-icon">🧠</div>
+      <h3>Nauka</h3>
+      <p>Przeglądaj pytania z natychmiastową odpowiedzią i wyjaśnieniem</p>
+    </div>
+    <div class="mode-card" onclick="startExam()">
+      <div class="mode-icon">✍️</div>
+      <h3>Egzamin</h3>
+      <p>30 losowych pytań, próg 75% — symulacja egzaminu</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ TEORIA ══════════════ -->
+<div class="screen" id="screen-teoria">
+  <h2 style="font-size:2rem;margin-bottom:6px;">Teoria normy</h2>
+  <p style="color:var(--text-muted);margin-bottom:28px;font-size:0.95rem;">PN-D-94021:2013-10 — tarcica konstrukcyjna iglasta sortowana wizualnie</p>
+  <div class="theory-list" id="theory-list"></div>
+</div>
+
+<!-- ══════════════ NAUKA ══════════════ -->
+<div class="screen" id="screen-nauka">
+  <h2 style="font-size:2rem;margin-bottom:6px;">Tryb nauki</h2>
+  <p style="color:var(--text-muted);margin-bottom:24px;font-size:0.95rem;">Odpowiedz na pytanie, a następnie sprawdź poprawną odpowiedź</p>
+  <div class="study-controls" id="study-filters"></div>
+  <div id="study-card-area"></div>
+</div>
+
+<!-- ══════════════ EGZAMIN — ACTIVE ══════════════ -->
+<div id="exam-bar-container" style="display:none; position:sticky; top:52px; z-index:15;">
+  <div class="exam-bar" id="exam-bar">
+    <span id="exam-q-label">Pytanie 1/30</span>
+    <span id="exam-score-live">Poprawne: 0</span>
+  </div>
+  <div class="exam-progress-rail"><div class="exam-progress-fill" id="exam-progress-fill" style="width:0%"></div></div>
+</div>
+
+<div id="quiz-area" style="display:none;">
+  <div class="quiz-wrap">
+    <div class="q-meta">
+      <span class="q-num" id="quiz-num"></span>
+      <span class="q-cat" id="quiz-cat"></span>
+    </div>
+    <div class="question-card">
+      <div class="question-text" id="quiz-q"></div>
+      <img class="question-img" id="quiz-img" src="" alt="" style="display:none;">
+      <div class="options" id="quiz-opts"></div>
+      <div class="explanation" id="quiz-exp"></div>
+    </div>
+    <button class="btn-next" id="btn-next" onclick="nextQuestion()">Następne pytanie →</button>
+  </div>
+</div>
+
+<div id="results-area" style="display:none;">
+  <div class="results-wrap">
+    <div class="result-score" id="r-score"></div>
+    <div class="result-pct" id="r-pct"></div>
+    <div class="result-badge" id="r-badge"></div>
+    <div class="r-stats">
+      <div class="r-stat"><div class="val" id="r-correct"></div><div class="lbl">Poprawnych</div></div>
+      <div class="r-stat"><div class="val" id="r-wrong"></div><div class="lbl">Błędnych</div></div>
+      <div class="r-stat"><div class="val">30</div><div class="lbl">Pytań</div></div>
+    </div>
+    <div class="r-cats">
+      <div class="r-cats-title">Wyniki per kategoria</div>
+      <div id="r-cats-rows"></div>
+    </div>
+    <div class="r-actions">
+      <button class="btn-redo" onclick="startExam()">Nowy egzamin</button>
+      <button class="btn-study-wrong" id="btn-study-wrong" onclick="studyWrong()">Ucz się błędnych pytań</button>
+    </div>
+  </div>
+</div>
+
+<script src="questions.js"></script>
+<script src="theory.js"></script>
+<script>
+// ── CATEGORY META ──
+const CAT_NAMES = {
+  A: 'Zakres i gatunki',
+  B: 'Sęki (USC/USM)',
+  C: 'Pęknięcia',
+  D: 'Geometria',
+  E: 'Weryfikacja'
+};
+const LETTERS = ['A','B','C','D'];
+
+// ── TAB SYSTEM ──
+function showTab(tab) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById('screen-' + tab);
+  if (target) target.classList.add('active');
+  const btn = document.querySelector(`[data-tab="${tab}"]`);
+  if (btn) btn.classList.add('active');
+  // Hide exam elements when switching tabs
+  if (tab !== 'home') {
+    document.getElementById('exam-bar-container').style.display = 'none';
+    document.getElementById('quiz-area').style.display = 'none';
+    document.getElementById('results-area').style.display = 'none';
+  }
+  if (tab === 'teoria') buildTheory();
+  if (tab === 'nauka') initStudy();
+}
+
+// ── TEORIA ──
+let theoryBuilt = false;
+function buildTheory() {
+  if (theoryBuilt) return;
+  theoryBuilt = true;
+  const list = document.getElementById('theory-list');
+  THEORY.forEach(sec => {
+    const item = document.createElement('div');
+    item.className = 'theory-item';
+    item.innerHTML = `
+      <div class="theory-item-header" onclick="toggleTheory(this.parentElement)">
+        <span class="theory-id">${sec.id}</span>
+        <span class="theory-title">${sec.title}</span>
+        <span class="theory-chevron">▼</span>
+      </div>
+      <div class="theory-body">
+        <div class="theory-content">${escHtml(sec.content)}</div>
+      </div>`;
+    list.appendChild(item);
+  });
+}
+function toggleTheory(el) {
+  el.classList.toggle('open');
+}
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── STUDY MODE ──
+let studyQ = [];
+let studyIdx = 0;
+let studyCat = 'ALL';
+let studyWrongIds = null; // array of indices if studying wrong answers
+
+function initStudy() {
+  buildStudyFilters();
+  filterStudy('ALL');
+}
+
+function buildStudyFilters() {
+  const area = document.getElementById('study-filters');
+  if (area.children.length > 0) return; // already built
+  const all = document.createElement('button');
+  all.className = 'study-filter active';
+  all.textContent = 'Wszystkie';
+  all.onclick = () => filterStudy('ALL');
+  area.appendChild(all);
+  Object.entries(CAT_NAMES).forEach(([k, v]) => {
+    const btn = document.createElement('button');
+    btn.className = 'study-filter';
+    const cnt = ALL_Q.filter(q => q.cat === k).length;
+    btn.textContent = `${k}: ${v} (${cnt})`;
+    btn.onclick = () => filterStudy(k);
+    area.appendChild(btn);
+  });
+  const lbl = document.createElement('span');
+  lbl.className = 'study-progress-label';
+  lbl.id = 'study-progress-lbl';
+  area.appendChild(lbl);
+}
+
+function filterStudy(cat) {
+  studyCat = cat;
+  studyWrongIds = null;
+  document.querySelectorAll('.study-filter').forEach(b => b.classList.remove('active'));
+  const btns = document.querySelectorAll('.study-filter');
+  if (cat === 'ALL') btns[0].classList.add('active');
+  else {
+    btns.forEach(b => { if (b.textContent.startsWith(cat + ':')) b.classList.add('active'); });
+  }
+  studyQ = (cat === 'ALL') ? [...ALL_Q] : ALL_Q.filter(q => q.cat === cat);
+  studyIdx = 0;
+  renderStudyCard();
+}
+
+function studyWrong() {
+  showTab('nauka');
+  // will be called after exam — collect wrong answers
+  studyWrongIds = window._wrongIndices || [];
+  studyQ = studyWrongIds.map(i => ALL_Q[i]);
+  studyIdx = 0;
+  document.querySelectorAll('.study-filter').forEach(b => b.classList.remove('active'));
+  renderStudyCard();
+}
+
+function renderStudyCard() {
+  const area = document.getElementById('study-card-area');
+  const lbl = document.getElementById('study-progress-lbl');
+  if (!studyQ.length) { area.innerHTML = '<p style="color:var(--text-muted);padding:20px 0;">Brak pytań w tej kategorii.</p>'; return; }
+  if (lbl) lbl.textContent = `${studyIdx + 1} / ${studyQ.length}`;
+
+  const q = studyQ[studyIdx];
+  const letters = ['A','B','C','D'];
+  let optsHtml = '';
+  q.opts.forEach((opt, i) => {
+    optsHtml += `<div class="study-option" id="sopt-${i}" onclick="studyPick(${i})">
+      <span class="s-opt-letter">${letters[i]}</span>
+      <span>${escHtml(opt)}</span>
+    </div>`;
+  });
+  const imgHtml = q.img ? `<img class="study-img" src="assets/images/${q.img}.jpg" alt="">` : '';
+
+  area.innerHTML = `
+    <div class="study-card">
+      <div class="study-card-meta">
+        <span class="s-cat-tag">${q.cat}: ${CAT_NAMES[q.cat] || ''}</span>
+        <span class="s-num">#${studyIdx + 1}</span>
+      </div>
+      <div class="study-question">${escHtml(q.q)}</div>
+      ${imgHtml}
+      <div class="study-options" id="study-opts">${optsHtml}</div>
+      ${q.exp ? `<div class="study-explanation" id="study-exp">${escHtml(q.exp)}</div>` : ''}
+    </div>
+    <div class="study-nav">
+      <button class="study-nav-btn" onclick="studyNav(-1)" ${studyIdx === 0 ? 'disabled style="opacity:0.4"' : ''}>← Poprzednie</button>
+      <button class="study-nav-btn primary" onclick="studyNav(1)" ${studyIdx >= studyQ.length - 1 ? 'disabled style="opacity:0.4"' : ''}>Następne →</button>
+    </div>`;
+}
+
+function studyPick(idx) {
+  const q = studyQ[studyIdx];
+  const opts = document.querySelectorAll('.study-option');
+  opts.forEach((el, i) => {
+    el.classList.add('revealed');
+    el.onclick = null;
+    el.style.cursor = 'default';
+    if (i === q.ans) el.classList.add('show-correct');
+    else if (i === idx && i !== q.ans) el.classList.add('wrong');
+  });
+  const exp = document.getElementById('study-exp');
+  if (exp) exp.style.display = 'block';
+}
+
+function studyNav(dir) {
+  studyIdx = Math.max(0, Math.min(studyQ.length - 1, studyIdx + dir));
+  renderStudyCard();
+}
+
+// ── EXAM ──
+const EXAM_COUNT = 30;
+const PASS_THRESHOLD = 0.75;
+let examQ = [];
+let examIdx = 0;
+let examCorrect = 0;
+let examAnswers = [];
+
+function startExam() {
+  // hide screens, show exam elements
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-tab="home"]').classList.add('active');
+  document.getElementById('results-area').style.display = 'none';
+
+  examQ = shuffle([...ALL_Q]).slice(0, EXAM_COUNT);
+  examIdx = 0;
+  examCorrect = 0;
+  examAnswers = [];
+
+  document.getElementById('exam-bar-container').style.display = 'block';
+  document.getElementById('quiz-area').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = examQ[examIdx];
+  document.getElementById('exam-q-label').textContent = `Pytanie ${examIdx + 1}/${EXAM_COUNT}`;
+  document.getElementById('exam-score-live').textContent = `Poprawne: ${examCorrect}`;
+  document.getElementById('exam-progress-fill').style.width = `${(examIdx / EXAM_COUNT) * 100}%`;
+
+  document.getElementById('quiz-num').textContent = `Pytanie ${examIdx + 1} z ${EXAM_COUNT}`;
+  document.getElementById('quiz-cat').textContent = `${q.cat}: ${CAT_NAMES[q.cat] || ''}`;
+  document.getElementById('quiz-q').textContent = q.q;
+
+  const img = document.getElementById('quiz-img');
+  if (q.img) { img.src = `assets/images/${q.img}.jpg`; img.style.display = 'block'; }
+  else img.style.display = 'none';
+
+  const optsEl = document.getElementById('quiz-opts');
+  optsEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML = `<span class="opt-letter">${letters[i]}</span><span class="opt-text">${escHtml(opt)}</span>`;
+    div.onclick = () => pickAnswer(i);
+    optsEl.appendChild(div);
+  });
+
+  document.getElementById('quiz-exp').style.display = 'none';
+  document.getElementById('quiz-exp').textContent = '';
+  document.getElementById('btn-next').style.display = 'none';
+}
+
+function pickAnswer(chosen) {
+  const q = examQ[examIdx];
+  const opts = document.querySelectorAll('#quiz-opts .option');
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.onclick = null;
+    if (i === q.ans) el.classList.add('show-correct');
+    else if (i === chosen && i !== q.ans) el.classList.add('wrong');
+  });
+  const isCorrect = chosen === q.ans;
+  if (isCorrect) examCorrect++;
+  examAnswers.push({ qIdx: ALL_Q.indexOf(q), correct: isCorrect });
+
+  if (q.exp) {
+    const expEl = document.getElementById('quiz-exp');
+    expEl.textContent = q.exp;
+    expEl.style.display = 'block';
+  }
+
+  const nextBtn = document.getElementById('btn-next');
+  nextBtn.style.display = 'block';
+  nextBtn.textContent = examIdx < EXAM_COUNT - 1 ? 'Następne pytanie →' : 'Zobacz wyniki';
+  document.getElementById('exam-score-live').textContent = `Poprawne: ${examCorrect}`;
+}
+
+function nextQuestion() {
+  examIdx++;
+  if (examIdx >= EXAM_COUNT) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-area').style.display = 'none';
+  document.getElementById('exam-bar-container').style.display = 'none';
+  const pct = examCorrect / EXAM_COUNT;
+  const pass = pct >= PASS_THRESHOLD;
+
+  document.getElementById('r-score').textContent = examCorrect;
+  document.getElementById('r-pct').textContent = `${Math.round(pct * 100)}% poprawnych`;
+  const badge = document.getElementById('r-badge');
+  badge.textContent = pass ? 'ZALICZONY' : 'NIEZALICZONY';
+  badge.className = 'result-badge ' + (pass ? 'badge-pass' : 'badge-fail');
+  document.getElementById('r-correct').textContent = examCorrect;
+  document.getElementById('r-wrong').textContent = EXAM_COUNT - examCorrect;
+
+  // per-category
+  const catStats = {};
+  examQ.forEach((q, i) => {
+    if (!catStats[q.cat]) catStats[q.cat] = { total: 0, correct: 0 };
+    catStats[q.cat].total++;
+    if (examAnswers[i] && examAnswers[i].correct) catStats[q.cat].correct++;
+  });
+  const rows = document.getElementById('r-cats-rows');
+  rows.innerHTML = '';
+  Object.entries(catStats).forEach(([cat, st]) => {
+    const pct2 = st.total ? st.correct / st.total : 0;
+    const color = pct2 >= 0.75 ? '#16a34a' : pct2 >= 0.5 ? '#d97706' : '#dc2626';
+    rows.innerHTML += `<div class="r-cat-row">
+      <span style="flex:1;font-size:0.85rem;">${cat}: ${CAT_NAMES[cat] || ''}</span>
+      <span style="font-size:0.82rem;color:var(--text-muted);min-width:50px;text-align:right;">${st.correct}/${st.total}</span>
+      <div class="r-bar-wrap"><div class="r-bar" style="width:${pct2*100}%;background:${color};"></div></div>
+    </div>`;
+  });
+
+  // store wrong for study mode
+  window._wrongIndices = examAnswers.filter(a => !a.correct).map(a => a.qIdx);
+  document.getElementById('btn-study-wrong').style.display = window._wrongIndices.length ? 'block' : 'none';
+
+  document.getElementById('results-area').style.display = 'block';
+}
+
+// ── HELPERS ──
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Init
+document.getElementById('total-q-count').textContent = ALL_Q.length;
+</script>
+</body>
+</html>
