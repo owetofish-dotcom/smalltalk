@@ -155,17 +155,59 @@ Wyraźna twardziel. Twardsza i cięższa od świerka. Charakterystyczny zapach.`
         images: [
           {
             src: 'assets/img/sosna_przekroj.jpg',
-            alt: 'Przekrój poprzeczny sosny zwyczajnej - widoczna twardziel i biel',
+            alt: 'Przekrój poprzeczny sosny zwyczajnej (Pinus sylvestris) - wyraźna czerwono-brązowa twardziel i biała biel',
             source: 'Wikimedia Commons',
             sourceUrl: 'https://commons.wikimedia.org/wiki/File:Pinus_silvestris_cross_beentree.jpg',
             license: 'CC BY-SA 3.0'
           },
           {
             src: 'assets/img/swierka_przekroj.jpg',
-            alt: 'Przekrój poprzeczny świerka pospolitego',
+            alt: 'Przekrój poprzeczny świerka pospolitego (Picea abies) - brak wyraźnej twardzieli, drewno kremowe',
             source: 'Wikimedia Commons',
             sourceUrl: 'https://commons.wikimedia.org/wiki/File:Norway_spruce_(Picea_abies)_trunk_cross_section.png',
             license: 'CC0 (domena publiczna)'
+          },
+          {
+            src: 'assets/img/modrzew_przekroj.jpg',
+            alt: 'Przekrój poprzeczny modrzewia europejskiego (Larix decidua) - silnie zaznaczona twardziel, wyraźne słoje roczne',
+            source: 'Wikimedia Commons',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Przekr%C3%B3j_Larix_decidua_Modrzew_europejski_OB_UWr_2023-07-21_01.jpg',
+            license: 'CC BY-SA 4.0'
+          },
+          {
+            src: 'assets/img/jodla_przekroj.jpg',
+            alt: 'Przekrój poprzeczny jodły pospolitej (Abies alba) - brak wyraźnej twardzieli, drewno białe/kremowe, Beskid Żywiecki',
+            source: 'Wikimedia Commons',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Abies_alba_cross_section_Beskid_%C5%BBywiecki.JPG',
+            license: 'CC BY-SA 4.0'
+          },
+          {
+            src: 'assets/img/daglezja_przekroj.jpg',
+            alt: 'Przekrój poprzeczny daglezji zielonej (Pseudotsuga menziesii) - wyraźna twardziel, gęste słoje roczne',
+            source: 'Wikimedia Commons',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Pseudotsuga_menziesii_cross_section.jpg',
+            license: 'CC BY-SA 3.0'
+          },
+          {
+            src: 'assets/img/modrzew_fornir.jpg',
+            alt: 'Próbka drewna modrzewia europejskiego (Larix decidua) - widoczna czerwono-brązowa twardziel i biel',
+            source: 'Wikimedia Commons',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Wood_Larix_decidua.jpg',
+            license: 'CC BY-SA 3.0'
+          },
+          {
+            src: 'assets/img/jodla_kora.jpg',
+            alt: 'Kora jodły pospolitej (Abies alba) - gładka, szara z pęcherzykami żywicy, Beskid Śląski',
+            source: 'Wikimedia Commons',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Abies_alba_bark_Silesian_Beskids.jpg',
+            license: 'CC BY-SA 3.0'
+          },
+          {
+            src: 'assets/img/jodla_igly.jpg',
+            alt: 'Igły jodły pospolitej (Abies alba) - charakterystyczny biały pasek od spodu igły',
+            source: 'Wikimedia Commons',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Shiny_needles_of_a_silver_fir_in_Gullmarsskogen_Nature_Reserve.jpg',
+            license: 'Public domain'
           }
         ]
       },
