@@ -34,6 +34,26 @@ Znak CE (Conformité Européenne — europejski znak zgodności) na tarcicy kons
 • Regularnych audytów przez jednostkę notyfikowaną
 
 Brakarz wizualny posiadający certyfikat jest kluczowym ogniwem w tym systemie — bez niego firma nie może oznakować tarcicy znakiem CE (Conformité Européenne — europejski znak zgodności).`
+      },
+      {
+        heading: 'Systemy sprzedaży drewna LP',
+        body: `LP sprzedaje drewno przez dwa systemy: **Portal Leśno-Drzewny (PLD)** dostępny dla kontrahentów z historią zakupów (pld.drewno.lasy.gov.pl) oraz **e-drewno** — aukcje otwarte dla wszystkich przedsiębiorców (e-drewno.pl). Reklamacje składa się pisemnie do konkretnego nadleśnictwa — brak modułu online.
+
+Podstawowy dokument sprzedaży to **asygnata** — zawiera sortyment, klasę jakości i miąższość. Decyzja DG LP nr 161/2019 reguluje procedurę reklamacyjną.`,
+        examTips: [
+          {
+            q: 'Asygnatę zachowaj zawsze — bez niej brak podstawy reklamacji',
+            a: 'Asygnata to dokument sprzedaży drewna LP — zawiera sortyment, klasę jakości i miąższość. Podstawa każdej reklamacji.'
+          },
+          {
+            q: 'PLD = stali kontrahenci, e-drewno.pl = aukcje dla wszystkich',
+            a: 'Portal Leśno-Drzewny (PLD) dla kontrahentów z historią; e-drewno.pl = otwarte aukcje online.'
+          },
+          {
+            q: 'Reklamacja: pisemnie do nadleśnictwa, max 3 dni robocze od odbioru',
+            a: 'Decyzja DG LP nr 161/2019: reklamację należy zgłosić w ciągu 3 dni roboczych od odbioru. Po tym terminie LP wyłącza odpowiedzialność.'
+          }
+        ]
       }
     ]
   },
@@ -202,60 +222,102 @@ Gatunek sprawdza się przez **oględziny nieuzbrojonym okiem** (pkt 6.1 normy).`
     ]
   },
 
-  // ─── MODUŁ 4: Terminologia i definicje ───────────────────────────────────
+  // ─── MODUŁ 4: Klasy jakości LP szczegółowo ────────────────────────────────
   {
     id: 'M4',
     module: 'Moduł 4',
-    title: 'Kluczowe terminy i definicje',
-    icon: '📖',
+    title: 'Klasy jakości LP szczegółowo',
+    icon: '🌲',
     sections: [
       {
-        heading: 'Strefa marginalna',
-        body: `**Strefa marginalna** (pkt 3.2) to strefa boczna na całej długości każdego z boków tarcicy, o szerokości równej **¼ szerokości płaszczyzny** tarcicy.
+        heading: 'Nowy system klasyfikacji LP 2025 — drewno wielkowymiarowe (W)',
+        body: `Od 01.01.2025 Lasy Państwowe stosują nowe oznaczenia klas jakości drewna okrągłego. Litera określa jakość (A najlepsza, D najgorsza), cyfra określa przeznaczenie (0 = ogólne, 1 = specjalne).
 
-Każda sztuka tarcicy ma dwie strefy marginalne (górna i dolna ¼ szerokości). To w tych strefach sęki mają największy wpływ na wytrzymałość — strefy marginalne są szczególnie ważne, bo materiał na krawędziach pracuje przy zginaniu najintensywniej.`
-      },
-      {
-        heading: 'Przekrój poprzeczny najgorszy',
-        body: `**Przekrój poprzeczny najgorszy** (pkt 3.3) to przekrój umowny poprowadzony w miejscu **największego skupienia wad drewna**, zwłaszcza sęków, stanowiący płaszczyznę rzutowania tych sęków.
+**WA0 / WA1 — najwyższa jakość tartaczna:**
+• brak zgnilizny miękkiej
+• sęki zdrowe otwarte ≤ 1/3 średnicy
+• krzywizna ≤ 1 cm/m (strzałka)
+• zbieżystość ≤ 1 cm/m
+• sinizna ≤ 10% powierzchni czół (iglaste od 2025)
+• WA1 — przeznaczenie specjalne: fornir, oklein
 
-Uwaga: pod uwagę brane są wymiary i rozmieszczenie (na płaszczyznach, bokach, krawędziach) **wszystkich sęków bez względu na ich kształt, zdrowotność i stopień zrośnięcia** z otaczającym drewnem.
+**WB0 / WB1 — dobra jakość tartaczna:**
+• zgnilizna twarda do 1/4 przekroju
+• sęki do 1/2 średnicy
+• krzywizna ≤ 2 cm/m
+• WB1 — specjalne przeznaczenie tartaczne
 
-Jakość sztuki tarcicy określa się w miejscu maksymalnego nasilenia wad.`
-      },
-      {
-        heading: 'Wskaźniki sękatości USC i USM',
-        body: `**USM** (wskaźnik sękatości strefy marginalnej) — odnosi się do jednej z dwóch stref marginalnych, tj. do tej, w której sęki zajmują **większą powierzchnię** (gorszy margines).
+**WC0 / WC1 — średnia jakość tartaczna:**
+• wady poważniejsze dopuszczone
+• zgnilizna twarda do 1/3 przekroju
+• krzywizna ≤ 3 cm/m
 
-**USC** (ogólny wskaźnik sękatości) — odnosi się do **całego przekroju poprzecznego** tarcicy.
+**WD0 — najniższa klasa wielkowymiarowa:**
+• znaczące wady, zgnilizna twarda > 1/3 przekroju
+• stosowane do palet, opakowań, tarcicy niższej klasy
 
-Oblicza się je jako stosunek pola przekroju sęków do pola przekroju tarcicy (lub strefy marginalnej). Szczegółowe zasady obliczania podano w Załączniku A (rysunki A.1-A.3).`,
+**WK — kłody manipulowane (krótkie bolce):**
+• drewno cięte na krótkie odcinki (bolce)
+
+**X — nieklasyfikowane odpady:**
+• drewno nienadające się do klasyfikacji`,
         examTips: [
           {
-            q: 'Co oznacza skrót USM?',
-            a: 'Wskaźnik Sękatości Marginalnej — odnosi się do gorszego z dwóch marginesów (większy udział sęków)',
-            note: 'USC = Ogólny Wskaźnik Sękatości całego przekroju. Strefa marginalna = ¼ szerokości tarcicy z każdej strony.'
+            q: 'WA0 = klasa najwyższa tartaczna (dawniej W1) — najwyższa cena',
+            a: 'Litera A = najlepsza jakość, cyfra 0 = ogólne przeznaczenie tartaczne. WA1 = specjalne (fornir, oklein).'
+          },
+          {
+            q: 'Od 2025 sinizna do 10% czół NIE dyskwalifikuje WA0/WB0 iglastego',
+            a: 'To zmiana obowiązująca od 01.01.2025. Wcześniej sinizna była bezwzględnym dyskwalifikatorem klas W.'
+          },
+          {
+            q: 'WD0 = najczęściej drewno paletowe/opakowaniowe',
+            a: 'WD0 to najniższa klasa wielkowymiarowa — znaczące wady i zgnilizna twarda > 1/3 przekroju.'
           }
         ]
       },
       {
-        heading: 'Klasyfikacja wymiarów — Tablica 1',
-        body: `Tarcicę dzieli się na 5 sortymentów wg grubości b i stosunku h/b:
+        heading: 'Drewno średniowymiarowe (S) — klasy od 2025',
+        body: `**S2a — papierówka drobna:**
+• średnica minimalna: 5 cm
+• długość: do 1,3 m
+• przeznaczenie: celuloza, papier
 
-| Sortyment | Grubość b (mm) | Stosunek h/b |
-|-----------|----------------|--------------|
-| Deski | 22 ≤ b < 50 | h/b ≥ 2 |
-| Bale | 50 ≤ b < 100 | h/b ≥ 2 |
-| Łaty | 30 ≤ b < 100 | 1 ≤ h/b < 2 |
-| Krawędziaki | b ≥ 100 | 1 ≤ h/b < 2 |
-| Belki | b ≥ 100 | h/b ≥ 2 |
+**S2b — papierówka grubsza:**
+• średnica minimalna: 7 cm
+• maksymalna długość: **2,30 m** (od 2025, zmiana z 2,50 m)
+• przeznaczenie: celuloza, papier
 
-gdzie **b = grubość**, **h = szerokość** przekroju poprzecznego.`,
+**S4 — celulozówka:**
+• grubsze sortymenty celulozowe
+
+**S3a / S3b — żerdzie:**
+• S3a: żerdzie cienkie
+• S3b: żerdzie grubsze
+
+**S1 — kopalniak:**
+• drewno do obudowy wyrobisk górniczych`,
         examTips: [
           {
-            q: 'Jak klasyfikuje się tarcicę o grubości b = 35 mm i stosunku h/b = 3,0?',
-            a: 'Deska (22 ≤ b < 50 mm i h/b ≥ 2)',
-            note: 'Tablica 1: deski 22–50 mm, bale 50–100 mm, łaty h/b 1–2, krawędziaki b ≥ 100 mm h/b < 2, belki b ≥ 100 mm h/b ≥ 2.'
+            q: 'S2b skrócono do 2,30 m (było 2,50 m) — weryfikuj przy odbiorze',
+            a: 'Maksymalna długość S2b od 2025 = 2,30 m. Zmiana obowiązuje od 01.01.2025.'
+          }
+        ]
+      },
+      {
+        heading: 'Drewno małowymiarowe (M)',
+        body: `**M1 — drobnica tyczkowa:**
+• długość do 1,5 m
+• brak zgnilizny
+• przeznaczenie: tyczki, stemple
+
+**M2 — drobnica opałowa:**
+• liczne wady dopuszczone
+• przeznaczenie: opał, biomasa`,
+        examTips: [
+          {
+            q: 'Czym różni się M1 od M2?',
+            a: 'M1 = tyczkowe (do 1,5 m, bez zgnilizny), M2 = opałowe (liczne wady dopuszczone)'
           }
         ]
       }
