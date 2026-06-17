@@ -110,7 +110,23 @@ Wyraźna czerwono-brązowa twardziel. Drewno cięższe, trwalsze. Sęki wyraźne
 Brak wyraźnej twardzieli, drewno białe/kremowe. Brak żywicy — brak smolnych kieszonek. Lekkie.
 
 **Daglezja zielona (PSMN)**
-Wyraźna twardziel. Twardsza i cięższa od świerka. Charakterystyczny zapach.`
+Wyraźna twardziel. Twardsza i cięższa od świerka. Charakterystyczny zapach.`,
+        images: [
+          {
+            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Pinus_silvestris_cross_beentree.jpg/320px-Pinus_silvestris_cross_beentree.jpg',
+            alt: 'Przekrój poprzeczny sosny zwyczajnej - widoczna twardziel i biel',
+            source: 'Wikimedia Commons',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Pinus_silvestris_cross_beentree.jpg',
+            license: 'CC BY-SA 3.0'
+          },
+          {
+            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Norway_spruce_%28Picea_abies%29_trunk_cross_section.png/320px-Norway_spruce_%28Picea_abies%29_trunk_cross_section.png',
+            alt: 'Przekrój poprzeczny świerka pospolitego',
+            source: 'Wikimedia Commons',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Norway_spruce_(Picea_abies)_trunk_cross_section.png',
+            license: 'CC0 (domena publiczna)'
+          }
+        ]
       },
       {
         heading: 'Zakaz mieszania gatunków przy sortowaniu wizualnym',
@@ -200,7 +216,14 @@ Klasy te przyporządkowuje się do klas wytrzymałości wg PN-EN 1912. W praktyc
 
 Przy krawędziakach i belkach marginesy wyznacza się dla każdej z czterech powierzchni podłużnych.
 
-Sęki o średnicy < 5 mm **pomija się**.`
+Sęki o średnicy < 5 mm **pomija się**.`,
+        image: {
+          src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Wood_Knot.JPG/320px-Wood_Knot.JPG',
+          alt: 'Sęk w tarcicy iglastej',
+          source: 'Wikimedia Commons',
+          sourceUrl: 'https://commons.wikimedia.org/wiki/File:Wood_Knot.JPG',
+          license: 'CC BY-SA 3.0'
+        }
       },
       {
         heading: 'Kumulacja sęków',
@@ -222,7 +245,14 @@ Po kumulacji, jeśli suma przekracza kryterium, sztukę reklasyfikuje się do ni
 
 Mierzone jako odchylenie włókien od osi podłużnej (s = BC/AC × 100%).
 
-**Narzędzie:** rysak z obrotowym uchwytem i cienką igłą. Igła prowadzona wzdłuż tarcicy wyznacza przebieg włókien. Możliwe też szablony klasy.`
+**Narzędzie:** rysak z obrotowym uchwytem i cienką igłą. Igła prowadzona wzdłuż tarcicy wyznacza przebieg włókien. Możliwe też szablony klasy.`,
+        image: {
+          src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Lodgepole_pine_spiral_grain.jpg/320px-Lodgepole_pine_spiral_grain.jpg',
+          alt: 'Ukośny (spiralny) przebieg włókien w drewnie iglastym',
+          source: 'Wikimedia Commons',
+          sourceUrl: 'https://commons.wikimedia.org/wiki/File:Lodgepole_pine_spiral_grain.jpg',
+          license: 'CC BY-SA 3.0'
+        }
       }
     ]
   },
@@ -285,7 +315,23 @@ Pęknięcia zaczynające się na czołach odnosi się do szerokości lub 1,5× s
 • **Zgnilizna** — każde stadium rozkładu drewna przez grzyby powodujące obniżenie wytrzymałości
 • **Chodniki owadzie** — drewno z aktywnymi lub widocznymi chodnikami larw
 
-Obecność którejkolwiek z tych wad oznacza natychmiastowe odrzucenie sztuki, bez względu na wszystkie inne parametry.`
+Obecność którejkolwiek z tych wad oznacza natychmiastowe odrzucenie sztuki, bez względu na wszystkie inne parametry.`,
+        images: [
+          {
+            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Braunfaeule_Holz_FI20070208.jpg/320px-Braunfaeule_Holz_FI20070208.jpg',
+            alt: 'Zgnilizna brunatna w drewnie iglastym',
+            source: 'Wikimedia Commons',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Braunfaeule_Holz_FI20070208.jpg',
+            license: 'CC BY-SA 3.0'
+          },
+          {
+            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Bark_Beetle_larva_labyrinths.JPG/320px-Bark_Beetle_larva_labyrinths.JPG',
+            alt: 'Chodniki larw kornika pod korą drewna iglastego',
+            source: 'Wikimedia Commons',
+            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Bark_Beetle_larva_labyrinths.JPG',
+            license: 'Public domain'
+          }
+        ]
       },
       {
         heading: 'Drewno reakcyjne (drewno ciągniące)',
@@ -296,7 +342,14 @@ Obecność którejkolwiek z tych wad oznacza natychmiastowe odrzucenie sztuki, b
 **Limity (Tablica 2):**
 • KW: do **1/5** obwodu
 • KS: do **2/5** obwodu
-• KG: do **3/5** obwodu`
+• KG: do **3/5** obwodu`,
+        image: {
+          src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Twardzica_beentree.jpg/320px-Twardzica_beentree.jpg',
+          alt: 'Drewno reakcyjne (twardzica) - ciemne pasy w drewnie iglastym',
+          source: 'Wikimedia Commons',
+          sourceUrl: 'https://commons.wikimedia.org/wiki/File:Twardzica_beentree.jpg',
+          license: 'CC BY-SA 3.0'
+        }
       },
       {
         heading: 'Sinizna, słoistość i gęstość',
@@ -311,7 +364,14 @@ Mierzona na czole, na odcinku ~75 mm, wzdłuż linii promieniowej.
 **Gęstość minimalna** przy wilgotności 20%:
 • KW: ≥ 450 kg/m³ | KS: ≥ 420 kg/m³ | KG: ≥ 400 kg/m³
 
-Ważne: **gęstości nie bierze się pod uwagę, gdy spełnione jest kryterium słoistości** (alternatywne kryteria).`
+Ważne: **gęstości nie bierze się pod uwagę, gdy spełnione jest kryterium słoistości** (alternatywne kryteria).`,
+        image: {
+          src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Blue_stain_on_pinus_sylvestris_1_beentree.jpg/320px-Blue_stain_on_pinus_sylvestris_1_beentree.jpg',
+          alt: 'Sinizna w drewnie sosny zwyczajnej - przebarwienie od grzybów',
+          source: 'Wikimedia Commons',
+          sourceUrl: 'https://commons.wikimedia.org/wiki/File:Blue_stain_on_pinus_sylvestris_1_beentree.jpg',
+          license: 'CC BY-SA 3.0'
+        }
       }
     ]
   },

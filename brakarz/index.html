@@ -139,6 +139,11 @@
   }
   .theory-nav-btn:hover:not(:disabled) { background: var(--accent-light); }
   .theory-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .theory-img-figure { margin: 14px 0; }
+  .theory-img { max-width: 100%; max-height: 280px; object-fit: contain; border-radius: 6px; border: 1px solid var(--border); display: block; }
+  .theory-img-source { font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 4px; }
+  .theory-img-source a { color: var(--text-muted); }
+  figcaption { font-size: 0.82rem; color: var(--text-muted); margin-top: 6px; font-style: italic; }
 
   /* ── NAUKA ── */
   .study-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 24px; flex-wrap: wrap; }
@@ -554,6 +559,13 @@ function openModule(idx) {
     html += `<div class="theory-section">`;
     html += `<div class="theory-section-heading">${escHtml(sec.heading)}</div>`;
     html += `<div class="theory-section-body">${renderMd(sec.body)}</div>`;
+    const imgs = sec.images ? sec.images : (sec.image ? [sec.image] : []);
+    imgs.forEach(img => {
+      html += `<figure class="theory-img-figure">`;
+      html += `<img src="${escHtml(img.src)}" alt="${escHtml(img.alt)}" class="theory-img">`;
+      html += `<figcaption><span>${escHtml(img.alt)}</span><span class="theory-img-source">Źródło: <a href="${escHtml(img.sourceUrl)}" target="_blank" rel="noopener">${escHtml(img.source)}</a> · ${escHtml(img.license)}</span></figcaption>`;
+      html += `</figure>`;
+    });
     html += `</div>`;
   });
   content.innerHTML = html;
