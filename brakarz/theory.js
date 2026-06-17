@@ -187,27 +187,6 @@ Wyraźna twardziel. Twardsza i cięższa od świerka. Charakterystyczny zapach.`
             source: 'Wikimedia Commons',
             sourceUrl: 'https://commons.wikimedia.org/wiki/File:Pseudotsuga_menziesii_cross_section.jpg',
             license: 'CC BY-SA 3.0'
-          },
-          {
-            src: 'assets/img/modrzew_fornir.jpg',
-            alt: 'Próbka drewna modrzewia europejskiego (Larix decidua) - widoczna czerwono-brązowa twardziel i biel',
-            source: 'Wikimedia Commons',
-            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Wood_Larix_decidua.jpg',
-            license: 'CC BY-SA 3.0'
-          },
-          {
-            src: 'assets/img/jodla_kora.jpg',
-            alt: 'Kora jodły pospolitej (Abies alba) - gładka, szara z pęcherzykami żywicy, Beskid Śląski',
-            source: 'Wikimedia Commons',
-            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Abies_alba_bark_Silesian_Beskids.jpg',
-            license: 'CC BY-SA 3.0'
-          },
-          {
-            src: 'assets/img/jodla_igly.jpg',
-            alt: 'Igły jodły pospolitej (Abies alba) - charakterystyczny biały pasek od spodu igły',
-            source: 'Wikimedia Commons',
-            sourceUrl: 'https://commons.wikimedia.org/wiki/File:Shiny_needles_of_a_silver_fir_in_Gullmarsskogen_Nature_Reserve.jpg',
-            license: 'Public domain'
           }
         ]
       },
