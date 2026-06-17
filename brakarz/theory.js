@@ -773,5 +773,155 @@ System ZKP jest warunkiem uzyskania i utrzymania **certyfikatu CE (Conformité E
 Praca brakarza jest kontrolowana podczas audytów — może zostać poproszony o praktyczne sortowanie próbek i wyjaśnienie decyzji klasyfikacyjnych.`
       }
     ]
+  },
+
+  // ─── MODUŁ 13: Normy europejskie i klasy wytrzymałości ───────────────────
+  {
+    id: 'M13',
+    module: 'Moduł 13',
+    title: 'Normy europejskie i klasy wytrzymałości',
+    icon: '🏷️',
+    sections: [
+      {
+        heading: 'Normy europejskie w sortowaniu drewna',
+        body: `Obok polskiej normy **PN-D-94021** obowiązują normy europejskie (EN) wdrożone w Polsce jako PN-EN:
+
+• **PN-EN 338** — klasy wytrzymałości drewna (C14–C50, D18–D70)
+• **PN-EN 1912** — tabele przyporządkowania klas wizualnych do klas wytrzymałości
+• **PN-EN 13183-2** — pomiar wilgotności metodą elektryczną oporową
+• **PN-EN 14081-1+A1** — ogólne wymagania dla drewna sortowanego wytrzymałościowo, oznakowanie CE
+
+Normy EN są **wymagane przy eksporcie** drewna i do uzyskania **certyfikatu CE**. Producenci stosujący oznakowanie CE muszą stosować te normy łącznie. Na kursach brakarskich normy EN są integralną częścią programu szkolenia.`,
+        examTips: [
+          {
+            q: 'Co oznaczają normy PN-EN 338, 1912, 13183-2 i 14081-1?',
+            a: 'EN 338 = klasy wytrzymałości, EN 1912 = przyporządkowanie klas wizualnych, EN 13183-2 = wilgotnościomierz oporowy, EN 14081-1 = wymagania ogólne + oznakowanie CE'
+          }
+        ]
+      },
+      {
+        heading: 'Klasy wytrzymałości drewna (PN-EN 338)',
+        body: `Norma EN 338 definiuje klasy wytrzymałości dla drewna iglastego i topolowego (oznaczenie **C** — od ang. *conifer*):
+
+**C14 · C16 · C18 · C20 · C22 · C24 · C27 · C30 · C35 · C40 · C45 · C50**
+
+Najczęściej stosowana w budownictwie jest klasa **C24**.
+
+Wybrane wartości charakterystyczne:
+
+| Klasa | fm,k (MPa) | ρk (kg/m³) |
+|-------|-----------|------------|
+| C16   | 16        | 310        |
+| C18   | 18        | 320        |
+| C24   | 24        | 350        |
+| C30   | 30        | 380        |
+
+**fm,k** = charakterystyczna wytrzymałość na zginanie. **ρk** = charakterystyczna gęstość. Cyfra w oznaczeniu klasy odpowiada wartości fm,k w MPa.`,
+        examTips: [
+          {
+            q: 'Jakie wartości charakterystyczne ma klasa C24?',
+            a: 'fm,k = 24 MPa (wytrzymałość na zginanie), ρk = 350 kg/m³'
+          },
+          {
+            q: 'Co oznacza cyfra w oznaczeniu klasy C (np. C24)?',
+            a: 'Wartość fm,k w MPa — im wyższa cyfra, tym wyższa wytrzymałość drewna'
+          }
+        ]
+      },
+      {
+        heading: 'Przyporządkowanie klas (PN-EN 1912)',
+        body: `Norma EN 1912 podaje tabele przyporządkowania klas wizualnych do klas wytrzymałości. Dla Polski i Europy Środkowej (strefa **CNE**):
+
+| Gatunek | Klasa wizualna | Klasa wytrzymałości |
+|---------|---------------|---------------------|
+| Sosna zwyczajna (*Pinus sylvestris*) | S10/S10K (KW/KS) | **C24** |
+| Świerk pospolity (*Picea abies*) | S10/S10K (KW/KS) | **C24** |
+| Jodła pospolita (*Abies alba*) | S10/S10K (KW/KS) | **C24** |
+| Modrzew europejski (*Larix decidua*) | S10/S10K (KW/KS) | **C24** |
+| Modrzew europejski (*Larix decidua*) | S13/S13K (KG) | **C30** |
+
+Sortowanie wizualne wg PN-D-94021 klasy KW lub KS odpowiada klasie **C24** dla głównych gatunków iglastych. Daglezja (*Pseudotsuga menziesii*) nie jest standardowo ujęta w tablicy dla Polski.`,
+        examTips: [
+          {
+            q: 'Jakiej klasie wytrzymałości odpowiada sosna, świerk i jodła klasy KW/KS?',
+            a: 'Klasa C24 wg PN-EN 1912 dla Europy Środkowej (strefa CNE)'
+          },
+          {
+            q: 'Jakiej klasie wytrzymałości odpowiada modrzew europejski klasy S13/S13K?',
+            a: 'Klasa C30 — wyższa niż C24 dla głównych gatunków iglastych'
+          },
+          {
+            q: 'Jaka klasa wytrzymałości jest standardem dla polskiego drewna konstrukcyjnego?',
+            a: 'C24 — dla sosny, świerka i jodły spełniających wymagania klasy wizualnej KW/KS'
+          }
+        ]
+      },
+      {
+        heading: 'Pomiar wilgotności opornikiem (PN-EN 13183-2)',
+        body: `Metoda oporowa (elektryczna) mierzy opór elektryczny drewna między elektrodami.
+
+**Zakres stosowania:** 7–30% (poza tym zakresem wyniki są niepewne).
+
+**Pozycja elektrod:**
+• Odległość od czoła: **≥ 0,3 m**
+• Odległość od krawędzi: **≥ 0,3 szerokości** tarcicy
+• Głębokość wbicia: **≥ 0,3 grubości** tarcicy
+
+**Odczyt:** w ciągu 2–3 sekund po wbiciu elektrod.
+
+**Zaokrąglenie:** wynik zaokrągla się zawsze **w górę** do pełnego procentu (np. 17,2% → 18%).
+
+**Kalibracja:** urządzenie musi być skalibrowane na gatunek i temperaturę drewna. Pomiar wykonuje się w **najgorszym miejscu** przekroju (najbardziej wilgotnym).`,
+        image: {
+          src: 'assets/img/wilgotnosciomierz.jpg',
+          alt: 'Wilgotnościomierz oporowy elektryczny z elektrodami wbitymi w tarcicę',
+          source: 'Materiały szkoleniowe',
+          sourceUrl: '#',
+          license: 'Materiały edukacyjne'
+        },
+        examTips: [
+          {
+            q: 'Jak ustawia się elektrody wilgotnościomierza oporowego wg PN-EN 13183-2?',
+            a: '≥ 0,3 m od czoła; ≥ 0,3 szerokości od krawędzi; głębokość ≥ 0,3 grubości — zapamiętaj trzy wartości 0,3!'
+          },
+          {
+            q: 'Jak zaokrągla się wynik pomiaru wilgotności opornikiem elektrycznym?',
+            a: 'Zawsze W GÓRĘ do pełnego procentu — np. 17,2% → 18%'
+          },
+          {
+            q: 'Jaki jest zakres stosowania wilgotnościomierza oporowego wg PN-EN 13183-2?',
+            a: '7–30% — poza tym zakresem pomiar jest niepewny'
+          }
+        ]
+      },
+      {
+        heading: 'Oznakowanie i wymagania wg PN-EN 14081-1',
+        body: `Norma EN 14081-1 określa ogólne wymagania dla drewna sortowanego wytrzymałościowo.
+
+**Metody sortowania:**
+• **V** — sortowanie wizualne (*Visual*)
+• **M** — sortowanie maszynowe (*Machine*)
+
+**Oznakowanie CE** musi zawierać:
+• Kod producenta i numer jednostki certyfikującej
+• Numer normy: EN 14081-1
+• Metodę sortowania (V lub M)
+• Kod gatunku (np. PNSY = sosna)
+• Klasę wytrzymałości (np. C24)
+• Wilgotność w chwili sortowania (np. KD = suszona komorowo)
+
+**Dokumentacja FPC** (Factory Production Control — Zakładowa Kontrola Produkcji) musi być przechowywana przez **10 lat**. Sortowanie wizualne podlega nadzorowi jednostki certyfikującej podczas regularnych audytów.`,
+        examTips: [
+          {
+            q: 'Co musi zawierać kompletne oznakowanie CE drewna sortowanego wg PN-EN 14081-1?',
+            a: 'Kod producenta, nr normy EN 14081-1, metoda sortowania (V lub M), gatunek, klasa wytrzymałości, wilgotność w chwili sortowania'
+          },
+          {
+            q: 'Przez ile lat przechowuje się dokumentację FPC wg PN-EN 14081-1?',
+            a: '10 lat'
+          }
+        ]
+      }
+    ]
   }
 ];

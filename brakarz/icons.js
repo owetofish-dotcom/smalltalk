@@ -116,4 +116,11 @@ const ICONS = {
     <line x1="9" y1="14" x2="15" y2="14"/>
     <line x1="9" y1="18" x2="13" y2="18"/>
   </svg>`,
+
+  // M13: Normy EU — tarcza certyfikatu z checkmarkiem
+  M13: `<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2L4 6v6c0 5.25 3.5 9.5 8 11 4.5-1.5 8-5.75 8-11V6z" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+    <path d="M12 2L4 6v6c0 5.25 3.5 9.5 8 11 4.5-1.5 8-5.75 8-11V6z"/>
+    <polyline points="9 12 11 14 15 10"/>
+  </svg>`,
 };
