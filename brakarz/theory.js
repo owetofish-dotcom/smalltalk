@@ -13,16 +13,16 @@ const THEORY = [
     sections: [
       {
         heading: 'Dlaczego sortowanie wytrzymałościowe jest obowiązkowe?',
-        body: `Drewno konstrukcyjne stosowane w nośnych elementach budowlanych musi posiadać udokumentowane właściwości mechaniczne. Bez klasyfikacji wytrzymałościowej nie można przypisać drewnu wartości obliczeniowych wymaganych przez Eurokod 5 (PN-EN 1995-1-1).
+        body: `Drewno konstrukcyjne stosowane w nośnych elementach budowlanych musi posiadać udokumentowane właściwości mechaniczne. Bez klasyfikacji wytrzymałościowej nie można przypisać drewnu wartości obliczeniowych wymaganych przez Eurokod 5 (PN-EN (Polska Norma wdrażająca normę Europejską) 1995-1-1).
 
-Znak CE na tarcicy konstrukcyjnej jest obowiązkowy od wdrożenia systemu znakowania wyrobów budowlanych. Oznacza, że producent przejmuje odpowiedzialność za zgodność produktu z deklarowanymi właściwościami.`
+Znak CE (Conformité Européenne — europejski znak zgodności) na tarcicy konstrukcyjnej jest obowiązkowy od wdrożenia systemu znakowania wyrobów budowlanych. Oznacza, że producent przejmuje odpowiedzialność za zgodność produktu z deklarowanymi właściwościami.`
       },
       {
         heading: 'Kluczowe dokumenty normatywne',
         body: `• **PN-D-94021:2013-10** — polska norma klasyfikacyjna, definiuje klasy jakości KW, KS, KG dla sortowania wizualnego
-• **PN-EN 14081-1** — wymagania ogólne dla drewna sortowanego wytrzymałościowo (wymogi ZKP, oznakowanie)
+• **PN-EN (Polska Norma wdrażająca normę Europejską) 14081-1** — wymagania ogólne dla drewna sortowanego wytrzymałościowo (wymogi ZKP (Zakładowa Kontrola Produkcji), oznakowanie)
 • **PN-EN 338** — klasy wytrzymałości drewna (C16, C24, C30...)
-• **PN-EN 1912** — przyporządkowanie klas jakości wizualnej (KW/KS/KG) do klas wytrzymałości
+• **PN-EN 1912** — przyporządkowanie klas jakości wizualnej (KW (Klasa Wyborowa)/KS (Klasa Średniej jakości)/KG (Klasa Gorszej jakości)) do klas wytrzymałości
 • **PN-EN 1995-1-1 (Eurokod 5)** — projektowanie konstrukcji drewnianych, wartości obliczeniowe`
       },
       {
@@ -33,7 +33,7 @@ Znak CE na tarcicy konstrukcyjnej jest obowiązkowy od wdrożenia systemu znakow
 • Zapisów wyników sortowania
 • Regularnych audytów przez jednostkę notyfikowaną
 
-Brakarz wizualny posiadający certyfikat jest kluczowym ogniwem w tym systemie — bez niego firma nie może oznakować tarcicy znakiem CE.`
+Brakarz wizualny posiadający certyfikat jest kluczowym ogniwem w tym systemie — bez niego firma nie może oznakować tarcicy znakiem CE (Conformité Européenne — europejski znak zgodności).`
       }
     ]
   },
@@ -249,7 +249,14 @@ Jakość sztuki tarcicy określa się w miejscu maksymalnego nasilenia wad.`
 
 **USC** (ogólny wskaźnik sękatości) — odnosi się do **całego przekroju poprzecznego** tarcicy.
 
-Oblicza się je jako stosunek pola przekroju sęków do pola przekroju tarcicy (lub strefy marginalnej). Szczegółowe zasady obliczania podano w Załączniku A (rysunki A.1-A.3).`
+Oblicza się je jako stosunek pola przekroju sęków do pola przekroju tarcicy (lub strefy marginalnej). Szczegółowe zasady obliczania podano w Załączniku A (rysunki A.1-A.3).`,
+        examTips: [
+          {
+            q: 'Co oznacza skrót USM?',
+            a: 'Wskaźnik Sękatości Marginalnej — odnosi się do gorszego z dwóch marginesów (większy udział sęków)',
+            note: 'USC = Ogólny Wskaźnik Sękatości całego przekroju. Strefa marginalna = ¼ szerokości tarcicy z każdej strony.'
+          }
+        ]
       },
       {
         heading: 'Klasyfikacja wymiarów — Tablica 1',
@@ -263,7 +270,14 @@ Oblicza się je jako stosunek pola przekroju sęków do pola przekroju tarcicy (
 | Krawędziaki | b ≥ 100 | 1 ≤ h/b < 2 |
 | Belki | b ≥ 100 | h/b ≥ 2 |
 
-gdzie **b = grubość**, **h = szerokość** przekroju poprzecznego.`
+gdzie **b = grubość**, **h = szerokość** przekroju poprzecznego.`,
+        examTips: [
+          {
+            q: 'Jak klasyfikuje się tarcicę o grubości b = 35 mm i stosunku h/b = 3,0?',
+            a: 'Deska (22 ≤ b < 50 mm i h/b ≥ 2)',
+            note: 'Tablica 1: deski 22–50 mm, bale 50–100 mm, łaty h/b 1–2, krawędziaki b ≥ 100 mm h/b < 2, belki b ≥ 100 mm h/b ≥ 2.'
+          }
+        ]
       }
     ]
   },
@@ -287,7 +301,7 @@ Klasy te przyporządkowuje się do klas wytrzymałości wg PN-EN 1912. W praktyc
       {
         heading: 'Wskaźniki sękatości — Tablica 2',
         body: `**Klasa KW:**
-• USM ≤ ¼ i USC ≤ ¼
+• USM (Wskaźnik Sękatości Marginalnej) ≤ ¼ i USC (Ogólny Wskaźnik Sękatości) ≤ ¼
 
 **Klasa KS** (dwa warianty, oba dopuszczone):
 • Wariant 1: USM ≤ ¼, USC ≤ ⅓
@@ -300,6 +314,13 @@ Klasy te przyporządkowuje się do klas wytrzymałości wg PN-EN 1912. W praktyc
 Przy krawędziakach i belkach marginesy wyznacza się dla każdej z czterech powierzchni podłużnych.
 
 Sęki o średnicy < 5 mm **pomija się**.`,
+        examTips: [
+          {
+            q: 'Jakie są dopuszczalne wskaźniki sękatości dla klasy KW?',
+            a: 'USM ≤ ¼ i USC ≤ ¼',
+            note: 'KW to klasa wyborowa — najsurowsze kryteria ze wszystkich trzech klas. KS wariant 1: USM ≤ ¼, USC ≤ ⅓.'
+          }
+        ],
         image: {
           src: 'assets/img/sek_tarcica.jpg',
           alt: 'Sęk w tarcicy iglastej',
@@ -339,13 +360,20 @@ Po kumulacji, jeśli suma przekracza kryterium, sztukę reklasyfikuje się do ni
 
 | Klasa | Max odchylenie | Proporcja |
 |-------|----------------|-----------|
-| KW | ≤ 7% | 1:14 |
-| KS | ≤ 10% | 1:10 |
-| KG | ≤ 16% | 1:6 |
+| KW (Klasa Wyborowa) | ≤ 7% | 1:14 |
+| KS (Klasa Średniej jakości) | ≤ 10% | 1:10 |
+| KG (Klasa Gorszej jakości) | ≤ 16% | 1:6 |
 
 Mierzone jako odchylenie włókien od osi podłużnej (s = BC/AC × 100%).
 
 **Narzędzie:** rysak z obrotowym uchwytem i cienką igłą. Igła prowadzona wzdłuż tarcicy wyznacza przebieg włókien. Możliwe też szablony klasy.`,
+        examTips: [
+          {
+            q: 'Jaki jest dopuszczalny ukośny przebieg włókien dla klasy KW?',
+            a: '≤ 7% (proporcja 1:14)',
+            note: 'KS: ≤ 10% (1:10), KG: ≤ 16% (1:6). Mierzone rysakiem z obrotową igłą lub szablonami klas.'
+          }
+        ],
         image: {
           src: 'assets/img/ukosny_przebieg.jpg',
           alt: 'Ukośny (spiralny) przebieg włókien w drewnie iglastym',
@@ -378,21 +406,28 @@ Pęknięcia na **przeciwległych płaszczyznach lub bokach** sumuje się: p = (G
         body: `Pęknięcia głębokie, nieprzechodzące na czoła (głębokość mierzona szczelinomierzem):
 
 **Głębokość dopuszczalna:**
-• KW: do **⅓** grubości sztuki
-• KS: do **½** grubości sztuki
-• KG: do **⅔** grubości sztuki
+• KW (Klasa Wyborowa): do **⅓** grubości sztuki
+• KS (Klasa Średniej jakości): do **½** grubości sztuki
+• KG (Klasa Gorszej jakości): do **⅔** grubości sztuki
 
 **Długość dopuszczalna:**
 • KW i KS: do **¼ długości** sztuki, nie dłuższe niż **600 mm**
 • KG: do **¼ długości** sztuki, nie dłuższe niż **900 mm**
 
-Pęknięcia traktuje się jako jedno, jeśli odległość między końcami < 5 mm (w kierunku prostopadłym do przebiegu).`
+Pęknięcia traktuje się jako jedno, jeśli odległość między końcami < 5 mm (w kierunku prostopadłym do przebiegu).`,
+        examTips: [
+          {
+            q: 'Jaka jest dopuszczalna głębokość i długość pęknięć głębokich dla klasy KW?',
+            a: 'Głębokość: do ⅓ grubości; długość: do ¼ długości sztuki i max 600 mm',
+            note: 'KS: głębokość ½, też max 600 mm; KG: głębokość ⅔, max 900 mm. Miara p = G/b (szczelinomierz 0,2 mm).'
+          }
+        ]
       },
       {
         heading: 'Pęknięcia czołowe — limity',
         body: `Pęknięcia czołowe (nieprzechodzące, przechodzące i okrężne):
-• KW i KS: do **1/1** szerokości sztuki
-• KG: do **1½** szerokości sztuki
+• KW (Klasa Wyborowa) i KS (Klasa Średniej jakości): do **1/1** szerokości sztuki
+• KG (Klasa Gorszej jakości): do **1½** szerokości sztuki
 
 **Pęcherze żywiczne, zakorki, zabitki** mierzy się tak samo jak pęknięcia głębokie.
 
@@ -410,12 +445,19 @@ Pęknięcia zaczynające się na czołach odnosi się do szerokości lub 1,5× s
     sections: [
       {
         heading: 'Wady bezwzględnie dyskwalifikujące',
-        body: `Następujące wady są **niedopuszczalne we wszystkich klasach (KW, KS, KG)**:
+        body: `Następujące wady są **niedopuszczalne we wszystkich klasach (KW (Klasa Wyborowa), KS (Klasa Średniej jakości), KG (Klasa Gorszej jakości))**:
 
 • **Zgnilizna** — każde stadium rozkładu drewna przez grzyby powodujące obniżenie wytrzymałości
 • **Chodniki owadzie** — drewno z aktywnymi lub widocznymi chodnikami larw
 
 Obecność którejkolwiek z tych wad oznacza natychmiastowe odrzucenie sztuki, bez względu na wszystkie inne parametry.`,
+        examTips: [
+          {
+            q: 'Które wady są bezwzględnie niedopuszczalne we wszystkich klasach?',
+            a: 'Zgnilizna i chodniki owadzie — dyskwalifikują sztukę niezależnie od wszystkich innych parametrów',
+            note: 'Sinizna natomiast jest dopuszczalna we wszystkich klasach — to tylko przebarwienie, nie wpływa na wytrzymałość.'
+          }
+        ],
         images: [
           {
             src: 'assets/img/zgnilizna.jpg',
@@ -440,9 +482,9 @@ Obecność którejkolwiek z tych wad oznacza natychmiastowe odrzucenie sztuki, b
 **Pomiar:** R = (R₁+R₂+R₃+R₄) / 2(b+h), gdzie R₁-R₄ to szerokości drewna reakcyjnego na czterech powierzchniach.
 
 **Limity (Tablica 2):**
-• KW: do **1/5** obwodu
-• KS: do **2/5** obwodu
-• KG: do **3/5** obwodu`,
+• KW (Klasa Wyborowa): do **1/5** obwodu
+• KS (Klasa Średniej jakości): do **2/5** obwodu
+• KG (Klasa Gorszej jakości): do **3/5** obwodu`,
         image: {
           src: 'assets/img/drewno_reakcyjne.jpg',
           alt: 'Drewno reakcyjne (twardzica) - ciemne pasy w drewnie iglastym',
@@ -456,15 +498,27 @@ Obecność którejkolwiek z tych wad oznacza natychmiastowe odrzucenie sztuki, b
         body: `**Sinizna** — dopuszczalna we wszystkich klasach. To tylko przebarwienie od grzybów (saprofitów), nie wpływa na wytrzymałość.
 
 **Słoistość** (przeciętna szerokość przyrostów rocznych):
-• KW: ≤ 4 mm
-• KS: ≤ 6 mm
-• KG: ≤ 10 mm
+• KW (Klasa Wyborowa): ≤ 4 mm
+• KS (Klasa Średniej jakości): ≤ 6 mm
+• KG (Klasa Gorszej jakości): ≤ 10 mm
 Mierzona na czole, na odcinku ~75 mm, wzdłuż linii promieniowej.
 
 **Gęstość minimalna** przy wilgotności 20%:
 • KW: ≥ 450 kg/m³ | KS: ≥ 420 kg/m³ | KG: ≥ 400 kg/m³
 
 Ważne: **gęstości nie bierze się pod uwagę, gdy spełnione jest kryterium słoistości** (alternatywne kryteria).`,
+        examTips: [
+          {
+            q: 'Jaka jest dopuszczalna słoistość dla klasy KW?',
+            a: '≤ 4 mm (mierzona na czole, odcinek ~75 mm, linia promieniowa)',
+            note: 'KS: ≤ 6 mm, KG: ≤ 10 mm. Gęstości nie bierze się pod uwagę, gdy spełnione jest kryterium słoistości.'
+          },
+          {
+            q: 'Jaka jest minimalna gęstość tarcicy klasy KW przy wilgotności 20%?',
+            a: '≥ 450 kg/m³ (KS: ≥ 420, KG: ≥ 400)',
+            note: 'Gęstość i słoistość to alternatywne kryteria — wystarczy spełnić jedno z nich.'
+          }
+        ],
         image: {
           src: 'assets/img/sinizna.jpg',
           alt: 'Sinizna w drewnie sosny zwyczajnej - przebarwienie od grzybów',
@@ -490,8 +544,8 @@ Ważne: **gęstości nie bierze się pod uwagę, gdy spełnione jest kryterium s
 **Wskaźnik obliny:** n_H = H/h (na płaszczyźnie) lub n_B = B/b (na boku), gdzie H/B = szerokość obliny.
 
 **Limity:**
-• KW i KS: do ¼ grubości i do ¼ szerokości (łącznie na dwóch krawędziach)
-• KG: zróżnicowane — do 300 mm od czół do ⅓/⅓, dalej do ½ grubości i ⅓ szerokości
+• KW (Klasa Wyborowa) i KS (Klasa Średniej jakości): do ¼ grubości i do ¼ szerokości (łącznie na dwóch krawędziach)
+• KG (Klasa Gorszej jakości): zróżnicowane — do 300 mm od czół do ⅓/⅓, dalej do ½ grubości i ⅓ szerokości
 
 Oblina mierzy się w miejscu gdzie jej udział jest największy — szczególnie w pierwszych 300 mm od czół.`
       },
@@ -500,7 +554,7 @@ Oblina mierzy się w miejscu gdzie jej udział jest największy — szczególnie
         body: `Wszystkie mierzone na odcinku **2 metrów**:
 
 **Krzywizna podłużna płaszczyzyn** (Rys. A.8a — strzałka x):
-• KW i KS: ≤ 10 mm | KG: ≤ 20 mm
+• KW (Klasa Wyborowa) i KS (Klasa Średniej jakości): ≤ 10 mm | KG (Klasa Gorszej jakości): ≤ 20 mm
 
 **Krzywizna podłużna boków** (Rys. A.8b — spaczenie y):
 • KW i KS: ≤ 8 mm | KG: ≤ 12 mm
@@ -509,7 +563,14 @@ Oblina mierzy się w miejscu gdzie jej udział jest największy — szczególnie
 • KW i KS: ≤ 1 mm/25 mm | KG: ≤ 2 mm/25 mm
 
 **Krzywizna poprzeczna** (Rys. A.8d — mierzona na czole):
-• KW i KS: ≤ 1 mm/25 mm | KG: ≤ 2 mm/25 mm`
+• KW i KS: ≤ 1 mm/25 mm | KG: ≤ 2 mm/25 mm`,
+        examTips: [
+          {
+            q: 'Jaka jest dopuszczalna krzywizna podłużna płaszczyzyn dla klas KW i KS?',
+            a: '≤ 10 mm (mierzona na odcinku 2 m); dla KG: ≤ 20 mm',
+            note: 'Krzywizna boków: KW/KS ≤ 8 mm, KG ≤ 12 mm. Wichrowatość: KW/KS ≤ 1 mm/25 mm, KG ≤ 2 mm/25 mm.'
+          }
+        ]
       },
       {
         heading: 'Inne cechy geometryczne',
@@ -519,7 +580,7 @@ Oblina mierzy się w miejscu gdzie jej udział jest największy — szczególnie
 
 **Nieprostopadłość czół** — czoła prostopadłe do płaszczyzn i boków; odchylenia mieszczą się w granicach dopuszczalnych odchyłek długości.
 
-Odchyłki wymiarowe określa się wg **PN-EN 336**, wymiary wg **PN-EN 1313-1:2010**.`
+Odchyłki wymiarowe określa się wg **PN-EN (Polska Norma wdrażająca normę Europejską) 336**, wymiary wg **PN-EN 1313-1:2010**.`
       }
     ]
   },
@@ -589,7 +650,7 @@ Rysunek A.4: a) rysak, b) wytyczanie przebiegu, c) szablony KW (1:14), KS (1:10)
         heading: 'Czynności sortownicze — kolejność',
         body: `W ramach czynności sortowniczych brakarz musi kolejno:
 a) **Sprawdzić gatunek drewna** — oględziny nieuzbrojonym okiem
-b) **Sprawdzić wilgotność** — wilgotnościomierz elektryczny (PN-EN 13183-2)
+b) **Sprawdzić wilgotność** — wilgotnościomierz elektryczny (PN-EN (Polska Norma wdrażająca normę Europejską) 13183-2)
 c) **Sprawdzić wymiary** — wg PN-EN 1309-1, odchyłki wg PN-EN 336
 d) **Sprawdzić jakość** — oględziny nieuzbrojonym okiem w miejscu max nasilenia wad
 e) **Nanieść oznakowanie** — wg PN-EN 14081-1`
@@ -610,12 +671,19 @@ Sztukę tarcicy uznaje się za **wadliwą**, jeżeli nie spełnia chociażby **j
 
 Sztuka wadliwa może być:
 • Zdegradowana do niższej klasy
-• Odrzucona z klasy KG (jeśli nie spełnia nawet KG) — musi być jasno oznaczona jako niekwalifikowalna`
+• Odrzucona z klasy KG (Klasa Gorszej jakości, jeśli nie spełnia nawet KG) — musi być jasno oznaczona jako niekwalifikowalna`,
+        examTips: [
+          {
+            q: 'Co to jest "sztuka wadliwa"?',
+            a: 'Sztuka niespełniająca chociażby jednego wymagania Rozdziału 5 normy',
+            note: 'Sortowanie ma charakter stuprocentowy — sprawdzana jest każda sztuka z osobna (wilgotność, wymiary, jakość strukturalna, cechy geometryczne).'
+          }
+        ]
       },
       {
         heading: 'Wilgotność i wymiary — wymagania szczegółowe',
         body: `**Wilgotność:** Zaleca się ≤ 20% przy sortowaniu wizualnym. Za zgodą stron dopuszcza się > 20%.
-W sporze — metoda suszarkowo-wagowa (PN-EN 13183-1).
+W sporze — metoda suszarkowo-wagowa (PN-EN (Polska Norma wdrażająca normę Europejską) 13183-1).
 
 **Wymiary:** Minimalna grubość 22 mm (wyjątkowo od 19 mm przy polu przekroju ≥ 2000 mm²). Minimalne pole przekroju 2000 mm².
 
@@ -650,7 +718,14 @@ Zasada: losowy wybór sztuk w ilościach wg **Tablicy 4**. Jeśli liczba sztuk w
 | 1201–3200 | 315 | 18 |
 | > 3200 | 500 | 18 |
 
-**Uwaga:** Jeśli liczność próby ≤ 20 sztuk → stosuje się kontrolę stuprocentową.`
+**Uwaga:** Jeśli liczność próby ≤ 20 sztuk → stosuje się kontrolę stuprocentową.`,
+        examTips: [
+          {
+            q: 'Ile sztuk należy zbadać przy weryfikacji partii 51–90 sztuk?',
+            a: '32 sztuki (max 2 wadliwe dopuszczalne)',
+            note: 'Tablica 4: partia ≤ 50 → 20 szt. lub 100%; 91–150 → 50 szt.; 151–280 → 80 szt.; 281–500 → 125 szt.'
+          }
+        ]
       }
     ]
   },
@@ -664,8 +739,8 @@ Zasada: losowy wybór sztuk w ilościach wg **Tablicy 4**. Jeśli liczba sztuk w
     sections: [
       {
         heading: 'Oznakowanie tarcicy sortowanej wytrzymałościowo',
-        body: `Oznakowanie wg **PN-EN 14081-1** musi zawierać:
-• Symbol CE
+        body: `Oznakowanie wg **PN-EN (Polska Norma wdrażająca normę Europejską) 14081-1** musi zawierać:
+• Symbol CE (Conformité Européenne — europejski znak zgodności)
 • Numer jednostki certyfikującej
 • Klasę wytrzymałości (np. C24)
 • Gatunek drewna (np. PNSY)
@@ -684,7 +759,7 @@ Oznakowanie nakłada się w sposób trwały — stempel, wypalenie, etykieta. Ta
 • **Szkolenie personelu** — certyfikaty brakarzy muszą być ważne
 • **Badania kontrolne** — regularne sprawdzanie wyrobów
 
-System ZKP jest warunkiem uzyskania i utrzymania **certyfikatu CE** od jednostki notyfikowanej.`
+System ZKP jest warunkiem uzyskania i utrzymania **certyfikatu CE (Conformité Européenne — europejski znak zgodności)** od jednostki notyfikowanej.`
       },
       {
         heading: 'Rola brakarza w systemie ZKP',

@@ -131,6 +131,22 @@
   .theory-section-body th { background: var(--accent-light); font-weight: 600; }
   .theory-section-body tr:nth-child(even) td { background: #fafaf8; }
 
+  .exam-tip {
+    margin-top: 14px;
+    border: 1px solid #e8e0d0;
+    border-left: 3px solid #8b6914;
+    background: #fdfaf4;
+    border-radius: 0 6px 6px 0;
+    padding: 12px 14px;
+  }
+  .exam-tip-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: #8b6914; margin-bottom: 8px;
+  }
+  .exam-tip-q { font-size: 0.9rem; font-weight: 500; color: #111; margin-bottom: 6px; }
+  .exam-tip-a { font-size: 0.88rem; color: #16a34a; font-weight: 600; margin-bottom: 4px; }
+  .exam-tip-note { font-size: 0.8rem; color: #666; font-style: italic; }
+
   .theory-nav-btns {
     display: flex; gap: 10px; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border);
   }
@@ -569,6 +585,16 @@ function openModule(idx) {
       html += `<figcaption><span>${escHtml(img.alt)}</span><span class="theory-img-source">Źródło: <a href="${escHtml(img.sourceUrl)}" target="_blank" rel="noopener">${escHtml(img.source)}</a> · ${escHtml(img.license)}</span></figcaption>`;
       html += `</figure>`;
     });
+    if (sec.examTips) {
+      sec.examTips.forEach(tip => {
+        html += `<div class="exam-tip">
+          <div class="exam-tip-label">📝 Możliwe pytanie egzaminacyjne</div>
+          <div class="exam-tip-q">${tip.q}</div>
+          <div class="exam-tip-a">✓ ${tip.a}</div>
+          ${tip.note ? `<div class="exam-tip-note">${tip.note}</div>` : ''}
+        </div>`;
+      });
+    }
     html += `</div>`;
   });
   content.innerHTML = html;
