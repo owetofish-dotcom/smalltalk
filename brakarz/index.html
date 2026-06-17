@@ -304,6 +304,47 @@
     .r-stats { flex-direction: column; gap: 10px; }
     .question-text { font-size: 1.15rem; }
   }
+
+  /* ── EARLY FINISH BUTTON ── */
+  .btn-end-exam {
+    background: transparent; border: 1px solid rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.82); padding: 4px 11px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 500; cursor: pointer;
+    font-family: var(--font-body); transition: all 0.15s; flex-shrink: 0;
+  }
+  .btn-end-exam:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.75); color: #fff; }
+
+  /* ── CONFIRM MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.42); display: flex; align-items: center; justify-content: center;
+  }
+  .modal-box {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 32px 28px; max-width: 420px; width: 90%; text-align: center;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+  .modal-box h3 { font-family: var(--font-head); font-size: 1.25rem; font-weight: 600; margin-bottom: 10px; }
+  .modal-box p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 24px; }
+  .modal-btns { display: flex; gap: 10px; }
+  .modal-btn-cancel {
+    flex: 1; padding: 10px; background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 5px; font-size: 0.9rem; cursor: pointer; font-family: var(--font-body); transition: all 0.13s;
+  }
+  .modal-btn-cancel:hover { background: var(--accent-light); }
+  .modal-btn-confirm {
+    flex: 1; padding: 10px; background: var(--accent); color: #fff; border: none;
+    border-radius: 5px; font-size: 0.9rem; font-weight: 500; cursor: pointer;
+    font-family: var(--font-body); transition: opacity 0.15s;
+  }
+  .modal-btn-confirm:hover { opacity: 0.85; }
+
+  /* ── PARTIAL RESULT NOTE ── */
+  .r-partial-note {
+    margin-bottom: 18px; padding: 10px 15px; background: #fffbeb;
+    border-left: 3px solid var(--warn); font-size: 0.83rem; color: #78350f;
+    border-radius: 0 6px 6px 0; text-align: left; line-height: 1.6;
+  }
 </style>
 </head>
 <body>
@@ -382,9 +423,12 @@
 
 <!-- ══════════════ EGZAMIN — ACTIVE ══════════════ -->
 <div id="exam-bar-container" style="display:none; position:sticky; top:52px; z-index:15;">
-  <div class="exam-bar" id="exam-bar">
-    <span id="exam-q-label">Pytanie 1/30</span>
-    <span id="exam-score-live">Poprawne: 0</span>
+  <div class="exam-bar" id="exam-bar" style="justify-content:space-between;">
+    <div style="display:flex;gap:20px;align-items:center;">
+      <span id="exam-q-label">Pytanie 1/30</span>
+      <span id="exam-score-live">Poprawne: 0</span>
+    </div>
+    <button class="btn-end-exam" onclick="askEndExam()">Zakończ egzamin</button>
   </div>
   <div class="exam-progress-rail"><div class="exam-progress-fill" id="exam-progress-fill" style="width:0%"></div></div>
 </div>
@@ -413,8 +457,9 @@
     <div class="r-stats">
       <div class="r-stat"><div class="val" id="r-correct"></div><div class="lbl">Poprawnych</div></div>
       <div class="r-stat"><div class="val" id="r-wrong"></div><div class="lbl">Błędnych</div></div>
-      <div class="r-stat"><div class="val">30</div><div class="lbl">Pytań</div></div>
+      <div class="r-stat"><div class="val" id="r-total">30</div><div class="lbl" id="r-total-lbl">Pytań</div></div>
     </div>
+    <div id="r-partial-note" class="r-partial-note" style="display:none;"></div>
     <div class="r-cats">
       <div class="r-cats-title">Wyniki per kategoria</div>
       <div id="r-cats-rows"></div>
@@ -422,6 +467,18 @@
     <div class="r-actions">
       <button class="btn-redo" onclick="startExam()">Nowy egzamin</button>
       <button class="btn-study-wrong" id="btn-study-wrong" onclick="studyWrong()">Ucz się błędnych pytań</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ MODAL — ZAKOŃCZ EGZAMIN ══════════════ -->
+<div id="exam-modal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)cancelEndExam()">
+  <div class="modal-box">
+    <h3>Zakończyć egzamin?</h3>
+    <p>Zostanie oceniony cząstkowy wynik na podstawie dotychczas udzielonych odpowiedzi.</p>
+    <div class="modal-btns">
+      <button class="modal-btn-cancel" onclick="cancelEndExam()">Anuluj</button>
+      <button class="modal-btn-confirm" onclick="confirmEndExam()">Tak, zakończ</button>
     </div>
   </div>
 </div>
@@ -763,32 +820,67 @@ function pickAnswer(chosen) {
 function nextQuestion() {
   examIdx++;
   if (examIdx >= EXAM_COUNT) {
-    showResults();
+    showResults(false);
   } else {
     renderQuestion();
   }
 }
 
-function showResults() {
+// ── EARLY FINISH ──
+function askEndExam() {
+  if (examAnswers.length === 0) {
+    // No answers yet — confirm makes no sense, just show 0
+  }
+  document.getElementById('exam-modal').style.display = 'flex';
+}
+
+function cancelEndExam() {
+  document.getElementById('exam-modal').style.display = 'none';
+}
+
+function confirmEndExam() {
+  document.getElementById('exam-modal').style.display = 'none';
+  const early = examAnswers.length < EXAM_COUNT;
+  showResults(early);
+}
+
+function showResults(early) {
   document.getElementById('quiz-area').style.display = 'none';
   document.getElementById('exam-bar-container').style.display = 'none';
-  const pct = examCorrect / EXAM_COUNT;
+
+  const answeredCount = examAnswers.length;
+  const pct = answeredCount > 0 ? examCorrect / answeredCount : 0;
   const pass = pct >= PASS_THRESHOLD;
 
   document.getElementById('r-score').textContent = examCorrect;
-  document.getElementById('r-pct').textContent = `${Math.round(pct * 100)}% poprawnych`;
+
+  if (early) {
+    document.getElementById('r-pct').textContent = `${Math.round(pct * 100)}% poprawnych (${answeredCount} z ${EXAM_COUNT} pytań)`;
+    document.getElementById('r-total').textContent = answeredCount;
+    document.getElementById('r-total-lbl').textContent = 'Odpowiedzianych';
+    const note = document.getElementById('r-partial-note');
+    note.textContent = `Uwaga: wynik cząstkowy — odpowiedziano na ${answeredCount} z ${EXAM_COUNT} pytań.`;
+    note.style.display = 'block';
+  } else {
+    document.getElementById('r-pct').textContent = `${Math.round(pct * 100)}% poprawnych`;
+    document.getElementById('r-total').textContent = EXAM_COUNT;
+    document.getElementById('r-total-lbl').textContent = 'Pytań';
+    document.getElementById('r-partial-note').style.display = 'none';
+  }
+
   const badge = document.getElementById('r-badge');
   badge.textContent = pass ? 'ZALICZONY' : 'NIEZALICZONY';
   badge.className = 'result-badge ' + (pass ? 'badge-pass' : 'badge-fail');
   document.getElementById('r-correct').textContent = examCorrect;
-  document.getElementById('r-wrong').textContent = EXAM_COUNT - examCorrect;
+  document.getElementById('r-wrong').textContent = answeredCount - examCorrect;
 
-  // per-category
+  // per-category — only answered questions
   const catStats = {};
-  examQ.forEach((q, i) => {
+  examAnswers.forEach((ans, i) => {
+    const q = examQ[i];
     if (!catStats[q.cat]) catStats[q.cat] = { total: 0, correct: 0 };
     catStats[q.cat].total++;
-    if (examAnswers[i] && examAnswers[i].correct) catStats[q.cat].correct++;
+    if (ans.correct) catStats[q.cat].correct++;
   });
   const rows = document.getElementById('r-cats-rows');
   rows.innerHTML = '';
