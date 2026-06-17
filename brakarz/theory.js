@@ -113,14 +113,14 @@ Brak wyraźnej twardzieli, drewno białe/kremowe. Brak żywicy — brak smolnych
 Wyraźna twardziel. Twardsza i cięższa od świerka. Charakterystyczny zapach.`,
         images: [
           {
-            src: 'assets/images/sosna_przekroj.jpg',
+            src: 'assets/img/sosna_przekroj.jpg',
             alt: 'Przekrój poprzeczny sosny zwyczajnej - widoczna twardziel i biel',
             source: 'Wikimedia Commons',
             sourceUrl: 'https://commons.wikimedia.org/wiki/File:Pinus_silvestris_cross_beentree.jpg',
             license: 'CC BY-SA 3.0'
           },
           {
-            src: 'assets/images/swierka_przekroj.jpg',
+            src: 'assets/img/swierka_przekroj.jpg',
             alt: 'Przekrój poprzeczny świerka pospolitego',
             source: 'Wikimedia Commons',
             sourceUrl: 'https://commons.wikimedia.org/wiki/File:Norway_spruce_(Picea_abies)_trunk_cross_section.png',
@@ -218,7 +218,7 @@ Przy krawędziakach i belkach marginesy wyznacza się dla każdej z czterech pow
 
 Sęki o średnicy < 5 mm **pomija się**.`,
         image: {
-          src: 'assets/images/sek_tarcica.jpg',
+          src: 'assets/img/sek_tarcica.jpg',
           alt: 'Sęk w tarcicy iglastej',
           source: 'Wikimedia Commons',
           sourceUrl: 'https://commons.wikimedia.org/wiki/File:Wood_Knot.JPG',
@@ -247,7 +247,7 @@ Mierzone jako odchylenie włókien od osi podłużnej (s = BC/AC × 100%).
 
 **Narzędzie:** rysak z obrotowym uchwytem i cienką igłą. Igła prowadzona wzdłuż tarcicy wyznacza przebieg włókien. Możliwe też szablony klasy.`,
         image: {
-          src: 'assets/images/ukosny_przebieg.jpg',
+          src: 'assets/img/ukosny_przebieg.jpg',
           alt: 'Ukośny (spiralny) przebieg włókien w drewnie iglastym',
           source: 'Wikimedia Commons',
           sourceUrl: 'https://commons.wikimedia.org/wiki/File:Lodgepole_pine_spiral_grain.jpg',
@@ -318,14 +318,14 @@ Pęknięcia zaczynające się na czołach odnosi się do szerokości lub 1,5× s
 Obecność którejkolwiek z tych wad oznacza natychmiastowe odrzucenie sztuki, bez względu na wszystkie inne parametry.`,
         images: [
           {
-            src: 'assets/images/zgnilizna.jpg',
+            src: 'assets/img/zgnilizna.jpg',
             alt: 'Zgnilizna brunatna w drewnie iglastym',
             source: 'Wikimedia Commons',
             sourceUrl: 'https://commons.wikimedia.org/wiki/File:Braunfaeule_Holz_FI20070208.jpg',
             license: 'CC BY-SA 3.0'
           },
           {
-            src: 'assets/images/chodniki_owadzie.jpg',
+            src: 'assets/img/chodniki_owadzie.jpg',
             alt: 'Chodniki larw kornika pod korą drewna iglastego',
             source: 'Wikimedia Commons',
             sourceUrl: 'https://commons.wikimedia.org/wiki/File:Bark_Beetle_larva_labyrinths.JPG',
@@ -344,7 +344,7 @@ Obecność którejkolwiek z tych wad oznacza natychmiastowe odrzucenie sztuki, b
 • KS: do **2/5** obwodu
 • KG: do **3/5** obwodu`,
         image: {
-          src: 'assets/images/drewno_reakcyjne.jpg',
+          src: 'assets/img/drewno_reakcyjne.jpg',
           alt: 'Drewno reakcyjne (twardzica) - ciemne pasy w drewnie iglastym',
           source: 'Wikimedia Commons',
           sourceUrl: 'https://commons.wikimedia.org/wiki/File:Twardzica_beentree.jpg',
@@ -366,7 +366,7 @@ Mierzona na czole, na odcinku ~75 mm, wzdłuż linii promieniowej.
 
 Ważne: **gęstości nie bierze się pod uwagę, gdy spełnione jest kryterium słoistości** (alternatywne kryteria).`,
         image: {
-          src: 'assets/images/sinizna.jpg',
+          src: 'assets/img/sinizna.jpg',
           alt: 'Sinizna w drewnie sosny zwyczajnej - przebarwienie od grzybów',
           source: 'Wikimedia Commons',
           sourceUrl: 'https://commons.wikimedia.org/wiki/File:Blue_stain_on_pinus_sylvestris_1_beentree.jpg',
