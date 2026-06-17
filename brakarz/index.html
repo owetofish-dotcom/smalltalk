@@ -81,27 +81,64 @@
   .mode-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; }
 
   /* ── TEORIA ── */
-  .theory-list { display: flex; flex-direction: column; gap: 8px; }
-  .theory-item {
-    background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+  .theory-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;
   }
-  .theory-item-header {
-    display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer;
-    transition: background 0.13s; user-select: none;
+  .theory-module-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 20px 18px; cursor: pointer; transition: all 0.15s; text-align: left;
+    display: flex; flex-direction: column; gap: 8px;
   }
-  .theory-item-header:hover { background: var(--accent-light); }
-  .theory-item.open .theory-item-header { background: var(--accent-light); }
-  .theory-id { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.06em; width: 28px; flex-shrink: 0; }
-  .theory-title { font-weight: 500; font-size: 0.95rem; flex: 1; }
-  .theory-chevron { color: var(--text-muted); font-size: 0.8rem; transition: transform 0.2s; }
-  .theory-item.open .theory-chevron { transform: rotate(180deg); }
-  .theory-body { display: none; padding: 0 18px 18px; }
-  .theory-item.open .theory-body { display: block; }
-  .theory-content {
-    font-size: 0.9rem; line-height: 1.7; color: var(--text);
-    white-space: pre-wrap; font-family: var(--font-body);
-    border-top: 1px solid var(--border); padding-top: 14px; margin-top: 2px;
+  .theory-module-card:hover { border-color: var(--text); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.07); }
+  .theory-card-icon { font-size: 1.6rem; }
+  .theory-card-id { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.07em; text-transform: uppercase; }
+  .theory-card-title { font-family: var(--font-head); font-size: 0.95rem; font-weight: 600; line-height: 1.35; }
+
+  /* Detail view */
+  .theory-detail-header {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
   }
+  .theory-back-btn {
+    background: var(--accent-light); border: 1px solid var(--border); border-radius: 5px;
+    padding: 7px 14px; font-size: 0.85rem; cursor: pointer; font-family: var(--font-body);
+    transition: all 0.13s; white-space: nowrap; flex-shrink: 0;
+  }
+  .theory-back-btn:hover { background: var(--border); }
+  .theory-progress-wrap { flex: 1; min-width: 120px; }
+  .theory-progress-label { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; letter-spacing: 0.04em; display: block; margin-bottom: 5px; }
+  .theory-progress-rail { height: 4px; background: var(--border); border-radius: 2px; }
+  .theory-progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+
+  .theory-module-title {
+    font-family: var(--font-head); font-size: 1.7rem; font-weight: 700; margin-bottom: 6px;
+  }
+  .theory-module-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 28px; }
+
+  .theory-section { margin-bottom: 24px; }
+  .theory-section-heading {
+    font-family: var(--font-head); font-size: 1.05rem; font-weight: 600; margin-bottom: 10px;
+    padding-bottom: 6px; border-bottom: 1px solid var(--border);
+  }
+  .theory-section-body { font-size: 0.92rem; line-height: 1.75; color: var(--text); }
+  .theory-section-body p { margin-bottom: 10px; }
+  .theory-section-body p:last-child { margin-bottom: 0; }
+  .theory-section-body ul { padding-left: 18px; margin-bottom: 10px; }
+  .theory-section-body li { margin-bottom: 4px; }
+  .theory-section-body table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 0.88rem; }
+  .theory-section-body th, .theory-section-body td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+  .theory-section-body th { background: var(--accent-light); font-weight: 600; }
+  .theory-section-body tr:nth-child(even) td { background: #fafaf8; }
+
+  .theory-nav-btns {
+    display: flex; gap: 10px; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  .theory-nav-btn {
+    flex: 1; padding: 11px; background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 5px; font-size: 0.9rem; font-weight: 500; cursor: pointer;
+    font-family: var(--font-body); transition: all 0.13s;
+  }
+  .theory-nav-btn:hover:not(:disabled) { background: var(--accent-light); }
+  .theory-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
   /* ── NAUKA ── */
   .study-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 24px; flex-wrap: wrap; }
@@ -314,9 +351,25 @@
 
 <!-- ══════════════ TEORIA ══════════════ -->
 <div class="screen" id="screen-teoria">
-  <h2 style="font-size:2rem;margin-bottom:6px;">Teoria normy</h2>
-  <p style="color:var(--text-muted);margin-bottom:28px;font-size:0.95rem;">PN-D-94021:2013-10 — tarcica konstrukcyjna iglasta sortowana wizualnie</p>
-  <div class="theory-list" id="theory-list"></div>
+  <div id="theory-grid-view">
+    <h2 style="font-size:2rem;margin-bottom:6px;">Teoria normy</h2>
+    <p style="color:var(--text-muted);margin-bottom:28px;font-size:0.95rem;">PN-D-94021:2013-10 — tarcica konstrukcyjna iglasta sortowana wizualnie</p>
+    <div class="theory-grid" id="theory-grid"></div>
+  </div>
+  <div id="theory-detail-view" style="display:none;">
+    <div class="theory-detail-header">
+      <button class="theory-back-btn" onclick="closeModuleDetail()">← Wszystkie moduły</button>
+      <div class="theory-progress-wrap">
+        <span class="theory-progress-label" id="theory-progress-label"></span>
+        <div class="theory-progress-rail"><div class="theory-progress-fill" id="theory-progress-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div id="theory-module-content"></div>
+    <div class="theory-nav-btns">
+      <button class="theory-nav-btn" id="theory-prev-btn" onclick="navigateModule(-1)">← Poprzedni</button>
+      <button class="theory-nav-btn" id="theory-next-btn" onclick="navigateModule(1)">Następny →</button>
+    </div>
+  </div>
 </div>
 
 <!-- ══════════════ NAUKA ══════════════ -->
@@ -406,28 +459,113 @@ function showTab(tab) {
 
 // ── TEORIA ──
 let theoryBuilt = false;
+let currentModuleIdx = 0;
+
 function buildTheory() {
   if (theoryBuilt) return;
   theoryBuilt = true;
-  const list = document.getElementById('theory-list');
-  THEORY.forEach(sec => {
-    const item = document.createElement('div');
-    item.className = 'theory-item';
-    item.innerHTML = `
-      <div class="theory-item-header" onclick="toggleTheory(this.parentElement)">
-        <span class="theory-id">${sec.id}</span>
-        <span class="theory-title">${sec.title}</span>
-        <span class="theory-chevron">▼</span>
-      </div>
-      <div class="theory-body">
-        <div class="theory-content">${escHtml(sec.content)}</div>
-      </div>`;
-    list.appendChild(item);
+  const grid = document.getElementById('theory-grid');
+  THEORY.forEach((mod, idx) => {
+    const card = document.createElement('button');
+    card.className = 'theory-module-card';
+    card.innerHTML = `
+      <span class="theory-card-icon">${mod.icon}</span>
+      <span class="theory-card-id">${mod.id}</span>
+      <span class="theory-card-title">${mod.title}</span>`;
+    card.onclick = () => openModule(idx);
+    grid.appendChild(card);
   });
 }
-function toggleTheory(el) {
-  el.classList.toggle('open');
+
+function openModule(idx) {
+  currentModuleIdx = idx;
+  const mod = THEORY[idx];
+  const total = THEORY.length;
+
+  document.getElementById('theory-progress-label').textContent = `${mod.module} z ${total}`;
+  document.getElementById('theory-progress-fill').style.width = `${((idx + 1) / total) * 100}%`;
+
+  const prevBtn = document.getElementById('theory-prev-btn');
+  const nextBtn = document.getElementById('theory-next-btn');
+  prevBtn.disabled = idx === 0;
+  nextBtn.disabled = idx === total - 1;
+
+  const content = document.getElementById('theory-module-content');
+  let html = `<div class="theory-module-title">${mod.icon} ${mod.title}</div>`;
+  html += `<div class="theory-module-subtitle">${mod.id} — ${mod.module}</div>`;
+  mod.sections.forEach(sec => {
+    html += `<div class="theory-section">`;
+    html += `<div class="theory-section-heading">${escHtml(sec.heading)}</div>`;
+    html += `<div class="theory-section-body">${renderMd(sec.body)}</div>`;
+    html += `</div>`;
+  });
+  content.innerHTML = html;
+
+  document.getElementById('theory-grid-view').style.display = 'none';
+  document.getElementById('theory-detail-view').style.display = 'block';
+  window.scrollTo(0, 0);
 }
+
+function closeModuleDetail() {
+  document.getElementById('theory-detail-view').style.display = 'none';
+  document.getElementById('theory-grid-view').style.display = 'block';
+}
+
+function navigateModule(dir) {
+  const next = currentModuleIdx + dir;
+  if (next >= 0 && next < THEORY.length) openModule(next);
+}
+
+function renderMd(text) {
+  const lines = text.split('\n');
+  let html = '';
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (line.trim() === '') { i++; continue; }
+    // markdown table
+    if (line.trim().startsWith('|')) {
+      const rows = [];
+      while (i < lines.length && lines[i].trim().startsWith('|')) {
+        rows.push(lines[i]);
+        i++;
+      }
+      html += renderMdTable(rows);
+      continue;
+    }
+    // bullet list
+    if (line.trim().startsWith('•')) {
+      const items = [];
+      while (i < lines.length && lines[i].trim().startsWith('•')) {
+        items.push(lines[i].replace(/^\s*•\s*/, ''));
+        i++;
+      }
+      html += '<ul>' + items.map(l => `<li>${inlineMd(l)}</li>`).join('') + '</ul>';
+      continue;
+    }
+    html += `<p>${inlineMd(line)}</p>`;
+    i++;
+  }
+  return html;
+}
+
+function renderMdTable(rows) {
+  let html = '<table>';
+  let headerDone = false;
+  for (const row of rows) {
+    if (/^\s*\|[\s|:-]+\|\s*$/.test(row)) { headerDone = true; continue; }
+    const cells = row.split('|').slice(1, -1);
+    const tag = headerDone ? 'td' : 'th';
+    html += '<tr>' + cells.map(c => `<${tag}>${inlineMd(c.trim())}</${tag}>`).join('') + '</tr>';
+    if (!headerDone) headerDone = true;
+  }
+  return html + '</table>';
+}
+
+function inlineMd(text) {
+  return escHtml(text).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+
 function escHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
