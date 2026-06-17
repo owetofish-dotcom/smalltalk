@@ -5,171 +5,167 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BrakarzAppka — Egzamin Brakarza Wizualnego PN-D-94021</title>
 <style>
-:root{
-  --g50:#f0fdf4;--g100:#dcfce7;--g200:#bbf7d0;--g500:#22c55e;
-  --g600:#16a34a;--g700:#15803d;--g800:#166534;--g900:#14532d;--g950:#052e16;
-  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
-  --s400:#94a3b8;--s500:#64748b;--s700:#334155;--s800:#1e293b;
-  --white:#fff;--red:#ef4444;--amber:#f59e0b;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  background:var(--s50);color:var(--s800);font-size:15px;line-height:1.5;
-  -webkit-font-smoothing:antialiased;}
-.landing{min-height:100vh;display:flex;flex-direction:column;}
-.land-hero{background:linear-gradient(135deg,var(--g950),var(--g800));
-  color:#fff;padding:48px 20px;text-align:center;}
-.land-hero h1{font-size:clamp(24px,5vw,40px);font-weight:900;margin-bottom:8px;}
-.land-hero p{font-size:15px;color:rgba(255,255,255,.75);max-width:500px;margin:0 auto 24px;}
-.land-norm{display:inline-block;background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.25);border-radius:6px;
-  padding:6px 14px;font-size:12px;font-weight:600;letter-spacing:.04em;margin-bottom:24px;}
-.land-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
-  margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);}
-.land-stat-val{font-size:28px;font-weight:800;color:#4ade80;}
-.land-stat-lbl{font-size:12px;color:rgba(255,255,255,.55);}
-.land-cats{padding:32px 20px;max-width:700px;margin:0 auto;width:100%;}
-.land-cats h2{font-size:16px;font-weight:700;color:var(--s700);margin-bottom:14px;text-align:center;}
-.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;}
-.cat-card{background:white;border:1px solid var(--s200);border-radius:10px;
-  padding:14px 16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px;}
-.cat-card:hover{border-color:var(--g500);background:var(--g50);}
-.cat-card.selected{border-color:var(--g600);background:var(--g50);box-shadow:0 0 0 2px var(--g200);}
-.cat-icon{font-size:24px;flex-shrink:0;}
-.cat-title{font-size:13.5px;font-weight:600;color:var(--s800);}
-.cat-count{font-size:11px;color:var(--s400);}
-.land-cta{padding:20px;text-align:center;}
-.btn-start{background:var(--g600);color:white;border:none;padding:14px 32px;
-  border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;
-  transition:background .15s;width:100%;max-width:320px;}
-.btn-start:hover{background:var(--g700);}
-.quiz-shell{display:none;flex-direction:column;min-height:100vh;}
-.quiz-topbar{background:var(--g900);color:white;padding:12px 16px;
-  display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;}
-.quiz-title{font-size:13px;font-weight:600;flex:1;}
-.quiz-score-badge{background:rgba(255,255,255,.12);padding:4px 10px;
-  border-radius:20px;font-size:12px;font-weight:600;}
-.progress-bar{height:4px;background:rgba(255,255,255,.15);}
-.progress-fill{height:100%;background:var(--g400);transition:width .3s;}
-.quiz-content{flex:1;padding:16px;max-width:720px;margin:0 auto;width:100%;}
-.q-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-.q-num{font-size:12px;color:var(--s400);font-weight:500;}
-.q-cat{font-size:11px;background:var(--g100);color:var(--g800);
-  padding:2px 8px;border-radius:10px;font-weight:600;}
-.question-card{background:white;border:1px solid var(--s200);border-radius:12px;
-  padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
-.question-text{font-size:15px;font-weight:600;color:var(--s800);
-  line-height:1.5;margin-bottom:14px;}
-.question-img{width:100%;max-width:500px;border-radius:8px;
-  border:1px solid var(--s200);margin-bottom:14px;display:block;margin-left:auto;margin-right:auto;}
-.options{display:flex;flex-direction:column;gap:8px;}
-.option{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;
-  border:1.5px solid var(--s200);border-radius:8px;cursor:pointer;
-  transition:all .14s;background:white;}
-.option:hover:not(.locked){border-color:var(--g400);background:var(--g50);}
-.option.correct{border-color:#16a34a;background:#f0fdf4;}
-.option.wrong{border-color:var(--red);background:#fef2f2;}
-.option.locked{cursor:default;}
-.opt-letter{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--s300);
-  display:flex;align-items:center;justify-content:center;font-size:11px;
-  font-weight:700;flex-shrink:0;transition:all .14s;margin-top:1px;}
-.option.correct .opt-letter{background:#16a34a;border-color:#16a34a;color:white;}
-.option.wrong .opt-letter{background:var(--red);border-color:var(--red);color:white;}
-.opt-text{font-size:14px;color:var(--s700);line-height:1.4;}
-.explanation{margin-top:12px;padding:12px;background:#fffbeb;
-  border-left:3px solid var(--amber);border-radius:0 8px 8px 0;
-  font-size:13px;color:#92400e;display:none;line-height:1.5;}
-.btn-next{width:100%;padding:13px;background:var(--g600);color:white;
-  border:none;border-radius:10px;font-size:15px;font-weight:700;
-  cursor:pointer;margin-top:10px;transition:background .14s;display:none;}
-.btn-next:hover{background:var(--g700);}
-.results{display:none;padding:24px 16px;max-width:600px;margin:0 auto;}
-.results-hero{text-align:center;padding:32px 20px;background:white;
-  border-radius:16px;border:1px solid var(--s200);margin-bottom:20px;}
-.result-score{font-size:56px;font-weight:900;color:var(--g600);line-height:1;}
-.result-pct{font-size:18px;font-weight:700;color:var(--s700);margin-top:4px;}
-.result-msg{font-size:14px;color:var(--s500);margin-top:8px;}
-.result-badge{display:inline-block;margin-top:12px;padding:6px 16px;
-  border-radius:20px;font-size:14px;font-weight:700;}
-.badge-pass{background:var(--g100);color:var(--g800);}
-.badge-fail{background:#fee2e2;color:#991b1b;}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
-.stat-box{background:white;border:1px solid var(--s200);border-radius:10px;
-  padding:14px;text-align:center;}
-.stat-n{font-size:24px;font-weight:800;color:var(--s800);}
-.stat-l{font-size:11px;color:var(--s400);margin-top:2px;}
-.cat-results{background:white;border:1px solid var(--s200);border-radius:12px;
-  padding:16px;margin-bottom:16px;}
-.cat-result-item{display:flex;align-items:center;gap:10px;padding:8px 0;
-  border-bottom:1px solid var(--s100);}
-.cat-result-item:last-child{border-bottom:none;}
-.cat-bar-wrap{flex:1;height:6px;background:var(--s100);border-radius:3px;overflow:hidden;}
-.cat-bar{height:100%;border-radius:3px;transition:width .5s;}
-.btn-restart{width:100%;padding:13px;background:var(--g600);color:white;
-  border:none;border-radius:10px;font-size:15px;font-weight:700;
-  cursor:pointer;margin-bottom:10px;}
-.btn-review{width:100%;padding:13px;background:white;color:var(--g700);
-  border:1.5px solid var(--g300);border-radius:10px;font-size:15px;font-weight:600;
-  cursor:pointer;}
-@media(max-width:480px){.land-stats{gap:20px;}}
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+  :root {
+    --bg: #fafaf8;
+    --bg-card: #ffffff;
+    --text: #111111;
+    --text-muted: #888888;
+    --border: #e2e2e0;
+    --accent: #111111;
+    --accent-light: #f0f0ee;
+    --font-head: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --s700: #333333;
+    --s400: #888888;
+    --s100: #e8e8e6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  h1, h2 { font-family: var(--font-head); }
+  #landing { flex-direction: column; }
+  .page-header { padding: 48px 20px 24px; text-align: center; max-width: 800px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+  .page-header h1 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .page-header p { font-size: 1.1rem; color: var(--text-muted); }
+  .nav { display: flex; justify-content: center; gap: 8px; padding: 20px; max-width: 800px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+  .nav-btn { background: var(--accent); color: #fff; border: 1px solid var(--accent); padding: 10px 18px; border-radius: 4px; font-size: 0.95rem; font-weight: 600; font-family: var(--font-body); }
+  .screen { padding: 40px 20px 100px; max-width: 800px; margin: 0 auto; }
+  h2 { font-size: 2rem; margin-bottom: 8px; font-weight: 600; letter-spacing: -0.01em; }
+  .subtitle { color: var(--text-muted); margin-bottom: 40px; font-size: 1.15rem; }
+  .btn { padding: 12px 24px; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; font-weight: 500; transition: all 0.2s; font-family: var(--font-body); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #333; }
+  .btn-secondary { background: var(--accent-light); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--border); }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 24px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .stat-num { font-size: 2.4rem; font-weight: 600; color: var(--accent); margin-bottom: 4px; letter-spacing: -0.02em; }
+  .stat-label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+  .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .cat-btn { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; box-shadow: 0 1px 4px rgba(0,0,0,0.06); text-align: left; font-family: var(--font-body); }
+  .cat-btn:hover { border-color: var(--accent); background: var(--accent-light); }
+  .cat-btn.selected { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 0 0 2px var(--accent); }
+  .cat-icon-big { font-size: 2rem; margin-bottom: 10px; }
+  .cat-name { font-weight: 500; font-size: 1.05rem; margin-bottom: 4px; color: var(--text); }
+  .cat-count { font-size: 0.85rem; color: var(--text-muted); }
+  .quiz-bar { background: var(--accent); color: #fff; padding: 10px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+  .quiz-bar-title { font-size: 0.85rem; font-weight: 600; flex: 1; letter-spacing: 0.02em; font-family: var(--font-body); }
+  .quiz-score-badge { background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; font-family: var(--font-body); }
+  .progress-bar { background: var(--border); height: 6px; overflow: hidden; }
+  .progress-fill { background: var(--accent); height: 100%; transition: width 0.3s ease; }
+  .quiz-content { padding: 32px 20px 80px; max-width: 800px; margin: 0 auto; }
+  .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .q-number { color: var(--text-muted); font-size: 1rem; }
+  .q-category { background: var(--accent-light); color: var(--text-muted); padding: 6px 14px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; border: 1px solid var(--border); }
+  .question-text { font-size: 1.5rem; font-weight: 400; margin-bottom: 32px; line-height: 1.5; color: var(--text); letter-spacing: -0.01em; }
+  .question-img { width: 100%; max-width: 500px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 24px; display: block; margin-left: auto; margin-right: auto; }
+  .options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .option { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 24px; cursor: pointer; display: flex; align-items: center; transition: all 0.2s; font-family: var(--font-body); font-size: 1.05rem; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .option:hover:not(.locked) { border-color: var(--accent); background: var(--accent-light); }
+  .option.correct { background: var(--accent-light); border: 2px solid var(--accent) !important; color: var(--accent); font-weight: 600; }
+  .option.wrong { background: #f5f5f5; border: 1px solid var(--border) !important; border-left: 3px solid var(--text-muted) !important; color: var(--text-muted); }
+  .option.locked { cursor: default; }
+  .option.correct .opt-letter { background: var(--accent) !important; color: #fff !important; }
+  .option.wrong .opt-letter { background: var(--text-muted) !important; color: #fff !important; }
+  .opt-letter { background: var(--accent-light); color: var(--text); width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 16px; font-size: 0.95rem; flex-shrink: 0; }
+  .opt-text { font-size: 1.05rem; line-height: 1.4; }
+  .explanation { display: none; background: var(--accent-light); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 20px 24px; margin-bottom: 24px; font-size: 1rem; color: #555; line-height: 1.6; }
+  .q-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .result-circle { width: 160px; height: 160px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; border: 6px solid var(--border); font-family: var(--font-body); text-align: center; }
+  .result-circle.pass { border-color: var(--accent); color: var(--accent); }
+  .result-circle.fail { border-color: var(--text-muted); color: var(--text-muted); }
+  #resultScore { font-size: 2.2rem; font-weight: 600; line-height: 1; letter-spacing: -0.02em; display: block; }
+  #resultPct { font-size: 1rem; font-weight: 600; margin-top: 4px; letter-spacing: 0.05em; display: block; }
+  .result-msg { text-align: center; font-size: 1.05rem; color: var(--text-muted); margin-bottom: 24px; }
+  .result-badge { display: block; padding: 6px 16px; border-radius: 4px; font-size: 0.9rem; font-weight: 600; margin: 0 auto 28px; border: 1px solid var(--border); text-align: center; max-width: 220px; }
+  .badge-pass { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+  .badge-fail { background: #f5f5f5; color: var(--text-muted); }
+  .cat-result-item { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .cat-result-item:last-child { border-bottom: none; }
+  .cat-bar-wrap { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .cat-bar { height: 100%; border-radius: 3px; transition: width 0.5s; }
+  .cat-results-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
-<div class="landing" id="landing">
-  <div class="land-hero">
-    <div class="land-norm">PN-D-94021:2013-10</div>
-    <h1>🪵 BrakarzAppka</h1>
-    <p>Egzamin na brakarza wizualnego tarcicy konstrukcyjnej iglastej sortowanej metodami wytrzymałościowymi</p>
-    <div class="land-stats">
-      <div><div class="land-stat-val">65</div><div class="land-stat-lbl">pytań w bazie</div></div>
-      <div><div class="land-stat-val">5</div><div class="land-stat-lbl">kategorii</div></div>
-      <div><div class="land-stat-val">75%</div><div class="land-stat-lbl">próg zdania</div></div>
+
+<!-- LANDING -->
+<div id="landing">
+  <div class="page-header">
+    <h1>BrakarzAppka</h1>
+    <p>Egzamin brakarza wizualnego &middot; PN-D-94021:2013-10 &middot; 65 pytań</p>
+  </div>
+  <div class="nav">
+    <button class="nav-btn">Start</button>
+  </div>
+  <div class="screen">
+    <h2>Witaj!</h2>
+    <p class="subtitle">Przygotowanie do egzaminu na brakarza wizualnego tarcicy konstrukcyjnej iglastej sortowanej metodami wytrzymałościowymi</p>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num">65</div><div class="stat-label">Pytań w bazie</div></div>
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Kategorii</div></div>
+      <div class="stat-card"><div class="stat-num">30</div><div class="stat-label">Pytań na egzamin</div></div>
+      <div class="stat-card"><div class="stat-num">75%</div><div class="stat-label">Próg zdania</div></div>
+    </div>
+    <h2 style="margin-bottom:6px">Wybierz kategorie</h2>
+    <p class="subtitle" style="margin-bottom:20px">Zaznacz tematy do egzaminu (domyślnie wszystkie)</p>
+    <div class="category-grid" id="catGrid"></div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="btn btn-primary" style="font-size:1.05rem;padding:14px 36px" onclick="startQuiz()">Rozpocznij egzamin (30 pyt.) →</button>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-top:10px">Pytania losowane z wybranych kategorii</p>
     </div>
   </div>
-  <div class="land-cats">
-    <h2>Wybierz kategorie do egzaminu</h2>
-    <div class="cat-grid" id="catGrid"></div>
-  </div>
-  <div class="land-cta">
-    <button class="btn-start" onclick="startQuiz()">Rozpocznij egzamin (30 pyt.) →</button>
-    <p style="font-size:11px;color:var(--s400);margin-top:8px;">Pytania losowane z wybranych kategorii</p>
-  </div>
 </div>
-<div class="quiz-shell" id="quizShell">
-  <div class="quiz-topbar">
-    <div class="quiz-title">🪵 BrakarzAppka</div>
+
+<!-- QUIZ -->
+<div id="quizShell" style="display:none;flex-direction:column;min-height:100vh">
+  <div class="quiz-bar">
+    <div class="quiz-bar-title">BrakarzAppka</div>
     <div class="quiz-score-badge" id="scoreDisplay">0 / 0</div>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   <div class="quiz-content">
     <div class="q-header">
-      <span class="q-num" id="qNum">Pytanie 1 z 30</span>
-      <span class="q-cat" id="qCat"></span>
+      <span class="q-number" id="qNum">Pytanie 1 z 30</span>
+      <span class="q-category" id="qCat"></span>
     </div>
-    <div class="question-card">
-      <div class="question-text" id="questionText"></div>
-      <img class="question-img" id="questionImg" style="display:none" alt="Rysunek z normy">
-      <div class="options" id="optionsContainer"></div>
-      <div class="explanation" id="explanation"></div>
+    <div class="question-text" id="questionText"></div>
+    <img class="question-img" id="questionImg" style="display:none" alt="Rysunek z normy">
+    <div class="options" id="optionsContainer"></div>
+    <div class="explanation" id="explanation"></div>
+    <div class="q-actions">
+      <button class="btn btn-primary" id="btnNext" style="display:none" onclick="nextQuestion()">Następne pytanie →</button>
     </div>
-    <button class="btn-next" id="btnNext" onclick="nextQuestion()">Następne pytanie →</button>
   </div>
 </div>
-<div class="results" id="results">
-  <div class="results-hero">
-    <div class="result-score" id="resultScore">0</div>
-    <div class="result-pct" id="resultPct">0%</div>
-    <div class="result-msg" id="resultMsg"></div>
-    <div class="result-badge" id="resultBadge"></div>
+
+<!-- RESULTS -->
+<div id="results" style="display:none">
+  <div class="quiz-bar">
+    <div class="quiz-bar-title">BrakarzAppka &mdash; Wyniki</div>
   </div>
-  <div class="stats-grid">
-    <div class="stat-box"><div class="stat-n" id="statCorrect" style="color:#16a34a">0</div><div class="stat-l">Poprawne</div></div>
-    <div class="stat-box"><div class="stat-n" id="statWrong" style="color:#ef4444">0</div><div class="stat-l">Błędne</div></div>
-    <div class="stat-box"><div class="stat-n" id="statTotal">0</div><div class="stat-l">Łącznie</div></div>
+  <div style="padding:40px 20px 100px;max-width:800px;margin:0 auto">
+    <div class="result-circle" id="resultCircle">
+      <span id="resultScore">0/0</span>
+      <small id="resultPct">0%</small>
+    </div>
+    <p class="result-msg" id="resultMsg"></p>
+    <div id="resultBadge" class="result-badge"></div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num" id="statCorrect">0</div><div class="stat-label">Poprawne</div></div>
+      <div class="stat-card"><div class="stat-num" id="statWrong">0</div><div class="stat-label">Błędne</div></div>
+      <div class="stat-card"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Łącznie</div></div>
+    </div>
+    <div class="cat-results-wrap">
+      <div id="catResults"></div>
+    </div>
+    <div class="q-actions">
+      <button class="btn btn-primary" onclick="restartQuiz()">🔄 Zacznij od nowa</button>
+      <button class="btn btn-secondary" onclick="reviewAnswers()">📋 Przejrzyj odpowiedzi</button>
+    </div>
   </div>
-  <div class="cat-results" id="catResults"></div>
-  <button class="btn-restart" onclick="restartQuiz()">🔄 Zacznij od nowa</button>
-  <button class="btn-review" onclick="reviewAnswers()">📋 Przejrzyj odpowiedzi</button>
 </div>
 <script>
 const IMGS = {
@@ -375,8 +371,8 @@ function initCats(){
   CATS.forEach(c=>{
     const cnt=ALL_Q.filter(q=>q.cat===c.id).length;
     const d=document.createElement('div');
-    d.className='cat-card selected'; d.dataset.cat=c.id;
-    d.innerHTML=`<span class="cat-icon">${c.icon}</span><div><div class="cat-title">${c.name}</div><div class="cat-count">${cnt} pytań</div></div>`;
+    d.className='cat-btn selected'; d.dataset.cat=c.id;
+    d.innerHTML=`<span class="cat-icon-big">${c.icon}</span><div><div class="cat-name">${c.name}</div><div class="cat-count">${cnt} pytań</div></div>`;
     d.onclick=()=>toggleCat(c.id,d);
     g.appendChild(d);
   });
@@ -442,6 +438,7 @@ function showResults(){
   document.getElementById('resultScore').textContent=`${score}/${total}`;
   document.getElementById('resultPct').textContent=`${pct}%`;
   document.getElementById('resultMsg').textContent=pass?'Egzamin zaliczony! Gratulacje, brakarzu 🪵':'Nie zaliczono. Próg to 75%. Powtórz materiał i spróbuj ponownie!';
+  document.getElementById('resultCircle').className='result-circle '+(pass?'pass':'fail');
   const badge=document.getElementById('resultBadge');
   badge.textContent=pass?'✅ ZALICZONY':'❌ NIEZALICZONY';
   badge.className='result-badge '+(pass?'badge-pass':'badge-fail');
@@ -455,7 +452,7 @@ function showResults(){
     catStats[cid].total++;if(a.correct)catStats[cid].correct++;
   });
   const catEl=document.getElementById('catResults');
-  catEl.innerHTML='<div style="font-size:13px;font-weight:700;color:var(--s700);margin-bottom:10px">Wyniki wg kategorii</div>';
+  catEl.innerHTML='<div style="font-size:0.85rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:12px">Wyniki wg kategorii</div>';
   CATS.filter(c=>selectedCats.has(c.id)&&catStats[c.id]).forEach(c=>{
     const s=catStats[c.id],p=Math.round((s.correct/s.total)*100);
     const col=p>=75?'#16a34a':p>=50?'#d97706':'#ef4444';
@@ -470,8 +467,7 @@ function showResults(){
 }
 function restartQuiz(){
   document.getElementById('results').style.display='none';
-  document.getElementById('landing').style.display='flex';
-  document.getElementById('landing').style.flexDirection='column';
+  document.getElementById('landing').style.display='block';
 }
 function reviewAnswers(){
   document.getElementById('results').style.display='none';
