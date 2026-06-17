@@ -368,62 +368,6 @@
     border-left: 3px solid var(--warn); font-size: 0.83rem; color: #78350f;
     border-radius: 0 6px 6px 0; text-align: left; line-height: 1.6;
   }
-
-  /* ── CHECKLISTA ── */
-  .checklista-wrap { max-width: 620px; margin: 0 auto; padding: 0 0 40px; }
-  .checklista-wrap h2 { font-size: 1.8rem; margin-bottom: 6px; }
-  .checklista-wrap .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
-  .claim-alert {
-    background: #fee2e2; border-left: 4px solid #dc2626;
-    padding: 10px 14px; border-radius: 6px; margin-bottom: 20px;
-    font-size: 0.85rem; color: #7f1d1d; line-height: 1.5;
-  }
-  .form-group { margin-bottom: 14px; }
-  .form-group label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .form-group input, .form-group select, .form-group textarea {
-    width: 100%; padding: 9px 12px; border: 1px solid var(--border);
-    border-radius: 5px; font-family: var(--font-body); font-size: 0.9rem;
-    background: var(--bg-card); color: var(--text);
-    transition: border-color 0.15s;
-  }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    outline: none; border-color: var(--accent);
-  }
-  .form-group textarea { min-height: 80px; resize: vertical; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
-  .form-section-title {
-    font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--text-muted); margin: 20px 0 12px;
-    padding-bottom: 6px; border-bottom: 1px solid var(--border);
-  }
-  .btn-generate {
-    width: 100%; padding: 12px; background: var(--accent); color: #fff;
-    border: none; border-radius: 6px; font-size: 0.95rem; font-weight: 500;
-    font-family: var(--font-body); cursor: pointer; margin-top: 20px;
-    transition: opacity 0.15s;
-  }
-  .btn-generate:hover { opacity: 0.85; }
-  .reklamacja-doc {
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 8px; padding: 28px 32px; margin-top: 24px;
-    font-size: 0.88rem; line-height: 1.75; white-space: pre-wrap;
-    font-family: 'Courier New', monospace;
-  }
-  .reklamacja-doc h3 { font-family: var(--font-head); font-size: 1.1rem; margin-bottom: 16px; white-space: normal; }
-  .btn-copy-doc {
-    margin-top: 14px; padding: 9px 20px; background: var(--accent-light);
-    border: 1px solid var(--border); border-radius: 5px;
-    font-family: var(--font-body); font-size: 0.88rem; cursor: pointer;
-    transition: background 0.13s;
-  }
-  .btn-copy-doc:hover { background: var(--border); }
-  .btn-back-form {
-    background: none; border: none; font-family: var(--font-body);
-    font-size: 0.88rem; color: var(--text-muted); cursor: pointer;
-    padding: 0; margin-bottom: 20px; text-decoration: underline;
-  }
-  .btn-back-form:hover { color: var(--text); }
 </style>
 </head>
 <body>
@@ -435,7 +379,6 @@
     <button class="tab-btn" data-tab="teoria" onclick="showTab('teoria')">Teoria</button>
     <button class="tab-btn" data-tab="nauka" onclick="showTab('nauka')">Nauka</button>
     <button class="tab-btn active" data-tab="home" onclick="showTab('home')">Egzamin</button>
-    <button class="tab-btn" data-tab="checklista" onclick="showTab('checklista')">Checklista</button>
   </div>
 </nav>
 
@@ -448,7 +391,7 @@
   </div>
   <div class="stats-row">
     <div class="stat-item"><div class="stat-val" id="total-q-count">58</div><div class="stat-lbl">pytań w bazie</div></div>
-    <div class="stat-item"><div class="stat-val">6</div><div class="stat-lbl">kategorii</div></div>
+    <div class="stat-item"><div class="stat-val">5</div><div class="stat-lbl">kategorii</div></div>
     <div class="stat-item"><div class="stat-val">75%</div><div class="stat-lbl">próg zaliczenia</div></div>
   </div>
   <div class="modes-grid">
@@ -568,117 +511,6 @@
   </div>
 </div>
 
-<!-- ══════════════ CHECKLISTA ══════════════ -->
-<div class="screen" id="screen-checklista">
-  <div class="checklista-wrap">
-    <!-- FORM VIEW -->
-    <div id="checklista-form-view">
-      <h2>Checklista odbioru drewna LP</h2>
-      <p class="subtitle">Wypełnij formularz i wygeneruj pismo reklamacyjne</p>
-
-      <div style="background:#fff7ed;border-left:4px solid #ea580c;padding:12px 14px;border-radius:6px;margin-bottom:16px;font-size:0.82rem;color:#7c2d12;">
-        <strong>⚠️ Terminy reklamacji (Decyzja nr 161 DGLP):</strong><br>
-        • Wady jawne jakościowe → <strong>14 dni</strong> od wystawienia dok. wydania<br>
-        • Sinizna, brunatnica, chodniki owadzie → <strong>5 dni</strong><br>
-        • Wady ilościowe (sztuki) → <strong>5 dni</strong><br>
-        • Wady ukryte (po przetarciu) → <strong>niezwłocznie</strong> po ujawnieniu (art. 563 KC)<br>
-        <span style="color:#92400e;font-size:0.78rem;">Terminy mogą się różnić między nadleśnictwami — sprawdź regulamin konkretnego nadleśnictwa.</span>
-      </div>
-
-      <div class="form-section-title">Dane dostawy</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Data dostawy</label>
-          <input type="date" id="ins-data">
-        </div>
-        <div class="form-group">
-          <label>Nadleśnictwo</label>
-          <input type="text" id="ins-nadl" placeholder="np. Nadleśnictwo Kraków">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Nr WZ</label>
-          <input type="text" id="ins-wz" placeholder="np. WZ/123/2025">
-        </div>
-        <div class="form-group">
-          <label>Nr asygnaty LP</label>
-          <input type="text" id="ins-asygnat" placeholder="np. 12345/2025">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Pojazd (nr rej.)</label>
-        <input type="text" id="ins-pojazd" placeholder="np. KR 12345">
-      </div>
-
-      <div class="form-section-title">Klasyfikacja</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Klasa deklarowana</label>
-          <select id="ins-klasa-dekl">
-            <option value="">-- wybierz --</option>
-            <option>WA0</option><option>WA1</option>
-            <option>WB0</option><option>WB1</option>
-            <option>WC0</option><option>WC1</option>
-            <option>WD0</option><option>WK</option>
-            <option>S2a</option><option>S2b</option>
-            <option>S4</option><option>S3a</option><option>S3b</option>
-            <option>S1</option><option>M1</option><option>M2</option>
-            <option>X</option><option>ODRZUT</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Klasa stwierdzona</label>
-          <select id="ins-klasa-stw">
-            <option value="">-- wybierz --</option>
-            <option>WA0</option><option>WA1</option>
-            <option>WB0</option><option>WB1</option>
-            <option>WC0</option><option>WC1</option>
-            <option>WD0</option><option>WK</option>
-            <option>S2a</option><option>S2b</option>
-            <option>S4</option><option>S3a</option><option>S3b</option>
-            <option>S1</option><option>M1</option><option>M2</option>
-            <option>X</option><option>ODRZUT</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Ilość (m³)</label>
-          <input type="text" id="ins-ilosc" placeholder="np. 12,50">
-        </div>
-        <div class="form-group">
-          <label>Gatunek</label>
-          <input type="text" id="ins-gatunek" placeholder="np. sosna, świerk">
-        </div>
-      </div>
-
-      <div class="form-section-title">Opis niezgodności</div>
-      <div class="form-group">
-        <label>Stwierdzone wady / niezgodności</label>
-        <textarea id="ins-wady" placeholder="np. Sęki przekraczające normę WA0, zgnilizna miękka na 3 sztukach, krzywizna > 1 cm/m"></textarea>
-      </div>
-      <div class="form-group">
-        <label>Nabywca (firma / imię i nazwisko)</label>
-        <input type="text" id="ins-nabywca" placeholder="np. Jan Kowalski, Tartak XYZ Sp. z o.o.">
-      </div>
-      <div class="form-group">
-        <label>Miejscowość (wystawienia)</label>
-        <input type="text" id="ins-miejscowosc" placeholder="np. Kraków">
-      </div>
-
-      <button class="btn-generate" onclick="generateReklamacja()">Generuj pismo reklamacyjne</button>
-    </div>
-
-    <!-- DOCUMENT VIEW -->
-    <div id="checklista-doc-view" style="display:none;">
-      <button class="btn-back-form" onclick="backToForm()">← Wróć do formularza</button>
-      <div class="reklamacja-doc" id="reklamacja-text"></div>
-      <button class="btn-copy-doc" onclick="copyReklamacja()">Kopiuj do schowka</button>
-    </div>
-  </div>
-</div>
-
 <!-- ══════════════ MODAL — ZAKOŃCZ EGZAMIN ══════════════ -->
 <div id="exam-modal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)cancelEndExam()">
   <div class="modal-box">
@@ -701,9 +533,7 @@ const CAT_NAMES = {
   B: 'Sęki (USC/USM)',
   C: 'Pęknięcia',
   D: 'Geometria',
-  E: 'Weryfikacja',
-  F: 'Normy europejskie',
-  G: 'Drewno LP 2025'
+  E: 'Weryfikacja'
 };
 const LETTERS = ['A','B','C','D'];
 
@@ -1136,82 +966,6 @@ function shuffle(arr) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
-}
-
-// ── CHECKLISTA ──
-function generateReklamacja() {
-  const data = document.getElementById('ins-data').value;
-  const nadl = document.getElementById('ins-nadl').value.trim();
-  const wz = document.getElementById('ins-wz').value.trim();
-  const asygnat = document.getElementById('ins-asygnat').value.trim();
-  const pojazd = document.getElementById('ins-pojazd').value.trim();
-  const klasaDekl = document.getElementById('ins-klasa-dekl').value;
-  const klasaStw = document.getElementById('ins-klasa-stw').value;
-  const ilosc = document.getElementById('ins-ilosc').value.trim();
-  const gatunek = document.getElementById('ins-gatunek').value.trim();
-  const wady = document.getElementById('ins-wady').value.trim();
-  const nabywca = document.getElementById('ins-nabywca').value.trim();
-  const miejscowosc = document.getElementById('ins-miejscowosc').value.trim();
-
-  const dataStr = data ? new Date(data).toLocaleDateString('pl-PL') : '..............';
-  const dzisiejsza = new Date().toLocaleDateString('pl-PL');
-
-  const doc = `${miejscowosc || '...............'}, dnia ${dzisiejsza}
-
-${nabywca || '..............................................'}
-(Nabywca / firma)
-
-${nadl || '..............................................'}
-(Nadleśnictwo -- adresat reklamacji)
-
-
-                    REKLAMACJA JAKOSCI DREWNA
-
-Niniejszym zglaszam reklamacje jakosci drewna dostarczonego na podstawie:
-
-  Nr WZ:             ${wz || '---'}
-  Nr asygnaty:       ${asygnat || '---'}
-  Data dostawy:      ${dataStr}
-  Pojazd (nr rej.):  ${pojazd || '---'}
-  Gatunek:           ${gatunek || '---'}
-  Ilosc:             ${ilosc || '---'} m3
-  Klasa deklarowana: ${klasaDekl || '---'}
-  Klasa stwierdzona: ${klasaStw || '---'}
-
-STWIERDZONE NIEZGODNOSCI:
-${wady || '(brak opisu)'}
-
-Na podstawie Decyzji DG LP nr 161/2019 wniosze o:
-  1. Przeklasyfikowanie dostarczonego drewna zgodnie ze stwierdzona klasa jakosci.
-  2. Wyrownanie roznicy ceny miedzy klasa deklarowana a faktyczna.
-  3. Ustosunkowanie sie do reklamacji w ustawowym terminie.
-
-Reklamacje zglaszam w terminie wymaganym Decyzja DG LP nr 161/2019 (14 dni - wady jawne jakosciowe / 5 dni - sinizna, chodniki, wady ilosci w sztukach).
-
-Zalaczniki: asygnata nr ${asygnat || '...'}, dokumentacja zdjeciowa (w posiadaniu nabywcy)
-
-
-...........................................
-(podpis nabywcy)`;
-
-  document.getElementById('reklamacja-text').textContent = doc;
-  document.getElementById('checklista-form-view').style.display = 'none';
-  document.getElementById('checklista-doc-view').style.display = 'block';
-  window.scrollTo(0, 0);
-}
-
-function backToForm() {
-  document.getElementById('checklista-doc-view').style.display = 'none';
-  document.getElementById('checklista-form-view').style.display = 'block';
-}
-
-function copyReklamacja() {
-  const text = document.getElementById('reklamacja-text').textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector('.btn-copy-doc');
-    btn.textContent = 'Skopiowano!';
-    setTimeout(() => { btn.textContent = 'Kopiuj do schowka'; }, 2000);
-  });
 }
 
 // Init
