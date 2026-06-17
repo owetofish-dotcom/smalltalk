@@ -50,8 +50,8 @@ Podstawowy dokument sprzedaży to **asygnata** — zawiera sortyment, klasę jak
             a: 'Portal Leśno-Drzewny (PLD) dla kontrahentów z historią; e-drewno.pl = otwarte aukcje online.'
           },
           {
-            q: 'Reklamacja: pisemnie do nadleśnictwa, max 3 dni robocze od odbioru',
-            a: 'Decyzja DG LP nr 161/2019: reklamację należy zgłosić w ciągu 3 dni roboczych od odbioru. Po tym terminie LP wyłącza odpowiedzialność.'
+            q: 'Reklamacja: pisemnie do nadleśnictwa — 14 dni (wady jawne) lub 5 dni (sinizna, chodniki)',
+            a: 'Decyzja DG LP nr 161/2019: wady jawne jakościowe — 14 dni od wystawienia dokumentu wydania. Wady z szybką deprecjacją (sinizna, brunatnica, chodniki owadzie) i wady ilościowe w sztukach — 5 dni. Wady ukryte (po przetarciu) — niezwłocznie (art. 563 KC). Terminy mogą się różnić między nadleśnictwami.'
           }
         ]
       }
