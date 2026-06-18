@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Egzamin – BrakarzLeśny</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html" class="back">← BrakarzLeśny</a>
+  <h1>Egzamin</h1>
+</div>
+
+<div class="quiz-wrap">
+  <div id="view-quiz">
+    <div class="quiz-progress" id="quiz-progress">Pytanie 1 / 20</div>
+    <div class="quiz-q" id="quiz-q"></div>
+    <div class="quiz-opts" id="quiz-opts"></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" id="btn-next" onclick="nextQ()">Dalej →</button>
+    </div>
+  </div>
+
+  <div id="view-result" class="quiz-result" style="display:none">
+    <div class="score" id="score-val"></div>
+    <div id="score-label" style="font-size:1rem;margin:8px 0 24px;color:#555"></div>
+    <div id="result-review" style="text-align:left;margin-top:16px"></div>
+    <button class="btn btn-primary" onclick="startQuiz()" style="margin-top:24px">Jeszcze raz</button>
+    <a href="index.html" class="btn btn-secondary" style="margin-top:8px">Powrót</a>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script src="questions-lesny.js"></script>
+<script>
+const N = 20;
+const PASS = 0.7;
+let questions = [];
+let answers = [];
+let current = 0;
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof QUESTIONS === 'undefined' || !QUESTIONS.length) {
+    document.getElementById('quiz-q').textContent = 'Brak pytań — załaduj questions-lesny.js';
+    document.getElementById('btn-next').style.display = 'none';
+    return;
+  }
+  startQuiz();
+});
+
+function startQuiz() {
+  const pool = [...QUESTIONS];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  questions = pool.slice(0, Math.min(N, pool.length));
+  answers = new Array(questions.length).fill(null);
+  current = 0;
+  document.getElementById('view-quiz').style.display = '';
+  document.getElementById('view-result').style.display = 'none';
+  renderQ();
+}
+
+function renderQ() {
+  const q = questions[current];
+  document.getElementById('quiz-progress').textContent = `Pytanie ${current + 1} / ${questions.length}`;
+  document.getElementById('quiz-q').textContent = q.q;
+  const opts = document.getElementById('quiz-opts');
+  opts.innerHTML = q.opts.map((o, i) => `
+    <label class="quiz-opt">
+      <input type="radio" name="opt" value="${i}" ${answers[current] === i ? 'checked' : ''}>
+      ${escHtml(o)}
+    </label>`).join('');
+  document.getElementById('btn-next').textContent = current === questions.length - 1 ? 'Zakończ' : 'Dalej →';
+}
+
+function nextQ() {
+  const sel = document.querySelector('input[name="opt"]:checked');
+  if (sel) answers[current] = parseInt(sel.value);
+  if (current < questions.length - 1) {
+    current++;
+    renderQ();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  let correct = 0;
+  questions.forEach((q, i) => { if (answers[i] === q.correct) correct++; });
+  const pct = Math.round(correct / questions.length * 100);
+  const pass = pct >= PASS * 100;
+  document.getElementById('view-quiz').style.display = 'none';
+  document.getElementById('view-result').style.display = '';
+  document.getElementById('score-val').textContent = `${pct}%`;
+  document.getElementById('score-val').style.color = pass ? '#2d5a1b' : '#991b1b';
+  document.getElementById('score-label').textContent = `${correct} / ${questions.length} poprawnych — ${pass ? 'ZALICZONO' : 'NIE ZALICZONO'} (prog 70%)`;
+
+  let rev = '<div style="margin-top:12px;font-size:.82rem">';
+  questions.forEach((q, i) => {
+    const ok = answers[i] === q.correct;
+    rev += `<div style="margin-bottom:14px;padding:10px;border-radius:8px;background:${ok?'#f0fdf4':'#fff1f2'};border:1px solid ${ok?'#bbf7d0':'#fecdd3'}">`;
+    rev += `<strong>${i + 1}. ${escHtml(q.q)}</strong><br>`;
+    rev += `Twoja odpowiedź: ${answers[i] !== null ? escHtml(q.opts[answers[i]]) : '(brak)'}<br>`;
+    if (!ok) rev += `Poprawna: <span style="color:#166534">${escHtml(q.opts[q.correct])}</span><br>`;
+    if (q.exp) rev += `<span style="color:#555">${escHtml(q.exp)}</span>`;
+    rev += '</div>';
+  });
+  rev += '</div>';
+  document.getElementById('result-review').innerHTML = rev;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reklamacje – BrakarzLeśny</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar no-print">
+  <a href="index.html" class="back">← BrakarzLeśny</a>
+  <h1 id="topbar-title">Reklamacje</h1>
+  <button class="btn btn-primary btn-sm" onclick="showForm()" id="btn-nowa">+ Nowa reklamacja</button>
+</div>
+
+<!-- LISTA -->
+<div id="view-lista" class="page">
+  <div class="table-wrapper">
+    <table>
+      <thead><tr>
+        <th>Data</th><th>Nadleśnictwo</th><th>Nr asygnaty</th>
+        <th>Klasa dekl.</th><th>Klasa stwierdz.</th><th>Status</th><th>Akcje</th>
+      </tr></thead>
+      <tbody id="rek-tbody"></tbody>
+    </table>
+  </div>
+  <div class="empty-state" id="empty-rek" style="display:none">
+    <p>Brak reklamacji. Dodaj nową lub utwórz z inspekcji.</p>
+    <button class="btn btn-primary" onclick="showForm()" style="margin-top:16px">+ Nowa reklamacja</button>
+  </div>
+</div>
+
+<!-- FORMULARZ -->
+<div id="view-form" class="page" style="display:none">
+<div class="form-card">
+  <input type="hidden" id="rek-id">
+
+  <div class="section-title">Powiązanie z inspekcją</div>
+  <div class="form-group">
+    <label>Inspekcja (auto-fill danych)</label>
+    <select id="rek-ins-sel" onchange="fillFromInspekcja(this.value)">
+      <option value="">-- wybierz inspekcję --</option>
+    </select>
+  </div>
+
+  <div class="section-title">Dane nadawcy</div>
+  <div class="form-group"><label>Imię i nazwisko / Firma</label><input type="text" id="rek-nadawca" placeholder="Jan Kowalski / Firma Drzewna sp. z o.o."></div>
+  <div class="form-group"><label>Adres nadawcy</label><input type="text" id="rek-adres" placeholder="ul. Leśna 1, 39-310 Radomyśl Wielki"></div>
+  <div class="form-group"><label>Miejscowość</label><input type="text" id="rek-msc" placeholder="Radomyśl Wielki"></div>
+
+  <div class="section-title">Dane adresata</div>
+  <div class="form-group"><label>Pełna nazwa nadleśnictwa</label><input type="text" id="rek-nadl" placeholder="Nadleśnictwo Mielec"></div>
+  <div class="form-group"><label>Adres nadleśnictwa</label><input type="text" id="rek-nadl-adres" placeholder="ul. Partyzantów 1, 39-300 Mielec"></div>
+
+  <div class="section-title">Przedmiot reklamacji</div>
+  <div class="form-row">
+    <div class="form-group"><label>Nr asygnaty</label><input type="text" id="rek-asy"></div>
+    <div class="form-group"><label>Data odbioru</label><input type="date" id="rek-data-odbioru"></div>
+  </div>
+  <div class="form-row">
+    <div class="form-group"><label>Gatunek</label><input type="text" id="rek-gatunek"></div>
+    <div class="form-group"><label>Pojazd</label><input type="text" id="rek-poj"></div>
+  </div>
+  <div class="form-row">
+    <div class="form-group"><label>Klasa deklarowana</label><select id="rek-kdekl"></select></div>
+    <div class="form-group"><label>Klasa stwierdzona</label><select id="rek-kstw"></select></div>
+  </div>
+  <div class="form-group"><label>Stwierdzone niezgodności</label><textarea id="rek-niezg" placeholder="Opis stwierdzonych wad i niezgodności..."></textarea></div>
+  <div class="form-group"><label>Uzasadnienie</label><textarea id="rek-uzas" placeholder="Szczegółowe uzasadnienie reklamacji..."></textarea></div>
+
+  <div class="section-title">Żądanie</div>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+    <label style="display:flex;align-items:center;gap:8px;font-weight:normal;font-size:.875rem"><input type="checkbox" id="zad-cena"> Korektę ceny / faktury</label>
+    <label style="display:flex;align-items:center;gap:8px;font-weight:normal;font-size:.875rem"><input type="checkbox" id="zad-wymiana"> Wymianę surowca na zgodny z klasą</label>
+    <label style="display:flex;align-items:center;gap:8px;font-weight:normal;font-size:.875rem"><input type="checkbox" id="zad-zwrot"> Zwrot towaru</label>
+  </div>
+
+  <div class="section-title">Status</div>
+  <div class="form-group">
+    <select id="rek-status">
+      <option>Robocza</option><option>Wysłana</option><option>W toku</option><option>Rozpatrzona</option>
+    </select>
+  </div>
+
+  <input type="hidden" id="rek-ins-id">
+  <div style="display:flex;gap:10px;margin-top:24px">
+    <button class="btn btn-primary" onclick="saveReklamacja()">Zapisz reklamację</button>
+    <button class="btn btn-secondary" onclick="showLista()">Anuluj</button>
+  </div>
+</div>
+</div>
+
+<!-- PISMO -->
+<div id="view-pismo" class="page" style="display:none">
+  <div class="no-print" style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="btn btn-secondary" onclick="showLista()">← Lista</button>
+    <button class="btn btn-primary" onclick="window.print()">Drukuj / PDF</button>
+    <button class="btn btn-secondary" id="btn-email">Email</button>
+    <button class="btn btn-secondary" onclick="editCurrent()">Edytuj</button>
+    <button class="btn btn-danger btn-sm" onclick="deleteCurrent()">Usuń</button>
+  </div>
+  <div id="pismo-content" class="pismo"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+let currentRekId = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  ['rek-kdekl','rek-kstw'].forEach(id => {
+    const s = document.getElementById(id);
+    KLASY_LP.forEach(k => { const o = document.createElement('option'); o.value = k; o.textContent = k; s.appendChild(o); });
+  });
+
+  fillInsSelects();
+
+  const p = DB.getProfil();
+  if (p.nadawca) document.getElementById('rek-nadawca').value = p.nadawca;
+  if (p.adres) document.getElementById('rek-adres').value = p.adres;
+  if (p.msc) document.getElementById('rek-msc').value = p.msc;
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('new') === '1' && params.get('ins')) {
+    fillFromInspekcja(params.get('ins'));
+    showForm();
+  } else {
+    renderLista();
+  }
+});
+
+function fillInsSelects() {
+  const sel = document.getElementById('rek-ins-sel');
+  sel.innerHTML = '<option value="">-- wybierz inspekcję --</option>';
+  DB.getInspekcje().forEach(i => {
+    const o = document.createElement('option');
+    o.value = i.id;
+    o.textContent = `${fmtDate(i.data)} | ${i.nadl||'—'} | asy: ${i.asy||'—'}`;
+    sel.appendChild(o);
+  });
+}
+
+function fillFromInspekcja(id) {
+  if (!id) return;
+  const ins = DB.getInspekcje().find(i => i.id === id);
+  if (!ins) return;
+  document.getElementById('rek-ins-id').value = id;
+  document.getElementById('rek-ins-sel').value = id;
+  document.getElementById('rek-nadl').value = ins.nadl || '';
+  document.getElementById('rek-asy').value = ins.asy || '';
+  document.getElementById('rek-data-odbioru').value = ins.data || '';
+  document.getElementById('rek-gatunek').value = ins.gatunek || '';
+  document.getElementById('rek-poj').value = ins.poj || '';
+  document.getElementById('rek-kdekl').value = ins.kdekl || '';
+  document.getElementById('rek-kstw').value = ins.kstw || '';
+  document.getElementById('rek-niezg').value = wadyList(ins);
+  document.getElementById('rek-uzas').value = ins.uzas || '';
+}
+
+function renderLista() {
+  const reks = DB.getReklamacje();
+  const tbody = document.getElementById('rek-tbody');
+  const tw = document.querySelector('.table-wrapper');
+  const empty = document.getElementById('empty-rek');
+  if (!reks.length) { tw.style.display = 'none'; empty.style.display = 'block'; return; }
+  tw.style.display = ''; empty.style.display = 'none';
+  tbody.innerHTML = reks.map(r => `
+    <tr>
+      <td>${fmtDate(r.dataOdbioru)}</td>
+      <td>${escHtml(r.nadl||'—')}</td>
+      <td>${escHtml(r.asy||'—')}</td>
+      <td>${klasaBadge(r.kdekl)}</td>
+      <td>${klasaBadge(r.kstw)}</td>
+      <td>${statusBadge(r.status)}</td>
+      <td><div class="actions">
+        <button class="btn-icon" onclick="showPismo('${r.id}')">&#128065;</button>
+        <button class="btn-icon" onclick="editReklamacja('${r.id}')">&#9998;</button>
+        <button class="btn-icon" onclick="deleteReklamacja('${r.id}')">&#128465;</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function showLista() {
+  document.getElementById('view-lista').style.display = '';
+  document.getElementById('view-form').style.display = 'none';
+  document.getElementById('view-pismo').style.display = 'none';
+  document.getElementById('topbar-title').textContent = 'Reklamacje';
+  document.getElementById('btn-nowa').style.display = '';
+  currentRekId = null;
+  renderLista();
+}
+
+function showForm(id) {
+  document.getElementById('view-lista').style.display = 'none';
+  document.getElementById('view-form').style.display = '';
+  document.getElementById('view-pismo').style.display = 'none';
+  document.getElementById('btn-nowa').style.display = 'none';
+  document.getElementById('topbar-title').textContent = id ? 'Edytuj reklamację' : 'Nowa reklamacja';
+  fillInsSelects();
+
+  if (id) {
+    const r = DB.getReklamacje().find(x => x.id === id);
+    if (r) {
+      currentRekId = id;
+      document.getElementById('rek-id').value = id;
+      document.getElementById('rek-nadawca').value = r.nadawca || '';
+      document.getElementById('rek-adres').value = r.adres || '';
+      document.getElementById('rek-msc').value = r.msc || '';
+      document.getElementById('rek-nadl').value = r.nadl || '';
+      document.getElementById('rek-nadl-adres').value = r.nadlAdres || '';
+      document.getElementById('rek-asy').value = r.asy || '';
+      document.getElementById('rek-data-odbioru').value = r.dataOdbioru || '';
+      document.getElementById('rek-gatunek').value = r.gatunek || '';
+      document.getElementById('rek-poj').value = r.poj || '';
+      document.getElementById('rek-kdekl').value = r.kdekl || '';
+      document.getElementById('rek-kstw').value = r.kstw || '';
+      document.getElementById('rek-niezg').value = r.niezg || '';
+      document.getElementById('rek-uzas').value = r.uzas || '';
+      document.getElementById('rek-status').value = r.status || 'Robocza';
+      document.getElementById('zad-cena').checked = r.zadCena || false;
+      document.getElementById('zad-wymiana').checked = r.zadWymiana || false;
+      document.getElementById('zad-zwrot').checked = r.zadZwrot || false;
+      document.getElementById('rek-ins-id').value = r.insId || '';
+      if (r.insId) document.getElementById('rek-ins-sel').value = r.insId;
+    }
+  } else {
+    currentRekId = null;
+    document.getElementById('rek-id').value = '';
+  }
+}
+
+function saveReklamacja() {
+  const nadawca = document.getElementById('rek-nadawca').value;
+  const adres = document.getElementById('rek-adres').value;
+  const msc = document.getElementById('rek-msc').value;
+  DB.saveProfil({nadawca, adres, msc});
+
+  const insId = document.getElementById('rek-ins-id').value;
+  const ins = insId ? DB.getInspekcje().find(i => i.id === insId) : null;
+
+  const r = {
+    id: currentRekId || DB.newId(),
+    insId,
+    nadawca, adres, msc,
+    nadl: document.getElementById('rek-nadl').value,
+    nadlAdres: document.getElementById('rek-nadl-adres').value,
+    asy: document.getElementById('rek-asy').value,
+    dataOdbioru: document.getElementById('rek-data-odbioru').value,
+    gatunek: document.getElementById('rek-gatunek').value,
+    poj: document.getElementById('rek-poj').value,
+    kdekl: document.getElementById('rek-kdekl').value,
+    kstw: document.getElementById('rek-kstw').value,
+    niezg: document.getElementById('rek-niezg').value,
+    uzas: document.getElementById('rek-uzas').value,
+    zadCena: document.getElementById('zad-cena').checked,
+    zadWymiana: document.getElementById('zad-wymiana').checked,
+    zadZwrot: document.getElementById('zad-zwrot').checked,
+    status: document.getElementById('rek-status').value,
+    zdjecia: ins ? (ins.zdjecia || []) : [],
+    ts: Date.now()
+  };
+  const all = DB.getReklamacje();
+  if (currentRekId) { const i = all.findIndex(x => x.id === currentRekId); if (i >= 0) all[i] = r; else all.push(r); }
+  else all.push(r);
+  DB.saveReklamacje(all);
+  showPismo(r.id);
+}
+
+function deleteReklamacja(id) {
+  if (!confirm('Usunąć reklamację?')) return;
+  DB.saveReklamacje(DB.getReklamacje().filter(r => r.id !== id));
+  showLista();
+}
+
+function editReklamacja(id) { showForm(id); }
+function editCurrent() { showForm(currentRekId); }
+function deleteCurrent() { deleteReklamacja(currentRekId); }
+
+function showPismo(id) {
+  const r = DB.getReklamacje().find(x => x.id === id);
+  if (!r) return;
+  currentRekId = id;
+  document.getElementById('view-lista').style.display = 'none';
+  document.getElementById('view-form').style.display = 'none';
+  document.getElementById('view-pismo').style.display = '';
+  document.getElementById('btn-nowa').style.display = 'none';
+  document.getElementById('topbar-title').textContent = 'Reklamacja';
+
+  const zadania = [r.zadCena && 'Korektę ceny / faktury', r.zadWymiana && 'Wymianę surowca na zgodny z klasą', r.zadZwrot && 'Zwrot towaru'].filter(Boolean);
+  const zdjecia = r.zdjecia && r.zdjecia.length
+    ? `<div style="margin-top:20px"><strong>Dokumentacja fotograficzna (${r.zdjecia.length} zdjęć):</strong><div class="thumb-grid" style="margin-top:8px">${r.zdjecia.map(p=>`<div class="thumb"><img src="${p}"></div>`).join('')}</div></div>`
+    : '';
+
+  document.getElementById('pismo-content').innerHTML = `
+    <div class="nadawca">
+      <strong>${escHtml(r.nadawca)}</strong><br>
+      ${escHtml(r.adres)}<br><br>
+      ${escHtml(r.msc)}, dnia ${fmtDate(r.dataOdbioru || new Date().toISOString())}
+    </div>
+    <div class="adresat">
+      <strong>${escHtml(r.nadl)}</strong><br>
+      ${escHtml(r.nadlAdres)}
+    </div>
+    <h3>Reklamacja jakości drewna okrągłego</h3>
+    <table>
+      <thead><tr><th>Pozycja</th><th>Klasa deklarowana</th><th>Klasa stwierdzona</th><th>Nr asygnaty</th></tr></thead>
+      <tbody><tr>
+        <td>${escHtml(r.gatunek)}</td>
+        <td>${r.kdekl||'—'}</td>
+        <td>${r.kstw||'—'}</td>
+        <td>${escHtml(r.asy)}</td>
+      </tr></tbody>
+    </table>
+    <p><strong>Dotyczy:</strong> Dostawa z dnia ${fmtDate(r.dataOdbioru)}, pojazd: ${escHtml(r.poj||'—')}, Nr asygnaty: ${escHtml(r.asy)}</p>
+    <p style="margin-top:16px">Szanowni Państwo,</p>
+    <p style="margin-top:8px">W związku z odbiorem dostawy drewna okrągłego realizowanej na podstawie asygnaty nr <strong>${escHtml(r.asy)}</strong> z dnia ${fmtDate(r.dataOdbioru)}, niniejszym składam reklamację dotyczącą niezgodności jakości dostarczonego surowca z deklarowaną klasą.</p>
+    <p style="margin-top:12px"><strong>Stwierdzone niezgodności:</strong><br>${escHtml(r.niezg).replace(/\n/g,'<br>')}</p>
+    <p style="margin-top:12px"><strong>Uzasadnienie:</strong><br>${escHtml(r.uzas).replace(/\n/g,'<br>')}</p>
+    <p style="margin-top:16px"><strong>W związku z powyższym wnoszę o:</strong></p>
+    <ul style="margin:8px 0 16px 20px">${zadania.map(z=>`<li>${z}</li>`).join('')||'<li>(nie określono)</li>'}</ul>
+    ${zdjecia}
+    <p style="margin-top:32px">Z poważaniem,</p>
+    <p style="margin-top:32px"><strong>${escHtml(r.nadawca)}</strong></p>
+  `;
+
+  document.getElementById('btn-email').onclick = () => {
+    const subj = encodeURIComponent(`Reklamacja jakości drewna – asygnata ${r.asy}`);
+    const body = encodeURIComponent(`Szanowni Państwo,\n\nW załączeniu przesyłam reklamację dotyczącą dostawy z dnia ${fmtDate(r.dataOdbioru)}, asygnata nr ${r.asy}.\n\nStwierdzone niezgodności:\n${r.niezg}\n\nUzasadnienie:\n${r.uzas}\n\nZ poważaniem,\n${r.nadawca}`);
+    window.location.href = `mailto:?subject=${subj}&body=${body}`;
+  };
+}
+</script>
+</body>
+</html>

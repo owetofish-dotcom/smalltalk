@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inspekcje – BrakarzLeśny</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html" class="back">← BrakarzLeśny</a>
+  <h1 id="topbar-title">Inspekcje terenowe</h1>
+  <button class="btn btn-primary btn-sm no-print" onclick="showForm()" id="btn-nowa">+ Nowa inspekcja</button>
+</div>
+
+<!-- LISTA -->
+<div id="view-lista" class="page">
+  <div class="table-wrapper">
+    <table id="ins-table">
+      <thead><tr>
+        <th>Data</th><th>Nadleśnictwo</th><th>Nr WZ</th><th>Nr asygnaty</th>
+        <th>Gatunek</th><th>Klasa dekl.</th><th>Klasa stwierdz.</th><th>Wady</th><th>Akcje</th>
+      </tr></thead>
+      <tbody id="ins-tbody"></tbody>
+    </table>
+  </div>
+  <div class="empty-state" id="empty-ins" style="display:none">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+    <p>Brak zapisanych inspekcji.<br>Dodaj pierwszą po przyjeździe na plac.</p>
+    <button class="btn btn-primary" onclick="showForm()" style="margin-top:16px">+ Nowa inspekcja</button>
+  </div>
+</div>
+
+<!-- FORMULARZ -->
+<div id="view-form" class="page" style="display:none">
+  <div class="alert alert-orange">
+    <strong>Terminy reklamacji (Decyzja nr 161 DGLP):</strong><br>
+    Wady jawne jakościowe: <strong>14 dni</strong> od wystawienia dokumentu &bull;
+    Sinizna, chodniki owadzie: <strong>5 dni</strong> &bull;
+    Wady ukryte (po przetarciu): <strong>niezwłocznie</strong> po ujawnieniu (art. 563 KC)
+  </div>
+  <div class="form-card">
+    <input type="hidden" id="ins-id">
+
+    <div class="section-title">Dane podstawowe</div>
+    <div class="form-row">
+      <div class="form-group"><label>Data odbioru</label><input type="date" id="ins-data"></div>
+      <div class="form-group"><label>Nadleśnictwo</label><input type="text" id="ins-nadl" placeholder="np. Nadleśnictwo Mielec"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Nr WZ</label><input type="text" id="ins-wz" placeholder="np. WZ/123/2025"></div>
+      <div class="form-group"><label>Nr asygnaty LP</label><input type="text" id="ins-asy" placeholder="np. 12345/2025"></div>
+    </div>
+    <div class="form-group"><label>Nr rejestracyjny pojazdu</label><input type="text" id="ins-poj" placeholder="np. RML 1234"></div>
+
+    <div class="section-title">Drewno</div>
+    <div class="form-row">
+      <div class="form-group"><label>Gatunek</label><select id="ins-gatunek"></select></div>
+      <div class="form-group"><label>Klasa deklarowana wg WZ</label><select id="ins-kdekl"></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Ilość [m³]</label><input type="number" id="ins-ilosc" step="0.01" min="0" placeholder="0.00"></div>
+      <div class="form-group"><label>Długość kłód [m]</label><input type="number" id="ins-dlugosc" step="0.1" min="0" placeholder="0.0"></div>
+    </div>
+
+    <div class="section-title">Stwierdzone wady</div>
+    <div class="wady-grid" id="wady-grid"></div>
+
+    <div class="section-title">Ocena końcowa</div>
+    <div class="form-row">
+      <div class="form-group"><label>Klasa stwierdzona</label><select id="ins-kstw"></select></div>
+    </div>
+    <div class="form-group"><label>Uzasadnienie / uwagi</label><textarea id="ins-uzas" placeholder="Opisz stwierdzone niezgodności..."></textarea></div>
+
+    <div class="section-title">Zdjęcia</div>
+    <p style="font-size:.8rem;color:#888;margin-bottom:8px">Fotografuj: wada + miarka + numer asygnaty w kadrze</p>
+    <input type="file" accept="image/*" capture="environment" multiple id="zdjecia-input" style="display:none" onchange="handleZdjecia(this)">
+    <button class="btn btn-secondary btn-sm" onclick="document.getElementById('zdjecia-input').click()">Dodaj zdjęcie</button>
+    <div class="thumb-grid" id="thumb-grid" style="margin-top:12px"></div>
+
+    <div style="display:flex;gap:10px;margin-top:24px">
+      <button class="btn btn-primary" onclick="saveInspekcja()">Zapisz inspekcję</button>
+      <button class="btn btn-secondary" onclick="showLista()">Anuluj</button>
+    </div>
+  </div>
+</div>
+
+<!-- PODGLĄD -->
+<div id="view-podglad" class="page" style="display:none">
+  <div id="podglad-content"></div>
+  <div style="display:flex;gap:10px;margin-top:20px" class="no-print">
+    <button class="btn btn-secondary" onclick="showLista()">← Lista</button>
+    <button class="btn btn-primary" id="btn-edit-podg">Edytuj</button>
+    <button class="btn btn-secondary" id="btn-rek-podg" onclick="goReklamacja()">Utwórz reklamację</button>
+    <button class="btn btn-danger btn-sm" id="btn-del-podg">Usuń</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+let editId = null;
+let photos = [];
+let currentPodgladId = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const gSel = document.getElementById('ins-gatunek');
+  GATUNKI.forEach(g => { const o = document.createElement('option'); o.value = g; o.textContent = g; gSel.appendChild(o); });
+
+  ['ins-kdekl','ins-kstw'].forEach(id => {
+    const s = document.getElementById(id);
+    KLASY_LP.forEach(k => { const o = document.createElement('option'); o.value = k; o.textContent = k; s.appendChild(o); });
+  });
+
+  const wg = document.getElementById('wady-grid');
+  WADY.forEach((w, i) => {
+    const d = document.createElement('div');
+    d.className = 'wada-item';
+    d.innerHTML = `<div class="wada-check"><input type="checkbox" id="wada-${i}" value="${w}"><label for="wada-${i}" style="margin:0;font-weight:normal">${w}</label></div><input type="text" class="wada-note" id="wada-note-${i}" placeholder="uwagi..." style="display:none">`;
+    wg.appendChild(d);
+    document.getElementById(`wada-${i}`).addEventListener('change', function() {
+      document.getElementById(`wada-note-${i}`).style.display = this.checked ? 'block' : 'none';
+    });
+  });
+
+  document.getElementById('ins-data').value = new Date().toISOString().split('T')[0];
+  renderLista();
+});
+
+function renderLista() {
+  const ins = DB.getInspekcje();
+  const tbody = document.getElementById('ins-tbody');
+  const empty = document.getElementById('empty-ins');
+  const tw = document.querySelector('.table-wrapper');
+
+  if (!ins.length) { tw.style.display = 'none'; empty.style.display = 'block'; return; }
+  tw.style.display = 'block'; empty.style.display = 'none';
+
+  tbody.innerHTML = ins.map(i => `
+    <tr>
+      <td>${fmtDate(i.data)}</td>
+      <td>${escHtml(i.nadl||'—')}</td>
+      <td>${escHtml(i.wz||'—')}</td>
+      <td>${escHtml(i.asy||'—')}</td>
+      <td>${escHtml(i.gatunek||'—')}</td>
+      <td>${klasaBadge(i.kdekl)}</td>
+      <td>${klasaBadge(i.kstw)}</td>
+      <td><span class="badge ${wadyCount(i)>0?'badge-orange':'badge-gray'}">${wadyCount(i)} wad</span></td>
+      <td><div class="actions">
+        <button class="btn-icon" onclick="showPodglad('${i.id}')">&#128065;</button>
+        <button class="btn-icon" onclick="editInspekcja('${i.id}')">&#9998;</button>
+        <button class="btn-icon" onclick="deleteInspekcja('${i.id}')">&#128465;</button>
+        <button class="btn-icon" title="Utwórz reklamację" onclick="goReklamacjaNew('${i.id}')">&#128203;</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function showLista() {
+  document.getElementById('view-lista').style.display = '';
+  document.getElementById('view-form').style.display = 'none';
+  document.getElementById('view-podglad').style.display = 'none';
+  document.getElementById('topbar-title').textContent = 'Inspekcje terenowe';
+  document.getElementById('btn-nowa').style.display = '';
+  editId = null; photos = [];
+  renderLista();
+}
+
+function showForm(id) {
+  document.getElementById('view-lista').style.display = 'none';
+  document.getElementById('view-form').style.display = '';
+  document.getElementById('view-podglad').style.display = 'none';
+  document.getElementById('btn-nowa').style.display = 'none';
+  document.getElementById('topbar-title').textContent = id ? 'Edytuj inspekcję' : 'Nowa inspekcja';
+
+  if (id) {
+    const ins = DB.getInspekcje().find(i => i.id === id);
+    if (ins) {
+      editId = id;
+      document.getElementById('ins-id').value = id;
+      document.getElementById('ins-data').value = ins.data || '';
+      document.getElementById('ins-nadl').value = ins.nadl || '';
+      document.getElementById('ins-wz').value = ins.wz || '';
+      document.getElementById('ins-asy').value = ins.asy || '';
+      document.getElementById('ins-poj').value = ins.poj || '';
+      document.getElementById('ins-gatunek').value = ins.gatunek || '';
+      document.getElementById('ins-kdekl').value = ins.kdekl || '';
+      document.getElementById('ins-ilosc').value = ins.ilosc || '';
+      document.getElementById('ins-dlugosc').value = ins.dlugosc || '';
+      document.getElementById('ins-kstw').value = ins.kstw || '';
+      document.getElementById('ins-uzas').value = ins.uzas || '';
+      (ins.wady||[]).forEach((w, i) => {
+        const cb = document.getElementById(`wada-${i}`);
+        const nt = document.getElementById(`wada-note-${i}`);
+        if (cb && w) { cb.checked = w.checked; if (w.checked) { nt.style.display = 'block'; nt.value = w.note || ''; } }
+      });
+      photos = ins.zdjecia || [];
+      renderThumbs();
+    }
+  } else {
+    editId = null;
+    document.getElementById('ins-id').value = '';
+    document.getElementById('ins-data').value = new Date().toISOString().split('T')[0];
+    ['ins-nadl','ins-wz','ins-asy','ins-poj','ins-uzas'].forEach(id => document.getElementById(id).value = '');
+    ['ins-ilosc','ins-dlugosc'].forEach(id => document.getElementById(id).value = '');
+    WADY.forEach((_, i) => {
+      const cb = document.getElementById(`wada-${i}`);
+      const nt = document.getElementById(`wada-note-${i}`);
+      if (cb) { cb.checked = false; nt.style.display = 'none'; nt.value = ''; }
+    });
+    photos = [];
+    renderThumbs();
+  }
+}
+
+function handleZdjecia(input) {
+  Array.from(input.files).forEach(f => {
+    const r = new FileReader();
+    r.onload = e => { photos.push(e.target.result); renderThumbs(); };
+    r.readAsDataURL(f);
+  });
+  input.value = '';
+}
+
+function renderThumbs() {
+  document.getElementById('thumb-grid').innerHTML = photos.map((p, i) =>
+    `<div class="thumb"><img src="${p}"><button class="del" onclick="removePhoto(${i})">x</button></div>`).join('');
+}
+
+function removePhoto(i) { photos.splice(i, 1); renderThumbs(); }
+
+function saveInspekcja() {
+  const ins = {
+    id: editId || DB.newId(),
+    data: document.getElementById('ins-data').value,
+    nadl: document.getElementById('ins-nadl').value,
+    wz: document.getElementById('ins-wz').value,
+    asy: document.getElementById('ins-asy').value,
+    poj: document.getElementById('ins-poj').value,
+    gatunek: document.getElementById('ins-gatunek').value,
+    kdekl: document.getElementById('ins-kdekl').value,
+    ilosc: document.getElementById('ins-ilosc').value,
+    dlugosc: document.getElementById('ins-dlugosc').value,
+    wady: WADY.map((w, i) => ({name: w, checked: document.getElementById(`wada-${i}`).checked, note: document.getElementById(`wada-note-${i}`).value})),
+    kstw: document.getElementById('ins-kstw').value,
+    uzas: document.getElementById('ins-uzas').value,
+    zdjecia: photos,
+    ts: Date.now()
+  };
+  const all = DB.getInspekcje();
+  if (editId) { const idx = all.findIndex(x => x.id === editId); if (idx >= 0) all[idx] = ins; else all.push(ins); }
+  else all.push(ins);
+  DB.saveInspekcje(all);
+  showLista();
+}
+
+function deleteInspekcja(id) {
+  if (!confirm('Usunąć tę inspekcję?')) return;
+  DB.saveInspekcje(DB.getInspekcje().filter(i => i.id !== id));
+  renderLista();
+}
+
+function editInspekcja(id) { showForm(id); }
+
+function showPodglad(id) {
+  const ins = DB.getInspekcje().find(i => i.id === id);
+  if (!ins) return;
+  currentPodgladId = id;
+  document.getElementById('view-lista').style.display = 'none';
+  document.getElementById('view-form').style.display = 'none';
+  document.getElementById('view-podglad').style.display = '';
+  document.getElementById('btn-nowa').style.display = 'none';
+  document.getElementById('topbar-title').textContent = 'Podgląd inspekcji';
+  document.getElementById('btn-edit-podg').onclick = () => editInspekcja(id);
+  document.getElementById('btn-del-podg').onclick = () => { deleteInspekcja(id); showLista(); };
+
+  const wList = wadyList(ins);
+  document.getElementById('podglad-content').innerHTML = `
+    <div class="detail-card">
+      <div class="detail-row"><span class="detail-label">Data odbioru:</span><span>${fmtDate(ins.data)}</span></div>
+      <div class="detail-row"><span class="detail-label">Nadleśnictwo:</span><span>${escHtml(ins.nadl)}</span></div>
+      <div class="detail-row"><span class="detail-label">Nr WZ:</span><span>${escHtml(ins.wz)}</span></div>
+      <div class="detail-row"><span class="detail-label">Nr asygnaty LP:</span><span>${escHtml(ins.asy)}</span></div>
+      <div class="detail-row"><span class="detail-label">Pojazd:</span><span>${escHtml(ins.poj)}</span></div>
+      <div class="detail-row"><span class="detail-label">Gatunek:</span><span>${escHtml(ins.gatunek)}</span></div>
+      <div class="detail-row"><span class="detail-label">Ilość:</span><span>${ins.ilosc||'—'} m³</span></div>
+      <div class="detail-row"><span class="detail-label">Klasa deklarowana:</span>${klasaBadge(ins.kdekl)}</div>
+      <div class="detail-row"><span class="detail-label">Klasa stwierdzona:</span>${klasaBadge(ins.kstw)}</div>
+      <div class="detail-row"><span class="detail-label">Stwierdzone wady:</span><span>${escHtml(wList)}</span></div>
+      <div class="detail-row"><span class="detail-label">Uzasadnienie:</span><span>${escHtml(ins.uzas)}</span></div>
+      ${ins.zdjecia && ins.zdjecia.length ? `<div class="detail-row" style="flex-direction:column"><span class="detail-label">Zdjęcia (${ins.zdjecia.length}):</span><div class="thumb-grid">${ins.zdjecia.map(p=>`<div class="thumb"><img src="${p}"></div>`).join('')}</div></div>` : ''}
+    </div>`;
+}
+
+function goReklamacja() { goReklamacjaNew(currentPodgladId); }
+function goReklamacjaNew(insId) {
+  window.location.href = 'reklamacja.html?new=1&ins=' + insId;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Teoria – BrakarzLeśny</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html" class="back">← BrakarzLeśny</a>
+  <h1 id="topbar-title">Teoria</h1>
+</div>
+
+<div id="view-grid">
+  <div class="teoria-grid" id="modul-grid"></div>
+</div>
+
+<div id="view-section" style="display:none">
+  <div class="section-body" id="section-body"></div>
+</div>
+
+<script src="app.js"></script>
+<script src="theory-lesny.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const grid = document.getElementById('modul-grid');
+  if (typeof TEORIA_MODULES === 'undefined') {
+    grid.innerHTML = '<p style="padding:24px;color:#888">Brak danych teorii (theory-lesny.js nie załadowany).</p>';
+    return;
+  }
+  TEORIA_MODULES.forEach((m, i) => {
+    const card = document.createElement('div');
+    card.className = 'modul-card';
+    card.innerHTML = `<div class="icon" style="font-size:1.8rem">${m.icon || '📖'}</div><h3>${m.title}</h3><p>${m.desc || ''}</p>`;
+    card.onclick = () => showSection(i);
+    grid.appendChild(card);
+  });
+});
+
+function showSection(idx) {
+  const m = TEORIA_MODULES[idx];
+  if (!m) return;
+  document.getElementById('view-grid').style.display = 'none';
+  document.getElementById('view-section').style.display = '';
+  document.getElementById('topbar-title').textContent = m.title;
+
+  const body = document.getElementById('section-body');
+  let html = `<button class="btn btn-secondary btn-sm" onclick="showGrid()" style="margin-bottom:20px">← Teoria</button>`;
+  (m.sections || []).forEach(s => {
+    html += `<h3>${escHtml(s.heading)}</h3><div class="body-text">${escHtml(s.body).replace(/\n/g,'<br>')}</div>`;
+    if (s.examTips && s.examTips.length) {
+      s.examTips.forEach(t => { html += `<div class="exam-tip">Na egzaminie: ${escHtml(t)}</div>`; });
+    }
+    html += '<br>';
+  });
+  body.innerHTML = html;
+}
+
+function showGrid() {
+  document.getElementById('view-grid').style.display = '';
+  document.getElementById('view-section').style.display = 'none';
+  document.getElementById('topbar-title').textContent = 'Teoria';
+}
+</script>
+</body>
+</html>
