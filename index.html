@@ -152,6 +152,7 @@
     min-height: 54px;
     position: relative;
     padding-bottom: 2px;
+    border: 0.5px solid #e0e0e0;
   }
   .cal-day:hover { background: var(--hover-bg); }
   .cal-day.empty { cursor: default; }
@@ -188,24 +189,7 @@
     max-width: 100%;
     padding: 0 2px;
   }
-  .cal-dot { width: 6px; height: 6px; flex-shrink: 0; display: inline-block; }
-  .cal-dot-circle { border-radius: 50%; }
-  .cal-dot-triangle {
-    width: 0; height: 0;
-    background: transparent !important;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-bottom: 7px solid var(--dot-color);
-  }
-  .cal-dot-square { border-radius: 1px; }
-  .cal-dot-diamond {
-    transform: rotate(45deg);
-    border-radius: 1px;
-  }
-  .cal-dot-hexagon {
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    border-radius: 0;
-  }
+  .cal-dot-img { width: 10px; height: 10px; flex-shrink: 0; display: inline-block; }
   .cal-day.ideal { box-shadow: inset 0 0 0 1.5px #2d6a4f; border-radius: 4px; }
   .cal-day.good  { box-shadow: inset 0 0 0 1.5px #bdbdba; border-radius: 4px; }
 
@@ -459,19 +443,19 @@
       <hr style="border:none;border-top:1px solid var(--border);margin:0;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
         <button class="day-toggle" data-field="steps" id="toggle-steps" style="padding:7px 4px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;">
-          <span class="toggle-dot" style="width:8px;height:8px;border-radius:50%;background:#111;flex-shrink:0;opacity:0.3;display:inline-block;"></span>
+          <img src="./assets/img/kroki.svg" class="toggle-dot" style="width:14px;height:14px;flex-shrink:0;opacity:0.3;" alt="kroki">
           <span>Kroki 10k+</span>
         </button>
         <button class="day-toggle" data-field="diet" id="toggle-diet" style="padding:7px 4px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;">
-          <span class="toggle-dot" style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:9px solid #2d6a4f;flex-shrink:0;opacity:0.3;background:transparent;display:inline-block;"></span>
+          <img src="./assets/img/bieg.svg" class="toggle-dot" style="width:14px;height:14px;flex-shrink:0;opacity:0.3;" alt="dieta">
           <span>Dieta ✓</span>
         </button>
         <button class="day-toggle" data-field="no_fizzy" id="toggle-no_fizzy" style="padding:7px 4px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;">
-          <span class="toggle-dot" style="width:8px;height:8px;border-radius:1px;background:#2c6db5;flex-shrink:0;opacity:0.3;display:inline-block;"></span>
+          <img src="./assets/img/nie-gazowane.svg" class="toggle-dot" style="width:14px;height:14px;flex-shrink:0;opacity:0.3;" alt="nie-gazowane">
           <span>Bez nap. gaz.</span>
         </button>
         <button class="day-toggle" data-field="flew" id="toggle-flew" style="padding:7px 4px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;">
-          <span class="toggle-dot" style="width:7px;height:7px;border-radius:1px;background:#7a8c3b;flex-shrink:0;opacity:0.3;display:inline-block;transform:rotate(45deg);"></span>
+          <img src="./assets/img/lot%20samolotem.svg" class="toggle-dot" style="width:14px;height:14px;flex-shrink:0;opacity:0.3;" alt="lot samolotem">
           <span>Lot samolotem</span>
         </button>
       </div>
@@ -1148,19 +1132,17 @@
       const isGood  = hasActivity && day.diet && !day.no_fizzy;
       el.className = 'cal-day' + (isToday ? ' today' : '') + (isIdeal ? ' ideal' : isGood ? ' good' : '');
       const DOT_CFG = {
-        steps:    { color:'#111',    shape:'circle'  },
-        diet:     { color:'#2d6a4f', shape:'triangle' },
-        no_fizzy: { color:'#2c6db5', shape:'square'  },
-        flew:     { color:'#7a8c3b', shape:'diamond' },
-        activity: { color:'#b45309', shape:'hexagon' }
+        steps:    './assets/img/kroki.svg',
+        diet:     './assets/img/bieg.svg',
+        no_fizzy: './assets/img/nie-gazowane.svg',
+        flew:     './assets/img/lot%20samolotem.svg',
+        activity: './assets/img/pompki-brzuszki.svg'
       };
       const dotFields = ['steps','diet','no_fizzy','flew'];
       if (day.activity) dotFields.push('activity');
-      const dots = dotFields.filter(f => f==='activity' ? day.activity : day[f]).map(f => {
-        const {color, shape} = DOT_CFG[f];
-        if (shape === 'triangle') return `<span class="cal-dot cal-dot-triangle" style="--dot-color:${color}"></span>`;
-        return `<span class="cal-dot cal-dot-${shape}" style="background:${color}"></span>`;
-      }).join('');
+      const dots = dotFields.filter(f => f==='activity' ? day.activity : day[f]).map(f =>
+        `<img src="${DOT_CFG[f]}" class="cal-dot-img" alt="${f}">`
+      ).join('');
       const dotsHtml = dots ? `<span class="cal-day-dots">${dots}</span>` : '';
       el.innerHTML = `<span class="cal-day-num">${d}</span><span class="cal-day-weight">${day.weight || ''}</span><span class="cal-day-km">${day.km ? day.km+'km' : ''}</span>${dotsHtml || '<span class="cal-day-dots"></span>'}`;
       el.addEventListener('click', () => openPopup(key, d));
@@ -1291,14 +1273,6 @@
     btn.style.borderColor = on ? 'var(--text)' : 'var(--border)';
     const dot = btn.querySelector('.toggle-dot');
     if (dot) dot.style.opacity = on ? '1' : '0.3';
-    const FIELD_COLORS = { steps:'#111', diet:'#2d6a4f', no_fizzy:'#2c6db5', flew:'#7a8c3b' };
-    if (on) {
-      if (field === 'diet' && dot) { dot.style.borderBottomColor = '#fff'; dot.style.background = 'transparent'; }
-      else if (dot) { dot.style.background = '#fff'; }
-    } else {
-      if (field === 'diet' && dot) { dot.style.borderBottomColor = FIELD_COLORS[field]; dot.style.background = 'transparent'; }
-      else if (dot) { dot.style.background = FIELD_COLORS[field]; }
-    }
   }
   document.querySelectorAll('.day-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
