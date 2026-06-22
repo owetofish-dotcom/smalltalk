@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>EkoPako — Kreator deklaracji dostawcy (Art. 5 PPWR)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<style>
+:root {
+  --g50:#f0faf7;--g100:#d6f0e8;--g200:#aae3d3;--g300:#70cfb8;--g400:#33b99a;
+  --g500:#009b72;--g600:#009b72;--g700:#046865;--g800:#034d4b;--g900:#033d3c;--g950:#192d35;
+  --sidebar:#192d35;--sidebar-hover:#0f3a38;--sidebar-active:#009b72;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
+  --s400:#94a3b8;--s500:#64748b;--s600:#475569;--s700:#334155;--s800:#1e293b;
+  --white:#fff;--danger:#ef4444;--warn:#f59e0b;
+  --sh:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.05);
+  --sh-md:0 4px 12px rgba(0,0,0,.08);
+  --sh-lg:0 20px 40px rgba(0,0,0,.12);
+  --r:8px;--r-lg:12px;--r-xl:16px;
+  --sidebar-w:224px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--s50);color:var(--s800);font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;}
+button{cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;}
+input,select,textarea{font-family:inherit;}
+a{color:var(--g700);text-decoration:none;}
+
+/* PHOSPHOR DUOTONE */
+.ph-duotone{--ph-color:var(--g600);color:var(--g600);}
+.ph-duotone::after{opacity:.25;color:var(--g400);}
+.nav-item .ph-duotone{--ph-color:rgba(255,255,255,.6);color:rgba(255,255,255,.6);}
+.nav-item .ph-duotone::after{color:rgba(255,255,255,.3);}
+.nav-item.active .ph-duotone,.nav-item:hover .ph-duotone{--ph-color:#fff;color:#fff;}
+.nav-item.active .ph-duotone::after,.nav-item:hover .ph-duotone::after{color:var(--g300);}
+
+/* APP SHELL */
+.app-shell{display:flex;height:100vh;overflow:hidden;}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sidebar-w);background:var(--sidebar);color:#fff;
+  display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;
+  transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:300;
+}
+.sidebar-logo{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.07);}
+.logo-mark{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:34px;height:34px;background:var(--g600);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-icon .ph-duotone{font-size:20px;--ph-color:#fff;color:#fff;}
+.logo-icon .ph-duotone::after{color:var(--g200);}
+.logo-text{font-size:15px;font-weight:800;line-height:1.1;letter-spacing:-.02em;}
+.logo-sub{font-size:10px;color:rgba(255,255,255,.4);font-weight:400;}
+.sidebar-nav{padding:8px;flex:1;}
+.nav-label{font-size:10px;font-weight:600;color:rgba(255,255,255,.3);
+  letter-spacing:.08em;text-transform:uppercase;padding:10px 10px 4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;min-height:44px;
+  border-radius:7px;color:rgba(255,255,255,.65);font-size:13.5px;font-weight:500;
+  cursor:pointer;transition:all .14s;margin-bottom:1px;text-decoration:none;}
+.nav-item:hover{background:var(--sidebar-hover);color:#fff;}
+.nav-item.active{background:var(--g700);color:#fff;}
+.nav-item .ph-duotone{font-size:18px;flex-shrink:0;}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:299;
+  display:none;backdrop-filter:blur(2px);}
+.sidebar-overlay.open{display:block;}
+@media(max-width:767px){
+  .sidebar{position:fixed;inset:0 auto 0 0;transform:translateX(-100%);
+    width:min(280px,80vw);}
+  .sidebar.open{transform:translateX(0);}
+}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.topbar{height:56px;background:white;border-bottom:1px solid var(--s200);
+  display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;
+  box-shadow:var(--sh);position:sticky;top:0;z-index:100;}
+.topbar-menu-btn{display:none;background:none;border:none;padding:8px;
+  color:var(--s600);border-radius:6px;margin-left:-8px;}
+@media(max-width:767px){
+  .topbar-menu-btn{display:flex;align-items:center;}
+  .topbar-menu-btn .ph-duotone{font-size:22px;--ph-color:var(--s600);color:var(--s600);}
+  .topbar-menu-btn .ph-duotone::after{color:var(--s300);}
+}
+.topbar-title{font-size:15px;font-weight:700;color:var(--s800);flex:1;letter-spacing:-.02em;}
+.topbar-sub{font-size:12px;color:var(--s400);font-weight:400;}
+.content{flex:1;overflow-y:auto;padding:20px;padding-bottom:40px;}
+
+/* CARDS */
+.card{background:white;border-radius:var(--r-lg);border:1px solid var(--s200);box-shadow:var(--sh);margin-bottom:20px;}
+.card-header{padding:14px 18px;border-bottom:1px solid var(--s100);
+  display:flex;align-items:center;gap:10px;}
+.card-title{font-size:14px;font-weight:700;color:var(--s800);flex:1;letter-spacing:-.02em;}
+.card-body{padding:18px;}
+
+/* STEP INDICATOR */
+.steps{display:flex;gap:0;margin-bottom:24px;}
+.step{display:flex;align-items:center;gap:8px;flex:1;}
+.step-num{width:28px;height:28px;border-radius:50%;border:2px solid var(--s300);
+  color:var(--s400);font-size:12px;font-weight:700;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;transition:all .2s;}
+.step-label{font-size:12px;font-weight:600;color:var(--s400);transition:color .2s;}
+.step.active .step-num{border-color:var(--g600);background:var(--g600);color:#fff;}
+.step.active .step-label{color:var(--s700);}
+.step.done .step-num{border-color:var(--g600);background:var(--g50);color:var(--g700);}
+.step.done .step-label{color:var(--s500);}
+.step-sep{flex:1;height:1px;background:var(--s200);margin:0 8px;flex-shrink:0;max-width:32px;}
+@media(max-width:480px){.step-label{display:none;}.step-sep{max-width:16px;}}
+
+/* FORM */
+.form-group{margin-bottom:16px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:480px){.form-row{grid-template-columns:1fr;}}
+label{display:block;font-size:12px;font-weight:600;color:var(--s600);margin-bottom:5px;}
+.label-req::after{content:" *";color:var(--danger);}
+input[type=text],input[type=date],select,textarea{
+  width:100%;padding:9px 11px;border:1px solid var(--s300);border-radius:var(--r);
+  font-size:13.5px;color:var(--s800);background:white;outline:none;
+  transition:border-color .14s,box-shadow .14s;min-height:40px;}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--g500);box-shadow:0 0 0 3px rgba(0,155,114,.12);}
+textarea{resize:vertical;min-height:80px;}
+.input-hint{font-size:11px;color:var(--s400);margin-top:4px;}
+
+/* SECTION HEADERS */
+.section-hdr{margin:20px 0 12px;}
+.section-title{font-size:13px;font-weight:700;color:var(--g800);
+  padding-bottom:8px;border-bottom:2px solid var(--g100);
+  display:flex;align-items:center;gap:8px;}
+.section-num{width:22px;height:22px;background:var(--g600);color:white;
+  border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;
+  font-weight:700;flex-shrink:0;}
+.section-desc{font-size:12px;color:var(--s500);margin:6px 0 10px;line-height:1.5;}
+
+/* CHECK ITEMS */
+.check-list{display:flex;flex-direction:column;gap:8px;}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;
+  border:1px solid var(--s200);border-radius:var(--r);cursor:pointer;transition:all .12s;}
+.check-item:hover{border-color:var(--g400);background:var(--g50);}
+.check-item input[type=checkbox]{accent-color:var(--g600);width:15px;height:15px;
+  flex-shrink:0;margin-top:2px;}
+.check-item label{margin:0;font-size:13px;font-weight:400;cursor:pointer;line-height:1.4;color:var(--s700);}
+
+/* ALERT */
+.alert{padding:11px 14px;border-radius:var(--r);margin-bottom:14px;
+  font-size:13px;display:flex;align-items:flex-start;gap:10px;}
+.alert .ph-duotone{font-size:18px;flex-shrink:0;margin-top:1px;}
+.alert-green{background:var(--g50);border:1px solid var(--g200);color:var(--g800);}
+.alert-green .ph-duotone{--ph-color:var(--g600);color:var(--g600);}
+.alert-yellow{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
+.alert-yellow .ph-duotone{--ph-color:#d97706;color:#d97706;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;
+  border-radius:100px;font-size:13px;font-weight:700;border:1px solid transparent;
+  transition:all .14s;white-space:nowrap;min-height:36px;}
+.btn-primary{background:var(--g600);color:white;border-color:var(--g700);}
+.btn-primary:hover{background:var(--g700);}
+.btn-outline{background:white;color:var(--s700);border-color:var(--s300);}
+.btn-outline:hover{background:var(--s50);border-color:var(--s400);}
+.btn .ph-duotone{--ph-color:currentColor;color:currentColor;font-size:16px;}
+.btn .ph-duotone::after{color:currentColor;opacity:.3;}
+
+.nav-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:8px;}
+
+/* CONFIRMATION TAG */
+.conf-tag{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;
+  background:var(--g100);color:var(--g800);border-radius:20px;font-size:11px;font-weight:600;}
+
+/* ==================== PRINT ==================== */
+@media screen {
+  .print-only{display:none;}
+}
+
+@media print {
+  body{background:white;font-family:'Nunito',Arial,sans-serif;font-size:11pt;color:#000;}
+  .app-shell{display:block;height:auto;overflow:visible;}
+  .sidebar,.topbar,.steps,.form-view,.nav-btns,.alert,.print-hide{display:none!important;}
+  .content{overflow:visible;padding:0;}
+  .print-only{display:block;}
+
+  .pismo{
+    width:100%;max-width:720px;margin:0 auto;padding:0;
+    font-family:'Nunito',Arial,sans-serif;font-size:10.5pt;line-height:1.5;color:#000;
+  }
+  .pismo-header{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    border-bottom:2px solid #009b72;padding-bottom:10px;margin-bottom:18px;
+  }
+  .pismo-logo{font-size:18pt;font-weight:800;color:#009b72;letter-spacing:-.02em;}
+  .pismo-logo span{display:block;font-size:9pt;font-weight:400;color:#64748b;margin-top:2px;}
+  .pismo-ref{text-align:right;font-size:9pt;color:#64748b;}
+  .pismo-title{
+    font-size:13pt;font-weight:800;color:#034d4b;text-align:center;
+    margin-bottom:4px;letter-spacing:-.02em;
+  }
+  .pismo-subtitle{
+    font-size:10pt;font-weight:600;color:#009b72;text-align:center;margin-bottom:18px;
+  }
+  .pismo-supplier-box{
+    border:1.5px solid #009b72;border-radius:6px;padding:12px 16px;margin-bottom:18px;
+  }
+  .pismo-supplier-box h3{font-size:10pt;font-weight:700;color:#034d4b;margin-bottom:8px;
+    text-transform:uppercase;letter-spacing:.04em;}
+  .pismo-supplier-row{display:flex;gap:0;margin-bottom:4px;}
+  .pismo-supplier-lbl{font-size:9pt;color:#64748b;font-weight:600;min-width:130px;}
+  .pismo-supplier-val{font-size:9pt;color:#000;font-weight:400;}
+  .pismo-section{margin-bottom:16px;}
+  .pismo-section-title{
+    font-size:10.5pt;font-weight:700;color:#034d4b;padding:5px 10px;
+    background:#f0faf7;border-left:3px solid #009b72;margin-bottom:10px;
+  }
+  .pismo-check-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px;font-size:9.5pt;}
+  .pismo-check-box{
+    width:14px;height:14px;border:1.5px solid #009b72;border-radius:3px;
+    flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;
+    font-size:10pt;font-weight:700;color:#009b72;
+  }
+  .pismo-check-box.checked{background:#009b72;color:#fff;}
+  .pismo-note{font-size:9pt;color:#475569;border:1px solid #e2e8f0;
+    border-radius:4px;padding:8px 10px;margin-top:8px;white-space:pre-wrap;}
+  .pismo-sig-table{width:100%;border-collapse:collapse;margin-top:24px;}
+  .pismo-sig-table td{padding:8px 12px;border:1px solid #cbd5e1;vertical-align:top;font-size:9.5pt;}
+  .pismo-sig-table th{padding:6px 12px;background:#f1f5f9;border:1px solid #cbd5e1;
+    font-size:9pt;font-weight:700;color:#334155;text-align:left;}
+  .pismo-footer{margin-top:24px;padding-top:10px;border-top:1px solid #e2e8f0;
+    font-size:8.5pt;color:#94a3b8;text-align:center;}
+  .pismo-legal{font-size:8pt;color:#64748b;border:1px solid #e2e8f0;
+    border-radius:4px;padding:8px 10px;margin-bottom:16px;line-height:1.4;}
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="app-shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">
+        <div class="logo-icon"><i class="ph-duotone ph-leaf" style="font-size:20px;--ph-color:#fff;color:#fff"></i></div>
+        <div>
+          <div class="logo-text">EkoPako</div>
+          <div class="logo-sub">Deklaracje PPWR</div>
+        </div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-label">Menu</div>
+      <a class="nav-item" href="index.html">
+        <i class="ph-duotone ph-house"></i>Dashboard
+      </a>
+      <a class="nav-item" href="index.html#declarations">
+        <i class="ph-duotone ph-files"></i>Deklaracje
+      </a>
+      <a class="nav-item" href="index.html#company">
+        <i class="ph-duotone ph-factory"></i>Moja firma
+      </a>
+      <div class="nav-label">Narzedzia</div>
+      <a class="nav-item active" href="ppwr-dostawca.html">
+        <i class="ph-duotone ph-clipboard-text"></i>Kreator Dostawcy
+      </a>
+      <div class="nav-label">Zasoby</div>
+      <div class="nav-item"><i class="ph-duotone ph-books"></i>Baza wiedzy PPWR</div>
+      <div class="nav-item"><i class="ph-duotone ph-headset"></i>Pomoc</div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <button class="topbar-menu-btn" onclick="openSidebar()">
+        <i class="ph-duotone ph-list"></i>
+      </button>
+      <div class="topbar-title">
+        Kreator deklaracji dostawcy
+        <span class="topbar-sub"> / Art. 5 PPWR (UE) 2025/40</span>
+      </div>
+      <a href="index.html" class="btn btn-outline btn-sm print-hide">
+        <i class="ph-duotone ph-arrow-left"></i>Powrot do EkoPako
+      </a>
+    </header>
+
+    <div class="content">
+
+      <!-- STEPS (screen only) -->
+      <div class="steps print-hide" id="step-indicator">
+        <div class="step active" id="si-1">
+          <div class="step-num">1</div>
+          <div class="step-label">Dane dostawcy</div>
+        </div>
+        <div class="step-sep"></div>
+        <div class="step" id="si-2">
+          <div class="step-num">2</div>
+          <div class="step-label">Potwierdzenia Art. 5</div>
+        </div>
+        <div class="step-sep"></div>
+        <div class="step" id="si-3">
+          <div class="step-num">3</div>
+          <div class="step-label">Podpis i eksport</div>
+        </div>
+      </div>
+
+      <!-- ======= STEP 1 ======= -->
+      <div class="form-view" id="step1">
+        <div class="card">
+          <div class="card-header">
+            <i class="ph-duotone ph-buildings"></i>
+            <div class="card-title">Krok 1 — Dane dostawcy</div>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-green">
+              <i class="ph-duotone ph-info"></i>
+              <div>Wypelnij dane identyfikujace firme dostawcy i dostarczany produkt opakowaniowy zgodnie z rejestrem handlowym lub dokumentacja techniczna.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="label-req" for="firma">Nazwa firmy / osoba prawna</label>
+              <input type="text" id="firma" placeholder="np. Makodrew Sp. z o.o.">
+            </div>
+
+            <div class="form-group">
+              <label class="label-req" for="produkt">Dostarczany produkt / gatunek</label>
+              <input type="text" id="produkt" placeholder="np. paleta drewniana EUR, tektura falista 3-warstwowa, folia stretch LLDPE">
+              <div class="input-hint">Wpisz nazwe handlowa lub techniczna produktu opakowaniowego</div>
+            </div>
+
+            <div class="form-group">
+              <label class="label-req" for="adres">Zaklad produkcyjny — adres</label>
+              <input type="text" id="adres" placeholder="np. ul. Przemyslowa 12, 64-000 Koscian, Polska">
+            </div>
+
+            <div class="form-group">
+              <label for="nip">NIP / VAT EU (opcjonalnie)</label>
+              <input type="text" id="nip" placeholder="np. PL7770000001">
+            </div>
+
+            <div class="nav-btns">
+              <button class="btn btn-primary" onclick="goStep(2)">
+                Dalej <i class="ph-duotone ph-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= STEP 2 ======= -->
+      <div class="form-view" id="step2" style="display:none">
+        <div class="card">
+          <div class="card-header">
+            <i class="ph-duotone ph-shield-check"></i>
+            <div class="card-title">Krok 2 — Potwierdzenia Art. 5 PPWR</div>
+          </div>
+          <div class="card-body">
+
+            <!-- SEKCJA A -->
+            <div class="section-hdr">
+              <div class="section-title">
+                <div class="section-num">A</div>
+                Substancje potencjalnie niebezpieczne (Art. 5 ust. 1 PPWR)
+              </div>
+              <div class="section-desc">
+                Rozporzadzenie PPWR wymaga, aby substancje budz&#261;ce obawy (Substances of Concern — SoC)
+                zdefiniowane w REACH nie wystepowaly w opakowaniach w stezeniu wymagajacym ujawnienia.
+                Prosze zaznaczyc odpowiednie oswiadczenie.
+              </div>
+            </div>
+
+            <div class="check-list">
+              <label class="check-item">
+                <input type="checkbox" id="a1">
+                <label for="a1">
+                  <strong>Brak substancji budz&#261;cych obawy:</strong> Zadna substancja budz&#261;ca obawy
+                  w rozumieniu art. 57 rozporz&#261;dzenia (WE) nr 1907/2006 (REACH) nie wystepuje w dostarczanym
+                  produkcie opakowaniowym w stezeniu przekraczaj&#261;cym progi wymagaj&#261;ce ujawnienia.
+                </label>
+              </label>
+            </div>
+
+            <div class="form-group" style="margin-top:14px;">
+              <label for="a-wyjatki">
+                Wyjatki / substancje wymagaj&#261;ce ujawnienia (jezeli dotyczy)
+              </label>
+              <textarea id="a-wyjatki" placeholder="Substancja | Nr CAS | Stezenie [%] | Srodki minimalizuj&#261;ce ryzyko&#10;(pozostaw puste jezeli brak wyjatkow)"></textarea>
+              <div class="input-hint">Jezeli zadna substancja nie wymaga ujawnienia — zostaw to pole puste.</div>
+            </div>
+
+            <!-- SEKCJA B -->
+            <div class="section-hdr" style="margin-top:24px;">
+              <div class="section-title">
+                <div class="section-num">B</div>
+                Metale ciezkie (Art. 5 ust. 4 PPWR)
+              </div>
+              <div class="section-desc">
+                Suma stezen czterech metali ciezkich: olowiu (Pb), kadmu (Cd), rteci (Hg)
+                i szesciowartosciowego chromu Cr(VI) w materiale opakowania nie moze przekraczac
+                <strong>100 mg/kg</strong>.
+              </div>
+            </div>
+
+            <div class="check-list" style="margin-bottom:16px;">
+              <label class="check-item">
+                <input type="checkbox" id="b-limit">
+                <label for="b-limit">
+                  <strong>Potwierdzam</strong>, ze suma stezen Pb + Cd + Hg + Cr(VI) w dostarczanym produkcie
+                  opakowaniowym wynosi <strong>ponizej 100 mg/kg</strong> zgodnie z wymaganiami Art. 5 ust. 4 PPWR.
+                </label>
+              </label>
+            </div>
+
+            <label style="margin-bottom:8px;display:block;">Podstawa weryfikacji <span style="color:var(--danger)">*</span> <span style="font-size:11px;color:var(--s400);font-weight:400;">(min. 1 wymagana)</span></label>
+            <div class="check-list">
+              <label class="check-item">
+                <input type="checkbox" id="b-v1">
+                <label for="b-v1">Oswiadczenie oparte na specyfikacjach surowcow i oswiadczeniach dostawcow wyzszego szczebla</label>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" id="b-v2">
+                <label for="b-v2">Badania laboratoryjne przeprowadzone na wszystkich partiach produkcyjnych</label>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" id="b-v3">
+                <label for="b-v3">Badania laboratoryjne okresowe na reprezentatywnej probce (monitoring)</label>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" id="b-v4">
+                <label for="b-v4">Wdrozona procedura oceny zgodnosci / system zarz&#261;dzania jakosci&#261; (np. ISO 9001)</label>
+              </label>
+            </div>
+
+            <div class="form-group" style="margin-top:14px;">
+              <label for="b-opis">Opis metody weryfikacji (opcjonalnie)</label>
+              <textarea id="b-opis" placeholder="Krotki opis stosowanej metody weryfikacji stezen metali ciezkich..."></textarea>
+            </div>
+
+            <label style="margin-bottom:8px;display:block;">Ocena ryzyka — dodatkowe oswiadczenia</label>
+            <div class="check-list">
+              <label class="check-item">
+                <input type="checkbox" id="b-r1">
+                <label for="b-r1">Zaden z 4 metali ciezkich (Pb, Cd, Hg, Cr VI) nie jest celowo wprowadzany w procesie produkcyjnym</label>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" id="b-r2">
+                <label for="b-r2">Nie stosujemy surowcow zawieraj&#261;cych te metale jako komponenty funkcjonalne</label>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" id="b-r3">
+                <label for="b-r3">Surowce z recyklingu: nasi dostawcy potwierdzili zgodnosc materialu z limitem 100 mg/kg</label>
+              </label>
+            </div>
+
+            <div class="nav-btns" style="margin-top:20px;">
+              <button class="btn btn-outline" onclick="goStep(1)">
+                <i class="ph-duotone ph-arrow-left"></i>Cofnij
+              </button>
+              <button class="btn btn-primary" onclick="goStep(3)">
+                Dalej <i class="ph-duotone ph-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= STEP 3 ======= -->
+      <div class="form-view" id="step3" style="display:none">
+        <div class="card">
+          <div class="card-header">
+            <i class="ph-duotone ph-signature"></i>
+            <div class="card-title">Krok 3 — Dane podpisuj&#261;cego i eksport</div>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-yellow">
+              <i class="ph-duotone ph-warning"></i>
+              <div>Deklaracja dostawcy jest dokumentem prawnie wi&#261;z&#261;cym. Przejrzyj dane przed wygenerowaniem PDF. Podpisuj&#261;cy ponosi odpowiedzialnosc za prawdziwosc oswiadczen.</div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="label-req" for="imie">Imi&#281; i nazwisko</label>
+                <input type="text" id="imie" placeholder="np. Jan Kowalski">
+              </div>
+              <div class="form-group">
+                <label class="label-req" for="stanowisko">Stanowisko</label>
+                <input type="text" id="stanowisko" placeholder="np. Dyrektor Jakosci">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="data-wyd">Data wydania</label>
+                <input type="date" id="data-wyd" readonly>
+              </div>
+              <div class="form-group">
+                <label for="data-wazn">Data waznosci (auto: +5 lat)</label>
+                <input type="date" id="data-wazn" readonly>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="odbiorca">Odbiorca deklaracji (firma zamawiaj&#261;ca)</label>
+              <input type="text" id="odbiorca" placeholder="np. Mondi Swiecie S.A.">
+            </div>
+
+            <div class="nav-btns" style="margin-top:20px;flex-wrap:wrap;gap:10px;">
+              <button class="btn btn-outline" onclick="goStep(2)">
+                <i class="ph-duotone ph-arrow-left"></i>Cofnij
+              </button>
+              <button class="btn btn-primary" onclick="generateAndPrint()">
+                <i class="ph-duotone ph-printer"></i>Pobierz PDF deklaracji
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= PRINT DOCUMENT (hidden on screen) ======= -->
+      <div class="print-only pismo" id="pismo">
+        <!-- filled by JS before print -->
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app-shell -->
+
+<script>
+/* ---- STEP NAVIGATION ---- */
+function goStep(n) {
+  if (n === 2 && !validateStep1()) return;
+  if (n === 3 && !validateStep2()) return;
+
+  [1,2,3].forEach(i => {
+    document.getElementById('step'+i).style.display = (i===n) ? 'block' : 'none';
+    const si = document.getElementById('si-'+i);
+    si.className = 'step' + (i===n ? ' active' : (i<n ? ' done' : ''));
+  });
+  window.scrollTo(0,0);
+}
+
+function validateStep1() {
+  const firma = document.getElementById('firma').value.trim();
+  const produkt = document.getElementById('produkt').value.trim();
+  const adres = document.getElementById('adres').value.trim();
+  if (!firma || !produkt || !adres) {
+    alert('Proszę wypełnić wszystkie wymagane pola (oznaczone *).');
+    return false;
+  }
+  return true;
+}
+
+function validateStep2() {
+  const anyVerif = ['b-v1','b-v2','b-v3','b-v4'].some(id => document.getElementById(id).checked);
+  if (!anyVerif) {
+    alert('Proszę zaznaczyć co najmniej jedną podstawę weryfikacji w Sekcji B.');
+    return false;
+  }
+  return true;
+}
+
+/* ---- DATES ---- */
+(function initDates() {
+  const today = new Date();
+  const plus5 = new Date(today);
+  plus5.setFullYear(plus5.getFullYear() + 5);
+  document.getElementById('data-wyd').value = today.toISOString().split('T')[0];
+  document.getElementById('data-wazn').value = plus5.toISOString().split('T')[0];
+})();
+
+/* ---- SIDEBAR ---- */
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+/* ---- HELPERS ---- */
+function fmtDate(val) {
+  if (!val) return '—';
+  const [y,m,d] = val.split('-');
+  return d+'.'+m+'.'+y;
+}
+
+function chkBox(checked) {
+  return '<div class="pismo-check-box' + (checked ? ' checked' : '') + '">' + (checked ? '&#10003;' : '&nbsp;') + '</div>';
+}
+
+function checkRow(id, label) {
+  const checked = document.getElementById(id).checked;
+  return '<div class="pismo-check-row">' + chkBox(checked) + '<div>' + label + '</div></div>';
+}
+
+/* ---- GENERATE PRINT DOCUMENT ---- */
+function generateAndPrint() {
+  const imie = document.getElementById('imie').value.trim();
+  const stanowisko = document.getElementById('stanowisko').value.trim();
+  if (!imie || !stanowisko) {
+    alert('Proszę wpisać imię i nazwisko oraz stanowisko.');
+    return;
+  }
+
+  const firma = document.getElementById('firma').value.trim();
+  const produkt = document.getElementById('produkt').value.trim();
+  const adres = document.getElementById('adres').value.trim();
+  const nip = document.getElementById('nip').value.trim();
+  const odbiorca = document.getElementById('odbiorca').value.trim() || '(odbiorca nieokreślony)';
+  const dataWyd = fmtDate(document.getElementById('data-wyd').value);
+  const dataWazn = fmtDate(document.getElementById('data-wazn').value);
+  const aWyjatki = document.getElementById('a-wyjatki').value.trim();
+  const bOpis = document.getElementById('b-opis').value.trim();
+
+  const refNr = 'PPWR-DOK-' + new Date().getFullYear() + '-' + String(Date.now()).slice(-5);
+
+  const html = `
+<div class="pismo-header">
+  <div>
+    <div class="pismo-logo">EkoPako<span>System deklaracji PPWR</span></div>
+  </div>
+  <div class="pismo-ref">
+    Nr ref.: ${refNr}<br>
+    Data wydania: ${dataWyd}<br>
+    Data ważności: ${dataWazn}
+  </div>
+</div>
+
+<div class="pismo-title">POTWIERDZENIE I DOKUMENTACJA DOSTAWCY</div>
+<div class="pismo-subtitle">Artykuł 5 Rozporządzenia PPWR (UE) 2025/40 — Substancje potencjalnie niebezpieczne i metale ciężkie</div>
+
+<div class="pismo-supplier-box">
+  <h3>Dane dostawcy</h3>
+  <div class="pismo-supplier-row"><div class="pismo-supplier-lbl">Firma / osoba prawna:</div><div class="pismo-supplier-val">${firma}</div></div>
+  <div class="pismo-supplier-row"><div class="pismo-supplier-lbl">Produkt / gatunek:</div><div class="pismo-supplier-val">${produkt}</div></div>
+  <div class="pismo-supplier-row"><div class="pismo-supplier-lbl">Zakład produkcyjny:</div><div class="pismo-supplier-val">${adres}</div></div>
+  ${nip ? '<div class="pismo-supplier-row"><div class="pismo-supplier-lbl">NIP / VAT EU:</div><div class="pismo-supplier-val">'+nip+'</div></div>' : ''}
+  <div class="pismo-supplier-row"><div class="pismo-supplier-lbl">Odbiorca deklaracji:</div><div class="pismo-supplier-val">${odbiorca}</div></div>
+</div>
+
+<div class="pismo-legal">
+  Niniejsze potwierdzenie zostało sporządzone w związku z wymaganiami Rozporządzenia Parlamentu Europejskiego i Rady (UE) 2025/40 z dnia 8 stycznia 2025 r. w sprawie opakowań i odpadów opakowaniowych (PPWR). Producent opakowania / dostawca składa niniejsze oświadczenie w dobrej wierze, na podstawie dostępnych danych i przeprowadzonej weryfikacji.
+</div>
+
+<div class="pismo-section">
+  <div class="pismo-section-title">SEKCJA A — Substancje potencjalnie niebezpieczne (Art. 5 ust. 1 PPWR)</div>
+  ${checkRow('a1', 'Brak substancji budzących obawy: Żadna substancja budząca obawy w rozumieniu art. 57 rozporządzenia (WE) nr 1907/2006 (REACH) nie występuje w dostarczanym produkcie opakowaniowym w stężeniu przekraczającym progi wymagające ujawnienia.')}
+  ${aWyjatki ? '<div style="margin-top:8px;"><strong style="font-size:9pt;">Wyjątki / substancje wymagające ujawnienia:</strong><div class="pismo-note">'+aWyjatki+'</div></div>' : ''}
+</div>
+
+<div class="pismo-section">
+  <div class="pismo-section-title">SEKCJA B — Metale ciężkie (Art. 5 ust. 4 PPWR)</div>
+  ${checkRow('b-limit', 'Potwierdzam, że suma stężeń Pb + Cd + Hg + Cr(VI) w dostarczanym produkcie opakowaniowym wynosi poniżej 100 mg/kg.')}
+
+  <div style="margin-top:10px;margin-bottom:6px;font-size:9pt;font-weight:700;color:#334155;">Podstawa weryfikacji:</div>
+  ${checkRow('b-v1', 'Oświadczenie oparte na specyfikacjach surowców i oświadczeniach dostawców wyższego szczebla')}
+  ${checkRow('b-v2', 'Badania laboratoryjne przeprowadzone na wszystkich partiach produkcyjnych')}
+  ${checkRow('b-v3', 'Badania laboratoryjne okresowe na reprezentatywnej próbce (monitoring)')}
+  ${checkRow('b-v4', 'Wdrożona procedura oceny zgodności / system zarządzania jakością (np. ISO 9001)')}
+
+  ${bOpis ? '<div style="margin-top:8px;"><strong style="font-size:9pt;">Opis metody weryfikacji:</strong><div class="pismo-note">'+bOpis+'</div></div>' : ''}
+
+  <div style="margin-top:10px;margin-bottom:6px;font-size:9pt;font-weight:700;color:#334155;">Ocena ryzyka:</div>
+  ${checkRow('b-r1', 'Żaden z 4 metali ciężkich (Pb, Cd, Hg, Cr VI) nie jest celowo wprowadzany w procesie produkcyjnym')}
+  ${checkRow('b-r2', 'Nie stosujemy surowców zawierających te metale jako komponenty funkcjonalne')}
+  ${checkRow('b-r3', 'Surowce z recyklingu: nasi dostawcy potwierdzili zgodność materiału z limitem 100 mg/kg')}
+</div>
+
+<table class="pismo-sig-table">
+  <tr>
+    <th>Imię i nazwisko</th>
+    <th>Stanowisko</th>
+    <th>Data</th>
+    <th>Podpis</th>
+  </tr>
+  <tr>
+    <td>${imie}</td>
+    <td>${stanowisko}</td>
+    <td>${dataWyd}</td>
+    <td style="min-width:120px;">&nbsp;</td>
+  </tr>
+</table>
+
+<div class="pismo-footer">
+  Dokument wygenerowany przez EkoPako &bull; System deklaracji PPWR &bull; Ważny do: ${dataWazn}<br>
+  Rozporządzenie (UE) 2025/40 Parlamentu Europejskiego i Rady z dnia 8 stycznia 2025 r.
+</div>
+`;
+
+  document.getElementById('pismo').innerHTML = html;
+  setTimeout(() => window.print(), 100);
+}
+</script>
+</body>
+</html>
