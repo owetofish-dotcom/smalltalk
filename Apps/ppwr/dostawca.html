@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>EkoPako — Deklaracja Dostawcy Art. 5 PPWR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap">
+<style>
+:root {
+  --g500:#009b72;--g600:#009b72;--g700:#046865;--g800:#034d4b;--g950:#192d35;
+  --s50:#f8fafc;--s100:#f1f5f9;--s200:#e2e8f0;--s300:#cbd5e1;
+  --s400:#94a3b8;--s500:#64748b;--s600:#475569;--s700:#334155;--s800:#1e293b;
+  --white:#fff;--danger:#ef4444;--warn:#f59e0b;
+  --r:8px;--r-lg:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',-apple-system,sans-serif;background:var(--s50);color:var(--s800);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+button{cursor:pointer;font-family:inherit;}
+
+/* Layout */
+.topbar{background:var(--g950);padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;}
+.topbar-back{color:#a3c9c4;text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px;}
+.topbar-back:hover{color:#fff;}
+.topbar-title{color:#fff;font-weight:700;font-size:15px;flex:1;}
+.topbar-badge{background:var(--g500);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.02em;}
+
+.page{max-width:780px;margin:0 auto;padding:24px 16px 80px;}
+
+/* Progress */
+.steps{display:flex;gap:0;margin-bottom:28px;}
+.step{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;position:relative;}
+.step:not(:last-child)::after{content:'';position:absolute;top:14px;left:50%;width:100%;height:2px;background:var(--s200);z-index:0;}
+.step.done::after{background:var(--g500);}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--s200);color:var(--s500);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:1;position:relative;}
+.step.active .step-num{background:var(--g500);color:#fff;}
+.step.done .step-num{background:var(--g700);color:#fff;}
+.step-label{font-size:11px;color:var(--s500);font-weight:600;text-align:center;}
+.step.active .step-label{color:var(--g600);}
+
+/* Cards */
+.card{background:#fff;border:1px solid var(--s200);border-radius:var(--r-lg);padding:24px;margin-bottom:16px;}
+.card-title{font-size:16px;font-weight:800;color:var(--g800);margin-bottom:4px;}
+.card-sub{font-size:13px;color:var(--s500);margin-bottom:20px;}
+
+/* Form */
+.fg{margin-bottom:16px;}
+.fg label{display:block;font-size:13px;font-weight:700;color:var(--s700);margin-bottom:5px;}
+.fg input,.fg textarea,.fg select{width:100%;padding:9px 12px;border:1.5px solid var(--s200);border-radius:var(--r);font-size:14px;font-family:inherit;color:var(--s800);background:#fff;transition:border .15s;}
+.fg input:focus,.fg textarea:focus,.fg select:focus{outline:none;border-color:var(--g500);}
+.fg textarea{resize:vertical;min-height:72px;}
+.fg small{display:block;margin-top:4px;font-size:12px;color:var(--s400);}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* Checkboxes */
+.check-group{display:flex;flex-direction:column;gap:8px;margin-top:6px;}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1.5px solid var(--s200);border-radius:var(--r);cursor:pointer;transition:all .15s;}
+.check-item:hover{border-color:var(--g400);background:var(--s50);}
+.check-item.checked{border-color:var(--g500);background:#f0faf7;}
+.check-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--g500);flex-shrink:0;margin-top:2px;}
+.check-label{font-size:13px;color:var(--s700);line-height:1.5;}
+.check-item.checked .check-label{color:var(--g800);}
+
+.section-divider{border:none;border-top:1px solid var(--s100);margin:20px 0;}
+
+/* Alert */
+.alert{display:flex;gap:10px;padding:12px 14px;border-radius:var(--r);font-size:13px;margin-bottom:16px;}
+.alert-warn{background:#fffbeb;border:1px solid #fcd34d;color:#92400e;}
+.alert-info{background:#f0faf7;border:1px solid var(--g200);color:var(--g800);}
+.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--r);font-size:14px;font-weight:700;border:none;transition:all .15s;}
+.btn-primary{background:var(--g500);color:#fff;}
+.btn-primary:hover{background:var(--g700);}
+.btn-secondary{background:var(--s100);color:var(--s700);border:1px solid var(--s200);}
+.btn-secondary:hover{background:var(--s200);}
+.btn-outline{background:transparent;color:var(--g600);border:1.5px solid var(--g500);}
+.btn-outline:hover{background:#f0faf7;}
+.btns{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap;}
+
+/* Validity badge */
+.validity-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f0faf7;border:1px solid var(--g200);border-radius:var(--r);font-size:13px;}
+.validity-icon{font-size:20px;}
+.validity-text strong{color:var(--g700);}
+
+/* Section label */
+.section-label{display:inline-block;padding:3px 10px;background:var(--g950);color:#fff;font-size:11px;font-weight:700;border-radius:20px;letter-spacing:.04em;margin-bottom:12px;}
+
+/* View toggling */
+[data-step]{display:none;}
+[data-step].active{display:block;}
+
+/* PRINT */
+@media screen { .print-only { display: none !important; } }
+@media print {
+  .no-print,.topbar,.steps,.btns,.alert,.btn { display:none!important; }
+  .print-only { display: block !important; }
+  body { font-family: Georgia, serif; font-size: 11pt; color: #000; background: #fff; }
+  .page { max-width: 100%; padding: 0; margin: 0; }
+  .card { border: 1px solid #ccc; page-break-inside: avoid; margin-bottom: 12pt; padding: 16pt; }
+  .card-title { font-size: 13pt; }
+  .pismo { display: block !important; }
+  .pismo table { width: 100%; border-collapse: collapse; }
+  .pismo table td, .pismo table th { border: 1px solid #ccc; padding: 6pt 8pt; }
+  .pismo table th { background: #f0f0f0; }
+}
+.pismo { display: none; }
+</style>
+</head>
+<body>
+
+<div class="topbar no-print">
+  <a href="index.html" class="topbar-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+    EkoPako
+  </a>
+  <span class="topbar-title">Deklaracja Dostawcy</span>
+  <span class="topbar-badge">Art. 5 PPWR</span>
+</div>
+
+<div class="page">
+
+  <!-- Steps -->
+  <div class="steps no-print" id="steps">
+    <div class="step active" data-goto="1">
+      <div class="step-num">1</div>
+      <div class="step-label">Dane<br>dostawcy</div>
+    </div>
+    <div class="step" data-goto="2">
+      <div class="step-num">2</div>
+      <div class="step-label">Potwierdzenia<br>Art. 5</div>
+    </div>
+    <div class="step" data-goto="3">
+      <div class="step-num">3</div>
+      <div class="step-label">Podpisujący<br>i generuj</div>
+    </div>
+  </div>
+
+  <!-- KROK 1 -->
+  <div data-step="1" class="active">
+    <div class="alert alert-info">
+      <span class="alert-icon">ℹ️</span>
+      <div>Formularz zgodny z <strong>Art. 5 ust. 1 i 4 Rozporządzenia (UE) 2025/40 (PPWR)</strong>. Wypełnij dane dostawcy — na tej podstawie wygenerujemy gotowy dokument do podpisu i wysyłki do odbiorcy.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Dane dostawcy</div>
+      <div class="card-sub">Osoba prawna wystawiająca deklarację</div>
+
+      <div class="fg">
+        <label>Nazwa firmy (pełna nazwa prawna) *</label>
+        <input type="text" id="f-firma" placeholder="np. Mako-Drew s.c. / NAZWA SP. Z O.O." required>
+      </div>
+      <div class="fg">
+        <label>NIP</label>
+        <input type="text" id="f-nip" placeholder="000-000-00-00">
+      </div>
+      <div class="fg">
+        <label>Zakład produkcyjny / adres</label>
+        <input type="text" id="f-adres" placeholder="ul. Przykładowa 1, 39-310 Radomyśl Wielki">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Dostarczany produkt</div>
+      <div class="card-sub">Materiał opakowaniowy objęty tą deklaracją</div>
+
+      <div class="fg">
+        <label>Produkt / gatunek / typ opakowania *</label>
+        <input type="text" id="f-produkt" placeholder="np. Paleta drewniana EUR 800×1200 / Tektura falista C-flute / Folia stretch LLDPE 23µm">
+        <small>Możesz podać kilka gatunków oddzielonych przecinkiem</small>
+      </div>
+      <div class="fg">
+        <label>Odbiorca (firma której dostarczasz)</label>
+        <input type="text" id="f-odbiorca" placeholder="np. Mondi Świecie S.A. / Canpack S.A.">
+        <small>Opcjonalne — pojawi się w nagłówku dokumentu</small>
+      </div>
+    </div>
+
+    <div class="btns">
+      <button class="btn btn-primary" onclick="goStep(2)">Dalej: Potwierdzenia Art. 5 →</button>
+    </div>
+  </div>
+
+  <!-- KROK 2 -->
+  <div data-step="2">
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <div><strong>Zaznacz tylko te opcje, które możesz potwierdzić.</strong> Deklaracja jest dokumentem prawnym — niezgodność z wymogami PPWR grozi sankcjami do 2 000 000 PLN.</div>
+    </div>
+
+    <!-- SEKCJA A -->
+    <div class="card">
+      <span class="section-label">SEKCJA A — ART. 5 UST. 1</span>
+      <div class="card-title">Substancje potencjalnie niebezpieczne</div>
+      <div class="card-sub">Minimalizacja i ujawnienie substancji budzących obawy</div>
+
+      <div class="check-group">
+        <label class="check-item" id="ci-reach">
+          <input type="checkbox" id="cb-reach" onchange="toggleCheck('ci-reach','cb-reach')">
+          <div class="check-label">Zgodnie z naszą najlepszą wiedzą żadna substancja budząca obawy (wg REACH) <strong>nie występuje w stężeniu wymagającym ujawnienia</strong> zgodnie z obowiązującym prawem UE dotyczącym chemikaliów. Obecność i stężenie substancji potencjalnie niebezpiecznych zostały zminimalizowane.</div>
+        </label>
+      </div>
+
+      <div class="fg" style="margin-top:14px;">
+        <label>Wyjątki — jeśli dotyczy: substancja / nr CAS / stężenie / środki minimalizujące</label>
+        <textarea id="f-wyjatki" placeholder="Pozostaw puste jeśli nie dotyczy. Jeśli substancja budząca obawy jest obecna — wpisz: nazwa substancji, nr CAS, stężenie (%), środki minimalizujące."></textarea>
+        <small>Pole opcjonalne</small>
+      </div>
+    </div>
+
+    <!-- SEKCJA B -->
+    <div class="card">
+      <span class="section-label">SEKCJA B — ART. 5 UST. 4</span>
+      <div class="card-title">Metale ciężkie</div>
+      <div class="card-sub">Ołów (Pb), kadm (Cd), rtęć (Hg), chrom sześciowartościowy Cr(VI) — limit łączny: 100 mg/kg</div>
+
+      <div class="check-group" style="margin-bottom:16px;">
+        <label class="check-item" id="ci-metale">
+          <input type="checkbox" id="cb-metale" onchange="toggleCheck('ci-metale','cb-metale')">
+          <div class="check-label"><strong>Potwierdzamy,</strong> że suma stężeń ołowiu, kadmu, rtęci i sześciowartościowego chromu w dostarczanych materiałach opakowaniowych <strong>nie przekracza 100 mg/kg</strong> masy.</div>
+        </label>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="section-label" style="background:var(--s700);">PODSTAWA WERYFIKACJI (min. 1 opcja)</div>
+      <div class="fg">
+        <label>Wybierz wszystkie odpowiednie metody weryfikacji</label>
+        <div class="check-group">
+          <label class="check-item" id="ci-v1">
+            <input type="checkbox" id="cb-v1" onchange="toggleCheck('ci-v1','cb-v1')">
+            <div class="check-label">Oświadczenie dostawcy oparte na specyfikacjach surowców i oświadczeniach dostawców wyższego szczebla</div>
+          </label>
+          <label class="check-item" id="ci-v2">
+            <input type="checkbox" id="cb-v2" onchange="toggleCheck('ci-v2','cb-v2')">
+            <div class="check-label">Badania laboratoryjne przeprowadzane na <strong>wszystkich partiach</strong> produkcyjnych</div>
+          </label>
+          <label class="check-item" id="ci-v3">
+            <input type="checkbox" id="cb-v3" onchange="toggleCheck('ci-v3','cb-v3')">
+            <div class="check-label">Badania laboratoryjne przeprowadzane <strong>okresowo</strong> na reprezentatywnej próbce</div>
+          </label>
+          <label class="check-item" id="ci-v4">
+            <input type="checkbox" id="cb-v4" onchange="toggleCheck('ci-v4','cb-v4')">
+            <div class="check-label">Wdrożona wewnętrzna procedura oceny zgodności / zarządzanie jakością (np. ISO 9001 z udokumentowaną kontrolą zgodności chemicznej)</div>
+          </label>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label>Opis metody weryfikacji</label>
+        <textarea id="f-metoda" placeholder="Opisz jak weryfikujesz zgodność z limitem 100 mg/kg: np. badania XRF na każdej partii drewna, certyfikat FSC, oświadczenia dostawców tarcicy."></textarea>
+        <small>Rekomendowane — ułatwia audyt i buduje zaufanie odbiorcy</small>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="section-label" style="background:var(--s700);">OCENA RYZYKA (opcjonalnie)</div>
+      <div class="check-group">
+        <label class="check-item" id="ci-r1">
+          <input type="checkbox" id="cb-r1" onchange="toggleCheck('ci-r1','cb-r1')">
+          <div class="check-label">Żaden z czterech metali ciężkich nie jest <strong>celowo wprowadzany</strong> na żadnym etapie naszego procesu produkcyjnego</div>
+        </label>
+        <label class="check-item" id="ci-r2">
+          <input type="checkbox" id="cb-r2" onchange="toggleCheck('ci-r2','cb-r2')">
+          <div class="check-label">Nie stosujemy surowców, pigmentów, powłok ani barwników, o których wiadomo, że zawierają te metale ciężkie</div>
+        </label>
+        <label class="check-item" id="ci-r3">
+          <input type="checkbox" id="cb-r3" onchange="toggleCheck('ci-r3','cb-r3')">
+          <div class="check-label">W przypadku surowców z recyklingu — dostawcy potwierdzili zgodność z limitem 100 mg/kg</div>
+        </label>
+      </div>
+
+      <div class="fg" style="margin-top:14px;">
+        <label>Uwagi / wyjaśnienia</label>
+        <textarea id="f-uwagi" placeholder="Opcjonalne uwagi dotyczące oceny ryzyka lub specyfiki materiału"></textarea>
+      </div>
+    </div>
+
+    <div class="btns">
+      <button class="btn btn-secondary" onclick="goStep(1)">← Wróć</button>
+      <button class="btn btn-primary" onclick="goStep(3)">Dalej: Podpis i generuj →</button>
+    </div>
+  </div>
+
+  <!-- KROK 3 -->
+  <div data-step="3">
+    <div class="card">
+      <div class="card-title">Dane podpisującego</div>
+      <div class="card-sub">Osoba upoważniona do reprezentowania dostawcy</div>
+
+      <div class="row2">
+        <div class="fg">
+          <label>Imię i nazwisko *</label>
+          <input type="text" id="f-imie" placeholder="Jan Kowalski">
+        </div>
+        <div class="fg">
+          <label>Stanowisko *</label>
+          <input type="text" id="f-stanowisko" placeholder="Prezes / Kierownik Produkcji">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="fg">
+          <label>Data wydania</label>
+          <input type="date" id="f-data-od">
+        </div>
+        <div class="fg">
+          <label>Ważne do</label>
+          <input type="date" id="f-data-do">
+        </div>
+      </div>
+
+      <div class="validity-row" id="validity-info">
+        <span class="validity-icon">📅</span>
+        <div class="validity-text">
+          Deklaracja ważna <strong id="validity-years">5 lat</strong> od daty wydania — do <strong id="validity-date">—</strong><br>
+          <span style="font-size:12px;color:var(--s500)">Maksymalny okres wg Art. 5 PPWR: 5 lat</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Podsumowanie deklaracji</div>
+      <div class="card-sub">Sprawdź przed wygenerowaniem dokumentu</div>
+      <div id="summary" style="font-size:13px;line-height:1.8;color:var(--s600);"></div>
+    </div>
+
+    <div class="btns">
+      <button class="btn btn-secondary" onclick="goStep(2)">← Wróć</button>
+      <button class="btn btn-outline" onclick="generateDoc()">👁 Podgląd dokumentu</button>
+      <button class="btn btn-primary" onclick="window.print()">🖨 Pobierz PDF</button>
+    </div>
+  </div>
+
+  <!-- PODGLĄD (screen only) -->
+  <div id="podglad" style="display:none;margin-top:24px;">
+    <div class="card" style="border:2px solid var(--g500);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:800;color:var(--g800);">PODGLĄD DOKUMENTU</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="document.getElementById('podglad').style.display='none'" style="padding:6px 12px;font-size:12px;">Zamknij</button>
+          <button class="btn btn-primary" onclick="window.print()" style="padding:6px 12px;font-size:12px;">🖨 Drukuj / PDF</button>
+        </div>
+      </div>
+      <div id="doc-preview"></div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- PISMO DO DRUKU -->
+<div class="pismo" id="pismo">
+  <div id="pismo-content"></div>
+</div>
+
+<script>
+// Init dates
+const today = new Date();
+const todayStr = today.toISOString().split('T')[0];
+const in5 = new Date(today); in5.setFullYear(in5.getFullYear()+5);
+const in5Str = in5.toISOString().split('T')[0];
+document.getElementById('f-data-od').value = todayStr;
+document.getElementById('f-data-do').value = in5Str;
+updateValidity();
+
+document.getElementById('f-data-od').addEventListener('change', updateValidity);
+document.getElementById('f-data-do').addEventListener('change', updateValidity);
+
+function updateValidity() {
+  const od = new Date(document.getElementById('f-data-od').value);
+  const dov = new Date(document.getElementById('f-data-do').value);
+  const diffY = ((dov - od) / (1000*60*60*24*365.25)).toFixed(1);
+  document.getElementById('validity-years').textContent = diffY + ' lat';
+  document.getElementById('validity-date').textContent = fmtDate(document.getElementById('f-data-do').value);
+}
+
+function fmtDate(str) {
+  if (!str) return '—';
+  const d = new Date(str);
+  return d.toLocaleDateString('pl-PL', {day:'2-digit',month:'2-digit',year:'numeric'});
+}
+
+function toggleCheck(itemId, cbId) {
+  const item = document.getElementById(itemId);
+  const cb = document.getElementById(cbId);
+  item.classList.toggle('checked', cb.checked);
+}
+
+function goStep(n) {
+  // validate step 1
+  if (n > 1) {
+    const firma = document.getElementById('f-firma').value.trim();
+    const produkt = document.getElementById('f-produkt').value.trim();
+    if (!firma || !produkt) { alert('Uzupełnij nazwę firmy i produkt przed przejściem dalej.'); return; }
+  }
+  document.querySelectorAll('[data-step]').forEach(el => el.classList.remove('active'));
+  document.querySelector(`[data-step="${n}"]`).classList.add('active');
+  document.querySelectorAll('.step').forEach((el,i) => {
+    el.classList.remove('active','done');
+    if (i+1 < n) el.classList.add('done');
+    if (i+1 === n) el.classList.add('active');
+  });
+  if (n === 3) buildSummary();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildSummary() {
+  const firma = document.getElementById('f-firma').value || '—';
+  const produkt = document.getElementById('f-produkt').value || '—';
+  const odbiorca = document.getElementById('f-odbiorca').value || '—';
+  const cbReach = document.getElementById('cb-reach').checked;
+  const cbMetale = document.getElementById('cb-metale').checked;
+  const weryfikacje = ['Specyfikacje surowców/oświadczenia','Badania na wszystkich partiach','Badania okresowe na próbce','Procedura ISO 9001+']
+    .filter((_,i) => document.getElementById(`cb-v${i+1}`).checked);
+  const imie = document.getElementById('f-imie').value || '—';
+  const dataOd = fmtDate(document.getElementById('f-data-od').value);
+  const dataDo = fmtDate(document.getElementById('f-data-do').value);
+
+  let html = `<table style="width:100%;border-collapse:collapse;font-size:13px;">`;
+  const row = (k,v,ok) => `<tr><td style="padding:6px 8px;font-weight:700;color:#475569;width:40%;vertical-align:top">${k}</td><td style="padding:6px 8px;color:#1e293b">${ok !== undefined ? (ok ? '<span style="color:#009b72">✓ '+v+'</span>' : '<span style="color:#ef4444">✗ '+v+'</span>') : v}</td></tr>`;
+  html += row('Dostawca', firma);
+  html += row('Produkt', produkt);
+  html += row('Odbiorca', odbiorca);
+  html += row('Substancje niebezpieczne (A)', cbReach ? 'Potwierdzone' : 'Niepotwierdzone', cbReach);
+  html += row('Metale ciężkie &lt;100 mg/kg (B)', cbMetale ? 'Potwierdzone' : 'Niepotwierdzone', cbMetale);
+  html += row('Podstawa weryfikacji', weryfikacje.length ? weryfikacje.join(', ') : 'Brak zaznaczonych', weryfikacje.length > 0);
+  html += row('Podpisujący', imie);
+  html += row('Ważność', `${dataOd} → ${dataDo}`);
+  html += '</table>';
+  document.getElementById('summary').innerHTML = html;
+}
+
+function buildDocHTML() {
+  const firma = document.getElementById('f-firma').value || '_______________';
+  const nip = document.getElementById('f-nip').value;
+  const adres = document.getElementById('f-adres').value || '_______________';
+  const produkt = document.getElementById('f-produkt').value || '_______________';
+  const odbiorca = document.getElementById('f-odbiorca').value;
+  const cbReach = document.getElementById('cb-reach').checked;
+  const wyjatki = document.getElementById('f-wyjatki').value;
+  const cbMetale = document.getElementById('cb-metale').checked;
+  const v = [1,2,3,4].map(i => document.getElementById(`cb-v${i}`).checked);
+  const metoda = document.getElementById('f-metoda').value;
+  const r = [1,2,3].map(i => document.getElementById(`cb-r${i}`).checked);
+  const uwagi = document.getElementById('f-uwagi').value;
+  const imie = document.getElementById('f-imie').value || '_______________';
+  const stanowisko = document.getElementById('f-stanowisko').value || '_______________';
+  const dataOd = fmtDate(document.getElementById('f-data-od').value);
+  const dataDo = fmtDate(document.getElementById('f-data-do').value);
+  const chk = b => b ? '☑' : '☐';
+
+  return `
+<div style="font-family:Georgia,serif;font-size:10.5pt;line-height:1.6;color:#000;max-width:700px;margin:0 auto;padding:20pt">
+  <div style="text-align:center;border-bottom:2px solid #009b72;padding-bottom:12pt;margin-bottom:16pt">
+    <div style="font-size:16pt;font-weight:bold;letter-spacing:.02em">POTWIERDZENIE I DOKUMENTACJA DOSTAWCY</div>
+    <div style="font-size:11pt;color:#009b72;font-weight:bold;margin-top:4pt">Artykuł 5 Rozporządzenia (UE) 2025/40 (PPWR)</div>
+    <div style="font-size:9pt;color:#555;margin-top:4pt">Metale ciężkie i substancje potencjalnie niebezpieczne</div>
+  </div>
+
+  <table style="width:100%;border-collapse:collapse;margin-bottom:16pt;font-size:10pt">
+    <tr><td style="padding:5pt 8pt;font-weight:bold;width:200pt;border:1px solid #ccc;background:#f5f5f5">Dostawca (osoba prawna):</td><td style="padding:5pt 8pt;border:1px solid #ccc">${firma}${nip ? ' | NIP: '+nip : ''}</td></tr>
+    <tr><td style="padding:5pt 8pt;font-weight:bold;border:1px solid #ccc;background:#f5f5f5">Dostarczany produkt / gatunek:</td><td style="padding:5pt 8pt;border:1px solid #ccc">${produkt}</td></tr>
+    <tr><td style="padding:5pt 8pt;font-weight:bold;border:1px solid #ccc;background:#f5f5f5">Zakład(-y) produkcyjny(-e):</td><td style="padding:5pt 8pt;border:1px solid #ccc">${adres}</td></tr>
+    ${odbiorca ? `<tr><td style="padding:5pt 8pt;font-weight:bold;border:1px solid #ccc;background:#f5f5f5">Dostarczane do:</td><td style="padding:5pt 8pt;border:1px solid #ccc">${odbiorca}</td></tr>` : ''}
+  </table>
+
+  <div style="font-size:10pt;margin-bottom:14pt">Potwierdzamy, w odniesieniu do materiałów opakowaniowych i elementów opakowań wymienionych powyżej:</div>
+
+  <div style="margin-bottom:14pt">
+    <div style="font-weight:bold;margin-bottom:6pt">1. ${chk(cbReach)} Substancje potencjalnie niebezpieczne (art. 5 ust. 1 PPWR).</div>
+    <div style="font-size:9.5pt;padding-left:20pt">Ich obecność i stężenie zostały zminimalizowane. Zgodnie z naszą najlepszą wiedzą żadna substancja budząca obawy nie występuje w stężeniu wymagającym ujawnienia zgodnie z obowiązującym prawem UE dotyczącym chemikaliów (w szczególności REACH).</div>
+    ${wyjatki ? `<div style="font-size:9.5pt;padding-left:20pt;margin-top:6pt;padding:8pt 12pt;background:#fffbeb;border:1px solid #fcd34d"><strong>Wyjątki:</strong> ${wyjatki}</div>` : ''}
+  </div>
+
+  <div style="margin-bottom:14pt">
+    <div style="font-weight:bold;margin-bottom:6pt">2. ${chk(cbMetale)} Metale ciężkie (art. 5 ust. 4 PPWR).</div>
+    <div style="font-size:9.5pt;padding-left:20pt">Suma stężeń ołowiu, kadmu, rtęci i sześciowartościowego chromu nie przekracza <strong>100 mg/kg</strong> masy.</div>
+  </div>
+
+  <div style="margin-bottom:6pt;font-weight:bold;font-size:10pt">2.1. Podstawa weryfikacji:</div>
+  <div style="font-size:9.5pt;padding-left:10pt;margin-bottom:8pt">
+    ${chk(v[0])} Oświadczenie dostawcy oparte na specyfikacjach surowców i oświadczeniach dostawców wyższego szczebla<br>
+    ${chk(v[1])} Badania laboratoryjne przeprowadzane na wszystkich partiach produkcyjnych<br>
+    ${chk(v[2])} Badania laboratoryjne przeprowadzane okresowo na reprezentatywnej próbce<br>
+    ${chk(v[3])} Wdrożona wewnętrzna procedura oceny zgodności (np. ISO 9001)
+  </div>
+  ${metoda ? `<div style="font-size:9.5pt;padding:8pt 12pt;border:1px solid #ddd;margin-bottom:12pt"><strong>Opis metody:</strong> ${metoda}</div>` : ''}
+
+  <div style="margin-bottom:6pt;font-weight:bold;font-size:10pt">2.2. Ocena ryzyka:</div>
+  <div style="font-size:9.5pt;padding-left:10pt;margin-bottom:8pt">
+    ${chk(r[0])} Żaden z czterech metali ciężkich nie jest celowo wprowadzany na żadnym etapie procesu produkcyjnego<br>
+    ${chk(r[1])} Nie stosujemy surowców, pigmentów ani powłok zawierających te metale ciężkie<br>
+    ${chk(r[2])} Surowce z recyklingu: dostawcy potwierdzili zgodność z limitem 100 mg/kg
+  </div>
+  ${uwagi ? `<div style="font-size:9.5pt;padding:8pt 12pt;border:1px solid #ddd;margin-bottom:12pt"><strong>Uwagi:</strong> ${uwagi}</div>` : ''}
+
+  <div style="margin-bottom:14pt;font-size:9.5pt">
+    <strong>3. Powiadomienie.</strong> Bez zbędnej zwłoki poinformujemy odbiorcę o wszelkich zmianach, które mogłyby wpłynąć na powyższe potwierdzenia.
+  </div>
+
+  <table style="width:100%;border-collapse:collapse;margin-bottom:12pt">
+    <tr>
+      <th style="padding:7pt 10pt;border:1px solid #ccc;background:#f5f5f5;font-size:10pt;text-align:left">Imię i nazwisko</th>
+      <th style="padding:7pt 10pt;border:1px solid #ccc;background:#f5f5f5;font-size:10pt;text-align:left">Stanowisko</th>
+      <th style="padding:7pt 10pt;border:1px solid #ccc;background:#f5f5f5;font-size:10pt;text-align:left">Podpis</th>
+    </tr>
+    <tr>
+      <td style="padding:18pt 10pt;border:1px solid #ccc;font-size:10pt">${imie}</td>
+      <td style="padding:18pt 10pt;border:1px solid #ccc;font-size:10pt">${stanowisko}</td>
+      <td style="padding:18pt 10pt;border:1px solid #ccc"></td>
+    </tr>
+  </table>
+
+  <div style="display:flex;gap:30pt;font-size:9.5pt;border-top:1px solid #ccc;padding-top:10pt;margin-top:8pt">
+    <div><strong>Data wydania:</strong> ${dataOd}</div>
+    <div><strong>Ważne do:</strong> ${dataDo}</div>
+    <div style="color:#555;font-size:8.5pt;flex:1;text-align:right">Wygenerowano przez EkoPako · Art. 5 PPWR (UE) 2025/40</div>
+  </div>
+</div>`;
+}
+
+function generateDoc() {
+  const html = buildDocHTML();
+  document.getElementById('doc-preview').innerHTML = html;
+  document.getElementById('pismo-content').innerHTML = html;
+  document.getElementById('podglad').style.display = 'block';
+  document.getElementById('podglad').scrollIntoView({behavior:'smooth'});
+}
+
+// Override print to build doc first
+window.addEventListener('beforeprint', () => {
+  const html = buildDocHTML();
+  document.getElementById('pismo-content').innerHTML = html;
+});
+
+// Click steps
+document.querySelectorAll('.step').forEach((el, i) => {
+  el.addEventListener('click', () => { if (i+1 <= getCurrentStep()) goStep(i+1); });
+});
+
+function getCurrentStep() {
+  const active = document.querySelector('[data-step].active');
+  return active ? parseInt(active.dataset.step) : 1;
+}
+</script>
+</body>
+</html>
