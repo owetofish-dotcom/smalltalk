@@ -140,11 +140,14 @@
     padding: 2px 0 4px;
     font-weight: 500;
   }
+  .cal-day-ned { position:absolute; bottom:0; left:0; right:0; display:flex; flex-direction:column; pointer-events:none; }
+  .cal-ned-line { height:2px; width:100%; display:block; }
   .cal-day {
     display: grid;
     grid-template-rows: 22px 11px 11px 10px;
     align-items: start;
     justify-items: center;
+    position: relative; overflow: hidden;
     font-size: 0.8rem;
     border-radius: 4px;
     cursor: pointer;
@@ -439,6 +442,18 @@
       <div>
         <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:3px;">Aktywność (np. 30 pompek)</label>
         <input type="text" id="activity-input" placeholder="np. 30 pompek, 20 podciągnięć..." maxlength="80" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:0.85rem;font-family:var(--font);outline:none;color:var(--text);background:var(--bg);">
+      </div>
+      <hr style="border:none;border-top:1px solid var(--border);margin:0;">
+      <div style="display:flex;gap:6px;">
+        <button class="day-toggle day-toggle-person" data-field="nel" data-person-color="#f472b6" id="toggle-nel" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
+          <span style="width:8px;height:8px;border-radius:50%;background:#f472b6;flex-shrink:0;display:inline-block;"></span>N
+        </button>
+        <button class="day-toggle day-toggle-person" data-field="edyta" data-person-color="#fb923c" id="toggle-edyta" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
+          <span style="width:8px;height:8px;border-radius:50%;background:#fb923c;flex-shrink:0;display:inline-block;"></span>E
+        </button>
+        <button class="day-toggle day-toggle-person" data-field="dom" data-person-color="#4ade80" id="toggle-dom" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
+          <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0;display:inline-block;"></span>D
+        </button>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
@@ -958,20 +973,23 @@
     if (val.no_fizzy !== undefined) { w[key].no_fizzy = val.no_fizzy; }
     if (val.flew !== undefined) { w[key].flew = val.flew; }
     if (val.activity !== undefined) { if (val.activity) w[key].activity = val.activity; else delete w[key].activity; }
+    if (val.nel !== undefined) { w[key].nel = val.nel; }
+    if (val.edyta !== undefined) { w[key].edyta = val.edyta; }
+    if (val.dom !== undefined) { w[key].dom = val.dom; }
     // Auto-record first entry time of the day
     if (isFirstEntry && !w[key].first_entry_time) {
       const _n = new Date();
       w[key].first_entry_time = String(_n.getHours()).padStart(2,'0') + ':' + String(_n.getMinutes()).padStart(2,'0');
     }
-    if (!w[key].weight && !w[key].time && !w[key].km && !w[key].activity && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew) delete w[key];
+    if (!w[key].weight && !w[key].time && !w[key].km && !w[key].activity && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew && !w[key].nel && !w[key].edyta && !w[key].dom) delete w[key];
     saveWeightsLocal(w);
   }
   function getDayData(key) {
     const w = getWeights();
     const d = w[key];
-    if (!d) return { weight:'', time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false };
-    if (typeof d === 'string') return { weight:d, time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false };
-    return { weight: d.weight||'', time: d.time||'', first_entry_time: d.first_entry_time||'', km: d.km||'', activity: d.activity||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew };
+    if (!d) return { weight:'', time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false };
+    if (typeof d === 'string') return { weight:d, time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false };
+    return { weight: d.weight||'', time: d.time||'', first_entry_time: d.first_entry_time||'', km: d.km||'', activity: d.activity||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew, nel: !!d.nel, edyta: !!d.edyta, dom: !!d.dom };
   }
 
   // Sync status display
@@ -1130,7 +1148,12 @@
         `<img src="${DOT_CFG[f]}" class="cal-dot-img" alt="${f}">`
       ).join('');
       const dotsHtml = dots ? `<span class="cal-day-dots">${dots}</span>` : '';
-      el.innerHTML = `<span class="cal-day-num">${d}</span><span class="cal-day-weight">${day.weight || ''}</span><span class="cal-day-km">${day.km ? day.km+'km' : ''}</span>${dotsHtml || '<span class="cal-day-dots"></span>'}`;
+      const nedLines = [];
+      if (day.dom)   nedLines.push(`<span class="cal-ned-line" style="background:#4ade80;"></span>`);
+      if (day.edyta) nedLines.push(`<span class="cal-ned-line" style="background:#fb923c;"></span>`);
+      if (day.nel)   nedLines.push(`<span class="cal-ned-line" style="background:#f472b6;"></span>`);
+      const nedHtml = nedLines.length ? `<span class="cal-day-ned">${nedLines.join('')}</span>` : '';
+      el.innerHTML = `<span class="cal-day-num">${d}</span><span class="cal-day-weight">${day.weight || ''}</span><span class="cal-day-km">${day.km ? day.km+'km' : ''}</span>${dotsHtml || '<span class="cal-day-dots"></span>'}${nedHtml}`;
       el.addEventListener('click', () => openPopup(key, d));
       grid.appendChild(el);
     }
@@ -1210,7 +1233,7 @@
     return Math.round((n + delta) * 10) / 10;
   }
 
-  const _toggleState = { steps:false, diet:false, no_fizzy:false, flew:false };
+  const _toggleState = { steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false };
   function openPopup(key, day) {
     selectedKey = key;
     const data = getDayData(key);
@@ -1226,7 +1249,7 @@
     // But if weight not yet saved, time row will be hidden anyway (inside weight-section div)
     document.getElementById('km-input').value = data.km;
     document.getElementById('activity-input').value = data.activity || '';
-    ['steps','diet','no_fizzy','flew'].forEach(f => { _toggleState[f] = !!data[f]; _updateToggle(f); });
+    ['steps','diet','no_fizzy','flew','nel','edyta','dom'].forEach(f => { _toggleState[f] = !!data[f]; _updateToggle(f); });
     popup.classList.remove('hidden');
     setTimeout(() => input.focus(), 50);
   }
@@ -1254,11 +1277,18 @@
     const btn = document.getElementById('toggle-' + field);
     if (!btn) return;
     const on = _toggleState[field];
-    btn.style.background = on ? 'var(--text)' : 'var(--bg)';
-    btn.style.color = on ? '#fff' : 'var(--text)';
-    btn.style.borderColor = on ? 'var(--text)' : 'var(--border)';
-    const dot = btn.querySelector('.toggle-dot');
-    if (dot) dot.style.opacity = on ? '1' : '0.3';
+    const personColor = btn.dataset.personColor;
+    if (personColor) {
+      btn.style.background = on ? personColor : 'var(--bg)';
+      btn.style.color = on ? '#fff' : 'var(--text-muted)';
+      btn.style.borderColor = on ? personColor : 'var(--border)';
+    } else {
+      btn.style.background = on ? 'var(--text)' : 'var(--bg)';
+      btn.style.color = on ? '#fff' : 'var(--text)';
+      btn.style.borderColor = on ? 'var(--text)' : 'var(--border)';
+      const dot = btn.querySelector('.toggle-dot');
+      if (dot) dot.style.opacity = on ? '1' : '0.3';
+    }
   }
   document.querySelectorAll('.day-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1311,7 +1341,7 @@
     await pushToGist();
   });
   document.getElementById('weight-clear').addEventListener('click', async () => {
-    setWeight(selectedKey, { weight:'', time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false });
+    setWeight(selectedKey, { weight:'', time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false });
     closePopup(); renderCal();
     await pushToGist();
   });
