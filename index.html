@@ -446,14 +446,14 @@
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0;">
       <div style="display:flex;gap:6px;">
-        <button class="day-toggle day-toggle-person" data-field="nel" data-person-color="#f472b6" id="toggle-nel" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
-          <span style="width:8px;height:8px;border-radius:50%;background:#f472b6;flex-shrink:0;display:inline-block;"></span>N
+        <button class="day-toggle day-toggle-person" data-field="nel" data-person-color="#f9a8d4" id="toggle-nel" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
+          <span style="width:8px;height:8px;border-radius:50%;background:#f9a8d4;flex-shrink:0;display:inline-block;"></span>N
         </button>
-        <button class="day-toggle day-toggle-person" data-field="edyta" data-person-color="#fb923c" id="toggle-edyta" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
-          <span style="width:8px;height:8px;border-radius:50%;background:#fb923c;flex-shrink:0;display:inline-block;"></span>E
+        <button class="day-toggle day-toggle-person" data-field="edyta" data-person-color="#fdba74" id="toggle-edyta" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
+          <span style="width:8px;height:8px;border-radius:50%;background:#fdba74;flex-shrink:0;display:inline-block;"></span>E
         </button>
-        <button class="day-toggle day-toggle-person" data-field="dom" data-person-color="#4ade80" id="toggle-dom" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
-          <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0;display:inline-block;"></span>D
+        <button class="day-toggle day-toggle-person" data-field="dom" data-person-color="#86efac" id="toggle-dom" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
+          <span style="width:8px;height:8px;border-radius:50%;background:#86efac;flex-shrink:0;display:inline-block;"></span>D
         </button>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0;">
@@ -1149,7 +1149,7 @@
         `<img src="${DOT_CFG[f]}" class="cal-dot-img" alt="${f}">`
       ).join('');
       const dotsHtml = dots ? `<span class="cal-day-dots">${dots}</span>` : '';
-      const nedHtml = `<span class="cal-day-ned"><span class="cal-ned-line" style="background:${day.dom?'#4ade80':'transparent'};"></span><span class="cal-ned-line" style="background:${day.edyta?'#fb923c':'transparent'};"></span><span class="cal-ned-line" style="background:${day.nel?'#f472b6':'transparent'};"></span></span>`;
+      const nedHtml = `<span class="cal-day-ned"><span class="cal-ned-line" style="background:${day.dom?'#86efac':'transparent'};"></span><span class="cal-ned-line" style="background:${day.edyta?'#fdba74':'transparent'};"></span><span class="cal-ned-line" style="background:${day.nel?'#f9a8d4':'transparent'};"></span></span>`;
       el.innerHTML = `<span class="cal-day-num">${d}</span><span class="cal-day-weight">${day.weight || ''}</span><span class="cal-day-km">${day.km ? day.km+'km' : ''}</span>${dotsHtml || '<span class="cal-day-dots"></span>'}${nedHtml}`;
       el.addEventListener('click', () => openPopup(key, d));
       grid.appendChild(el);
