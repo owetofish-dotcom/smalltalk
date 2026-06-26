@@ -445,16 +445,25 @@
         <input type="text" id="activity-input" placeholder="np. 30 pompek, 20 podciągnięć..." maxlength="80" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:0.85rem;font-family:var(--font);outline:none;color:var(--text);background:var(--bg);">
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0;">
-      <div style="display:flex;gap:6px;">
-        <button class="day-toggle day-toggle-person" data-field="nel" data-person-color="#f9a8d4" id="toggle-nel" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
-          <span style="width:8px;height:8px;border-radius:50%;background:#f9a8d4;flex-shrink:0;display:inline-block;"></span>N
-        </button>
-        <button class="day-toggle day-toggle-person" data-field="edyta" data-person-color="#fdba74" id="toggle-edyta" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
-          <span style="width:8px;height:8px;border-radius:50%;background:#fdba74;flex-shrink:0;display:inline-block;"></span>E
-        </button>
-        <button class="day-toggle day-toggle-person" data-field="dom" data-person-color="#86efac" id="toggle-dom" style="flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;color:var(--text-muted);">
-          <span style="width:8px;height:8px;border-radius:50%;background:#86efac;flex-shrink:0;display:inline-block;"></span>D
-        </button>
+      <div style="display:flex;flex-direction:column;gap:5px;">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="day-toggle day-toggle-person" data-field="nel" data-person-color="#f9a8d4" id="toggle-nel" style="width:38px;flex-shrink:0;padding:6px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;color:var(--text-muted);">
+            <span style="width:7px;height:7px;border-radius:50%;background:#f9a8d4;flex-shrink:0;display:inline-block;"></span>N
+          </button>
+          <input type="text" id="nel-note" placeholder="notatka..." maxlength="60" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:0.75rem;font-family:var(--font);outline:none;color:var(--text);background:var(--bg);">
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="day-toggle day-toggle-person" data-field="edyta" data-person-color="#fdba74" id="toggle-edyta" style="width:38px;flex-shrink:0;padding:6px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;color:var(--text-muted);">
+            <span style="width:7px;height:7px;border-radius:50%;background:#fdba74;flex-shrink:0;display:inline-block;"></span>E
+          </button>
+          <input type="text" id="edyta-note" placeholder="notatka..." maxlength="60" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:0.75rem;font-family:var(--font);outline:none;color:var(--text);background:var(--bg);">
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="day-toggle day-toggle-person" data-field="dom" data-person-color="#86efac" id="toggle-dom" style="width:38px;flex-shrink:0;padding:6px 4px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg);font-family:var(--font);font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;color:var(--text-muted);">
+            <span style="width:7px;height:7px;border-radius:50%;background:#86efac;flex-shrink:0;display:inline-block;"></span>D
+          </button>
+          <input type="text" id="dom-note" placeholder="notatka..." maxlength="60" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:0.75rem;font-family:var(--font);outline:none;color:var(--text);background:var(--bg);">
+        </div>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:0;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
@@ -977,12 +986,15 @@
     if (val.nel !== undefined) { w[key].nel = val.nel; }
     if (val.edyta !== undefined) { w[key].edyta = val.edyta; }
     if (val.dom !== undefined) { w[key].dom = val.dom; }
+    if (val.nel_note !== undefined) { if (val.nel_note) w[key].nel_note = val.nel_note; else delete w[key].nel_note; }
+    if (val.edyta_note !== undefined) { if (val.edyta_note) w[key].edyta_note = val.edyta_note; else delete w[key].edyta_note; }
+    if (val.dom_note !== undefined) { if (val.dom_note) w[key].dom_note = val.dom_note; else delete w[key].dom_note; }
     // Auto-record first entry time of the day
     if (isFirstEntry && !w[key].first_entry_time) {
       const _n = new Date();
       w[key].first_entry_time = String(_n.getHours()).padStart(2,'0') + ':' + String(_n.getMinutes()).padStart(2,'0');
     }
-    if (!w[key].weight && !w[key].time && !w[key].km && !w[key].activity && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew && !w[key].nel && !w[key].edyta && !w[key].dom) delete w[key];
+    if (!w[key].weight && !w[key].time && !w[key].km && !w[key].activity && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew && !w[key].nel && !w[key].edyta && !w[key].dom && !w[key].nel_note && !w[key].edyta_note && !w[key].dom_note) delete w[key];
     saveWeightsLocal(w);
   }
   function getDayData(key) {
@@ -990,7 +1002,7 @@
     const d = w[key];
     if (!d) return { weight:'', time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false };
     if (typeof d === 'string') return { weight:d, time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false };
-    return { weight: d.weight||'', time: d.time||'', first_entry_time: d.first_entry_time||'', km: d.km||'', activity: d.activity||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew, nel: !!d.nel, edyta: !!d.edyta, dom: !!d.dom };
+    return { weight: d.weight||'', time: d.time||'', first_entry_time: d.first_entry_time||'', km: d.km||'', activity: d.activity||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew, nel: !!d.nel, edyta: !!d.edyta, dom: !!d.dom, nel_note: d.nel_note||'', edyta_note: d.edyta_note||'', dom_note: d.dom_note||'' };
   }
 
   // Sync status display
@@ -1247,6 +1259,9 @@
     document.getElementById('km-input').value = data.km;
     document.getElementById('activity-input').value = data.activity || '';
     ['steps','diet','no_fizzy','flew','nel','edyta','dom'].forEach(f => { _toggleState[f] = !!data[f]; _updateToggle(f); });
+    document.getElementById('nel-note').value = data.nel_note || '';
+    document.getElementById('edyta-note').value = data.edyta_note || '';
+    document.getElementById('dom-note').value = data.dom_note || '';
     popup.classList.remove('hidden');
     setTimeout(() => input.focus(), 50);
   }
@@ -1333,12 +1348,12 @@
     const tval = _timeActive ? document.getElementById('time-input').value.trim() : '';
     let kmval = document.getElementById('km-input').value.trim().replace(',', '.');
     const actval = document.getElementById('activity-input').value.trim();
-    setWeight(selectedKey, { weight: wval, time: tval, km: kmval, activity: actval, ...Object.fromEntries(Object.entries(_toggleState)) });
+    setWeight(selectedKey, { weight: wval, time: tval, km: kmval, activity: actval, nel_note: document.getElementById('nel-note').value.trim(), edyta_note: document.getElementById('edyta-note').value.trim(), dom_note: document.getElementById('dom-note').value.trim(), ...Object.fromEntries(Object.entries(_toggleState)) });
     closePopup(); renderCal();
     await pushToGist();
   });
   document.getElementById('weight-clear').addEventListener('click', async () => {
-    setWeight(selectedKey, { weight:'', time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false });
+    setWeight(selectedKey, { weight:'', time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false, nel_note:'', edyta_note:'', dom_note:'' });
     closePopup(); renderCal();
     await pushToGist();
   });
