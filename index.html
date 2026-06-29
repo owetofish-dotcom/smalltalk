@@ -384,7 +384,13 @@
   <div class="cal-nav">
     <button class="cal-btn" id="cal-prev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
     <span class="cal-month" id="cal-month-label"></span>
-    <button class="cal-btn" id="cal-next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <span id="consulting-month-total" style="font-size:0.62rem;color:#6366f1;font-weight:600;white-space:nowrap;display:none;"></span>
+      <button id="consulting-csv-btn" class="cal-btn" title="Eksportuj godziny konsultingowe do CSV" style="display:none;color:#6366f1;">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </button>
+      <button class="cal-btn" id="cal-next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
   </div>
   <div class="cal-grid" id="cal-grid"></div>
 </div>
@@ -490,6 +496,20 @@
         </button>
       </div>
     </div>
+      <hr style="border:none;border-top:1px solid var(--border);margin:0;">
+      <div>
+        <label style="font-size:0.68rem;color:var(--text-muted);display:block;margin-bottom:5px;font-weight:600;">💼 Konsulting</label>
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:8px;align-items:start;">
+          <div>
+            <label style="font-size:0.62rem;color:var(--text-muted);display:block;margin-bottom:3px;">Godziny</label>
+            <input type="text" id="consulting-h" placeholder="2.5" inputmode="decimal" maxlength="5" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 8px;font-size:1rem;font-family:var(--font);font-weight:600;outline:none;color:var(--text);background:var(--bg);text-align:center;">
+          </div>
+          <div>
+            <label style="font-size:0.62rem;color:var(--text-muted);display:block;margin-bottom:3px;">Temat / opis</label>
+            <input type="text" id="consulting-desc" placeholder="np. strategia, analiza..." maxlength="80" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:0.85rem;font-family:var(--font);outline:none;color:var(--text);background:var(--bg);">
+          </div>
+        </div>
+      </div>
     <div class="weight-dialog-actions" style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;">
       <button class="weight-action-btn" id="weight-clear">Wyczyść</button>
       <div style="display:flex;gap:6px;">
@@ -996,20 +1016,22 @@
     if (val.nel_note !== undefined) { if (val.nel_note) w[key].nel_note = val.nel_note; else delete w[key].nel_note; }
     if (val.edyta_note !== undefined) { if (val.edyta_note) w[key].edyta_note = val.edyta_note; else delete w[key].edyta_note; }
     if (val.dom_note !== undefined) { if (val.dom_note) w[key].dom_note = val.dom_note; else delete w[key].dom_note; }
+    if (val.consulting_h !== undefined) { if (val.consulting_h) w[key].consulting_h = val.consulting_h; else delete w[key].consulting_h; }
+    if (val.consulting_desc !== undefined) { if (val.consulting_desc) w[key].consulting_desc = val.consulting_desc; else delete w[key].consulting_desc; }
     // Auto-record first entry time of the day
     if (isFirstEntry && !w[key].first_entry_time) {
       const _n = new Date();
       w[key].first_entry_time = String(_n.getHours()).padStart(2,'0') + ':' + String(_n.getMinutes()).padStart(2,'0');
     }
-    if (!w[key].weight && !w[key].time && !w[key].km && !w[key].activity && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew && !w[key].nel && !w[key].edyta && !w[key].dom && !w[key].nel_note && !w[key].edyta_note && !w[key].dom_note) delete w[key];
+    if (!w[key].weight && !w[key].time && !w[key].km && !w[key].activity && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew && !w[key].nel && !w[key].edyta && !w[key].dom && !w[key].nel_note && !w[key].edyta_note && !w[key].dom_note && !w[key].consulting_h && !w[key].consulting_desc) delete w[key];
     saveWeightsLocal(w);
   }
   function getDayData(key) {
     const w = getWeights();
     const d = w[key];
-    if (!d) return { weight:'', time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false };
-    if (typeof d === 'string') return { weight:d, time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false };
-    return { weight: d.weight||'', time: d.time||'', first_entry_time: d.first_entry_time||'', km: d.km||'', activity: d.activity||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew, nel: !!d.nel, edyta: !!d.edyta, dom: !!d.dom, nel_note: d.nel_note||'', edyta_note: d.edyta_note||'', dom_note: d.dom_note||'' };
+    if (!d) return { weight:'', time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false, nel_note:'', edyta_note:'', dom_note:'', consulting_h:'', consulting_desc:'' };
+    if (typeof d === 'string') return { weight:d, time:'', first_entry_time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false, nel_note:'', edyta_note:'', dom_note:'', consulting_h:'', consulting_desc:'' };
+    return { weight: d.weight||'', time: d.time||'', first_entry_time: d.first_entry_time||'', km: d.km||'', activity: d.activity||'', steps: !!d.steps, diet: !!d.diet, no_fizzy: !!d.no_fizzy, flew: !!d.flew, nel: !!d.nel, edyta: !!d.edyta, dom: !!d.dom, nel_note: d.nel_note||'', edyta_note: d.edyta_note||'', dom_note: d.dom_note||'', consulting_h: d.consulting_h||'', consulting_desc: d.consulting_desc||'' };
   }
 
   // Sync status display
@@ -1122,11 +1144,13 @@
 
     // Calculate monthly stats
     const weights_arr = [], kms_arr = [];
+    let totalConsultingH = 0;
     for (let d = 1; d <= lastDay.getDate(); d++) {
       const k = viewYear + '-' + String(viewMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
       const dd = getDayData(k);
       if (dd.weight) { const w = parseFloat(dd.weight); if (!isNaN(w)) weights_arr.push(w); }
       if (dd.km) { const km = parseFloat(dd.km); if (!isNaN(km) && km > 0) kms_arr.push(km); }
+      if (dd.consulting_h) { const h = parseFloat(dd.consulting_h); if (!isNaN(h) && h > 0) totalConsultingH += h; }
     }
     const avgW = weights_arr.length ? (weights_arr.reduce((a,b)=>a+b,0)/weights_arr.length).toFixed(1) : null;
     const totalKm = kms_arr.length ? kms_arr.reduce((a,b)=>a+b,0).toFixed(1) : null;
@@ -1135,6 +1159,17 @@
     if (totalKm) stats.push(kms_arr.length + '× ' + totalKm + 'km');
     const statsStr = stats.length ? stats.join(' · ') : '';
     label.innerHTML = '<span>' + MONTHS[viewMonth] + ' ' + viewYear + '</span>' + (statsStr ? '<span style="display:block;font-size:0.6rem;color:var(--text-muted);font-weight:400;text-align:center;margin-top:1px;letter-spacing:0;text-transform:none;">(' + statsStr + ')</span>' : '');
+    // Consulting monthly total
+    const cTotal = document.getElementById('consulting-month-total');
+    const cCsv = document.getElementById('consulting-csv-btn');
+    if (totalConsultingH > 0) {
+      cTotal.textContent = '💼 ' + totalConsultingH.toFixed(1) + 'h';
+      cTotal.style.display = '';
+      cCsv.style.display = '';
+    } else {
+      cTotal.style.display = 'none';
+      cCsv.style.display = 'none';
+    }
     grid.innerHTML = '';
 
     DOW.forEach(d => {
@@ -1269,6 +1304,8 @@
     document.getElementById('nel-note').value = data.nel_note || '';
     document.getElementById('edyta-note').value = data.edyta_note || '';
     document.getElementById('dom-note').value = data.dom_note || '';
+    document.getElementById('consulting-h').value = data.consulting_h || '';
+    document.getElementById('consulting-desc').value = data.consulting_desc || '';
     popup.classList.remove('hidden');
     setTimeout(() => input.focus(), 50);
   }
@@ -1355,12 +1392,12 @@
     const tval = _timeActive ? document.getElementById('time-input').value.trim() : '';
     let kmval = document.getElementById('km-input').value.trim().replace(',', '.');
     const actval = document.getElementById('activity-input').value.trim();
-    setWeight(selectedKey, { weight: wval, time: tval, km: kmval, activity: actval, nel_note: document.getElementById('nel-note').value.trim(), edyta_note: document.getElementById('edyta-note').value.trim(), dom_note: document.getElementById('dom-note').value.trim(), ...Object.fromEntries(Object.entries(_toggleState)) });
+    setWeight(selectedKey, { weight: wval, time: tval, km: kmval, activity: actval, nel_note: document.getElementById('nel-note').value.trim(), edyta_note: document.getElementById('edyta-note').value.trim(), dom_note: document.getElementById('dom-note').value.trim(), consulting_h: document.getElementById('consulting-h').value.trim().replace(',','.'), consulting_desc: document.getElementById('consulting-desc').value.trim(), ...Object.fromEntries(Object.entries(_toggleState)) });
     closePopup(); renderCal();
     await pushToGist();
   });
   document.getElementById('weight-clear').addEventListener('click', async () => {
-    setWeight(selectedKey, { weight:'', time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false, nel_note:'', edyta_note:'', dom_note:'' });
+    setWeight(selectedKey, { weight:'', time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false, nel_note:'', edyta_note:'', dom_note:'', consulting_h:'', consulting_desc:'' });
     closePopup(); renderCal();
     await pushToGist();
   });
@@ -1370,6 +1407,29 @@
     if (e.key === 'Enter') document.getElementById('weight-save').click();
     if (e.key === 'Escape') closePopup();
   });
+
+  // CSV export for consulting hours
+  function exportConsultingCSV() {
+    const weights = getWeights();
+    const rows = [['Data','Godziny','Opis']];
+    const prefix = viewYear + '-' + String(viewMonth+1).padStart(2,'0');
+    const lastDay = new Date(viewYear, viewMonth + 1, 0).getDate();
+    for (let d = 1; d <= lastDay; d++) {
+      const key = prefix + '-' + String(d).padStart(2,'0');
+      const dd = getDayData(key);
+      if (dd.consulting_h && parseFloat(dd.consulting_h) > 0) {
+        rows.push([key, dd.consulting_h, dd.consulting_desc || '']);
+      }
+    }
+    if (rows.length === 1) { alert('Brak godzin konsultingowych w tym miesiącu.'); return; }
+    const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g,'""') + '"').join(',')).join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'konsulting_' + prefix + '.csv'; a.click();
+    URL.revokeObjectURL(url);
+  }
+  document.getElementById('consulting-csv-btn').addEventListener('click', exportConsultingCSV);
 
   // Export pushToGist for other modules (order sync)
   window._pushToGist = pushToGist;
