@@ -1165,7 +1165,7 @@
     const cTotal = document.getElementById('consulting-month-total');
     const cCsv = document.getElementById('consulting-csv-btn');
     if (totalConsultingH > 0) {
-      cTotal.textContent = '💼 ' + totalConsultingH.toFixed(1) + 'h';
+      cTotal.innerHTML = `<img src="./assets/img/walizka.svg" style="width:12px;height:12px;vertical-align:middle;opacity:0.85;margin-right:2px;"> ${totalConsultingH.toFixed(1)}h`;
       cTotal.style.display = '';
       cCsv.style.display = '';
     } else {
@@ -1204,7 +1204,8 @@
       const dots = dotFields.filter(f => f==='activity' ? day.activity : day[f]).map(f =>
         `<img src="${DOT_CFG[f]}" class="cal-dot-img" alt="${f}">`
       ).join('');
-      const dotsHtml = dots ? `<span class="cal-day-dots">${dots}</span>` : '';
+      const consultingDot = (day.consulting_h && parseFloat(day.consulting_h) > 0) ? `<img src="./assets/img/walizka.svg" class="cal-dot-img" alt="konsulting">` : '';
+      const dotsHtml = (dots || consultingDot) ? `<span class="cal-day-dots">${dots}${consultingDot}</span>` : '';
       const nedHtml = `<span class="cal-day-ned"><span class="cal-ned-line" style="background:${day.dom?'#86efac':'transparent'};"></span><span class="cal-ned-line" style="background:${day.edyta?'#fdba74':'transparent'};"></span><span class="cal-ned-line" style="background:${day.nel?'#f9a8d4':'transparent'};"></span></span>`;
       el.innerHTML = `<span class="cal-day-num">${d}</span><span class="cal-day-weight">${day.weight || ''}</span><span class="cal-day-km">${day.km ? day.km+'km' : ''}</span>${dotsHtml || '<span class="cal-day-dots"></span>'}${nedHtml}`;
       el.addEventListener('click', () => openPopup(key, d));
