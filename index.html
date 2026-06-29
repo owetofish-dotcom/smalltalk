@@ -1206,7 +1206,11 @@
       ).join('');
       const consultingDot = (day.consulting_h && parseFloat(day.consulting_h) > 0) ? `<img src="./assets/img/walizka.svg" class="cal-dot-img" alt="konsulting">` : '';
       const dotsHtml = (dots || consultingDot) ? `<span class="cal-day-dots">${dots}${consultingDot}</span>` : '';
-      const nedHtml = `<span class="cal-day-ned"><span class="cal-ned-line" style="background:${day.dom?'#86efac':'transparent'};"></span><span class="cal-ned-line" style="background:${day.edyta?'#fdba74':'transparent'};"></span><span class="cal-ned-line" style="background:${day.nel?'#f9a8d4':'transparent'};"></span></span>`;
+      const nedLines = [];
+      if (day.dom)   nedLines.push(`<span class="cal-ned-line" style="background:#86efac;"></span>`);
+      if (day.edyta) nedLines.push(`<span class="cal-ned-line" style="background:#fdba74;"></span>`);
+      if (day.nel)   nedLines.push(`<span class="cal-ned-line" style="background:#f9a8d4;"></span>`);
+      const nedHtml = `<span class="cal-day-ned">${nedLines.join('')}</span>`;
       el.innerHTML = `<span class="cal-day-num">${d}</span><span class="cal-day-weight">${day.weight || ''}</span><span class="cal-day-km">${day.km ? day.km+'km' : ''}</span>${dotsHtml || '<span class="cal-day-dots"></span>'}${nedHtml}`;
       el.addEventListener('click', () => openPopup(key, d));
       grid.appendChild(el);
