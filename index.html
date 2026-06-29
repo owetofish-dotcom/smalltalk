@@ -1398,6 +1398,7 @@
     await pushToGist();
   });
   document.getElementById('weight-clear').addEventListener('click', async () => {
+    if (!confirm('Wyczyścić wszystkie dane z tego dnia?')) return;
     setWeight(selectedKey, { weight:'', time:'', km:'', activity:'', steps:false, diet:false, no_fizzy:false, flew:false, nel:false, edyta:false, dom:false, nel_note:'', edyta_note:'', dom_note:'', consulting_h:'', consulting_desc:'' });
     closePopup(); renderCal();
     await pushToGist();
