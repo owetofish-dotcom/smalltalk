@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Paragorn — Wydatki służbowe</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+:root {
+  --amber:#f59e0b; --amber-d:#d97706; --amber-l:#fef3c7;
+  --s50:#f8fafc; --s100:#f1f5f9; --s200:#e2e8f0; --s300:#cbd5e1;
+  --s400:#94a3b8; --s500:#64748b; --s600:#475569; --s700:#334155;
+  --s800:#1e293b; --s900:#0f172a;
+  --white:#fff; --danger:#ef4444; --green:#22c55e;
+  --r:10px; --rl:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--s50);color:var(--s800);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+button{cursor:pointer;font-family:inherit;border:none;outline:none;background:none;}
+input,select{font-family:inherit;}
+
+/* TOPBAR */
+.topbar{background:var(--s900);padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;}
+.topbar-back{color:#94a3b8;text-decoration:none;font-size:13px;display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.topbar-back:hover{color:#fff;}
+.topbar-title{color:#fff;font-weight:700;font-size:15px;flex:1;}
+.topbar-badge{background:var(--amber);color:var(--s900);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;flex-shrink:0;}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--s600);flex-shrink:0;transition:background .3s;}
+.sync-dot.ok{background:var(--green);}
+.sync-dot.err{background:var(--danger);}
+.sync-dot.busy{background:var(--amber);animation:pulse .8s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* FILTER BAR */
+.filter-bar{background:var(--white);border-bottom:1px solid var(--s200);padding:10px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.fbtn{background:var(--s100);color:var(--s600);border:1.5px solid var(--s200);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:600;transition:all .15s;}
+.fbtn.active{background:var(--s900);color:#fff;border-color:var(--s900);}
+.date-range{display:none;align-items:center;gap:6px;flex-wrap:wrap;}
+.date-range.show{display:flex;}
+.date-range input[type="date"]{border:1.5px solid var(--s200);border-radius:6px;padding:4px 8px;font-size:12px;color:var(--s700);background:var(--white);}
+
+/* BULK BAR */
+.bulk-bar{background:var(--amber-l);border-bottom:1px solid #fde68a;padding:8px 16px;display:none;align-items:center;gap:10px;}
+.bulk-bar.show{display:flex;}
+.bulk-count{flex:1;font-size:13px;font-weight:600;color:var(--s800);}
+.btn-sum{background:var(--s900);color:#fff;border-radius:8px;padding:7px 16px;font-size:13px;font-weight:700;}
+
+/* LIST HEADER */
+.list-head{padding:9px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--s100);background:var(--white);}
+.list-head label{font-size:12px;color:var(--s500);display:flex;align-items:center;gap:6px;cursor:pointer;}
+.exp-count{font-size:12px;color:var(--s400);margin-left:auto;}
+
+/* EXPENSE LIST */
+.exp-list{list-style:none;padding:0 0 100px;}
+.exp-item{display:flex;align-items:center;padding:10px 16px;gap:10px;border-bottom:1px solid var(--s100);background:var(--white);transition:background .1s;}
+.exp-item.selected{background:#fffbeb;}
+
+.exp-check{width:18px;height:18px;accent-color:var(--amber);flex-shrink:0;cursor:pointer;}
+.cat-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.cat-transport{background:#dbeafe;}
+.cat-hotel{background:#f3e8ff;}
+.cat-jedzenie{background:#dcfce7;}
+.cat-inne{background:#fef9c3;}
+
+.exp-body{flex:1;min-width:0;}
+.exp-row1{display:flex;align-items:baseline;gap:6px;}
+.exp-name{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;}
+.exp-date{font-size:11px;color:var(--s400);flex-shrink:0;}
+.exp-sub{font-size:11px;color:var(--s500);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+.exp-right{text-align:right;flex-shrink:0;}
+.exp-main{font-weight:700;font-size:14px;}
+.exp-eur{font-size:11px;color:var(--s400);}
+
+.btn-del{color:var(--s300);padding:4px 6px;border-radius:6px;font-size:18px;line-height:1;flex-shrink:0;}
+.btn-del:hover{color:var(--danger);background:#fee2e2;}
+
+/* EMPTY */
+.empty{padding:64px 20px;text-align:center;color:var(--s400);}
+.empty p{font-size:15px;font-weight:600;color:var(--s500);margin-top:12px;}
+.empty span{font-size:13px;}
+
+/* FAB */
+.fab{position:fixed;bottom:24px;right:20px;background:var(--amber);color:var(--s900);border-radius:50px;padding:14px 20px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(245,158,11,.35);z-index:50;transition:transform .15s;}
+.fab:active{transform:scale(.95);}
+
+/* OVERLAY */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end;}
+.overlay.show{display:flex;}
+.sheet{background:var(--white);border-radius:var(--rl) var(--rl) 0 0;width:100%;max-height:92vh;overflow-y:auto;padding-bottom:env(safe-area-inset-bottom,16px);animation:su .2s ease;}
+@keyframes su{from{transform:translateY(50px);opacity:0}to{transform:none;opacity:1}}
+.sheet-handle{width:40px;height:4px;background:var(--s200);border-radius:2px;margin:12px auto 0;}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 12px;border-bottom:1px solid var(--s100);}
+.sheet-title{font-weight:700;font-size:16px;}
+.btn-close{background:var(--s100);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--s600);font-size:16px;flex-shrink:0;}
+.sheet-body{padding:16px 20px;display:flex;flex-direction:column;gap:14px;}
+
+/* FORM */
+.flabel{font-size:11px;font-weight:700;color:var(--s500);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;display:block;}
+.finput{width:100%;border:1.5px solid var(--s200);border-radius:var(--r);padding:10px 12px;font-size:14px;color:var(--s800);background:var(--white);outline:none;transition:border .15s;}
+.finput:focus{border-color:var(--amber);}
+.frow{display:flex;gap:10px;}
+
+/* CHIPS */
+.chips{display:flex;gap:8px;flex-wrap:wrap;}
+.chip{background:var(--s100);border:1.5px solid var(--s200);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--s600);transition:all .15s;cursor:pointer;}
+.chip.active{background:var(--s900);color:#fff;border-color:var(--s900);}
+
+/* DROPZONE */
+.dz{border:2px dashed var(--s300);border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;transition:all .15s;color:var(--s500);font-size:13px;position:relative;}
+.dz:hover,.dz.over{border-color:var(--amber);background:var(--amber-l);}
+.dz input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.dz-preview{display:flex;align-items:center;gap:10px;background:var(--s100);border-radius:8px;padding:10px 12px;}
+.dz-thumb{width:40px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0;}
+.dz-pdf{width:40px;height:40px;background:var(--s200);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.dz-name{flex:1;font-weight:600;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dz-size{font-size:11px;color:var(--s400);}
+.dz-clear{color:var(--s400);font-size:18px;padding:2px 4px;flex-shrink:0;}
+.dz-clear:hover{color:var(--danger);}
+
+/* PRIMARY BTN */
+.btn-primary{background:var(--amber);color:var(--s900);border-radius:var(--r);padding:13px;font-size:15px;font-weight:700;width:100%;margin-top:4px;transition:opacity .15s;}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+
+/* SUMMARY */
+.sum-section{margin-bottom:14px;}
+.sum-stitle{font-size:11px;font-weight:700;color:var(--s400);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+.sum-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--s100);font-size:13px;}
+.sum-row:last-child{border-bottom:none;}
+.sum-label{color:var(--s600);}
+.sum-val{font-weight:700;}
+.sum-total{background:var(--s900);color:#fff;border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;margin:12px 0 6px;}
+.sum-total-label{font-size:13px;opacity:.75;}
+.sum-total-eur{font-size:22px;font-weight:700;}
+.sum-note{font-size:11px;color:var(--s400);text-align:center;margin-bottom:12px;}
+.btn-export{background:var(--s900);color:#fff;border-radius:var(--r);padding:13px;font-size:15px;font-weight:700;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-export:disabled{opacity:.5;cursor:not-allowed;}
+
+/* RATE INFO */
+.rate-info{font-size:12px;color:var(--s400);text-align:center;min-height:16px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:var(--s900);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a class="topbar-back" href="../../index.html">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+    MiniApps
+  </a>
+  <span class="topbar-title">Paragorn</span>
+  <span class="topbar-badge">Wydatki</span>
+  <span class="sync-dot" id="sync-dot" title="Gist sync"></span>
+</header>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="fbtn active" data-f="month">Ten miesiąc</button>
+  <button class="fbtn" data-f="week">Ten tydzień</button>
+  <button class="fbtn" data-f="custom">Własny zakres</button>
+  <div class="date-range" id="date-range">
+    <input type="date" id="df">
+    <span style="color:var(--s400);font-size:12px">–</span>
+    <input type="date" id="dt">
+  </div>
+</div>
+
+<!-- BULK BAR -->
+<div class="bulk-bar" id="bulk-bar">
+  <span class="bulk-count" id="bulk-count">0 zaznaczonych</span>
+  <button class="btn-sum" id="btn-sum">Podsumuj →</button>
+</div>
+
+<!-- LIST HEADER -->
+<div class="list-head">
+  <label>
+    <input type="checkbox" class="exp-check" id="check-all">
+    <span>Zaznacz wszystkie</span>
+  </label>
+  <span class="exp-count" id="exp-count"></span>
+</div>
+
+<!-- EXPENSE LIST -->
+<ul class="exp-list" id="exp-list"></ul>
+
+<!-- FAB -->
+<button class="fab" id="btn-add">
+  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+  Dodaj wydatek
+</button>
+
+<!-- ADD MODAL -->
+<div class="overlay" id="ov-add">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <span class="sheet-title">Nowy wydatek</span>
+      <button class="btn-close" id="close-add">×</button>
+    </div>
+    <div class="sheet-body">
+
+      <!-- PLIK -->
+      <div>
+        <label class="flabel">Załącznik</label>
+        <div class="dz" id="dz">
+          <input type="file" id="file-in" accept="image/*,application/pdf">
+          <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 8px;display:block;color:var(--s300)"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+          <div>Kliknij lub przeciągnij (JPG, PNG, PDF)</div>
+          <div style="font-size:11px;color:var(--s400);margin-top:4px">Maks. 5 MB</div>
+        </div>
+        <div id="dz-preview" style="display:none"></div>
+      </div>
+
+      <!-- KWOTA + WALUTA -->
+      <div>
+        <label class="flabel">Kwota</label>
+        <input type="number" class="finput" id="amount" placeholder="0.00" step="0.01" min="0" style="font-size:20px;font-weight:700;">
+      </div>
+      <div>
+        <label class="flabel">Waluta</label>
+        <div class="chips" id="cur-chips">
+          <button class="chip active" data-c="PLN">PLN</button>
+          <button class="chip" data-c="EUR">EUR</button>
+          <button class="chip" data-c="GBP">GBP</button>
+          <button class="chip" data-c="other">Inna</button>
+        </div>
+        <input type="text" class="finput" id="custom-cur" placeholder="np. USD, CZK, CHF…" maxlength="5" style="display:none;margin-top:8px;">
+      </div>
+
+      <!-- KATEGORIA -->
+      <div>
+        <label class="flabel">Kategoria</label>
+        <div class="chips" id="cat-chips">
+          <button class="chip active" data-k="transport">🚗 Transport</button>
+          <button class="chip" data-k="hotel">🏨 Hotel</button>
+          <button class="chip" data-k="jedzenie">🍽️ Jedzenie</button>
+          <button class="chip" data-k="inne">📦 Inne</button>
+        </div>
+        <input type="text" class="finput" id="custom-cat" placeholder="Wpisz kategorię…" style="display:none;margin-top:8px;">
+      </div>
+
+      <!-- NOTATKA -->
+      <div>
+        <label class="flabel">Notatka (opcjonalna)</label>
+        <input type="text" class="finput" id="note" placeholder="np. taxi z lotniska…">
+      </div>
+
+      <div class="rate-info" id="rate-info"></div>
+      <button class="btn-primary" id="btn-save">Dodaj wydatek</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY MODAL -->
+<div class="overlay" id="ov-sum">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <span class="sheet-title">Podsumowanie</span>
+      <button class="btn-close" id="close-sum">×</button>
+    </div>
+    <div class="sheet-body" id="sum-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// STORAGE
+// ============================================================
+const DB_KEY   = 'paragorn-expenses';
+const TOK_KEY  = 'miniapps-gist-token';
+const GIST_KEY = 'miniapps-gist-id';
+const GIST_FILE = 'paragorn-expenses.json';
+
+const load = () => { try { return JSON.parse(localStorage.getItem(DB_KEY) || '[]'); } catch { return []; } };
+const save = d  => { localStorage.setItem(DB_KEY, JSON.stringify(d)); syncPush(d); };
+const tok  = () => localStorage.getItem(TOK_KEY)  || '';
+const gid  = () => localStorage.getItem(GIST_KEY) || '';
+
+// ============================================================
+// GIST SYNC
+// ============================================================
+const dot = document.getElementById('sync-dot');
+const sd  = s => dot.className = 'sync-dot' + (s ? ' ' + s : '');
+
+async function syncPush(data) {
+  if (!tok() || !gid()) return;
+  sd('busy');
+  try {
+    const body = { files: {} };
+    body.files[GIST_FILE] = { content: JSON.stringify(data, null, 2) };
+    const r = await fetch(`https://api.github.com/gists/${gid()}`, {
+      method: 'PATCH',
+      headers: { Authorization: `token ${tok()}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    sd(r.ok ? 'ok' : 'err');
+  } catch { sd('err'); }
+}
+
+async function syncPull() {
+  if (!tok() || !gid()) return;
+  sd('busy');
+  try {
+    const r = await fetch(`https://api.github.com/gists/${gid()}`, {
+      headers: { Authorization: `token ${tok()}`, Accept: 'application/vnd.github+json' }
+    });
+    if (!r.ok) { sd('err'); return; }
+    const j = await r.json();
+    const f = j.files?.[GIST_FILE];
+    if (f?.content) {
+      localStorage.setItem(DB_KEY, f.content);
+      render();
+    }
+    sd('ok');
+  } catch { sd('err'); }
+}
+
+// ============================================================
+// EXCHANGE RATES  (frankfurter.app)
+// ============================================================
+async function getEurRate(currency, date) {
+  if (!currency || currency === 'EUR') return 1;
+  const d = date || new Date().toISOString().slice(0, 10);
+  try {
+    const r = await fetch(`https://api.frankfurter.app/${d}?from=${encodeURIComponent(currency)}&to=EUR`);
+    if (!r.ok) return null;
+    const j = await r.json();
+    return j.rates?.EUR ?? null;
+  } catch { return null; }
+}
+
+// ============================================================
+// UI STATE
+// ============================================================
+let filter   = 'month';
+let dateFrom = '';
+let dateTo   = '';
+let selCur   = 'PLN';
+let selCat   = 'transport';
+let fileData  = null;
+let fileName  = '';
+let fileType  = '';
+let selected  = new Set();
+
+// ============================================================
+// HELPERS
+// ============================================================
+const catEmoji = k => ({ transport: '🚗', hotel: '🏨', jedzenie: '🍽️' }[k] || '📦');
+const catCls   = k => ({ transport: 'cat-transport', hotel: 'cat-hotel', jedzenie: 'cat-jedzenie' }[k] || 'cat-inne');
+const trunc    = (s, n) => !s ? '' : s.length > n ? s.slice(0, n) + '…' : s;
+const fmtAmt   = (a, c) => `${parseFloat(a).toFixed(2)} ${c}`;
+const fmtDate  = iso => { const d = new Date(iso + 'T12:00:00'); return d.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: '2-digit' }); };
+const today    = () => new Date().toISOString().slice(0, 10);
+
+function toast(msg, ms = 2200) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), ms);
+}
+
+// ============================================================
+// FILTER
+// ============================================================
+function filteredItems() {
+  const all = load();
+  const now = new Date();
+  if (filter === 'month') {
+    return all.filter(e => {
+      const d = new Date(e.date + 'T12:00:00');
+      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+    });
+  }
+  if (filter === 'week') {
+    const mon = new Date(now);
+    mon.setDate(now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1));
+    mon.setHours(0, 0, 0, 0);
+    const sun = new Date(mon);
+    sun.setDate(mon.getDate() + 6);
+    sun.setHours(23, 59, 59, 999);
+    return all.filter(e => { const d = new Date(e.date + 'T12:00:00'); return d >= mon && d <= sun; });
+  }
+  if (filter === 'custom' && dateFrom && dateTo) {
+    const from = new Date(dateFrom + 'T00:00:00');
+    const to   = new Date(dateTo   + 'T23:59:59');
+    return all.filter(e => { const d = new Date(e.date + 'T12:00:00'); return d >= from && d <= to; });
+  }
+  return all;
+}
+
+// ============================================================
+// RENDER LIST
+// ============================================================
+function render() {
+  const items = filteredItems();
+  const list  = document.getElementById('exp-list');
+  document.getElementById('exp-count').textContent = `${items.length} wpisów`;
+
+  if (!items.length) {
+    list.innerHTML = `
+      <div class="empty">
+        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24" style="margin:0 auto;display:block;color:var(--s300)">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <p>Brak wydatków w tym okresie</p>
+        <span>Dodaj pierwszy wpis</span>
+      </div>`;
+    updateBulk();
+    return;
+  }
+
+  list.innerHTML = items.map(e => `
+    <li class="exp-item${selected.has(e.id) ? ' selected' : ''}" data-id="${e.id}">
+      <input type="checkbox" class="exp-check item-cb" data-id="${e.id}" ${selected.has(e.id) ? 'checked' : ''}>
+      <div class="cat-icon ${catCls(e.category)}">${catEmoji(e.category)}</div>
+      <div class="exp-body">
+        <div class="exp-row1">
+          <span class="exp-name">${trunc(e.filename, 15)}</span>
+          <span class="exp-date">${fmtDate(e.date)}</span>
+        </div>
+        <div class="exp-sub">${e.category}${e.note ? ' · ' + trunc(e.note, 22) : ''}</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-main">${fmtAmt(e.amount, e.currency)}</div>
+        ${e.eurRate && e.currency !== 'EUR' ? `<div class="exp-eur">≈ ${(e.amount * e.eurRate).toFixed(2)} EUR</div>` : ''}
+      </div>
+      <button class="btn-del" data-del="${e.id}" title="Usuń">×</button>
+    </li>
+  `).join('');
+
+  list.querySelectorAll('.item-cb').forEach(cb => {
+    cb.addEventListener('change', ev => {
+      ev.stopPropagation();
+      cb.checked ? selected.add(cb.dataset.id) : selected.delete(cb.dataset.id);
+      list.querySelector(`[data-id="${cb.dataset.id}"]`).classList.toggle('selected', cb.checked);
+      updateBulk();
+    });
+    cb.addEventListener('click', ev => ev.stopPropagation());
+  });
+
+  list.querySelectorAll('[data-del]').forEach(b => {
+    b.addEventListener('click', ev => {
+      ev.stopPropagation();
+      if (!confirm('Usunąć ten wydatek?')) return;
+      const all = load().filter(e => e.id !== b.dataset.del);
+      selected.delete(b.dataset.del);
+      save(all);
+      render();
+      toast('Usunięto');
+    });
+  });
+
+  updateBulk();
+}
+
+function updateBulk() {
+  const n = selected.size;
+  document.getElementById('bulk-bar').classList.toggle('show', n > 0);
+  document.getElementById('bulk-count').textContent = `${n} zaznaczonych`;
+}
+
+// ============================================================
+// FILTER HANDLERS
+// ============================================================
+document.querySelectorAll('.fbtn').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.fbtn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    filter = b.dataset.f;
+    document.getElementById('date-range').classList.toggle('show', filter === 'custom');
+    selected.clear();
+    render();
+  });
+});
+document.getElementById('df').addEventListener('change', e => { dateFrom = e.target.value; render(); });
+document.getElementById('dt').addEventListener('change', e => { dateTo   = e.target.value; render(); });
+
+document.getElementById('check-all').addEventListener('change', function () {
+  const items = filteredItems();
+  items.forEach(e => this.checked ? selected.add(e.id) : selected.delete(e.id));
+  render();
+});
+
+// ============================================================
+// ADD MODAL
+// ============================================================
+document.getElementById('btn-add').addEventListener('click', () => { resetForm(); showOv('ov-add'); });
+document.getElementById('close-add').addEventListener('click', () => hideOv('ov-add'));
+document.getElementById('ov-add').addEventListener('click', e => { if (e.target === e.currentTarget) hideOv('ov-add'); });
+
+function showOv(id) { document.getElementById(id).classList.add('show'); }
+function hideOv(id) { document.getElementById(id).classList.remove('show'); }
+
+function resetForm() {
+  fileData = null; fileName = ''; fileType = '';
+  document.getElementById('file-in').value = '';
+  document.getElementById('dz').style.display = '';
+  document.getElementById('dz-preview').style.display = 'none';
+  document.getElementById('amount').value = '';
+  document.getElementById('note').value = '';
+  document.getElementById('rate-info').textContent = '';
+  selCur = 'PLN';
+  document.querySelectorAll('#cur-chips .chip').forEach(c => c.classList.toggle('active', c.dataset.c === 'PLN'));
+  document.getElementById('custom-cur').style.display = 'none';
+  selCat = 'transport';
+  document.querySelectorAll('#cat-chips .chip').forEach(c => c.classList.toggle('active', c.dataset.k === 'transport'));
+  document.getElementById('custom-cat').style.display = 'none';
+  document.getElementById('custom-cur').value = '';
+  document.getElementById('custom-cat').value = '';
+}
+
+// --- FILE ---
+const fileIn = document.getElementById('file-in');
+const dz     = document.getElementById('dz');
+fileIn.addEventListener('change', () => handleFile(fileIn.files[0]));
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('over'); handleFile(e.dataTransfer.files[0]); });
+
+function handleFile(file) {
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { toast('⚠️ Plik za duży (maks. 5 MB)'); return; }
+  fileName = file.name;
+  fileType = file.type;
+  const reader = new FileReader();
+  reader.onload = ev => { fileData = ev.target.result; showPreview(file); };
+  reader.readAsDataURL(file);
+}
+
+function showPreview(file) {
+  dz.style.display = 'none';
+  const isImg = file.type.startsWith('image/');
+  const prev  = document.getElementById('dz-preview');
+  prev.style.display = 'flex';
+  prev.className = 'dz-preview';
+  prev.innerHTML = `
+    ${isImg
+      ? `<img class="dz-thumb" src="${fileData}" alt="">`
+      : `<div class="dz-pdf">📄</div>`}
+    <span class="dz-name">${file.name}</span>
+    <span class="dz-size">${(file.size / 1024).toFixed(0)} KB</span>
+    <button class="dz-clear" id="dz-clr">×</button>`;
+  document.getElementById('dz-clr').addEventListener('click', () => {
+    fileData = null; fileName = ''; fileType = '';
+    fileIn.value = '';
+    dz.style.display = '';
+    prev.style.display = 'none';
+  });
+}
+
+// --- CURRENCY CHIPS ---
+document.getElementById('cur-chips').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  document.querySelectorAll('#cur-chips .chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  selCur = chip.dataset.c;
+  document.getElementById('custom-cur').style.display = selCur === 'other' ? '' : 'none';
+  scheduleRatePreview();
+});
+
+// --- CATEGORY CHIPS ---
+document.getElementById('cat-chips').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  document.querySelectorAll('#cat-chips .chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  selCat = chip.dataset.k;
+  document.getElementById('custom-cat').style.display = selCat === 'inne' ? '' : 'none';
+});
+
+// --- RATE PREVIEW ---
+let _rateTimer;
+document.getElementById('amount').addEventListener('input', scheduleRatePreview);
+document.getElementById('custom-cur').addEventListener('input', scheduleRatePreview);
+function scheduleRatePreview() {
+  clearTimeout(_rateTimer);
+  _rateTimer = setTimeout(async () => {
+    const amt = parseFloat(document.getElementById('amount').value);
+    const cur = selCur === 'other' ? document.getElementById('custom-cur').value.trim().toUpperCase() : selCur;
+    const info = document.getElementById('rate-info');
+    if (!amt || cur === 'EUR') { info.textContent = ''; return; }
+    info.textContent = 'Pobieranie kursu EUR…';
+    const rate = await getEurRate(cur, null);
+    if (rate) info.textContent = `1 ${cur} = ${rate.toFixed(4)} EUR → ≈ ${(amt * rate).toFixed(2)} EUR`;
+    else info.textContent = `Nie można pobrać kursu dla ${cur}`;
+  }, 600);
+}
+
+// --- SAVE ---
+document.getElementById('btn-save').addEventListener('click', async () => {
+  const amt = parseFloat(document.getElementById('amount').value);
+  if (!amt || amt <= 0) { toast('⚠️ Wpisz kwotę'); return; }
+  if (!fileData)         { toast('⚠️ Dodaj załącznik'); return; }
+
+  const currency = selCur === 'other'
+    ? (document.getElementById('custom-cur').value.trim().toUpperCase() || 'INNA')
+    : selCur;
+  const category = selCat === 'inne'
+    ? (document.getElementById('custom-cat').value.trim() || 'Inne')
+    : selCat;
+  const note = document.getElementById('note').value.trim();
+  const btn  = document.getElementById('btn-save');
+
+  btn.disabled = true;
+  btn.textContent = 'Pobieranie kursu…';
+
+  const dateStr = today();
+  const eurRate = await getEurRate(currency, dateStr);
+
+  const entry = {
+    id:        Date.now().toString(),
+    date:      dateStr,
+    createdAt: new Date().toISOString(),
+    category,
+    amount:    amt,
+    currency,
+    filename:  fileName,
+    fileType,
+    fileData,                               // pełny data URL → zapisany w Gist
+    eurRate,
+    eurAmount: eurRate !== null ? parseFloat((amt * eurRate).toFixed(4)) : null,
+    note
+  };
+
+  const all = load();
+  all.unshift(entry);
+  save(all);
+
+  btn.disabled = false;
+  btn.textContent = 'Dodaj wydatek';
+  hideOv('ov-add');
+  render();
+  toast('✓ Dodano wydatek');
+});
+
+// ============================================================
+// SUMMARY
+// ============================================================
+document.getElementById('btn-sum').addEventListener('click', openSummary);
+document.getElementById('close-sum').addEventListener('click', () => hideOv('ov-sum'));
+document.getElementById('ov-sum').addEventListener('click', e => { if (e.target === e.currentTarget) hideOv('ov-sum'); });
+
+function openSummary() {
+  const all   = load();
+  const items = all.filter(e => selected.has(e.id));
+  if (!items.length) return;
+
+  // By currency
+  const byCur = {};
+  items.forEach(e => { byCur[e.currency] = (byCur[e.currency] || 0) + e.amount; });
+
+  // By category (EUR)
+  const byCat = {};
+  items.forEach(e => {
+    if (!byCat[e.category]) byCat[e.category] = { eur: 0, currencies: {} };
+    byCat[e.category].eur += e.eurAmount || 0;
+    byCat[e.category].currencies[e.currency] = (byCat[e.category].currencies[e.currency] || 0) + e.amount;
+  });
+
+  const totalEur   = items.reduce((s, e) => s + (e.eurAmount || 0), 0);
+  const noRate     = items.filter(e => e.eurRate === null);
+  const selCount   = items.length;
+
+  const curRows = Object.entries(byCur).map(([c, a]) =>
+    `<div class="sum-row"><span class="sum-label">${c}</span><span class="sum-val">${a.toFixed(2)} ${c}</span></div>`).join('');
+
+  const catRows = Object.entries(byCat).map(([cat, d]) =>
+    `<div class="sum-row"><span class="sum-label">${catEmoji(cat)} ${cat}</span><span class="sum-val">${d.eur > 0 ? d.eur.toFixed(2) + ' EUR' : '—'}</span></div>`).join('');
+
+  document.getElementById('sum-body').innerHTML = `
+    <div class="sum-section">
+      <div class="sum-stitle">Łącznie wg waluty (${selCount} wpisów)</div>
+      ${curRows}
+    </div>
+    <div class="sum-section">
+      <div class="sum-stitle">Wg kategorii (w EUR)</div>
+      ${catRows}
+    </div>
+    <div class="sum-total">
+      <span class="sum-total-label">RAZEM EUR</span>
+      <span class="sum-total-eur">${totalEur.toFixed(2)} EUR</span>
+    </div>
+    ${noRate.length ? `<div class="sum-note">⚠️ ${noRate.length} wpis bez kursu (nieznana waluta)</div>` : ''}
+    <div class="sum-note">Kursy z frankfurter.app na dzień dodania każdego wpisu</div>
+    <button class="btn-export" id="btn-zip">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+      Eksportuj ZIP
+    </button>`;
+
+  document.getElementById('btn-zip').addEventListener('click', () => exportZip(items));
+  showOv('ov-sum');
+}
+
+// ============================================================
+// ZIP EXPORT
+// ============================================================
+async function exportZip(items) {
+  const btn = document.getElementById('btn-zip');
+  btn.disabled = true;
+  btn.innerHTML = `<span>Generowanie…</span>`;
+  try {
+    const zip    = new JSZip();
+    const folder = zip.folder('paragorn-wydatki');
+
+    // Pliki
+    items.forEach(e => {
+      if (!e.fileData) return;
+      const b64 = e.fileData.split(',')[1];
+      const ext  = e.filename.includes('.') ? e.filename.split('.').pop() : 'bin';
+      const name = `${e.date}_${e.category}_${e.id.slice(-6)}.${ext}`;
+      folder.file(name, b64, { base64: true });
+    });
+
+    // Markdown
+    folder.file('podsumowanie.md', genMarkdown(items));
+
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const url  = URL.createObjectURL(blob);
+    const a    = Object.assign(document.createElement('a'), { href: url, download: `paragorn-${today()}.zip` });
+    a.click();
+    URL.revokeObjectURL(url);
+    toast('✓ ZIP pobrany');
+  } catch (err) {
+    console.error(err);
+    toast('❌ Błąd generowania ZIP');
+  }
+  btn.disabled = false;
+  btn.innerHTML = `<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> Eksportuj ZIP`;
+}
+
+function genMarkdown(items) {
+  const now     = new Date().toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const totalEur = items.reduce((s, e) => s + (e.eurAmount || 0), 0);
+
+  const byCur = {};
+  items.forEach(e => { byCur[e.currency] = (byCur[e.currency] || 0) + e.amount; });
+
+  let md = `# Raport wydatków służbowych\n\n`;
+  md += `**Data wygenerowania:** ${now}\n\n---\n\n`;
+  md += `## Podsumowanie\n\n`;
+  md += `| Waluta | Kwota |\n|---|---|\n`;
+  Object.entries(byCur).forEach(([c, a]) => { md += `| ${c} | ${a.toFixed(2)} |\n`; });
+  md += `| **RAZEM EUR** | **${totalEur.toFixed(2)} EUR** |\n\n---\n\n`;
+
+  md += `## Szczegóły\n\n`;
+  md += `| Data | Kategoria | Plik | Kwota | Waluta | Kurs (1→EUR) | EUR | Notatka |\n`;
+  md += `|---|---|---|---|---|---|---|---|\n`;
+  items.forEach(e => {
+    md += `| ${e.date} | ${e.category} | ${e.filename} | ${parseFloat(e.amount).toFixed(2)} | ${e.currency} | ${e.eurRate ? e.eurRate.toFixed(4) : 'N/A'} | ${e.eurAmount ? e.eurAmount.toFixed(2) : 'N/A'} | ${e.note || ''} |\n`;
+  });
+
+  md += `\n---\n\n## Kursy walut\n\nKursy historyczne pobrane z [frankfurter.app](https://frankfurter.app) na dzień dodania każdego wpisu.\n\n`;
+  const usedRates = {};
+  items.filter(e => e.eurRate && e.currency !== 'EUR').forEach(e => {
+    const key = `${e.date}|${e.currency}`;
+    if (!usedRates[key]) { usedRates[key] = { date: e.date, cur: e.currency, rate: e.eurRate }; }
+  });
+  Object.values(usedRates).forEach(r => { md += `- ${r.date}: 1 ${r.cur} = ${r.rate.toFixed(4)} EUR\n`; });
+  return md;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+syncPull();
+render();
+</script>
+</body>
+</html>
