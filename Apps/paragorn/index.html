@@ -330,7 +330,14 @@ async function getEurRate(currency, date) {
   if (!currency || currency === 'EUR') return 1;
   const d = date || new Date().toISOString().slice(0, 10);
   try {
-    const r = await fetch(`https://api.frankfurter.app/${d}?from=${encodeURIComponent(currency)}&to=EUR`);
+    // Try specific date first; ECB publishes ~16:00 CET so same-day may be empty
+    let r = await fetch(`https://api.frankfurter.app/${d}?from=${encodeURIComponent(currency)}&to=EUR`);
+    if (r.ok) {
+      const j = await r.json();
+      if (j.rates?.EUR != null) return j.rates.EUR;
+    }
+    // Fallback: latest available rate
+    r = await fetch(`https://api.frankfurter.app/latest?from=${encodeURIComponent(currency)}&to=EUR`);
     if (!r.ok) return null;
     const j = await r.json();
     return j.rates?.EUR ?? null;
@@ -689,7 +696,7 @@ function openSummary() {
       <span class="sum-total-label">RAZEM EUR</span>
       <span class="sum-total-eur">${totalEur.toFixed(2)} EUR</span>
     </div>
-    ${noRate.length ? `<div class="sum-note">⚠️ ${noRate.length} wpis bez kursu (nieznana waluta)</div>` : ''}
+    ${noRate.length ? `<button class="btn-retry-rates" id="btn-retry-rates" style="background:var(--amber-l);border:1.5px solid #fde68a;border-radius:var(--r);padding:10px 16px;font-size:13px;font-weight:700;color:var(--s800);width:100%;margin-bottom:4px;">🔄 Przelicz kursy (${noRate.length} brakujących)</button>` : ''}
     <div class="sum-note">Kursy z frankfurter.app na dzień dodania każdego wpisu</div>
     <button class="btn-export" id="btn-zip">
       <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
@@ -697,6 +704,30 @@ function openSummary() {
     </button>`;
 
   document.getElementById('btn-zip').addEventListener('click', () => exportZip(items));
+
+  if (noRate.length) {
+    document.getElementById('btn-retry-rates').addEventListener('click', async function () {
+      this.disabled = true;
+      this.textContent = 'Pobieranie kursów…';
+      const all = load();
+      let fixed = 0;
+      for (const e of noRate) {
+        const rate = await getEurRate(e.currency, e.date);
+        if (rate !== null) {
+          const idx = all.findIndex(x => x.id === e.id);
+          if (idx !== -1) {
+            all[idx].eurRate   = rate;
+            all[idx].eurAmount = parseFloat((all[idx].amount * rate).toFixed(4));
+            fixed++;
+          }
+        }
+      }
+      save(all);
+      render();
+      hideOv('ov-sum');
+      toast(fixed ? `✓ Przeliczono ${fixed} kurs${fixed > 1 ? 'y' : ''}` : '⚠️ Nie można pobrać kursów');
+    });
+  }
   showOv('ov-sum');
 }
 
