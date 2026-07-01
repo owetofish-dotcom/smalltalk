@@ -338,6 +338,7 @@ input, select { font-family: var(--font); }
     <button class="nav-arrow" id="m-next">&#8250;</button>
   </div>
   <div class="nav-sep"></div>
+  <button class="fchip" data-f="month">Miesiąc</button>
   <button class="fchip" data-f="week">Tydzień</button>
   <button class="fchip" data-f="custom">Zakres</button>
 </div>
@@ -692,10 +693,16 @@ function updateBulk() {
 // ============================================================
 document.querySelectorAll('.fchip').forEach(b => {
   b.addEventListener('click', () => {
-    const same = filter === b.dataset.f;
     document.querySelectorAll('.fchip').forEach(x => x.classList.remove('active'));
-    if (same) {
-      // toggle back to month
+    if (b.dataset.f === 'month') {
+      // Reset to current month
+      const n = new Date();
+      viewYear = n.getFullYear(); viewMonth = n.getMonth();
+      filter = 'month';
+      document.getElementById('date-range').classList.remove('show');
+      b.classList.add('active');
+    } else if (filter === b.dataset.f) {
+      // Deselect → back to month, keep current viewYear/viewMonth
       filter = 'month';
       document.getElementById('date-range').classList.remove('show');
     } else {
