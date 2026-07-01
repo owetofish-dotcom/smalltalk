@@ -717,8 +717,10 @@ function render() {
         </div>
       </div>
       <div class="exp-right">
-        <div class="exp-amt">${fmtAmt(e.amount, e.currency)}</div>
-        ${e.eurRate && e.currency !== 'EUR' ? `<div class="exp-eur">≈ ${(e.amount * e.eurRate).toFixed(2)} EUR</div>` : ''}
+        ${e.eurAmount != null
+          ? `<div class="exp-amt">${parseFloat(e.eurAmount).toFixed(2)} EUR</div>
+             ${e.currency !== 'EUR' ? `<div class="exp-eur">${fmtAmt(e.amount, e.currency)}</div>` : ''}`
+          : `<div class="exp-amt">${fmtAmt(e.amount, e.currency)}</div>`}
       </div>
       <button class="btn-del" data-del="${e.id}" title="Usuń">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6m5 0V4h4v2"/></svg>
@@ -1172,10 +1174,32 @@ function renderDetailEdit(e) {
         <label class="flabel">Notatka</label>
         <input type="text" class="finput" id="e-note" value="${e.note || ''}" placeholder="notatka…">
       </div>
+      <div class="rate-info" id="e-rate-info">${e.eurAmount != null && e.currency !== 'EUR' ? `1 ${e.currency} = ${e.eurRate.toFixed(4)} EUR → <strong>${e.eurAmount.toFixed(2)} EUR</strong>` : e.currency === 'EUR' ? '1 EUR = 1 EUR' : ''}</div>
       <div class="det-actions">
         <button class="btn-primary" id="e-save" style="flex:1">Zapisz zmiany</button>
       </div>
     </div>`;
+
+  // Live EUR preview in edit
+  let _editRateTimer;
+  function scheduleEditRatePreview() {
+    clearTimeout(_editRateTimer);
+    _editRateTimer = setTimeout(async () => {
+      const amt  = parseFloat(document.getElementById('e-amount')?.value);
+      const chip = document.querySelector('#e-cur-chips .chip.active');
+      const cur  = chip?.dataset.ec === 'other'
+        ? document.getElementById('e-custom-cur')?.value.trim().toUpperCase()
+        : chip?.dataset.ec;
+      const info = document.getElementById('e-rate-info');
+      if (!info || !amt || !cur) return;
+      if (cur === 'EUR') { info.innerHTML = '1 EUR = 1 EUR'; return; }
+      info.textContent = 'Pobieranie kursu…';
+      const rate = await getEurRate(cur, null);
+      if (rate) info.innerHTML = `1 ${cur} = ${rate.toFixed(4)} EUR → <strong>${(amt * rate).toFixed(2)} EUR</strong>`;
+      else info.textContent = `Nie można pobrać kursu dla ${cur}`;
+    }, 500);
+  }
+  document.getElementById('e-amount').addEventListener('input', scheduleEditRatePreview);
 
   // Currency chips
   document.getElementById('e-cur-chips').addEventListener('click', ev => {
@@ -1183,7 +1207,9 @@ function renderDetailEdit(e) {
     document.querySelectorAll('#e-cur-chips .chip').forEach(c => c.classList.remove('active'));
     chip.classList.add('active');
     document.getElementById('e-custom-cur').style.display = chip.dataset.ec === 'other' ? '' : 'none';
+    scheduleEditRatePreview();
   });
+  document.getElementById('e-custom-cur').addEventListener('input', scheduleEditRatePreview);
 
   // Category chips
   document.getElementById('e-cat-chips').addEventListener('click', ev => {
