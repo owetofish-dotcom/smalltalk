@@ -585,9 +585,11 @@ const GIST_FILE = 'paragorn-expenses.json';
 const FILE_PREFIX = 'paragorn-file-'; // separate key per entry to keep main JSON small
 
 // File helpers — each file lives in its own localStorage key
-const saveFile = (id, data) => data
-  ? localStorage.setItem(FILE_PREFIX + id, data)
-  : localStorage.removeItem(FILE_PREFIX + id);
+const saveFile = (id, data) => {
+  if (!data) { localStorage.removeItem(FILE_PREFIX + id); return true; }
+  try { localStorage.setItem(FILE_PREFIX + id, data); return true; }
+  catch { return false; } // QuotaExceededError — caller decides what to do
+};
 const loadFile = id => localStorage.getItem(FILE_PREFIX + id) || null;
 
 // Metadata storage — NO fileData in main JSON (keeps serialisation fast)
@@ -1131,7 +1133,10 @@ document.getElementById('btn-save').addEventListener('click', async () => {
   const entryId = Date.now().toString();
 
   // Save file to its own key (non-blocking — small string in main JSON)
-  if (!noDoc && fileData) saveFile(entryId, fileData);
+  if (!noDoc && fileData) {
+    const ok = saveFile(entryId, fileData);
+    if (!ok) toast('⚠️ Storage full — expense saved without file. Free space or export ZIP.', 4000);
+  }
 
   // Save metadata immediately — tiny JSON, no fileData, instant
   const entry = {
@@ -1669,25 +1674,29 @@ function downloadFile(fileData, filename) {
 
 // ============================================================
 // MIGRATION — old format had fileData inside the main JSON
-// Run once: extract embedded fileData into separate keys
+// CRITICAL ORDER: free quota first (slim JSON), then save files
 // ============================================================
 (function migrateLegacyFileData() {
   try {
     const raw = localStorage.getItem(DB_KEY);
     if (!raw) return;
     const items = JSON.parse(raw);
-    let changed = false;
-    items.forEach(e => {
-      if (e.fileData) {
-        saveFile(e.id, e.fileData); // move to separate key
-        delete e.fileData;           // strip from main object
-        changed = true;
+    const toMigrate = items.filter(e => e.fileData);
+    if (!toMigrate.length) return;
+
+    // STEP 1: Write slim JSON immediately → frees up several MB of quota
+    const slim = items.map(({ fileData: _, ...rest }) => rest);
+    localStorage.setItem(DB_KEY, JSON.stringify(slim));
+
+    // STEP 2: Try to save each file to its own key (best-effort after freeing space)
+    let saved = 0, failed = 0;
+    toMigrate.forEach(e => {
+      if (!loadFile(e.id)) { // don't overwrite if already migrated
+        saveFile(e.id, e.fileData) ? saved++ : failed++;
       }
     });
-    if (changed) {
-      localStorage.setItem(DB_KEY, JSON.stringify(items));
-      console.log('[Paragorn] Migrated legacy fileData to separate keys');
-    }
+
+    console.log(`[Paragorn] Migration: ${saved} files migrated, ${failed} too large (metadata preserved)`);
   } catch (err) { console.warn('[Paragorn] Migration error:', err); }
 })();
 
