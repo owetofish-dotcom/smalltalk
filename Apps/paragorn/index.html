@@ -795,9 +795,10 @@ document.querySelectorAll('.fchip').forEach(b => {
       if (filter === 'custom') {
         document.getElementById('date-range').classList.add('show');
         // Pre-fill: first day of current viewMonth → today
-        const pad  = n => String(n).padStart(2, '0');
-        const dflt = `${viewYear}-${pad(viewMonth + 1)}-01`;
-        const dtlt = new Date().toISOString().slice(0, 10);
+        const pad      = n => String(n).padStart(2, '0');
+        const lastDay  = new Date(viewYear, viewMonth + 1, 0).getDate();
+        const dflt     = `${viewYear}-${pad(viewMonth + 1)}-01`;
+        const dtlt     = `${viewYear}-${pad(viewMonth + 1)}-${pad(lastDay)}`;
         const dfEl = document.getElementById('df');
         const dtEl = document.getElementById('dt');
         if (!dfEl.value) dfEl.value = dflt;
