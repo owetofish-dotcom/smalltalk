@@ -646,20 +646,28 @@ async function syncPull() {
 // Primary:  open.er-api.com  (~260ms, darmowe, bez klucza)
 // Fallback: exchangerate-api.com (~530ms, darmowe, bez klucza)
 // ============================================================
+// Fetch with 5s timeout — prevents hanging on iOS Safari + bad connection
+async function fetchT(url, ms = 5000) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), ms);
+  try { return await fetch(url, { signal: ctrl.signal }); }
+  finally { clearTimeout(t); }
+}
+
 async function getEurRate(currency, _date) {
   if (!currency || currency === 'EUR') return 1;
   const cur = currency.toUpperCase();
-  // PRIMARY
+  // PRIMARY (5s timeout)
   try {
-    const r = await fetch(`https://open.er-api.com/v6/latest/${encodeURIComponent(cur)}`);
+    const r = await fetchT(`https://open.er-api.com/v6/latest/${encodeURIComponent(cur)}`);
     if (r.ok) { const j = await r.json(); if (j.rates?.EUR != null) return j.rates.EUR; }
   } catch {}
-  // FALLBACK
+  // FALLBACK (5s timeout)
   try {
-    const r = await fetch(`https://api.exchangerate-api.com/v4/latest/${encodeURIComponent(cur)}`);
+    const r = await fetchT(`https://api.exchangerate-api.com/v4/latest/${encodeURIComponent(cur)}`);
     if (r.ok) { const j = await r.json(); if (j.rates?.EUR != null) return j.rates.EUR; }
   } catch {}
-  return null;
+  return null; // no connection — entry saved without EUR rate, can recalculate later
 }
 
 // ============================================================
