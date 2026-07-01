@@ -352,6 +352,7 @@ input, select { font-family: var(--font); }
   pointer-events: none; white-space: nowrap;
 }
 .toast.show { opacity: 1; }
+.toast.success { background: var(--olive); color: #fff; }
 
 /* ── SETTINGS ────────────────────────────────────── */
 .st-hint { font-size: 0.68rem; color: var(--muted); margin-top: 5px; line-height: 1.5; }
@@ -630,10 +631,10 @@ const fmtAmt  = (a, c) => `${parseFloat(a).toFixed(2)} ${c}`;
 const fmtDate = iso => { const d = new Date(iso + 'T12:00:00'); return d.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: '2-digit' }); };
 const today   = () => new Date().toISOString().slice(0, 10);
 
-function toast(msg, ms = 2200) {
+function toast(msg, ms = 2200, type = '') {
   const el = document.getElementById('toast');
   el.textContent = msg;
-  el.classList.add('show');
+  el.className = 'toast show' + (type ? ' ' + type : '');
   setTimeout(() => el.classList.remove('show'), ms);
 }
 
@@ -919,7 +920,7 @@ document.getElementById('btn-save').addEventListener('click', async () => {
   };
   const all = load(); all.unshift(entry); save(all);
   btn.disabled = false; btn.textContent = 'Dodaj wydatek';
-  hideOv('ov-add'); render(); toast('Dodano wydatek');
+  hideOv('ov-add'); render(); toast('Dodano wydatek', 2200, 'success');
 });
 
 // ============================================================
