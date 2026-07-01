@@ -577,7 +577,19 @@ async function syncPull() {
     if (!r.ok) { sd('err'); return; }
     const j = await r.json();
     const f = j.files?.[GIST_FILE];
-    if (f?.content) { localStorage.setItem(DB_KEY, f.content); render(); }
+    if (f?.content) {
+      // MERGE: Gist has metadata only (no fileData).
+      // Preserve fileData from localStorage for matching entries.
+      const remote = JSON.parse(f.content);
+      const localMap = new Map(load().map(e => [e.id, e]));
+      const merged = remote.map(e => ({
+        ...e,
+        fileData: localMap.get(e.id)?.fileData ?? null,
+        fileType: e.fileType || localMap.get(e.id)?.fileType || null,
+      }));
+      localStorage.setItem(DB_KEY, JSON.stringify(merged));
+      render();
+    }
     sd('ok');
   } catch { sd('err'); }
 }
