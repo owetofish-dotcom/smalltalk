@@ -646,8 +646,8 @@ async function syncPull() {
 // Primary:  open.er-api.com  (~260ms, darmowe, bez klucza)
 // Fallback: exchangerate-api.com (~530ms, darmowe, bez klucza)
 // ============================================================
-// Fetch with 5s timeout — prevents hanging on iOS Safari + bad connection
-async function fetchT(url, ms = 5000) {
+// Fetch with 3s timeout
+async function fetchT(url, ms = 3000) {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), ms);
   try { return await fetch(url, { signal: ctrl.signal }); }
@@ -1119,22 +1119,38 @@ document.getElementById('btn-save').addEventListener('click', async () => {
   if (!fileData && !noDoc) { toast('⚠️ Add an attachment or check "No document"'); return; }
   const currency = selCur === 'other' ? (document.getElementById('custom-cur').value.trim().toUpperCase() || 'OTHER') : selCur;
   const category = selCat === 'other'  ? (document.getElementById('custom-cat').value.trim() || 'Other') : selCat;
-  const note = document.getElementById('note').value.trim();
-  const btn  = document.getElementById('btn-save');
-  btn.disabled = true; btn.textContent = 'Fetching rate…';
+  const note    = document.getElementById('note').value.trim();
   const dateStr = today();
-  const eurRate = await getEurRate(currency, dateStr);
+  const entryId = Date.now().toString();
+
+  // Save immediately — don't wait for rate fetch
   const entry = {
-    id: Date.now().toString(), date: dateStr, createdAt: new Date().toISOString(),
+    id: entryId, date: dateStr, createdAt: new Date().toISOString(),
     category, amount: amt, currency,
     filename: noDoc ? 'no document' : fileName,
     fileType: noDoc ? null : fileType,
     fileData: noDoc ? null : fileData,
-    eurRate, eurAmount: eurRate !== null ? parseFloat((amt * eurRate).toFixed(4)) : null, note
+    eurRate: currency === 'EUR' ? 1 : null,
+    eurAmount: currency === 'EUR' ? amt : null,
+    note
   };
   const all = load(); all.unshift(entry); save(all);
-  btn.disabled = false; btn.textContent = 'Add expense';
   hideOv('ov-add'); render(); toast('Expense added', 2200, 'success');
+
+  // Fetch EUR rate in background (non-blocking)
+  if (currency !== 'EUR') {
+    getEurRate(currency, dateStr).then(rate => {
+      if (rate === null) return;
+      const data = load();
+      const idx  = data.findIndex(e => e.id === entryId);
+      if (idx !== -1) {
+        data[idx].eurRate   = rate;
+        data[idx].eurAmount = parseFloat((amt * rate).toFixed(4));
+        save(data);
+        render();
+      }
+    });
+  }
 });
 
 // ============================================================
