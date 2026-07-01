@@ -129,6 +129,11 @@ input, select { font-family: var(--font); }
 .group-name-label { font-size: 0.75rem; font-weight: 700; color: var(--text); flex: 1; }
 .group-meta { font-size: 0.68rem; color: var(--muted); white-space: nowrap; }
 .group-item-hidden { display: none; }
+.group-header.drag-over { background: var(--olive-l); border-left: 3px solid var(--olive); }
+.group-other .group-name-label { color: var(--muted); font-weight: 600; }
+.exp-item[draggable="true"] { cursor: grab; }
+.exp-item[draggable="true"]:active { cursor: grabbing; }
+.exp-item.dragging { opacity: 0.35; }
 
 /* ── BULK BAR ────────────────────────────────────── */
 .bulk-bar {
@@ -768,9 +773,9 @@ function render() {
     updateBulk(); return;
   }
 
-  // Build item HTML helper
+  // Build item HTML helper (draggable)
   const itemHtml = (e, hidden = false) => `
-    <li class="exp-item${selected.has(e.id) ? ' selected' : ''}${hidden ? ' group-item-hidden' : ''}" data-id="${e.id}">
+    <li class="exp-item${selected.has(e.id) ? ' selected' : ''}${hidden ? ' group-item-hidden' : ''}" data-id="${e.id}" draggable="true">
       <input type="checkbox" class="exp-check item-cb" data-id="${e.id}" ${selected.has(e.id) ? 'checked' : ''}>
       <div class="cat-wrap">${catSvg(e.category)}</div>
       <div class="exp-body">
@@ -790,32 +795,40 @@ function render() {
       </div>
     </li>`;
 
-  // Separate grouped vs ungrouped
-  const groupMap = new Map();
-  const ungrouped = [];
-  items.forEach(e => {
-    if (e.group) {
-      if (!groupMap.has(e.group)) groupMap.set(e.group, []);
-      groupMap.get(e.group).push(e);
-    } else ungrouped.push(e);
-  });
-
-  let html = '';
-  // Render groups (sorted alphabetically)
-  [...groupMap.entries()].sort(([a], [b]) => a.localeCompare(b)).forEach(([name, gItems]) => {
+  const groupHeaderHtml = (name, gItems, isOther = false) => {
     const isCollapsed = collapsedGroups.has(name);
     const gEur = gItems.reduce((s, e) => s + (e.eurAmount || 0), 0);
-    html += `<li class="group-header" data-g="${name.replace(/"/g,'&quot;')}">
+    return `<li class="group-header${isOther ? ' group-other' : ''}" data-g="${name.replace(/"/g,'&quot;')}">
       <span class="group-chevron${isCollapsed ? ' collapsed' : ''}">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </span>
       <span class="group-name-label">${name}</span>
       <span class="group-meta">${gItems.length} · ${gEur.toFixed(2)} EUR</span>
     </li>`;
+  };
+
+  // Separate named groups vs ungrouped ("Other")
+  const groupMap = new Map();
+  const ungrouped = [];
+  items.forEach(e => {
+    const g = e.group && e.group !== 'Other' ? e.group : null;
+    if (g) {
+      if (!groupMap.has(g)) groupMap.set(g, []);
+      groupMap.get(g).push(e);
+    } else ungrouped.push(e);
+  });
+
+  let html = '';
+  // Named groups (alphabetical)
+  [...groupMap.entries()].sort(([a], [b]) => a.localeCompare(b)).forEach(([name, gItems]) => {
+    const isCollapsed = collapsedGroups.has(name);
+    html += groupHeaderHtml(name, gItems);
     gItems.forEach(e => { html += itemHtml(e, isCollapsed); });
   });
-  // Render ungrouped
-  ungrouped.forEach(e => { html += itemHtml(e, false); });
+  // Always render "Other" group at bottom
+  const otherCollapsed = collapsedGroups.has('Other');
+  html += groupHeaderHtml('Other', ungrouped, true);
+  ungrouped.forEach(e => { html += itemHtml(e, otherCollapsed); });
 
   list.innerHTML = html;
 
@@ -829,13 +842,39 @@ function render() {
     cb.addEventListener('click', ev => ev.stopPropagation());
   });
 
-  // Group header collapse/expand
+  // Group header: collapse/expand + drag-drop target
   list.querySelectorAll('.group-header').forEach(hdr => {
-    hdr.addEventListener('click', () => {
+    hdr.addEventListener('click', ev => {
+      if (ev.target.closest('.item-cb')) return;
       const name = hdr.dataset.g;
       if (collapsedGroups.has(name)) collapsedGroups.delete(name);
       else collapsedGroups.add(name);
       render();
+    });
+    hdr.addEventListener('dragover', ev => { ev.preventDefault(); hdr.classList.add('drag-over'); });
+    hdr.addEventListener('dragleave', () => hdr.classList.remove('drag-over'));
+    hdr.addEventListener('drop', ev => {
+      ev.preventDefault();
+      hdr.classList.remove('drag-over');
+      const id = ev.dataTransfer.getData('text/plain');
+      if (!id) return;
+      const targetGroup = hdr.dataset.g === 'Other' ? null : hdr.dataset.g;
+      const all = load();
+      const idx = all.findIndex(x => x.id === id);
+      if (idx !== -1) { all[idx].group = targetGroup; save(all); render(); }
+    });
+  });
+
+  // Item drag start/end
+  list.querySelectorAll('.exp-item[draggable]').forEach(li => {
+    li.addEventListener('dragstart', ev => {
+      ev.dataTransfer.setData('text/plain', li.dataset.id);
+      ev.dataTransfer.effectAllowed = 'move';
+      setTimeout(() => li.classList.add('dragging'), 0);
+    });
+    li.addEventListener('dragend', () => {
+      li.classList.remove('dragging');
+      list.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
     });
   });
 
