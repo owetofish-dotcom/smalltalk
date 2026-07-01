@@ -1345,13 +1345,13 @@ function downloadFile(fileData, filename) {
     const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
     const blob  = new Blob([bytes], { type: mime });
     const url   = URL.createObjectURL(blob);
-    const a     = Object.assign(document.createElement('a'), { href: url, download: filename });
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+    const w     = window.open(url, '_blank');
+    // Revoke after a delay to allow the new tab to load
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+    if (!w) toast('Allow pop-ups to open the file');
   } catch (err) {
     console.error(err);
-    toast('Download failed');
+    toast('Could not open file');
   }
 }
 
