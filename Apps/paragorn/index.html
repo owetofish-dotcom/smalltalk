@@ -128,9 +128,10 @@ input, select { font-family: var(--font); }
 .group-chevron svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2.5; }
 .group-name-label { font-size: 0.75rem; font-weight: 700; color: var(--text); flex: 1; }
 .group-meta { font-size: 0.68rem; color: var(--muted); white-space: nowrap; }
-.group-item-hidden { display: none; }
+.group-item-hidden { display: none !important; }
 .group-header.drag-over { background: var(--olive-l); border-left: 3px solid var(--olive); }
 .group-other .group-name-label { color: var(--muted); font-weight: 600; }
+.group-cb { width: 14px; height: 14px; accent-color: var(--text); cursor: pointer; flex-shrink: 0; }
 .exp-item[draggable="true"] { cursor: grab; }
 .exp-item[draggable="true"]:active { cursor: grabbing; }
 .exp-item.dragging { opacity: 0.35; }
@@ -674,7 +675,23 @@ let selCur   = 'PLN';
 let selCat   = 'transport';
 let fileData = null, fileName = '', fileType = '';
 let selected = new Set();
-let collapsedGroups = new Set();
+
+// Persist collapsed groups in localStorage
+const COLLAPSED_KEY = 'paragorn-collapsed';
+function loadCollapsed() { try { return new Set(JSON.parse(localStorage.getItem(COLLAPSED_KEY) || '[]')); } catch { return new Set(); } }
+function saveCollapsed() { localStorage.setItem(COLLAPSED_KEY, JSON.stringify([...collapsedGroups])); }
+let collapsedGroups = loadCollapsed();
+
+// Get item IDs under a group header in the DOM
+function getGroupItemIds(hdr) {
+  const ids = [];
+  let el = hdr.nextElementSibling;
+  while (el && el.classList && !el.classList.contains('group-header')) {
+    if (el.dataset?.id) ids.push(el.dataset.id);
+    el = el.nextElementSibling;
+  }
+  return ids;
+}
 
 // ============================================================
 // HELPERS
@@ -798,12 +815,14 @@ function render() {
   const groupHeaderHtml = (name, gItems, isOther = false) => {
     const isCollapsed = collapsedGroups.has(name);
     const gEur = gItems.reduce((s, e) => s + (e.eurAmount || 0), 0);
-    return `<li class="group-header${isOther ? ' group-other' : ''}" data-g="${name.replace(/"/g,'&quot;')}">
+    const esc = name.replace(/"/g, '&quot;');
+    return `<li class="group-header${isOther ? ' group-other' : ''}" data-g="${esc}">
       <span class="group-chevron${isCollapsed ? ' collapsed' : ''}">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </span>
+      <input type="checkbox" class="group-cb" data-g="${esc}">
       <span class="group-name-label">${name}</span>
-      <span class="group-meta">${gItems.length} · ${gEur.toFixed(2)} EUR</span>
+      <span class="group-meta"><strong style="color:var(--text)">${gEur.toFixed(2)} EUR</strong> · ${gItems.length}</span>
     </li>`;
   };
 
@@ -842,15 +861,37 @@ function render() {
     cb.addEventListener('click', ev => ev.stopPropagation());
   });
 
-  // Group header: collapse/expand + drag-drop target
+  // Group header: collapse/expand + checkbox + drag-drop
   list.querySelectorAll('.group-header').forEach(hdr => {
+    const name = hdr.dataset.g;
+
+    // Collapse/expand (click on header, not on checkbox)
     hdr.addEventListener('click', ev => {
-      if (ev.target.closest('.item-cb')) return;
-      const name = hdr.dataset.g;
+      if (ev.target.closest('.group-cb')) return;
       if (collapsedGroups.has(name)) collapsedGroups.delete(name);
       else collapsedGroups.add(name);
+      saveCollapsed();
       render();
     });
+
+    // Group checkbox — select/deselect all items in group
+    const cb = hdr.querySelector('.group-cb');
+    if (cb) {
+      const ids = getGroupItemIds(hdr);
+      const selCount = ids.filter(id => selected.has(id)).length;
+      if (selCount === 0)         { cb.checked = false; cb.indeterminate = false; }
+      else if (selCount === ids.length) { cb.checked = true;  cb.indeterminate = false; }
+      else                        { cb.checked = false; cb.indeterminate = true;  }
+
+      cb.addEventListener('click', ev => {
+        ev.stopPropagation();
+        const allSel = ids.every(id => selected.has(id));
+        ids.forEach(id => allSel ? selected.delete(id) : selected.add(id));
+        render();
+      });
+    }
+
+    // Drag-drop target
     hdr.addEventListener('dragover', ev => { ev.preventDefault(); hdr.classList.add('drag-over'); });
     hdr.addEventListener('dragleave', () => hdr.classList.remove('drag-over'));
     hdr.addEventListener('drop', ev => {
@@ -858,7 +899,7 @@ function render() {
       hdr.classList.remove('drag-over');
       const id = ev.dataTransfer.getData('text/plain');
       if (!id) return;
-      const targetGroup = hdr.dataset.g === 'Other' ? null : hdr.dataset.g;
+      const targetGroup = name === 'Other' ? null : name;
       const all = load();
       const idx = all.findIndex(x => x.id === id);
       if (idx !== -1) { all[idx].group = targetGroup; save(all); render(); }
