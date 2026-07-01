@@ -443,7 +443,13 @@ input, select { font-family: var(--font); }
     </div>
     <div class="sheet-body">
       <div>
-        <label class="flabel">Attachment</label>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <label class="flabel" style="margin-bottom:0;">Attachment</label>
+          <label style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--muted);cursor:pointer;">
+            <input type="checkbox" id="no-doc" style="accent-color:var(--text);width:13px;height:13px;">
+            No document
+          </label>
+        </div>
         <div class="dz" id="dz">
           <input type="file" id="file-in" accept="image/*,application/pdf">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -462,6 +468,8 @@ input, select { font-family: var(--font); }
           <button class="chip active" data-c="PLN">PLN</button>
           <button class="chip" data-c="EUR">EUR</button>
           <button class="chip" data-c="GBP">GBP</button>
+          <button class="chip" data-c="USD">USD</button>
+          <button class="chip" data-c="CHF">CHF</button>
           <button class="chip" data-c="other">Other</button>
         </div>
         <input type="text" class="finput" id="custom-cur" placeholder="e.g. USD, CHF…" maxlength="5" style="display:none;margin-top:7px;">
@@ -837,6 +845,7 @@ function resetForm() {
   document.getElementById('file-in').value = '';
   document.getElementById('dz').style.display = '';
   document.getElementById('dz-preview').style.display = 'none';
+  document.getElementById('no-doc').checked = false;
   document.getElementById('amount').value = '';
   document.getElementById('note').value = '';
   document.getElementById('rate-info').textContent = '';
@@ -850,6 +859,20 @@ function resetForm() {
   document.getElementById('custom-cur').value = '';
   document.getElementById('custom-cat').value = '';
 }
+
+// --- NO DOCUMENT TOGGLE ---
+document.getElementById('no-doc').addEventListener('change', function () {
+  const dzWrap = document.getElementById('dz');
+  const prev   = document.getElementById('dz-preview');
+  if (this.checked) {
+    dzWrap.style.display = 'none';
+    prev.style.display   = 'none';
+    fileData = null; fileName = 'no-document'; fileType = null;
+  } else {
+    dzWrap.style.display = '';
+    fileName = ''; fileData = null; fileType = null;
+  }
+});
 
 // --- FILE ---
 const fileIn = document.getElementById('file-in');
@@ -927,7 +950,8 @@ function scheduleRatePreview() {
 document.getElementById('btn-save').addEventListener('click', async () => {
   const amt = parseFloat(document.getElementById('amount').value);
   if (!amt || amt <= 0) { toast('⚠️ Enter an amount'); return; }
-  if (!fileData)         { toast('⚠️ Add an attachment'); return; }
+  const noDoc = document.getElementById('no-doc').checked;
+  if (!fileData && !noDoc) { toast('⚠️ Add an attachment or check "No document"'); return; }
   const currency = selCur === 'other' ? (document.getElementById('custom-cur').value.trim().toUpperCase() || 'OTHER') : selCur;
   const category = selCat === 'other'  ? (document.getElementById('custom-cat').value.trim() || 'Other') : selCat;
   const note = document.getElementById('note').value.trim();
@@ -937,7 +961,10 @@ document.getElementById('btn-save').addEventListener('click', async () => {
   const eurRate = await getEurRate(currency, dateStr);
   const entry = {
     id: Date.now().toString(), date: dateStr, createdAt: new Date().toISOString(),
-    category, amount: amt, currency, filename: fileName, fileType, fileData,
+    category, amount: amt, currency,
+    filename: noDoc ? 'no document' : fileName,
+    fileType: noDoc ? null : fileType,
+    fileData: noDoc ? null : fileData,
     eurRate, eurAmount: eurRate !== null ? parseFloat((amt * eurRate).toFixed(4)) : null, note
   };
   const all = load(); all.unshift(entry); save(all);
@@ -1229,11 +1256,11 @@ function renderDetailEdit(e) {
     : '';
 
   // Build currency chips
-  const knownCurs = ['PLN','EUR','GBP'];
+  const knownCurs = ['PLN','EUR','GBP','USD','CHF'];
   const curIsOther = !knownCurs.includes(e.currency);
   const curChips = knownCurs.map(c =>
     `<button class="chip${e.currency === c ? ' active' : ''}" data-ec="${c}">${c}</button>`).join('') +
-    `<button class="chip${curIsOther ? ' active' : ''}" data-ec="other">Inna</button>`;
+    `<button class="chip${curIsOther ? ' active' : ''}" data-ec="other">Other</button>`;
 
   // Build category chips
   const knownCats = ['transport','hotel','food','other'];
