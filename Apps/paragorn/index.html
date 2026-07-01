@@ -421,7 +421,14 @@ input, select { font-family: var(--font); }
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
         Back
       </button>
-      <span class="sheet-title" id="detail-title" style="font-size:0.82rem;font-weight:600;"></span>
+      <span class="sheet-title" id="detail-title" style="font-size:0.82rem;font-weight:600;flex:1;"></span>
+      <button id="det-dl-head" title="Download file" style="display:none;color:var(--muted);padding:4px 8px;border-radius:4px;line-height:0;margin-right:4px;" class="icon-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      </button>
       <button class="btn-edit-toggle" id="detail-edit-btn">Edit</button>
     </div>
     <div id="detail-body"></div>
@@ -545,8 +552,12 @@ async function syncPush(data) {
   if (!tok() || !gid()) return;
   sd('busy');
   try {
+    // Strip binary fileData from Gist payload — files are stored only in localStorage.
+    // Gist stores metadata (amounts, categories, rates, filenames).
+    // Files survive as long as you stay on the same device; use ZIP export to archive them.
+    const slim = data.map(e => { const { fileData: _, ...rest } = e; return rest; });
     const body = { files: {} };
-    body.files[GIST_FILE] = { content: JSON.stringify(data, null, 2) };
+    body.files[GIST_FILE] = { content: JSON.stringify(slim, null, 2) };
     const r = await fetch(`https://api.github.com/gists/${gid()}`, {
       method: 'PATCH',
       headers: { Authorization: `token ${tok()}`, 'Content-Type': 'application/json' },
@@ -1086,9 +1097,13 @@ function renderDetail() {
 
   document.getElementById('detail-title').textContent = trunc(entry.filename, 20);
 
+  // Header download button — show only in view mode if file exists
+  const dlBtn = document.getElementById('det-dl-head');
+  dlBtn.style.display = (detailMode === 'view' && entry.fileData) ? '' : 'none';
+  dlBtn.onclick = () => downloadFile(entry.fileData, entry.filename);
+
   if (detailMode === 'view') {
     renderDetailView(entry);
-    // Bind delete button
     document.getElementById('det-delete')?.addEventListener('click', () => {
       if (!confirm(`Delete "${entry.filename}"?\n\nThis cannot be undone.`)) return;
       const all = load().filter(e => e.id !== detailId);
@@ -1124,13 +1139,6 @@ function renderDetailView(e) {
       ${e.note ? `<div class="det-field"><span class="det-label">Note</span><span class="det-value">${e.note}</span></div>` : ''}
       <div class="det-field"><span class="det-label">File</span><span class="det-value" style="font-size:0.72rem;color:var(--muted)">${e.filename}</span></div>
     </div>
-    ${e.fileData ? `<div style="padding:0 18px 8px">
-      <a id="det-download" href="${e.fileData}" download="${e.filename}"
-         style="display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:0.8rem;font-weight:600;color:var(--text);text-decoration:none;background:var(--bg);transition:background .12s;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        Download ${e.filename}
-      </a>
-    </div>` : ''}
     <div style="padding:0 18px 20px">
       <button id="det-delete"
          style="display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:10px;border:1px solid #f5c6cb;border-radius:6px;font-size:0.8rem;font-weight:600;color:#a94442;background:#fdf3f3;cursor:pointer;transition:background .12s;">
@@ -1271,6 +1279,27 @@ function renderDetailEdit(e) {
       toast('Saved', 2200, 'success');
     }
   });
+}
+
+// ============================================================
+// FILE DOWNLOAD  (blob URL — works on iOS Safari too)
+// ============================================================
+function downloadFile(fileData, filename) {
+  if (!fileData) { toast('No file stored for this entry'); return; }
+  try {
+    const [meta, b64] = fileData.split(',');
+    const mime = meta.match(/:(.*?);/)?.[1] || 'application/octet-stream';
+    const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+    const blob  = new Blob([bytes], { type: mime });
+    const url   = URL.createObjectURL(blob);
+    const a     = Object.assign(document.createElement('a'), { href: url, download: filename });
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+  } catch (err) {
+    console.error(err);
+    toast('Download failed');
+  }
 }
 
 // ============================================================
