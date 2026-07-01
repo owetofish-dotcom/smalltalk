@@ -101,7 +101,34 @@ input, select { font-family: var(--font); }
   background: var(--bg); outline: none; text-align: right;
 }
 .date-range input[type="date"]:focus { border-color: var(--text); }
-.date-range input[type="date"]:focus { border-color: var(--text); }
+
+.range-shortcuts {
+  display: none; gap: 5px; flex-wrap: wrap;
+  padding: 0 16px 8px; background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.range-shortcuts.show { display: flex; }
+.rs-btn {
+  font-size: 0.68rem; font-weight: 500; color: var(--muted);
+  padding: 3px 9px; border-radius: 20px;
+  border: 1px solid var(--border); background: var(--bg);
+  cursor: pointer; white-space: nowrap; transition: all .12s;
+}
+.rs-btn:hover { background: var(--hover); color: var(--text); border-color: var(--text); }
+
+/* ── GROUP HEADER ────────────────────────────────── */
+.group-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 16px; background: var(--hover);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer; user-select: none;
+}
+.group-chevron { color: var(--muted); line-height: 0; flex-shrink: 0; transition: transform .15s; }
+.group-chevron.collapsed { transform: rotate(-90deg); }
+.group-chevron svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+.group-name-label { font-size: 0.75rem; font-weight: 700; color: var(--text); flex: 1; }
+.group-meta { font-size: 0.68rem; color: var(--muted); white-space: nowrap; }
+.group-item-hidden { display: none; }
 
 /* ── BULK BAR ────────────────────────────────────── */
 .bulk-bar {
@@ -390,10 +417,17 @@ input, select { font-family: var(--font); }
 <div class="date-range" id="date-range">
   <input type="date" id="df"> <span style="color:var(--muted);font-size:11px">–</span> <input type="date" id="dt">
 </div>
+<div class="range-shortcuts" id="range-shortcuts">
+  <button class="rs-btn" data-rs="last-30">Last 30d</button>
+  <button class="rs-btn" data-rs="prev-month">Prev. Mon.</button>
+  <button class="rs-btn" data-rs="last-360">Last 360d</button>
+  <button class="rs-btn" data-rs="this-year">This year</button>
+</div>
 
 <!-- BULK BAR -->
 <div class="bulk-bar" id="bulk-bar">
   <span class="bulk-count" id="bulk-count">0 selected</span>
+  <button class="btn-group" id="btn-group" style="background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:5px 11px;font-size:12px;font-weight:600;color:var(--text);">Group</button>
   <button class="btn-sum" id="btn-sum">Summarise →</button>
 </div>
 
@@ -635,6 +669,7 @@ let selCur   = 'PLN';
 let selCat   = 'transport';
 let fileData = null, fileName = '', fileType = '';
 let selected = new Set();
+let collapsedGroups = new Set();
 
 // ============================================================
 // HELPERS
@@ -733,8 +768,9 @@ function render() {
     updateBulk(); return;
   }
 
-  list.innerHTML = items.map(e => `
-    <li class="exp-item${selected.has(e.id) ? ' selected' : ''}" data-id="${e.id}">
+  // Build item HTML helper
+  const itemHtml = (e, hidden = false) => `
+    <li class="exp-item${selected.has(e.id) ? ' selected' : ''}${hidden ? ' group-item-hidden' : ''}" data-id="${e.id}">
       <input type="checkbox" class="exp-check item-cb" data-id="${e.id}" ${selected.has(e.id) ? 'checked' : ''}>
       <div class="cat-wrap">${catSvg(e.category)}</div>
       <div class="exp-body">
@@ -752,8 +788,36 @@ function render() {
              ${e.currency !== 'EUR' ? `<div class="exp-eur">${fmtAmt(e.amount, e.currency)}</div>` : ''}`
           : `<div class="exp-amt">${fmtAmt(e.amount, e.currency)}</div>`}
       </div>
-    </li>
-  `).join('');
+    </li>`;
+
+  // Separate grouped vs ungrouped
+  const groupMap = new Map();
+  const ungrouped = [];
+  items.forEach(e => {
+    if (e.group) {
+      if (!groupMap.has(e.group)) groupMap.set(e.group, []);
+      groupMap.get(e.group).push(e);
+    } else ungrouped.push(e);
+  });
+
+  let html = '';
+  // Render groups (sorted alphabetically)
+  [...groupMap.entries()].sort(([a], [b]) => a.localeCompare(b)).forEach(([name, gItems]) => {
+    const isCollapsed = collapsedGroups.has(name);
+    const gEur = gItems.reduce((s, e) => s + (e.eurAmount || 0), 0);
+    html += `<li class="group-header" data-g="${name.replace(/"/g,'&quot;')}">
+      <span class="group-chevron${isCollapsed ? ' collapsed' : ''}">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </span>
+      <span class="group-name-label">${name}</span>
+      <span class="group-meta">${gItems.length} · ${gEur.toFixed(2)} EUR</span>
+    </li>`;
+    gItems.forEach(e => { html += itemHtml(e, isCollapsed); });
+  });
+  // Render ungrouped
+  ungrouped.forEach(e => { html += itemHtml(e, false); });
+
+  list.innerHTML = html;
 
   list.querySelectorAll('.item-cb').forEach(cb => {
     cb.addEventListener('change', ev => {
@@ -763,6 +827,16 @@ function render() {
       updateBulk();
     });
     cb.addEventListener('click', ev => ev.stopPropagation());
+  });
+
+  // Group header collapse/expand
+  list.querySelectorAll('.group-header').forEach(hdr => {
+    hdr.addEventListener('click', () => {
+      const name = hdr.dataset.g;
+      if (collapsedGroups.has(name)) collapsedGroups.delete(name);
+      else collapsedGroups.add(name);
+      render();
+    });
   });
 
   // Click on item body → open detail
@@ -794,16 +868,19 @@ document.querySelectorAll('.fchip').forEach(b => {
       viewYear = n.getFullYear(); viewMonth = n.getMonth();
       filter = 'month';
       document.getElementById('date-range').classList.remove('show');
+      document.getElementById('range-shortcuts').classList.remove('show');
       b.classList.add('active');
     } else if (filter === b.dataset.f) {
       // Deselect → back to month, keep current viewYear/viewMonth
       filter = 'month';
       document.getElementById('date-range').classList.remove('show');
+      document.getElementById('range-shortcuts').classList.remove('show');
     } else {
       b.classList.add('active');
       filter = b.dataset.f;
       if (filter === 'custom') {
         document.getElementById('date-range').classList.add('show');
+        document.getElementById('range-shortcuts').classList.add('show');
         // Pre-fill: first day of current viewMonth → today
         const pad      = n => String(n).padStart(2, '0');
         const lastDay  = new Date(viewYear, viewMonth + 1, 0).getDate();
@@ -1382,6 +1459,78 @@ function renderDetailEdit(e) {
     }
   });
 }
+
+// ============================================================
+// RANGE SHORTCUTS
+// ============================================================
+document.getElementById('range-shortcuts').addEventListener('click', e => {
+  const btn = e.target.closest('.rs-btn'); if (!btn) return;
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  let from, to;
+  switch (btn.dataset.rs) {
+    case 'last-30': {
+      const d = new Date(now); d.setDate(d.getDate() - 30);
+      from = d.toISOString().slice(0, 10);
+      to   = now.toISOString().slice(0, 10);
+      break;
+    }
+    case 'prev-month': {
+      const y = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
+      const m = now.getMonth() === 0 ? 12 : now.getMonth();
+      const last = new Date(y, m, 0).getDate();
+      from = `${y}-${pad(m)}-01`;
+      to   = `${y}-${pad(m)}-${pad(last)}`;
+      break;
+    }
+    case 'last-360': {
+      const d = new Date(now); d.setDate(d.getDate() - 360);
+      from = d.toISOString().slice(0, 10);
+      to   = now.toISOString().slice(0, 10);
+      break;
+    }
+    case 'this-year':
+      from = `${now.getFullYear()}-01-01`;
+      to   = `${now.getFullYear()}-12-31`;
+      break;
+  }
+  if (!from) return;
+  document.getElementById('df').value = from;
+  document.getElementById('dt').value = to;
+  dateFrom = from; dateTo = to;
+  selected.clear(); render();
+});
+
+// ============================================================
+// GROUPING
+// ============================================================
+document.getElementById('btn-group').addEventListener('click', () => {
+  const ids = [...selected];
+  if (!ids.length) return;
+
+  // Check if all selected are already in same group (offer ungroup)
+  const all = load();
+  const selEntries = all.filter(e => ids.includes(e.id));
+  const existingGroups = [...new Set(selEntries.map(e => e.group).filter(Boolean))];
+  const defaultName = existingGroups.length === 1 ? existingGroups[0] : '';
+
+  const name = prompt(
+    existingGroups.length
+      ? `Group name (leave empty to ungroup):`
+      : `Group name:`,
+    defaultName
+  );
+  if (name === null) return; // cancelled
+  const groupName = name.trim() || null;
+
+  all.forEach(e => {
+    if (ids.includes(e.id)) e.group = groupName;
+  });
+  save(all);
+  selected.clear();
+  render();
+  toast(groupName ? `Grouped as "${groupName}"` : 'Ungrouped', 2200, groupName ? 'success' : '');
+});
 
 // ============================================================
 // FILE DOWNLOAD  (blob URL — works on iOS Safari too)
