@@ -1123,7 +1123,14 @@ function renderDetailView(e) {
       <div class="det-field"><span class="det-label">Date</span><span class="det-value">${fmtDate(e.date)}</span></div>
       ${e.note ? `<div class="det-field"><span class="det-label">Note</span><span class="det-value">${e.note}</span></div>` : ''}
       <div class="det-field"><span class="det-label">File</span><span class="det-value" style="font-size:0.72rem;color:var(--muted)">${e.filename}</span></div>
-    </div>`;
+    </div>
+    ${e.fileData ? `<div style="padding:0 18px 18px">
+      <a id="det-download" href="${e.fileData}" download="${e.filename}"
+         style="display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:0.8rem;font-weight:600;color:var(--text);text-decoration:none;background:var(--bg);transition:background .12s;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Download ${e.filename}
+      </a>
+    </div>` : ''}`;
 }
 
 function renderDetailEdit(e) {
