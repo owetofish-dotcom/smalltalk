@@ -1668,6 +1668,30 @@ function downloadFile(fileData, filename) {
 }
 
 // ============================================================
+// MIGRATION — old format had fileData inside the main JSON
+// Run once: extract embedded fileData into separate keys
+// ============================================================
+(function migrateLegacyFileData() {
+  try {
+    const raw = localStorage.getItem(DB_KEY);
+    if (!raw) return;
+    const items = JSON.parse(raw);
+    let changed = false;
+    items.forEach(e => {
+      if (e.fileData) {
+        saveFile(e.id, e.fileData); // move to separate key
+        delete e.fileData;           // strip from main object
+        changed = true;
+      }
+    });
+    if (changed) {
+      localStorage.setItem(DB_KEY, JSON.stringify(items));
+      console.log('[Paragorn] Migrated legacy fileData to separate keys');
+    }
+  } catch (err) { console.warn('[Paragorn] Migration error:', err); }
+})();
+
+// ============================================================
 // INIT
 // ============================================================
 renderMonthLabel();
