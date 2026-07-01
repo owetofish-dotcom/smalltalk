@@ -416,20 +416,15 @@ input, select { font-family: var(--font); }
 <div class="overlay" id="ov-detail">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="det-head">
-      <button class="btn-back" id="detail-back">
+    <div class="det-head" style="position:relative;">
+      <button class="btn-back" id="detail-back" style="flex:1;justify-content:flex-start;">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
         Back
       </button>
-      <span class="sheet-title" id="detail-title" style="font-size:0.82rem;font-weight:600;flex:1;"></span>
-      <button id="det-dl-head" title="Download file" style="display:none;color:var(--muted);padding:4px 8px;border-radius:4px;line-height:0;margin-right:4px;" class="icon-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" y1="3" x2="12" y2="15"/>
-        </svg>
-      </button>
-      <button class="btn-edit-toggle" id="detail-edit-btn">Edit</button>
+      <span id="detail-title" style="position:absolute;left:50%;transform:translateX(-50%);font-size:0.82rem;font-weight:600;white-space:nowrap;max-width:50%;overflow:hidden;text-overflow:ellipsis;"></span>
+      <div style="flex:1;display:flex;justify-content:flex-end;">
+        <button class="btn-edit-toggle" id="detail-edit-btn">Edit</button>
+      </div>
     </div>
     <div id="detail-body"></div>
   </div>
@@ -711,7 +706,11 @@ function filteredItems() {
 function render() {
   const items = filteredItems();
   const list  = document.getElementById('exp-list');
-  document.getElementById('exp-count').textContent = `${items.length} entries`;
+  const sumEur = items.reduce((s, e) => s + (e.eurAmount || 0), 0);
+  const countLabel = items.length
+    ? `${items.length} entries (${sumEur.toFixed(2)} EUR)`
+    : '0 entries';
+  document.getElementById('exp-count').textContent = countLabel;
 
   if (!items.length) {
     list.innerHTML = `
@@ -1109,13 +1108,36 @@ function renderDetail() {
 
   document.getElementById('detail-title').textContent = trunc(entry.filename, 20);
 
-  // Header download button — show only in view mode if file exists
-  const dlBtn = document.getElementById('det-dl-head');
-  dlBtn.style.display = (detailMode === 'view' && entry.fileData) ? '' : 'none';
-  dlBtn.onclick = () => downloadFile(entry.fileData, entry.filename);
-
   if (detailMode === 'view') {
     renderDetailView(entry);
+
+    // Download button (in-body)
+    document.getElementById('det-dl-inline')?.addEventListener('click', () => {
+      downloadFile(entry.fileData, entry.filename);
+    });
+
+    // Re-upload if file missing
+    document.getElementById('det-reupload-in')?.addEventListener('change', function () {
+      const file = this.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) { toast('File too large (max 5 MB)'); return; }
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const all = load();
+        const idx = all.findIndex(x => x.id === detailId);
+        if (idx !== -1) {
+          all[idx].fileData = ev.target.result;
+          all[idx].fileType = file.type;
+          localStorage.setItem(DB_KEY, JSON.stringify(all));
+          syncPush(all);
+          renderDetail();
+          toast('File restored', 2200, 'success');
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Delete button
     document.getElementById('det-delete')?.addEventListener('click', () => {
       if (!confirm(`Delete "${entry.filename}"?\n\nThis cannot be undone.`)) return;
       const all = load().filter(e => e.id !== detailId);
@@ -1149,7 +1171,26 @@ function renderDetailView(e) {
       <div class="det-field"><span class="det-label">Category</span><span class="det-value">${e.category}</span></div>
       <div class="det-field"><span class="det-label">Date</span><span class="det-value">${fmtDate(e.date)}</span></div>
       ${e.note ? `<div class="det-field"><span class="det-label">Note</span><span class="det-value">${e.note}</span></div>` : ''}
-      <div class="det-field"><span class="det-label">File</span><span class="det-value" style="font-size:0.72rem;color:var(--muted)">${e.filename}</span></div>
+      ${e.fileData
+        ? `<div class="det-field" style="align-items:center;">
+             <span class="det-label">File</span>
+             <div style="display:flex;align-items:center;gap:8px;justify-content:flex-end;">
+               <span style="font-size:0.72rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;max-width:130px;white-space:nowrap;">${e.filename}</span>
+               <button id="det-dl-inline" style="display:flex;align-items:center;gap:4px;padding:4px 10px;border:1px solid var(--border);border-radius:5px;font-size:0.72rem;font-weight:600;color:var(--text);background:var(--bg);white-space:nowrap;">
+                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                 Download
+               </button>
+             </div>
+           </div>`
+        : `<div style="background:var(--hover);border-radius:7px;padding:10px 12px;margin-top:4px;">
+             <div style="font-size:0.7rem;font-weight:600;color:var(--muted);margin-bottom:6px;">FILE · ${e.filename}</div>
+             <div style="font-size:0.68rem;color:var(--border);margin-bottom:8px;">File not in storage — Safari may have cleared it. Upload the original again.</div>
+             <label id="det-reupload-label" style="display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px dashed var(--border);border-radius:5px;font-size:0.78rem;font-weight:600;color:var(--muted);cursor:pointer;justify-content:center;">
+               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+               Upload original file
+               <input type="file" id="det-reupload-in" accept="image/*,application/pdf" style="display:none;">
+             </label>
+           </div>`}
     </div>
     <div style="padding:0 18px 20px">
       <button id="det-delete"
