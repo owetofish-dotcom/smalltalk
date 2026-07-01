@@ -363,14 +363,10 @@ input, select { font-family: var(--font); }
 
 <!-- HEADER -->
 <header class="header">
-  <a class="header-back" href="../../index.html">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
-    MiniApps
-  </a>
   <span class="header-title">Paragorn</span>
   <div class="header-actions">
     <span class="sync-dot" id="sync-dot"></span>
-    <button class="icon-btn" id="btn-settings" title="Ustawienia Gist">
+    <button class="icon-btn" id="btn-settings" title="Gist Settings">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     </button>
   </div>
@@ -384,9 +380,9 @@ input, select { font-family: var(--font); }
     <button class="nav-arrow" id="m-next">&#8250;</button>
   </div>
   <div class="nav-sep"></div>
-  <button class="fchip active" data-f="month">Miesiąc</button>
-  <button class="fchip" data-f="week">Tydzień</button>
-  <button class="fchip" data-f="custom">Zakres</button>
+  <button class="fchip active" data-f="month">Month</button>
+  <button class="fchip" data-f="week">Week</button>
+  <button class="fchip" data-f="custom">Range</button>
 </div>
 <div class="date-range" id="date-range">
   <input type="date" id="df"> <span style="color:var(--muted);font-size:11px">–</span> <input type="date" id="dt">
@@ -394,15 +390,15 @@ input, select { font-family: var(--font); }
 
 <!-- BULK BAR -->
 <div class="bulk-bar" id="bulk-bar">
-  <span class="bulk-count" id="bulk-count">0 zaznaczonych</span>
-  <button class="btn-sum" id="btn-sum">Podsumuj →</button>
+  <span class="bulk-count" id="bulk-count">0 selected</span>
+  <button class="btn-sum" id="btn-sum">Summarise →</button>
 </div>
 
 <!-- LIST HEADER -->
 <div class="list-head">
   <label>
     <input type="checkbox" class="exp-check" id="check-all">
-    Zaznacz wszystkie
+    Select all
   </label>
   <span class="exp-count" id="exp-count"></span>
 </div>
@@ -413,7 +409,7 @@ input, select { font-family: var(--font); }
 <!-- FAB -->
 <button class="fab" id="btn-add">
   <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/></svg>
-  Dodaj wydatek
+  Add expense
 </button>
 
 <!-- DETAIL / EDIT MODAL -->
@@ -423,10 +419,10 @@ input, select { font-family: var(--font); }
     <div class="det-head">
       <button class="btn-back" id="detail-back">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
-        Wróć
+        Back
       </button>
       <span class="sheet-title" id="detail-title" style="font-size:0.82rem;font-weight:600;"></span>
-      <button class="btn-edit-toggle" id="detail-edit-btn">Edytuj</button>
+      <button class="btn-edit-toggle" id="detail-edit-btn">Edit</button>
     </div>
     <div id="detail-body"></div>
   </div>
@@ -437,50 +433,50 @@ input, select { font-family: var(--font); }
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-head">
-      <span class="sheet-title">Nowy wydatek</span>
+      <span class="sheet-title">New expense</span>
       <button class="btn-close" id="close-add">×</button>
     </div>
     <div class="sheet-body">
       <div>
-        <label class="flabel">Załącznik</label>
+        <label class="flabel">Attachment</label>
         <div class="dz" id="dz">
           <input type="file" id="file-in" accept="image/*,application/pdf">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          <div>Kliknij lub przeciągnij (JPG, PNG, PDF)</div>
-          <div style="font-size:0.68rem;color:var(--border);margin-top:3px">maks. 5 MB</div>
+          <div>Click or drag (JPG, PNG, PDF)</div>
+          <div style="font-size:0.68rem;color:var(--border);margin-top:3px">max 5 MB</div>
         </div>
         <div id="dz-preview" style="display:none"></div>
       </div>
       <div>
-        <label class="flabel">Kwota</label>
+        <label class="flabel">Amount</label>
         <input type="number" class="finput" id="amount" placeholder="0.00" step="0.01" min="0" style="font-size:1.1rem;font-weight:700;">
       </div>
       <div>
-        <label class="flabel">Waluta</label>
+        <label class="flabel">Currency</label>
         <div class="chips" id="cur-chips">
           <button class="chip active" data-c="PLN">PLN</button>
           <button class="chip" data-c="EUR">EUR</button>
           <button class="chip" data-c="GBP">GBP</button>
-          <button class="chip" data-c="other">Inna</button>
+          <button class="chip" data-c="other">Other</button>
         </div>
-        <input type="text" class="finput" id="custom-cur" placeholder="np. USD, CHF…" maxlength="5" style="display:none;margin-top:7px;">
+        <input type="text" class="finput" id="custom-cur" placeholder="e.g. USD, CHF…" maxlength="5" style="display:none;margin-top:7px;">
       </div>
       <div>
-        <label class="flabel">Kategoria</label>
+        <label class="flabel">Category</label>
         <div class="chips" id="cat-chips">
           <button class="chip active" data-k="transport">Transport</button>
           <button class="chip" data-k="hotel">Hotel</button>
-          <button class="chip" data-k="jedzenie">Jedzenie</button>
-          <button class="chip" data-k="inne">Inne</button>
+          <button class="chip" data-k="food">Food</button>
+          <button class="chip" data-k="other">Other</button>
         </div>
-        <input type="text" class="finput" id="custom-cat" placeholder="Wpisz kategorię…" style="display:none;margin-top:7px;">
+        <input type="text" class="finput" id="custom-cat" placeholder="Enter category…" style="display:none;margin-top:7px;">
       </div>
       <div>
-        <label class="flabel">Notatka (opcjonalna)</label>
-        <input type="text" class="finput" id="note" placeholder="np. taxi z lotniska…">
+        <label class="flabel">Note (optional)</label>
+        <input type="text" class="finput" id="note" placeholder="e.g. taxi from airport…">
       </div>
       <div class="rate-info" id="rate-info"></div>
-      <button class="btn-primary" id="btn-save">Dodaj wydatek</button>
+      <button class="btn-primary" id="btn-save">Add expense</button>
     </div>
   </div>
 </div>
@@ -490,7 +486,7 @@ input, select { font-family: var(--font); }
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-head">
-      <span class="sheet-title">Podsumowanie</span>
+      <span class="sheet-title">Summary</span>
       <button class="btn-close" id="close-sum">×</button>
     </div>
     <div class="sheet-body" id="sum-body"></div>
@@ -502,23 +498,23 @@ input, select { font-family: var(--font); }
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-head">
-      <span class="sheet-title">Synchronizacja Gist</span>
+      <span class="sheet-title">Gist Sync</span>
       <button class="btn-close" id="close-settings">×</button>
     </div>
     <div class="sheet-body">
       <div>
         <label class="flabel">GitHub Personal Access Token</label>
         <input type="text" class="finput" id="st-token" placeholder="github_pat_…" autocomplete="off" spellcheck="false" style="font-family:monospace;font-size:11px;">
-        <div class="st-hint">github.com → Settings → Developer settings → Tokens (classic) → zaznacz <strong>gist</strong></div>
+        <div class="st-hint">github.com → Settings → Developer settings → Tokens (classic) → select <strong>gist</strong></div>
       </div>
       <div>
         <label class="flabel">Gist ID</label>
-        <input type="text" class="finput" id="st-gist" placeholder="np. a1b2c3d4… (puste = utwórz nowy)" autocomplete="off" style="font-family:monospace;font-size:11px;">
-        <div class="st-hint">Zostaw puste — nowy Gist zostanie utworzony przy pierwszym wydatku.</div>
+        <input type="text" class="finput" id="st-gist" placeholder="e.g. a1b2c3d4… (empty = create new)" autocomplete="off" style="font-family:monospace;font-size:11px;">
+        <div class="st-hint">Leave empty — a new Gist will be created on your first expense.</div>
       </div>
       <div id="st-status"></div>
-      <button class="btn-primary" id="st-save">Zapisz i połącz</button>
-      <button class="btn-secondary" id="st-test">Testuj połączenie</button>
+      <button class="btn-primary" id="st-save">Save & Connect</button>
+      <button class="btn-secondary" id="st-test">Test connection</button>
     </div>
   </div>
 </div>
@@ -614,16 +610,16 @@ let selected = new Set();
 // ============================================================
 // HELPERS
 // ============================================================
-const MONTHS = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 const catSvg = k => {
   const icons = {
     transport: `<svg viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 01-2-2V9a2 2 0 012-2h3.5L8 4h8l1.5 3H21a2 2 0 012 2v6a2 2 0 01-2 2h-2m-5 0H9"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/></svg>`,
     hotel:     `<svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>`,
-    jedzenie:  `<svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/><line x1="7" y1="2" x2="7" y2="22"/><path d="M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>`,
-    inne:      `<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`
+    food:      `<svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/><line x1="7" y1="2" x2="7" y2="22"/><path d="M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>`,
+    other:     `<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`
   };
-  return icons[k] || icons.inne;
+  return icons[k] || icons.other;
 };
 
 const trunc   = (s, n) => !s ? '' : s.length > n ? s.slice(0, n) + '…' : s;
@@ -692,14 +688,14 @@ function filteredItems() {
 function render() {
   const items = filteredItems();
   const list  = document.getElementById('exp-list');
-  document.getElementById('exp-count').textContent = `${items.length} wpisów`;
+  document.getElementById('exp-count').textContent = `${items.length} entries`;
 
   if (!items.length) {
     list.innerHTML = `
       <div class="empty">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        <div class="empty-title">Brak wydatków</div>
-        <div class="empty-sub">Dodaj pierwszy wpis</div>
+        <div class="empty-title">No expenses</div>
+        <div class="empty-sub">Add your first entry</div>
       </div>`;
     updateBulk(); return;
   }
@@ -723,7 +719,7 @@ function render() {
              ${e.currency !== 'EUR' ? `<div class="exp-eur">${fmtAmt(e.amount, e.currency)}</div>` : ''}`
           : `<div class="exp-amt">${fmtAmt(e.amount, e.currency)}</div>`}
       </div>
-      <button class="btn-del" data-del="${e.id}" title="Usuń">
+      <button class="btn-del" data-del="${e.id}" title="Delete">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6m5 0V4h4v2"/></svg>
       </button>
     </li>
@@ -742,10 +738,10 @@ function render() {
   list.querySelectorAll('[data-del]').forEach(b => {
     b.addEventListener('click', ev => {
       ev.stopPropagation();
-      if (!confirm('Usunąć ten wydatek?')) return;
+      if (!confirm('Delete this expense?')) return;
       const all = load().filter(e => e.id !== b.dataset.del);
       selected.delete(b.dataset.del);
-      save(all); render(); toast('Usunięto');
+      save(all); render(); toast('Deleted');
     });
   });
 
@@ -763,7 +759,7 @@ function render() {
 function updateBulk() {
   const n = selected.size;
   document.getElementById('bulk-bar').classList.toggle('show', n > 0);
-  document.getElementById('bulk-count').textContent = `${n} zaznaczonych`;
+  document.getElementById('bulk-count').textContent = `${n} selected`;
 }
 
 // ============================================================
@@ -825,6 +821,7 @@ function resetForm() {
   selCat = 'transport';
   document.querySelectorAll('#cat-chips .chip').forEach(c => c.classList.toggle('active', c.dataset.k === 'transport'));
   document.getElementById('custom-cat').style.display = 'none';
+
   document.getElementById('custom-cur').value = '';
   document.getElementById('custom-cat').value = '';
 }
@@ -839,7 +836,7 @@ dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('over
 
 function handleFile(file) {
   if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { toast('Plik za duży (maks. 5 MB)'); return; }
+  if (file.size > 5 * 1024 * 1024) { toast('File too large (max 5 MB)'); return; }
   fileName = file.name; fileType = file.type;
   const reader = new FileReader();
   reader.onload = ev => { fileData = ev.target.result; showPreview(file); };
@@ -879,7 +876,7 @@ document.getElementById('cat-chips').addEventListener('click', e => {
   const chip = e.target.closest('.chip'); if (!chip) return;
   document.querySelectorAll('#cat-chips .chip').forEach(c => c.classList.remove('active'));
   chip.classList.add('active'); selCat = chip.dataset.k;
-  document.getElementById('custom-cat').style.display = selCat === 'inne' ? '' : 'none';
+  document.getElementById('custom-cat').style.display = selCat === 'other' ? '' : 'none';
 });
 
 // --- RATE PREVIEW ---
@@ -893,24 +890,24 @@ function scheduleRatePreview() {
     const cur = selCur === 'other' ? document.getElementById('custom-cur').value.trim().toUpperCase() : selCur;
     const info = document.getElementById('rate-info');
     if (!amt || cur === 'EUR') { info.textContent = ''; return; }
-    info.textContent = 'Pobieranie kursu…';
+    info.textContent = 'Fetching rate…';
     const rate = await getEurRate(cur, null);
     info.textContent = rate
       ? `1 ${cur} = ${rate.toFixed(4)} EUR → ≈ ${(amt * rate).toFixed(2)} EUR`
-      : `Nie można pobrać kursu dla ${cur}`;
+      : `Could not fetch rate for ${cur}`;
   }, 600);
 }
 
 // --- SAVE ---
 document.getElementById('btn-save').addEventListener('click', async () => {
   const amt = parseFloat(document.getElementById('amount').value);
-  if (!amt || amt <= 0) { toast('Wpisz kwotę'); return; }
-  if (!fileData)         { toast('Dodaj załącznik'); return; }
-  const currency = selCur === 'other' ? (document.getElementById('custom-cur').value.trim().toUpperCase() || 'INNA') : selCur;
-  const category = selCat === 'inne'  ? (document.getElementById('custom-cat').value.trim() || 'Inne') : selCat;
+  if (!amt || amt <= 0) { toast('⚠️ Enter an amount'); return; }
+  if (!fileData)         { toast('⚠️ Add an attachment'); return; }
+  const currency = selCur === 'other' ? (document.getElementById('custom-cur').value.trim().toUpperCase() || 'OTHER') : selCur;
+  const category = selCat === 'other'  ? (document.getElementById('custom-cat').value.trim() || 'Other') : selCat;
   const note = document.getElementById('note').value.trim();
   const btn  = document.getElementById('btn-save');
-  btn.disabled = true; btn.textContent = 'Pobieranie kursu…';
+  btn.disabled = true; btn.textContent = 'Fetching rate…';
   const dateStr = today();
   const eurRate = await getEurRate(currency, dateStr);
   const entry = {
@@ -919,8 +916,8 @@ document.getElementById('btn-save').addEventListener('click', async () => {
     eurRate, eurAmount: eurRate !== null ? parseFloat((amt * eurRate).toFixed(4)) : null, note
   };
   const all = load(); all.unshift(entry); save(all);
-  btn.disabled = false; btn.textContent = 'Dodaj wydatek';
-  hideOv('ov-add'); render(); toast('Dodano wydatek', 2200, 'success');
+  btn.disabled = false; btn.textContent = 'Add expense';
+  hideOv('ov-add'); render(); toast('Expense added', 2200, 'success');
 });
 
 // ============================================================
@@ -950,27 +947,27 @@ function openSummary() {
 
   document.getElementById('sum-body').innerHTML = `
     <div class="sum-section">
-      <div class="sum-stitle">Wg waluty (${items.length} wpisów)</div>${curRows}
+      <div class="sum-stitle">By currency (${items.length} entries)</div>${curRows}
     </div>
     <div class="sum-section">
-      <div class="sum-stitle">Wg kategorii (EUR)</div>${catRows}
+      <div class="sum-stitle">By category (EUR)</div>${catRows}
     </div>
     <div class="sum-total">
-      <span class="sum-total-label">RAZEM EUR</span>
+      <span class="sum-total-label">TOTAL EUR</span>
       <span class="sum-total-eur">${totalEur.toFixed(2)} EUR</span>
     </div>
-    ${noRate.length ? `<button id="btn-retry-rates" style="background:var(--olive-l);border:1px solid var(--olive);border-radius:6px;padding:9px;font-size:0.78rem;font-weight:600;color:var(--text);width:100%;margin-bottom:4px;">Przelicz brakujące kursy (${noRate.length})</button>` : ''}
-    <div class="sum-note">Kursy z frankfurter.app · na dzień dodania</div>
+    ${noRate.length ? `<button id="btn-retry-rates" style="background:var(--olive-l);border:1px solid var(--olive);border-radius:6px;padding:9px;font-size:0.78rem;font-weight:600;color:var(--text);width:100%;margin-bottom:4px;">Recalculate missing rates (${noRate.length})</button>` : ''}
+    <div class="sum-note">Rates via open.er-api.com · as of entry date</div>
     <button class="btn-export" id="btn-zip">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-      Eksportuj ZIP
+      Export ZIP
     </button>`;
 
   document.getElementById('btn-zip').addEventListener('click', () => exportZip(items));
 
   if (noRate.length) {
     document.getElementById('btn-retry-rates').addEventListener('click', async function () {
-      this.disabled = true; this.textContent = 'Pobieranie…';
+      this.disabled = true; this.textContent = 'Fetching…';
       const all = load(); let fixed = 0;
       for (const e of noRate) {
         const rate = await getEurRate(e.currency, e.date);
@@ -980,7 +977,7 @@ function openSummary() {
         }
       }
       save(all); render(); hideOv('ov-sum');
-      toast(fixed ? `Przeliczono ${fixed} kurs${fixed > 1 ? 'y' : ''}` : 'Nie można pobrać kursów');
+      toast(fixed ? `Recalculated ${fixed} rate${fixed > 1 ? 's' : ''}` : 'Could not fetch rates');
     });
   }
   showOv('ov-sum');
@@ -991,7 +988,7 @@ function openSummary() {
 // ============================================================
 async function exportZip(items) {
   const btn = document.getElementById('btn-zip');
-  btn.disabled = true; btn.innerHTML = `<span>Generowanie…</span>`;
+  btn.disabled = true; btn.innerHTML = `<span>Generating…</span>`;
   try {
     const zip = new JSZip();
     const folder = zip.folder('paragorn-wydatki');
@@ -1006,10 +1003,10 @@ async function exportZip(items) {
     const url  = URL.createObjectURL(blob);
     Object.assign(document.createElement('a'), { href: url, download: `paragorn-${today()}.zip` }).click();
     URL.revokeObjectURL(url);
-    toast('ZIP pobrany');
-  } catch (err) { console.error(err); toast('Błąd generowania ZIP'); }
+    toast('ZIP downloaded');
+  } catch (err) { console.error(err); toast('ZIP generation error'); }
   btn.disabled = false;
-  btn.innerHTML = `<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> Eksportuj ZIP`;
+  btn.innerHTML = `<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> Export ZIP`;
 }
 
 function genMarkdown(items) {
@@ -1017,13 +1014,13 @@ function genMarkdown(items) {
   const totalEur = items.reduce((s, e) => s + (e.eurAmount || 0), 0);
   const byCur = {};
   items.forEach(e => { byCur[e.currency] = (byCur[e.currency] || 0) + e.amount; });
-  let md = `# Raport wydatków służbowych\n\n**Data:** ${now0}\n\n---\n\n## Podsumowanie\n\n| Waluta | Kwota |\n|---|---|\n`;
+  let md = `# Business Expense Report\n\n**Date:** ${now0}\n\n---\n\n## Summary\n\n| Currency | Amount |\n|---|---|\n`;
   Object.entries(byCur).forEach(([c, a]) => { md += `| ${c} | ${a.toFixed(2)} |\n`; });
-  md += `| **RAZEM EUR** | **${totalEur.toFixed(2)} EUR** |\n\n---\n\n## Szczegóły\n\n| Data | Kategoria | Plik | Kwota | Waluta | Kurs→EUR | EUR | Notatka |\n|---|---|---|---|---|---|---|---|\n`;
+  md += `| **TOTAL EUR** | **${totalEur.toFixed(2)} EUR** |\n\n---\n\n## Details\n\n| Date | Category | File | Amount | Currency | Rate→EUR | EUR | Note |\n|---|---|---|---|---|---|---|---|\n`;
   items.forEach(e => {
     md += `| ${e.date} | ${e.category} | ${e.filename} | ${parseFloat(e.amount).toFixed(2)} | ${e.currency} | ${e.eurRate ? e.eurRate.toFixed(4) : 'N/A'} | ${e.eurAmount ? e.eurAmount.toFixed(2) : 'N/A'} | ${e.note || ''} |\n`;
   });
-  md += `\n---\n\n## Kursy walut\n\n`;
+  md += `\n---\n\n## Exchange Rates\n\n`;
   const usedRates = {};
   items.filter(e => e.eurRate && e.currency !== 'EUR').forEach(e => {
     const key = `${e.date}|${e.currency}`;
@@ -1048,28 +1045,28 @@ document.getElementById('ov-settings').addEventListener('click', e => { if (e.ta
 document.getElementById('st-save').addEventListener('click', async () => {
   const t = document.getElementById('st-token').value.trim();
   const g = document.getElementById('st-gist').value.trim();
-  if (!t) { document.getElementById('st-status').textContent = 'Wpisz token'; return; }
+  if (!t) { document.getElementById('st-status').textContent = 'Enter a token'; return; }
   if (t) localStorage.setItem(TOK_KEY, t);
   if (g) localStorage.setItem(GIST_KEY, g);
   hideOv('ov-settings');
-  if (g) { await syncPull(); toast('Połączono — dane zsynchronizowane'); }
-  else   { await syncPush(load()); const newId = localStorage.getItem(GIST_KEY); toast(newId ? `Gist utworzony` : 'Zapisano — Gist przy pierwszym wydatku'); }
+  if (g) { await syncPull(); toast('Connected — data synced'); }
+  else   { await syncPush(load()); const newId = localStorage.getItem(GIST_KEY); toast(newId ? 'Gist created' : 'Saved — Gist created on first expense'); }
 });
 
 document.getElementById('st-test').addEventListener('click', async () => {
   const t  = document.getElementById('st-token').value.trim();
   const g  = document.getElementById('st-gist').value.trim();
   const st = document.getElementById('st-status');
-  if (!t) { st.textContent = 'Wpisz token'; return; }
-  st.textContent = 'Testowanie…';
+  if (!t) { st.textContent = 'Enter a token'; return; }
+  st.textContent = 'Testing…';
   try {
     const url = g ? `https://api.github.com/gists/${g}` : 'https://api.github.com/gists?per_page=1';
     const r   = await fetch(url, { headers: { Authorization: `token ${t}`, Accept: 'application/vnd.github+json' } });
     st.style.color = r.ok ? 'var(--olive)' : 'var(--danger)';
     st.textContent = r.ok
-      ? (g ? 'Token i Gist ID poprawne' : 'Token poprawny')
-      : `Błąd ${r.status}: ${r.status === 401 ? 'zły token' : r.status === 404 ? 'zły Gist ID' : 'sprawdź dane'}`;
-  } catch { st.style.color = 'var(--danger)'; st.textContent = 'Błąd sieci'; }
+      ? (g ? 'Token and Gist ID are valid' : 'Token is valid')
+      : `Error ${r.status}: ${r.status === 401 ? 'bad token' : r.status === 404 ? 'bad Gist ID' : 'check credentials'}`;
+  } catch { st.style.color = 'var(--danger)'; st.textContent = 'Network error'; }
 });
 
 // ============================================================
@@ -1097,7 +1094,7 @@ function renderDetail() {
   if (!entry) { hideOv('ov-detail'); return; }
 
   const editBtn = document.getElementById('detail-edit-btn');
-  editBtn.textContent = detailMode === 'view' ? 'Edytuj' : 'Anuluj';
+  editBtn.textContent = detailMode === 'view' ? 'Edit' : 'Cancel';
   editBtn.classList.toggle('active', detailMode === 'edit');
 
   document.getElementById('detail-title').textContent = trunc(entry.filename, 20);
@@ -1120,12 +1117,12 @@ function renderDetailView(e) {
   document.getElementById('detail-body').innerHTML = `
     ${previewHtml}
     <div class="det-body">
-      <div class="det-field"><span class="det-label">Kwota</span><span class="det-value big">${fmtAmt(e.amount, e.currency)}</span></div>
-      ${e.eurRate && e.currency !== 'EUR' ? `<div class="det-field"><span class="det-label">Przeliczenie EUR</span><span class="det-value">≈ ${(e.amount * e.eurRate).toFixed(2)} EUR<br><span style="font-size:0.65rem;color:var(--muted)">kurs ${e.eurRate.toFixed(4)} z ${e.date}</span></span></div>` : ''}
-      <div class="det-field"><span class="det-label">Kategoria</span><span class="det-value">${e.category}</span></div>
-      <div class="det-field"><span class="det-label">Data</span><span class="det-value">${fmtDate(e.date)}</span></div>
-      ${e.note ? `<div class="det-field"><span class="det-label">Notatka</span><span class="det-value">${e.note}</span></div>` : ''}
-      <div class="det-field"><span class="det-label">Plik</span><span class="det-value" style="font-size:0.72rem;color:var(--muted)">${e.filename}</span></div>
+      <div class="det-field"><span class="det-label">Amount</span><span class="det-value big">${fmtAmt(e.amount, e.currency)}</span></div>
+      ${e.eurRate && e.currency !== 'EUR' ? `<div class="det-field"><span class="det-label">EUR equivalent</span><span class="det-value">≈ ${(e.amount * e.eurRate).toFixed(2)} EUR<br><span style="font-size:0.65rem;color:var(--muted)">rate ${e.eurRate.toFixed(4)} · ${e.date}</span></span></div>` : ''}
+      <div class="det-field"><span class="det-label">Category</span><span class="det-value">${e.category}</span></div>
+      <div class="det-field"><span class="det-label">Date</span><span class="det-value">${fmtDate(e.date)}</span></div>
+      ${e.note ? `<div class="det-field"><span class="det-label">Note</span><span class="det-value">${e.note}</span></div>` : ''}
+      <div class="det-field"><span class="det-label">File</span><span class="det-value" style="font-size:0.72rem;color:var(--muted)">${e.filename}</span></div>
     </div>`;
 }
 
@@ -1148,7 +1145,7 @@ function renderDetailEdit(e) {
     `<button class="chip${curIsOther ? ' active' : ''}" data-ec="other">Inna</button>`;
 
   // Build category chips
-  const knownCats = ['transport','hotel','jedzenie','inne'];
+  const knownCats = ['transport','hotel','food','other'];
   const catIsOther = !knownCats.includes(e.category);
   const catChips = knownCats.map(k =>
     `<button class="chip${e.category === k ? ' active' : ''}" data-ek="${k}">${k}</button>`).join('') +
@@ -1158,26 +1155,26 @@ function renderDetailEdit(e) {
     ${previewHtml}
     <div class="det-body" style="gap:12px">
       <div>
-        <label class="flabel">Kwota</label>
+        <label class="flabel">Amount</label>
         <input type="number" class="finput" id="e-amount" value="${e.amount}" step="0.01" min="0" style="font-size:1.05rem;font-weight:700;">
       </div>
       <div>
-        <label class="flabel">Waluta</label>
+        <label class="flabel">Currency</label>
         <div class="chips" id="e-cur-chips">${curChips}</div>
-        <input type="text" class="finput" id="e-custom-cur" placeholder="np. USD…" maxlength="5" value="${curIsOther ? e.currency : ''}" style="display:${curIsOther ? '' : 'none'};margin-top:7px;">
+        <input type="text" class="finput" id="e-custom-cur" placeholder="e.g. USD…" maxlength="5" value="${curIsOther ? e.currency : ''}" style="display:${curIsOther ? '' : 'none'};margin-top:7px;">
       </div>
       <div>
-        <label class="flabel">Kategoria</label>
+        <label class="flabel">Category</label>
         <div class="chips" id="e-cat-chips">${catChips}</div>
-        <input type="text" class="finput" id="e-custom-cat" placeholder="Wpisz…" value="${catIsOther ? e.category : ''}" style="display:${catIsOther ? '' : 'none'};margin-top:7px;">
+        <input type="text" class="finput" id="e-custom-cat" placeholder="Enter…" value="${catIsOther ? e.category : ''}" style="display:${catIsOther ? '' : 'none'};margin-top:7px;">
       </div>
       <div>
-        <label class="flabel">Notatka</label>
-        <input type="text" class="finput" id="e-note" value="${e.note || ''}" placeholder="notatka…">
+        <label class="flabel">Note</label>
+        <input type="text" class="finput" id="e-note" value="${e.note || ''}" placeholder="note…">
       </div>
       <div class="rate-info" id="e-rate-info">${e.eurAmount != null && e.currency !== 'EUR' ? `1 ${e.currency} = ${e.eurRate.toFixed(4)} EUR → <strong>${e.eurAmount.toFixed(2)} EUR</strong>` : e.currency === 'EUR' ? '1 EUR = 1 EUR' : ''}</div>
       <div class="det-actions">
-        <button class="btn-primary" id="e-save" style="flex:1">Zapisz zmiany</button>
+        <button class="btn-primary" id="e-save" style="flex:1">Save changes</button>
       </div>
     </div>`;
 
@@ -1193,11 +1190,11 @@ function renderDetailEdit(e) {
         : chip?.dataset.ec;
       const info = document.getElementById('e-rate-info');
       if (!info || !amt || !cur) return;
-      if (cur === 'EUR') { info.innerHTML = '1 EUR = 1 EUR'; return; }
-      info.textContent = 'Pobieranie kursu…';
+      if (cur === 'EUR') { info.innerHTML = '1 EUR = 1.0000 EUR'; return; }
+      info.textContent = 'Fetching rate…';
       const rate = await getEurRate(cur, null);
       if (rate) info.innerHTML = `1 ${cur} = ${rate.toFixed(4)} EUR → <strong>${(amt * rate).toFixed(2)} EUR</strong>`;
-      else info.textContent = `Nie można pobrać kursu dla ${cur}`;
+      else info.textContent = `Could not fetch rate for ${cur}`;
     }, 500);
   }
   document.getElementById('e-amount').addEventListener('input', scheduleEditRatePreview);
@@ -1217,13 +1214,13 @@ function renderDetailEdit(e) {
     const chip = ev.target.closest('.chip'); if (!chip) return;
     document.querySelectorAll('#e-cat-chips .chip').forEach(c => c.classList.remove('active'));
     chip.classList.add('active');
-    document.getElementById('e-custom-cat').style.display = chip.dataset.ek === chip.dataset.ek && !['transport','hotel','jedzenie','inne'].includes(chip.dataset.ek) ? '' : 'none';
+    document.getElementById('e-custom-cat').style.display = !['transport','hotel','food','other'].includes(chip.dataset.ek) ? '' : 'none';
   });
 
   // Save
   document.getElementById('e-save').addEventListener('click', async () => {
     const amt = parseFloat(document.getElementById('e-amount').value);
-    if (!amt || amt <= 0) { toast('Wpisz kwotę'); return; }
+    if (!amt || amt <= 0) { toast('Enter an amount'); return; }
 
     const activeCurChip  = document.querySelector('#e-cur-chips .chip.active');
     const activeCatChip  = document.querySelector('#e-cat-chips .chip.active');
@@ -1231,14 +1228,14 @@ function renderDetailEdit(e) {
       ? (document.getElementById('e-custom-cur').value.trim().toUpperCase() || e.currency)
       : (activeCurChip?.dataset.ec || e.currency);
     const category = activeCatChip
-      ? (['transport','hotel','jedzenie','inne'].includes(activeCatChip.dataset.ek)
+      ? (['transport','hotel','food','other'].includes(activeCatChip.dataset.ek)
           ? activeCatChip.dataset.ek
           : (document.getElementById('e-custom-cat').value.trim() || activeCatChip.dataset.ek))
       : e.category;
     const note = document.getElementById('e-note').value.trim();
 
     const btn = document.getElementById('e-save');
-    btn.disabled = true; btn.textContent = 'Przeliczanie…';
+    btn.disabled = true; btn.textContent = 'Calculating…';
 
     // Re-fetch rate only if currency changed
     let eurRate = e.eurRate, eurAmount = e.eurAmount;
@@ -1257,7 +1254,7 @@ function renderDetailEdit(e) {
       render();
       detailMode = 'view';
       renderDetail();
-      toast('Zapisano');
+      toast('Saved', 2200, 'success');
     }
   });
 }
