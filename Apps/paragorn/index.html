@@ -582,9 +582,23 @@ const DB_KEY    = 'paragorn-expenses';
 const TOK_KEY   = 'miniapps-gist-token';
 const GIST_KEY  = 'miniapps-gist-id';
 const GIST_FILE = 'paragorn-expenses.json';
+const FILE_PREFIX = 'paragorn-file-'; // separate key per entry to keep main JSON small
 
-const load = () => { try { return JSON.parse(localStorage.getItem(DB_KEY) || '[]'); } catch { return []; } };
-const save = d  => { localStorage.setItem(DB_KEY, JSON.stringify(d)); syncPush(d); };
+// File helpers — each file lives in its own localStorage key
+const saveFile = (id, data) => data
+  ? localStorage.setItem(FILE_PREFIX + id, data)
+  : localStorage.removeItem(FILE_PREFIX + id);
+const loadFile = id => localStorage.getItem(FILE_PREFIX + id) || null;
+
+// Metadata storage — NO fileData in main JSON (keeps serialisation fast)
+const loadSlim = () => { try { return JSON.parse(localStorage.getItem(DB_KEY) || '[]'); } catch { return []; } };
+const load = () => loadSlim().map(e => ({ ...e, fileData: loadFile(e.id) }));
+const save = d => {
+  // Strip fileData before writing main JSON
+  const slim = d.map(({ fileData: _, ...rest }) => rest);
+  localStorage.setItem(DB_KEY, JSON.stringify(slim));
+  syncPush(slim); // Gist also gets metadata-only
+};
 const tok  = () => localStorage.getItem(TOK_KEY)  || '';
 const gid  = () => localStorage.getItem(GIST_KEY) || '';
 
@@ -624,16 +638,9 @@ async function syncPull() {
     const j = await r.json();
     const f = j.files?.[GIST_FILE];
     if (f?.content) {
-      // MERGE: Gist has metadata only (no fileData).
-      // Preserve fileData from localStorage for matching entries.
-      const remote = JSON.parse(f.content);
-      const localMap = new Map(load().map(e => [e.id, e]));
-      const merged = remote.map(e => ({
-        ...e,
-        fileData: localMap.get(e.id)?.fileData ?? null,
-        fileType: e.fileType || localMap.get(e.id)?.fileType || null,
-      }));
-      localStorage.setItem(DB_KEY, JSON.stringify(merged));
+      // Gist has metadata only — just update the slim JSON.
+      // Files stay in their own localStorage keys (paragorn-file-{id}).
+      localStorage.setItem(DB_KEY, f.content);
       render();
     }
     sd('ok');
@@ -1123,13 +1130,16 @@ document.getElementById('btn-save').addEventListener('click', async () => {
   const dateStr = today();
   const entryId = Date.now().toString();
 
-  // Save immediately — don't wait for rate fetch
+  // Save file to its own key (non-blocking — small string in main JSON)
+  if (!noDoc && fileData) saveFile(entryId, fileData);
+
+  // Save metadata immediately — tiny JSON, no fileData, instant
   const entry = {
     id: entryId, date: dateStr, createdAt: new Date().toISOString(),
     category, amount: amt, currency,
     filename: noDoc ? 'no document' : fileName,
     fileType: noDoc ? null : fileType,
-    fileData: noDoc ? null : fileData,
+    fileData: null, // never stored in main JSON
     eurRate: currency === 'EUR' ? 1 : null,
     eurAmount: currency === 'EUR' ? amt : null,
     note
@@ -1347,13 +1357,12 @@ function renderDetail() {
       if (file.size > 5 * 1024 * 1024) { toast('File too large (max 5 MB)'); return; }
       const reader = new FileReader();
       reader.onload = ev => {
+        saveFile(detailId, ev.target.result); // store in separate key
         const all = load();
         const idx = all.findIndex(x => x.id === detailId);
         if (idx !== -1) {
-          all[idx].fileData = ev.target.result;
           all[idx].fileType = file.type;
-          localStorage.setItem(DB_KEY, JSON.stringify(all));
-          syncPush(all);
+          save(all);
           renderDetail();
           toast('File restored', 2200, 'success');
         }
@@ -1364,6 +1373,7 @@ function renderDetail() {
     // Delete button
     document.getElementById('det-delete')?.addEventListener('click', () => {
       if (!confirm(`Delete "${entry.filename}"?\n\nThis cannot be undone.`)) return;
+      saveFile(detailId, null); // remove file from its own key
       const all = load().filter(e => e.id !== detailId);
       selected.delete(detailId);
       save(all);
