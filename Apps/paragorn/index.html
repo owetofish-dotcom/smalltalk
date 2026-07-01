@@ -576,18 +576,24 @@ async function syncPull() {
 
 // ============================================================
 // EXCHANGE RATES
+// frankfurter.app blokowany przez CORS z GitHub Pages.
+// Primary:  open.er-api.com  (~260ms, darmowe, bez klucza)
+// Fallback: exchangerate-api.com (~530ms, darmowe, bez klucza)
 // ============================================================
-async function getEurRate(currency, date) {
+async function getEurRate(currency, _date) {
   if (!currency || currency === 'EUR') return 1;
-  const d = date || new Date().toISOString().slice(0, 10);
+  const cur = currency.toUpperCase();
+  // PRIMARY
   try {
-    let r = await fetch(`https://api.frankfurter.app/${d}?from=${encodeURIComponent(currency)}&to=EUR`);
+    const r = await fetch(`https://open.er-api.com/v6/latest/${encodeURIComponent(cur)}`);
     if (r.ok) { const j = await r.json(); if (j.rates?.EUR != null) return j.rates.EUR; }
-    r = await fetch(`https://api.frankfurter.app/latest?from=${encodeURIComponent(currency)}&to=EUR`);
-    if (!r.ok) return null;
-    const j = await r.json();
-    return j.rates?.EUR ?? null;
-  } catch { return null; }
+  } catch {}
+  // FALLBACK
+  try {
+    const r = await fetch(`https://api.exchangerate-api.com/v4/latest/${encodeURIComponent(cur)}`);
+    if (r.ok) { const j = await r.json(); if (j.rates?.EUR != null) return j.rates.EUR; }
+  } catch {}
+  return null;
 }
 
 // ============================================================
