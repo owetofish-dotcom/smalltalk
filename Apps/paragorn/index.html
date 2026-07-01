@@ -719,9 +719,6 @@ function render() {
              ${e.currency !== 'EUR' ? `<div class="exp-eur">${fmtAmt(e.amount, e.currency)}</div>` : ''}`
           : `<div class="exp-amt">${fmtAmt(e.amount, e.currency)}</div>`}
       </div>
-      <button class="btn-del" data-del="${e.id}" title="Delete">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6m5 0V4h4v2"/></svg>
-      </button>
     </li>
   `).join('');
 
@@ -733,16 +730,6 @@ function render() {
       updateBulk();
     });
     cb.addEventListener('click', ev => ev.stopPropagation());
-  });
-
-  list.querySelectorAll('[data-del]').forEach(b => {
-    b.addEventListener('click', ev => {
-      ev.stopPropagation();
-      if (!confirm('Delete this expense?')) return;
-      const all = load().filter(e => e.id !== b.dataset.del);
-      selected.delete(b.dataset.del);
-      save(all); render(); toast('Deleted');
-    });
   });
 
   // Click on item body → open detail
@@ -1099,8 +1086,21 @@ function renderDetail() {
 
   document.getElementById('detail-title').textContent = trunc(entry.filename, 20);
 
-  if (detailMode === 'view') renderDetailView(entry);
-  else                       renderDetailEdit(entry);
+  if (detailMode === 'view') {
+    renderDetailView(entry);
+    // Bind delete button
+    document.getElementById('det-delete')?.addEventListener('click', () => {
+      if (!confirm(`Delete "${entry.filename}"?\n\nThis cannot be undone.`)) return;
+      const all = load().filter(e => e.id !== detailId);
+      selected.delete(detailId);
+      save(all);
+      hideOv('ov-detail');
+      render();
+      toast('Deleted');
+    });
+  } else {
+    renderDetailEdit(entry);
+  }
 }
 
 function renderDetailView(e) {
@@ -1124,13 +1124,20 @@ function renderDetailView(e) {
       ${e.note ? `<div class="det-field"><span class="det-label">Note</span><span class="det-value">${e.note}</span></div>` : ''}
       <div class="det-field"><span class="det-label">File</span><span class="det-value" style="font-size:0.72rem;color:var(--muted)">${e.filename}</span></div>
     </div>
-    ${e.fileData ? `<div style="padding:0 18px 18px">
+    ${e.fileData ? `<div style="padding:0 18px 8px">
       <a id="det-download" href="${e.fileData}" download="${e.filename}"
          style="display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:0.8rem;font-weight:600;color:var(--text);text-decoration:none;background:var(--bg);transition:background .12s;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         Download ${e.filename}
       </a>
-    </div>` : ''}`;
+    </div>` : ''}
+    <div style="padding:0 18px 20px">
+      <button id="det-delete"
+         style="display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:10px;border:1px solid #f5c6cb;border-radius:6px;font-size:0.8rem;font-weight:600;color:#a94442;background:#fdf3f3;cursor:pointer;transition:background .12s;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6m5 0V4h4v2"/></svg>
+        Delete expense
+      </button>
+    </div>`;
 }
 
 function renderDetailEdit(e) {
