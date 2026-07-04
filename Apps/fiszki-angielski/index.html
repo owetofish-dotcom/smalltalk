@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiszki — angielski</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:     #fafaf8;
+    --text:   #111111;
+    --muted:  #888888;
+    --border: #e2e2e0;
+    --hover:  #f5f5f3;
+    --hl:     #ffef7a;
+    --font:   'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); }
+  body {
+    font-family: var(--font);
+    display: flex; flex-direction: column;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  button { cursor: pointer; font-family: var(--font); }
+
+  /* HEADER */
+  .header {
+    display: flex; align-items: center; gap: 10px;
+    height: 40px; padding: 0 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky; top: 0; z-index: 10;
+    flex-shrink: 0;
+  }
+  .header-back {
+    color: var(--muted); text-decoration: none; font-size: 12px;
+    display: flex; align-items: center; gap: 3px; flex-shrink: 0;
+  }
+  .header-back:hover { color: var(--text); }
+  .header-back svg { width: 14px; height: 14px; }
+  .header-title {
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; flex: 1;
+  }
+  .counter {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 12px; color: var(--muted); letter-spacing: 0.05em;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+  .tab {
+    background: none; border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 14px 11px;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: -1px;
+    transition: color .12s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); border-bottom-color: var(--text); font-weight: 700; }
+
+  /* MAIN */
+  main {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    padding: 24px 16px;
+  }
+
+  /* CARD */
+  .card {
+    width: 100%; max-width: 600px;
+    border: 1.5px solid var(--border);
+    background: white;
+    padding: 36px 28px;
+    cursor: pointer;
+    min-height: 280px;
+    display: flex; flex-direction: column; justify-content: center;
+    transition: box-shadow .12s, transform .12s;
+    user-select: none;
+    position: relative;
+  }
+  .card:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--text); }
+  .card:active { transform: none; box-shadow: none; }
+
+  .card-hint {
+    position: absolute; top: 16px; right: 20px;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .card-pl {
+    font-size: 22px; line-height: 1.45;
+    font-style: italic; color: var(--text);
+    text-align: center;
+  }
+
+  .en-wrap { display: none; text-align: center; }
+  .en-wrap.visible { display: block; animation: fadeIn .2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+  .card-pl.hidden { display: none; }
+
+  .en {
+    font-size: 20px; line-height: 1.45; font-weight: 400; margin-bottom: 16px;
+  }
+  .en strong {
+    background: var(--hl); padding: 1px 4px; font-weight: 400;
+    box-decoration-break: clone; -webkit-box-decoration-break: clone;
+  }
+
+  .example {
+    font-size: 15px; line-height: 1.5; font-style: italic;
+    max-width: 480px; margin: 0 auto;
+    padding: 14px 18px;
+    border-left: 2px solid var(--border);
+    text-align: left; background: var(--bg);
+  }
+  .example::before { content: "\201E"; font-size: 20px; line-height: 0; vertical-align: -6px; color: var(--muted); margin-right: 2px; }
+  .example::after  { content: "\201D"; font-size: 20px; line-height: 0; vertical-align: -6px; color: var(--muted); margin-left: 2px; }
+
+  .note {
+    font-size: 13px; color: var(--muted); line-height: 1.5;
+    max-width: 440px; margin: 14px auto 0;
+    padding-top: 12px; border-top: 1px solid var(--border);
+    font-style: italic;
+  }
+
+  /* CONTROLS */
+  .controls {
+    display: flex; gap: 8px;
+    padding: 0 16px 10px;
+    max-width: 632px; margin: 0 auto; width: 100%;
+  }
+  .controls button {
+    flex: 1; background: var(--bg); border: 1.5px solid var(--border);
+    padding: 11px 8px;
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text); font-weight: 500;
+    transition: background .12s, box-shadow .12s;
+  }
+  .controls button:hover { background: var(--hover); box-shadow: 2px 2px 0 var(--border); }
+  .controls button:active { box-shadow: none; }
+  .controls button:disabled { opacity: 0.3; cursor: not-allowed; }
+  .controls button:disabled:hover { background: var(--bg); box-shadow: none; }
+  .btn-primary { background: var(--text) !important; color: white !important; font-weight: 700; }
+  .btn-primary:hover { background: var(--hover) !important; color: var(--text) !important; }
+
+  .util {
+    display: flex; gap: 8px;
+    padding: 0 16px 20px;
+    max-width: 632px; margin: 0 auto; width: 100%;
+    justify-content: center;
+  }
+  .util button {
+    background: none; border: none;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); padding: 4px 0;
+    border-bottom: 1px dotted var(--muted);
+  }
+  .util button:hover { color: var(--text); border-bottom-style: solid; border-bottom-color: var(--text); }
+
+  .kb {
+    text-align: center; padding: 0 0 16px;
+    font-size: 10px; color: var(--muted); letter-spacing: 0.08em;
+  }
+  .kb kbd {
+    background: white; border: 1px solid var(--border);
+    padding: 2px 5px; font-family: monospace; font-size: 10px; margin: 0 2px;
+  }
+
+  @media (max-width: 560px) {
+    .card { padding: 26px 18px; min-height: 240px; }
+    .card-pl { font-size: 19px; }
+    .en { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="header-back" href="../../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
+    MiniApps
+  </a>
+  <span class="header-title">Fiszki — angielski</span>
+  <span class="counter" id="counter">01 / 20</span>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-deck="sentences">Zdania</button>
+  <button class="tab" data-deck="idioms">Idiomy</button>
+</nav>
+
+<main>
+  <div class="card" id="card">
+    <span class="card-hint" id="cardHint">Kliknij, aby odkryć</span>
+    <div class="card-pl" id="plText"></div>
+    <div class="en-wrap" id="enWrap">
+      <div class="en" id="enText"></div>
+      <div class="example" id="exampleText" style="display:none;"></div>
+      <div class="note" id="noteText" style="display:none;"></div>
+    </div>
+  </div>
+</main>
+
+<div class="controls">
+  <button id="prevBtn">← Poprz.</button>
+  <button class="btn-primary" id="flipBtn">Odkryj</button>
+  <button id="nextBtn">Nast. →</button>
+</div>
+<div class="util">
+  <button id="shuffleBtn">Wymieszaj</button>
+  <button id="resetBtn">Od początku</button>
+</div>
+<div class="kb"><kbd>Spacja</kbd> odkryj &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> nawigacja</div>
+
+<script>
+const decks = {
+  sentences: [
+    { pl: "Wycięła mnie grypa żołądkowa na kilka dni.", en: "A stomach bug <strong>knocked me out</strong> for a few days." },
+    { pl: "Sorry za ciszę.", en: "<strong>Sorry for going quiet.</strong>" },
+    { pl: "Lipiec zarezerwowałem na Paryż.", en: "July is already <strong>locked in</strong> for Paris." },
+    { pl: "Dzięki za kontrakt, zajmę się tym.", en: "Thanks for the contract! I'll <strong>take care of it</strong> shortly." },
+    { pl: "Naprawdę? Akurat dzisiaj?", en: "Seriously? Today <strong>of all days?</strong>" },
+    { pl: "Sorry że Cię wstrzymuję z tym.", en: "<strong>Sorry for the holdup</strong> on this one." },
+    { pl: "Nie ukrywam, lipiec będzie mocno zajęty.", en: "<strong>Not gonna lie,</strong> July is going to be pretty packed." },
+    { pl: "Nie chcę być tym, co psuje zabawę.", en: "I don't want to be a <strong>party pooper.</strong>" },
+    { pl: "Odpuszczę sobie ten raz, ale na następny na pewno będę.", en: "Just <strong>sitting this one out,</strong> definitely in for the next." },
+    { pl: "Ona tym żyje.", en: "<strong>She's living for it.</strong>" },
+    { pl: "Mam nadzieję, że nie ma z tym problemu.", en: "<strong>Hope that's not a problem!</strong>" },
+    { pl: "Zrobiłem to metodą prób i błędów.", en: "I figured it out through <strong>trial and error.</strong>" },
+    { pl: "Dopiero teraz się do tego zabieram.", en: "Sorry I'm only <strong>getting around to</strong> this today." },
+    { pl: "Właśnie miałem napisać Ci to samo!", en: "I was <strong>just about to</strong> write you the same thing!" },
+    { pl: "Dzięki za cierpliwość, u mnie totalny młyn.", en: "Thanks for <strong>bearing with me,</strong> things have been crazy <strong>on my end.</strong>" },
+    { pl: "Uważaj, żebyś nie zniechęcił ludzi do wyjazdów, bo nic z tego nie mają.", en: "You'll end up with people avoiding trips, because <strong>there's nothing in it for them.</strong>" },
+    { pl: "Rozkręćmy to.", en: "<strong>Let's make some noise.</strong>" },
+    { pl: "Właśnie zalogowałem się i zabieram się za pierwszy dzień.", en: "Just logged in and <strong>getting set up for</strong> my first day." },
+    { pl: "Zgodnie z ustaleniami przesyłam klauzulę.", en: "<strong>As discussed,</strong> I'm sending the clause." },
+    { pl: "Zwrócę uwagę Claude'owi.", en: "I'll <strong>flag it with</strong> Claude." },
+    { pl: "Wyszedłem z wprawy z angielskim.", en: "I'm a bit <strong>rusty</strong> with my English." },
+    { pl: "Właśnie natknąłem się na wasz film.", en: "I just <strong>came across</strong> your video." },
+    { pl: "Dziękuję za ciepłe przyjęcie.", en: "Thanks for the <strong>warm welcome</strong>." },
+    { pl: "Dotarłem na lotnisko.", en: "I've <strong>made it to</strong> the airport." },
+    { pl: "Wezmę się za to od razu.", en: "I'll <strong>get on it</strong> right away." },
+    { pl: "Pozwoliłem sobie przygotować draft.", en: "I <strong>took the liberty of</strong> preparing a draft." },
+    { pl: "Może się przyda.", en: "It might <strong>come in handy</strong>." },
+    { pl: "To Twoja decyzja.", en: "<strong>It's your call.</strong>" },
+    { pl: "Poznamy się już za dwa dni.", en: "We'll <strong>get to see</strong> each other in just two days." },
+    { pl: "Nie chcę Ci zawracać głowy takimi drobnostkami.", en: "I don't want to <strong>bug you</strong> with this kind of small stuff." },
+    { pl: "Ta uwaga trafia do mnie w punkt.", en: "That really <strong>resonates</strong> with me. <strong>Spot on.</strong>" },
+    { pl: "Jak ten proces będzie wdrożony, to znikną te problemy.", en: "Once the process is <strong>in place</strong>, these issues will go away." },
+    { pl: "Inaczej to bezpośrednio obciąża finansowo każdego.", en: "Otherwise, it directly <strong>impacts everyone's wallet</strong>." }
+  ],
+  idioms: [
+    { pl: "akurat dzisiaj / akurat teraz", en: "<strong>of all days</strong>", example: "Seriously? Today <strong>of all days?</strong> I have a huge presentation this afternoon.", note: "Używane gdy coś się dzieje w najgorszym możliwym momencie." },
+    { pl: "nie ukrywam / szczerze mówiąc", en: "<strong>not gonna lie</strong>", example: "<strong>Not gonna lie,</strong> this quarter is going to be pretty packed.", note: "Swobodne otwarcie szczerej wypowiedzi, popularne w mowie i pisaniu." },
+    { pl: "osoba psująca zabawę", en: "<strong>party pooper</strong>", example: "I don't want to be a <strong>party pooper,</strong> but I'm heading home early tonight.", note: "Ktoś, kto odmawia dołączenia lub psuje ogólny nastrój." },
+    { pl: "odpuścić sobie ten raz", en: "<strong>sit this one out</strong>", example: "I'll <strong>sit this one out,</strong> but count me in for the next trip.", note: "Sportowy idiom, jak zawodnik odpoczywający jeden mecz." },
+    { pl: "zapisz mnie / jestem", en: "<strong>count me in</strong>", example: "Team lunch on Friday? <strong>Count me in!</strong>", note: "Entuzjastyczna zgoda na udział w czymś." },
+    { pl: "jarać się czymś / nie móc się doczekać", en: "<strong>living for it</strong>", example: "My daughter <strong>has been living for</strong> this camping trip all summer.", note: "Modny slang na intensywne pozytywne emocje." },
+    { pl: "uprzedzenie / info z wyprzedzeniem", en: "<strong>heads-up</strong>", example: "Just a <strong>heads-up</strong> — the client meeting got moved to Tuesday.", note: "\"Just giving you a heads-up\" = tak tylko uprzedzam." },
+    { pl: "metoda prób i błędów", en: "<strong>trial and error</strong>", example: "We figured out the best process through <strong>trial and error.</strong>", note: "Zawsze bez \"the\" na początku." },
+    { pl: "miej cierpliwość / wytrzymaj chwilę", en: "<strong>bear with me</strong>", example: "<strong>Bear with me</strong> for a second while I pull up the numbers.", note: "Uprzejma prośba o cierpliwość. Uwaga na pisownię — nie \"bare with me\"." },
+    { pl: "po mojej stronie", en: "<strong>on my end</strong>", example: "Things have been crazy <strong>on my end,</strong> sorry for the delay.", note: "Czasem też \"from my end\", ale \"on my end\" jest częstsze w US English." },
+    { pl: "zgłosić / zwrócić uwagę komuś", en: "<strong>flag it with someone</strong>", example: "If anything's unclear, I'll <strong>flag it with</strong> the legal team.", note: "Korpo idiom na eskalację sprawy do właściwej osoby." },
+    { pl: "wprowadzić kogoś w temat", en: "<strong>fill someone in</strong>", example: "Let me <strong>fill you in</strong> on what happened at yesterday's meeting.", note: "\"Just filling you in\" = tak Ci tylko naświetlam." },
+    { pl: "wyszedłem z wprawy / nierozgrzany", en: "<strong>rusty</strong>", example: "Sorry if I'm a bit <strong>rusty</strong> — I haven't used English on a daily basis in years.", note: "Dosłownie \"zardzewiały\". Idealne słowo na powrót do czegoś po długiej przerwie." },
+    { pl: "natknąć się przypadkiem", en: "<strong>come across</strong>", example: "I just <strong>came across</strong> your article on LinkedIn — really impressive.", note: "Alternatywa: \"stumble upon\" — bardziej podkreśla przypadkowość." },
+    { pl: "dotrzeć (do miejsca / eventu)", en: "<strong>make it to</strong>", example: "I've just <strong>made it to</strong> the airport, will call once I'm through security.", note: "Częstsze i cieplejsze niż formalne \"arrive at\". Sugeruje trud lub wysiłek." },
+    { pl: "wchodzić w życie / zaczynać działać", en: "<strong>kick in</strong>", example: "The real learning <strong>kicks in</strong> when you start applying the theory.", note: "O procesach, efektach, lekach, emocjach — wszystko, co się \"włącza\" po czasie." },
+    { pl: "pozwolić sobie na (uprzejmie)", en: "<strong>take the liberty of</strong>", example: "I <strong>took the liberty of</strong> preparing a draft based on my previous experience.", note: "Dyplomatyczna formuła na uprzejmą inicjatywę. Pisownia formalna, ale często używana." },
+    { pl: "przydać się", en: "<strong>come in handy</strong>", example: "This travel policy template might <strong>come in handy</strong> for the team.", note: "\"Handy\" = poręczny, użyteczny. Ciepły, pozytywny ton." },
+    { pl: "Twoja decyzja / masz głos", en: "<strong>it's your call</strong>", example: "I've laid out the options — <strong>it's your call</strong> from here.", note: "Amerykański skrót na przekazanie odpowiedzialności. Brzmi z szacunkiem, nie z rezygnacją." },
+    { pl: "zawracać komuś głowę", en: "<strong>bug someone</strong>", example: "Sorry to <strong>bug you</strong> again, but I have one more quick question.", note: "Lekkie, samokrytyczne. Amerykańskie — Brytyjczycy powiedzą \"bother\"." },
+    { pl: "dokładnie / w punkt", en: "<strong>spot on</strong>", example: "Your analysis is <strong>spot on</strong> — that's exactly what I was thinking.", note: "Krótkie i konkretne potwierdzenie trafności czyjejś obserwacji." },
+    { pl: "oko do X (talent, wyczucie)", en: "<strong>an eye for X</strong>", example: "She has <strong>an eye for</strong> detail that makes her designs stand out.", note: "\"An eye for aesthetics/detail/design/talent\" — talent wzrokowo-oceniający." },
+    { pl: "czapki z głów / szacunek", en: "<strong>hats off</strong>", example: "<strong>Hats off</strong> to the team for pulling this off in two weeks.", note: "Brytyjsko-amerykańska pochwała, formalna ale ciepła. Często w LinkedIn komentarzach." },
+    { pl: "wdrożone / działające", en: "<strong>in place</strong>", example: "Once the new process is <strong>in place</strong>, onboarding will be much smoother.", note: "Korpo idiom o systemach, procesach, procedurach — \"in place\" = ustawione i działa." }
+  ]
+};
+
+let currentDeck = 'sentences';
+let cards = [...decks.sentences];
+let index = 0;
+let flipped = false;
+
+const els = {
+  card: document.getElementById('card'),
+  cardHint: document.getElementById('cardHint'),
+  plText: document.getElementById('plText'),
+  enWrap: document.getElementById('enWrap'),
+  enText: document.getElementById('enText'),
+  exampleText: document.getElementById('exampleText'),
+  noteText: document.getElementById('noteText'),
+  counter: document.getElementById('counter'),
+  prevBtn: document.getElementById('prevBtn'),
+  nextBtn: document.getElementById('nextBtn'),
+  flipBtn: document.getElementById('flipBtn'),
+  shuffleBtn: document.getElementById('shuffleBtn'),
+  resetBtn: document.getElementById('resetBtn'),
+  tabs: document.querySelectorAll('.tab')
+};
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function render() {
+  const c = cards[index];
+  els.plText.textContent = c.pl;
+  els.enText.innerHTML = c.en;
+  if (c.example) { els.exampleText.innerHTML = c.example; els.exampleText.style.display = 'block'; }
+  else { els.exampleText.style.display = 'none'; }
+  if (c.note) { els.noteText.textContent = c.note; els.noteText.style.display = 'block'; }
+  else { els.noteText.style.display = 'none'; }
+  els.counter.textContent = pad(index + 1) + ' / ' + pad(cards.length);
+  els.prevBtn.disabled = index === 0;
+  els.nextBtn.disabled = index === cards.length - 1;
+  setFlipped(false);
+}
+
+function setFlipped(state) {
+  flipped = state;
+  if (state) {
+    els.plText.classList.add('hidden');
+    els.enWrap.classList.add('visible');
+    els.cardHint.textContent = 'Kliknij, aby ukryć';
+    els.flipBtn.textContent = 'Ukryj';
+  } else {
+    els.plText.classList.remove('hidden');
+    els.enWrap.classList.remove('visible');
+    els.cardHint.textContent = 'Kliknij, aby odkryć';
+    els.flipBtn.textContent = 'Odkryj';
+  }
+}
+
+function next() { if (index < cards.length - 1) { index++; render(); } }
+function prev() { if (index > 0) { index--; render(); } }
+function flip() { setFlipped(!flipped); }
+
+function shuffle() {
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+  index = 0; render();
+}
+
+function reset() { cards = [...decks[currentDeck]]; index = 0; render(); }
+
+function switchDeck(deck) {
+  currentDeck = deck; cards = [...decks[deck]]; index = 0;
+  els.tabs.forEach(t => t.classList.toggle('active', t.dataset.deck === deck));
+  render();
+}
+
+els.card.addEventListener('click', flip);
+els.flipBtn.addEventListener('click', (e) => { e.stopPropagation(); flip(); });
+els.prevBtn.addEventListener('click', prev);
+els.nextBtn.addEventListener('click', next);
+els.shuffleBtn.addEventListener('click', shuffle);
+els.resetBtn.addEventListener('click', reset);
+els.tabs.forEach(t => t.addEventListener('click', () => switchDeck(t.dataset.deck)));
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space') { e.preventDefault(); flip(); }
+  else if (e.code === 'ArrowRight') next();
+  else if (e.code === 'ArrowLeft') prev();
+});
+
+render();
+</script>
+</body>
+</html>

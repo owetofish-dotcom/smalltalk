@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiszki — ukraiński</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:     #fafaf8;
+    --text:   #111111;
+    --muted:  #888888;
+    --border: #e2e2e0;
+    --hover:  #f5f5f3;
+    --hl:     #ffef7a;
+    --font:   'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); }
+  body {
+    font-family: var(--font);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  button { cursor: pointer; font-family: var(--font); }
+
+  /* HEADER */
+  .header {
+    display: flex; align-items: center; gap: 10px;
+    height: 40px; padding: 0 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky; top: 0; z-index: 10;
+    flex-shrink: 0;
+  }
+  .header-back {
+    color: var(--muted); text-decoration: none; font-size: 12px;
+    display: flex; align-items: center; gap: 3px; flex-shrink: 0;
+  }
+  .header-back:hover { color: var(--text); }
+  .header-back svg { width: 14px; height: 14px; }
+  .header-title {
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; flex: 1;
+  }
+  .counter {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 12px; color: var(--muted); letter-spacing: 0.05em;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+  .tab {
+    background: none; border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 14px 11px;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: -1px;
+    transition: color .12s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); border-bottom-color: var(--text); font-weight: 700; }
+
+  /* MAIN */
+  main {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px 16px;
+  }
+
+  /* CARD */
+  .card {
+    width: 100%; max-width: 600px;
+    border: 1.5px solid var(--border);
+    background: white;
+    padding: 36px 28px;
+    cursor: pointer;
+    min-height: 280px;
+    display: flex; flex-direction: column; justify-content: center;
+    transition: box-shadow .12s, transform .12s;
+    user-select: none;
+  }
+  .card:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--text); }
+  .card:active { transform: none; box-shadow: none; }
+
+  .card-pl {
+    font-size: 22px; line-height: 1.45;
+    font-weight: 400; color: var(--text);
+  }
+  .card-hint {
+    margin-top: 18px;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .card-answer {
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border);
+  }
+  .card-uk {
+    font-size: 20px; line-height: 1.5; font-weight: 500;
+  }
+  .card-uk strong {
+    font-weight: 600;
+    background: var(--hl);
+    padding: 1px 3px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .card-ph {
+    margin-top: 8px;
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 13px; color: var(--muted); line-height: 1.4;
+  }
+  .card-ph::before { content: "[ "; }
+  .card-ph::after  { content: " ]"; }
+  .card-example {
+    margin-top: 18px;
+    border-left: 2px solid var(--border);
+    padding: 4px 0 4px 14px;
+    font-size: 15px; line-height: 1.5;
+    font-style: italic; color: var(--text);
+  }
+  .card-note {
+    margin-top: 12px;
+    font-size: 13px; line-height: 1.5; color: var(--muted);
+  }
+  .card-note strong { color: var(--text); font-style: normal; }
+
+  /* CONTROLS */
+  .controls {
+    display: flex; gap: 8px;
+    padding: 0 16px 10px;
+    max-width: 632px; margin: 0 auto; width: 100%;
+  }
+  .controls button {
+    flex: 1; background: var(--bg); border: 1.5px solid var(--border);
+    padding: 11px 8px;
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text); font-weight: 500;
+    transition: background .12s, box-shadow .12s;
+  }
+  .controls button:hover { background: var(--hover); box-shadow: 2px 2px 0 var(--border); }
+  .controls button:active { box-shadow: none; }
+  .btn-reveal { font-weight: 700; }
+
+  .util {
+    display: flex; gap: 8px;
+    padding: 0 16px 20px;
+    max-width: 632px; margin: 0 auto; width: 100%;
+  }
+  .util button {
+    flex: 1; background: none; border: 1px solid var(--border);
+    padding: 8px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted);
+    transition: color .12s, border-color .12s;
+  }
+  .util button:hover { color: var(--text); border-color: var(--text); }
+
+  .kb {
+    text-align: center; padding: 0 0 16px;
+    font-size: 10px; color: var(--muted); letter-spacing: 0.08em;
+  }
+  .kb kbd {
+    background: white; border: 1px solid var(--border);
+    padding: 2px 5px; font-family: monospace; font-size: 10px; margin: 0 2px;
+  }
+
+  @media (max-width: 560px) {
+    .card { padding: 26px 18px; min-height: 240px; }
+    .card-pl { font-size: 19px; }
+    .card-uk { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="header-back" href="../../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
+    MiniApps
+  </a>
+  <span class="header-title">Fiszki — ukraiński</span>
+  <span class="counter" id="counter">01 / 00</span>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" id="tab-sent" data-deck="sentences">Zdania</button>
+  <button class="tab" id="tab-idiom" data-deck="idioms">Idiomy / kolokacje</button>
+</nav>
+
+<main>
+  <div class="card" id="card" tabindex="0" role="button" aria-label="Karta — kliknij, aby odkryć odpowiedź">
+    <div class="card-pl" id="cardPl"></div>
+    <div class="card-hint" id="cardHint">Kliknij lub naciśnij spację, aby odkryć</div>
+    <div class="card-answer" id="cardAnswer" hidden>
+      <div class="card-uk" id="cardUk"></div>
+      <div class="card-ph" id="cardPh"></div>
+      <div class="card-example" id="cardExample" hidden></div>
+      <div class="card-note" id="cardNote" hidden></div>
+    </div>
+  </div>
+</main>
+
+<div class="controls">
+  <button id="prevBtn">◄ Poprz.</button>
+  <button id="revealBtn" class="btn-reveal">Odkryj</button>
+  <button id="nextBtn">Nast. ►</button>
+</div>
+<div class="util">
+  <button id="shuffleBtn">Wymieszaj</button>
+  <button id="resetBtn">Od początku</button>
+</div>
+<div class="kb"><kbd>Spacja</kbd> odkryj &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> nawigacja</div>
+
+<script>
+const DATA = {
+  sentences: [
+    { pl: "Cześć, jak leci?", uk: "Здоров, <strong>як воно</strong>?", ph: "Zdorow, jak wono?" },
+    { pl: "Jak się masz?", uk: "<strong>Як ся маєш</strong>?", ph: "Jak sia majesz?" },
+    { pl: "Dziękuję za pomoc.", uk: "<strong>Дякую</strong> за допомогу.", ph: "Diakuju za dopomohu." },
+    { pl: "Nie ma sprawy.", uk: "<strong>Нема питань</strong>.", ph: "Nema pytań." },
+    { pl: "Poczekaj chwilę.", uk: "<strong>Зачекай</strong> хвилинку.", ph: "Zaczekaj chwylynku." },
+    { pl: "Nic nie rozumiem.", uk: "Я нічого <strong>не розумію</strong>.", ph: "Ja niczoho ne rozumiju." },
+    { pl: "Możesz powtórzyć?", uk: "Можеш <strong>повторити</strong>?", ph: "Możesz powtoryty?" },
+    { pl: "Mów wolniej, proszę.", uk: "Говори <strong>повільніше</strong>, будь ласка.", ph: "Howory powilnisze, bud łaska." },
+    { pl: "Gdzie jest najbliższy sklep?", uk: "Де <strong>найближчий</strong> магазин?", ph: "De najbłyżczyj mahazyn?" },
+    { pl: "Ile to kosztuje?", uk: "<strong>Скільки</strong> це коштує?", ph: "Skilky ce kosztuje?" },
+    { pl: "Jestem głodny.", uk: "Я <strong>голодний</strong>.", ph: "Ja hołodnyj." },
+    { pl: "Muszę iść.", uk: "Мені <strong>треба йти</strong>.", ph: "Meni treba jty." },
+    { pl: "Do zobaczenia jutro.", uk: "<strong>Побачимось</strong> завтра.", ph: "Pobaczymoś zawtra." },
+    { pl: "Wszystko w porządku?", uk: "<strong>Все гаразд</strong>?", ph: "Wse harazd?" },
+    { pl: "Nie martw się.", uk: "<strong>Не хвилюйся</strong>.", ph: "Ne chwylujsia." },
+    { pl: "Zgadzam się z tobą.", uk: "Я з тобою <strong>погоджуюсь</strong>.", ph: "Ja z toboju pohodżujuś." },
+    { pl: "Wyślij mi to na maila.", uk: "Надішли мені це <strong>на пошту</strong>.", ph: "Nadiszly meni ce na posztu." },
+    { pl: "Kiedy jest spotkanie?", uk: "Коли <strong>зустріч</strong>?", ph: "Koły zustricz?" },
+    { pl: "Muszę to jeszcze sprawdzić.", uk: "Мені <strong>треба ще перевірити</strong> це.", ph: "Meni treba szcze perewiryty ce." },
+    { pl: "Podpiszmy umowę w przyszłym tygodniu.", uk: "<strong>Підпишемо</strong> договір наступного тижня.", ph: "Pidpyszemo dohowir nastupnoho tyżnia." },
+    { pl: "Jaka jest cena za sztukę?", uk: "Яка ціна <strong>за штуку</strong>?", ph: "Jaka cina za sztuku?" },
+    { pl: "Termin dostawy to dwa tygodnie.", uk: "<strong>Термін доставки</strong> — два тижні.", ph: "Termin dostawky — dwa tyżni." },
+    { pl: "Dobrze wiem, jak ciężko walczycie.", uk: "Я добре знаю, як <strong>важко ви воюєте</strong>.", ph: "Ja dobre znaju, jak ważko wy wojujete." },
+    { pl: "Podaj koordynaty celu.", uk: "Дай <strong>координати цілі</strong>.", ph: "Daj koordynaty cili." },
+    { pl: "Cel namierzony, czekam na rozkaz.", uk: "Ціль <strong>виявлена</strong>, чекаю наказ.", ph: "Cil wyjawłena, czekaju nakaz." },
+    { pl: "Uwaga, dron w powietrzu.", uk: "Увага, <strong>дрон у повітрі</strong>.", ph: "Uwaha, dron u powitri." },
+    { pl: "Kryj się, ostrzał!", uk: "<strong>В укриття</strong>, обстріл!", ph: "W ukryttia, obstrił!" },
+    { pl: "Potrzebujemy amunicji.", uk: "Нам потрібні <strong>боєприпаси</strong>.", ph: "Nam potribni bojeprypasy." },
+    { pl: "Droga jest czysta.", uk: "Дорога <strong>чиста</strong>.", ph: "Doroha czysta." },
+    { pl: "Zostań w kontakcie.", uk: "Залишайся <strong>на зв\u2019язку</strong>.", ph: "Załyszajsia na zwjazku." },
+    { pl: "Wycofujemy się na drugą pozycję.", uk: "<strong>Відходимо</strong> на другу позицію.", ph: "Widchodymo na druhu pozyciju." }
+  ],
+  idioms: [
+    { pl: "Ni z gruszki, ni z pietruszki.", uk: "<strong>Ні сіло ні впало</strong>.", ph: "Ni siło ni wpało.", example: "Він ні сіло ні впало почав кричати.", note: "<strong>Kontekst —</strong> znaczy 'ni stąd ni zowąd', o czymś nagłym i bez powodu. Dosłownie 'ni siadło, ni upadło'." },
+    { pl: "Robić z igły widły.", uk: "<strong>Робити з мухи слона</strong>.", ph: "Robyty z muchy słona.", example: "Не роби з мухи слона, це дрібниця.", note: "<strong>Kontekst —</strong> ukraińska wersja to 'robić z muchy słonia' — wyolbrzymiać drobiazg." },
+    { pl: "Trzymać kciuki.", uk: "<strong>Тримати кулаки</strong>.", ph: "Trymaty kułaky.", example: "Тримаю за тебе кулаки на співбесіді.", note: "<strong>Kontekst —</strong> po ukraińsku trzyma się nie kciuki, tylko pięści (кулаки)." },
+    { pl: "Rzucać słowa na wiatr.", uk: "<strong>Кидати слова на вітер</strong>.", ph: "Kydaty słowa na witer.", example: "Він не кидає слів на вітер — сказав, зробив.", note: "<strong>Kontekst —</strong> prawie identyczne z polskim, łatwe do zapamiętania. Znaczy: mówić bez pokrycia." },
+    { pl: "Mieć węża w kieszeni.", uk: "<strong>Труситися над копійкою</strong>.", ph: "Trusytysia nad kopijkoju.", example: "Він труситься над кожною копійкою.", note: "<strong>Kontekst —</strong> dosłownie 'trząść się nad groszem' — o skąpcu. 'Wąż w kieszeni' po ukraińsku nie zadziała." },
+    { pl: "Bułka z masłem. (coś łatwego)", uk: "<strong>Раз плюнути</strong>.", ph: "Raz plunuty.", example: "Це завдання — раз плюнути.", note: "<strong>Kontekst —</strong> dosłownie 'raz splunąć' = fraszka, prościzna. Bardzo potoczne." },
+    { pl: "Wpaść jak śliwka w kompot.", uk: "<strong>Влипнути по вуха</strong>.", ph: "Włypnuty po wucha.", example: "Я влип по вуха в цю історію.", note: "<strong>Kontekst —</strong> 'wpaść po uszy' w kłopoty. Blisko polskiego 'po uszy'." },
+    { pl: "Coś jest nie halo.", uk: "<strong>Щось тут не те</strong>.", ph: "Szczoś tut ne te.", example: "Щось тут не те, перевір ще раз.", note: "<strong>Kontekst —</strong> 'coś tu jest nie to' — sygnał, że coś nie gra. Naturalne, uliczne." },
+    { pl: "Trzymać rękę na pulsie.", uk: "<strong>Тримати руку на пульсі</strong>.", ph: "Trymaty ruku na pulsi.", example: "Ми тримаємо руку на пульсі ситуації на фронті.", note: "<strong>Kontekst —</strong> identyczne z polskim. Kontrolować sytuację na bieżąco — częste w wojsku i biznesie." },
+    { pl: "Krok po kroku.", uk: "<strong>Крок за кроком</strong>.", ph: "Krok za krokom.", example: "Рухаємось крок за кроком, без поспіху.", note: "<strong>Kontekst —</strong> prawie jak po polsku ('krok za krokiem'). Stopniowo, po kolei." },
+    { pl: "Ni w ząb (nic nie rozumieć).", uk: "<strong>Ні бум-бум</strong>.", ph: "Ni bum-bum.", example: "Я в цьому ні бум-бум.", note: "<strong>Kontekst —</strong> kompletnie nic nie kumać w temacie. Bardzo potoczne, uliczne." },
+    { pl: "Być na tej samej stronie. (zgadzać się)", uk: "<strong>Бути на одній хвилі</strong>.", ph: "Buty na odnij chwyli.", example: "Добре, що ми з тобою на одній хвилі.", note: "<strong>Kontekst —</strong> 'być na jednej fali' — mieć wspólne rozumienie. Naturalne w rozmowie i pracy." },
+    { pl: "Wziąć się w garść.", uk: "<strong>Взяти себе в руки</strong>.", ph: "Wziaty sebe w ruky.", example: "Візьми себе в руки, ще не все втрачено.", note: "<strong>Kontekst —</strong> 'wziąć się w ręce' — opanować się, zebrać w sobie. Blisko polskiego." },
+    { pl: "Zaciskać pasa. (oszczędzać)", uk: "<strong>Затягувати паски</strong>.", ph: "Zatiahuwaty pasky.", example: "Цього року доводиться затягувати паски.", note: "<strong>Kontekst —</strong> prawie dosłownie jak po polsku. Ograniczać wydatki w trudnym czasie." },
+    { pl: "Palić się grunt pod nogami.", uk: "<strong>Земля горить під ногами</strong>.", ph: "Zemla horyt pid nohamy.", example: "Тут земля горить під ногами, треба відходити.", note: "<strong>Kontekst —</strong> 'ziemia pali się pod nogami' — sytuacja krytyczna, trzeba działać/uciekać. Częste w kontekście frontowym." }
+  ]
+};
+
+let deck = 'sentences';
+let order = [];
+let idx = 0;
+let revealed = false;
+
+const el = {
+  counter: document.getElementById('counter'),
+  card: document.getElementById('card'),
+  pl: document.getElementById('cardPl'),
+  hint: document.getElementById('cardHint'),
+  answer: document.getElementById('cardAnswer'),
+  uk: document.getElementById('cardUk'),
+  ph: document.getElementById('cardPh'),
+  example: document.getElementById('cardExample'),
+  note: document.getElementById('cardNote'),
+  revealBtn: document.getElementById('revealBtn'),
+  tabs: document.querySelectorAll('.tab')
+};
+
+function buildOrder() { order = DATA[deck].map((_, i) => i); }
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function render() {
+  const item = DATA[deck][order[idx]];
+  el.pl.textContent = item.pl;
+  el.uk.innerHTML = item.uk;
+  el.ph.textContent = item.ph || '';
+  el.ph.hidden = !item.ph;
+  if (deck === 'idioms' && item.example) {
+    el.example.textContent = '\u201E' + item.example + '\u201D';
+    el.example.hidden = false;
+  } else { el.example.hidden = true; }
+  if (deck === 'idioms' && item.note) {
+    el.note.innerHTML = item.note;
+    el.note.hidden = false;
+  } else { el.note.hidden = true; }
+  el.counter.textContent = pad(idx + 1) + ' / ' + pad(order.length);
+  setRevealed(false);
+}
+
+function setRevealed(state) {
+  revealed = state;
+  el.answer.hidden = !state;
+  el.hint.hidden = state;
+  el.revealBtn.textContent = state ? 'Ukryj' : 'Odkryj';
+}
+function toggleReveal() { setRevealed(!revealed); }
+function go(delta) { idx = (idx + delta + order.length) % order.length; render(); }
+function shuffle() {
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  idx = 0; render();
+}
+function resetOrder() { buildOrder(); idx = 0; render(); }
+function switchDeck(name) {
+  deck = name;
+  el.tabs.forEach(t => t.classList.toggle('active', t.dataset.deck === name));
+  buildOrder(); idx = 0; render();
+}
+
+el.card.addEventListener('click', toggleReveal);
+el.revealBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleReveal(); });
+document.getElementById('prevBtn').addEventListener('click', () => go(-1));
+document.getElementById('nextBtn').addEventListener('click', () => go(1));
+document.getElementById('shuffleBtn').addEventListener('click', shuffle);
+document.getElementById('resetBtn').addEventListener('click', resetOrder);
+el.tabs.forEach(t => t.addEventListener('click', () => switchDeck(t.dataset.deck)));
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space') { e.preventDefault(); toggleReveal(); }
+  else if (e.code === 'ArrowLeft') { e.preventDefault(); go(-1); }
+  else if (e.code === 'ArrowRight') { e.preventDefault(); go(1); }
+});
+el.card.addEventListener('keydown', (e) => { if (e.code === 'Enter') { e.preventDefault(); toggleReveal(); } });
+
+buildOrder();
+render();
+</script>
+</body>
+</html>
