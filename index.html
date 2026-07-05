@@ -1365,7 +1365,8 @@
       icon.textContent = '+';
       lbl.textContent = 'Dodaj wagę';
       input.value = '';
-      document.getElementById('time-input').value = '';
+      // Do NOT clear time-input here — preserve the value in hidden DOM
+      // so toggling section off+on doesn't lose the captured time
     }
   }
   document.getElementById('weight-section-toggle').addEventListener('click', () => {
@@ -1374,6 +1375,9 @@
     } else {
       const lastW = selectedKey ? getLastWeight(selectedKey) : null;
       _setWeightActive(true, lastW ? lastW.toFixed(1) : '');
+      // If time field is empty (e.g. first open), capture current time now
+      const tInp = document.getElementById('time-input');
+      if (!tInp.value) tInp.value = nowHHMM();
       setTimeout(() => input.focus(), 50);
     }
   });
@@ -1392,8 +1396,8 @@
     const lastW = getLastWeight(key);
     const initWeight = data.weight ? data.weight.replace('kg','') : (lastW ? lastW.toFixed(1) : '');
     _setWeightActive(!!data.weight, initWeight);
-    // Time: use saved time if exists, else current time (new entry)
-    _setTimeActive(true, data.time || '');
+    // Time: use saved time if exists, then first_entry_time as fallback, else blank (captured on toggle/save)
+    _setTimeActive(true, data.time || data.first_entry_time || '');
     // If weight section is open, time was already set in _setWeightActive's show path
     // But if weight not yet saved, time row will be hidden anyway (inside weight-section div)
     document.getElementById('km-input').value = data.km;
