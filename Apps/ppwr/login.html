@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logowanie - Deklareo PPWR</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    body {
+      background: var(--s50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    .login-container {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+      border: 1px solid var(--s200);
+    }
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .logo-icon {
+      background: var(--g600);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .auth-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--s800);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .auth-sub {
+      text-align: center;
+      color: var(--s500);
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    .auth-sub a {
+      color: var(--g600);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--s700);
+      margin-bottom: 6px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--s200);
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--s800);
+      background: #fff;
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--g500);
+      box-shadow: 0 0 0 3px rgba(0,155,114,0.1);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all .2s;
+      border: 1px solid transparent;
+      padding: 12px;
+      font-size: 15px;
+      width: 100%;
+    }
+    .btn-primary {
+      background: var(--g600);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,155,114,0.2);
+    }
+    .btn-primary:hover {
+      background: var(--g700);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="auth-logo">
+      <div class="logo-icon"><i class="ph-duotone ph-leaf" style="font-size:24px;--ph-color:#fff;color:#fff"></i></div>
+      <div style="font-weight:800;color:var(--s800);font-size:20px;">Deklareo</div>
+    </div>
+    
+    <div class="auth-title">Zaloguj się</div>
+    <div class="auth-sub">Nie masz konta? <a href="register.html">Zarejestruj się</a></div>
+
+    <div class="form-group">
+      <label>Służbowy adres E-mail</label>
+      <input type="email" id="login-email" value="jan@makodrew.pl">
+    </div>
+    
+    <div class="form-group">
+      <label>Hasło</label>
+      <input type="password" id="login-password" value="••••••••">
+    </div>
+    
+    <button class="btn btn-primary" style="margin-top:8px;" onclick="doLogin()">
+      <i class="ph-duotone ph-sign-in"></i> Zaloguj się
+    </button>
+    
+    <div style="text-align:center;margin-top:16px;font-size:13px;">
+      <a href="#" style="color:var(--s500);text-decoration:none;">Zapomniałem hasła</a>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script>
+    async function doLogin() {
+      const email = document.getElementById('login-email').value;
+      const pass = document.getElementById('login-password').value;
+      
+      if(!email || !pass) {
+          alert('Wprowadź e-mail i hasło.');
+          return;
+      }
+
+      try {
+          await DeklareoApi.Auth.login(email, pass);
+          // Po zalogowaniu przekierowujemy do aplikacji
+          window.location.href = 'index.html?app=1';
+      } catch (e) {
+          alert('Błąd logowania: ' + e.message);
+      }
+    }
+  </script>
+</body>
+</html>

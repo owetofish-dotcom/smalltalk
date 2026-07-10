@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Deklareo — Deklaracje zgodności</title>
+<title>Deklareo — Deklaracje Zgodności PPWR dla branży drzewnej i opakowań</title>
+<meta name="description" content="Deklareo to nowoczesna platforma SaaS do generowania i zarządzania deklaracjami zgodności PPWR. Twórz dokumenty zgodnie z rozporządzeniem UE 2025/40 bez wysiłku.">
+<meta name="keywords" content="PPWR, deklaracje zgodności PPWR, opakowania, rozporządzenie UE 2025/40, palety drewniane, BDO, B2B SaaS, dokumentacja opakowań, zakaz PFAS">
+<meta property="og:title" content="Deklareo — Łatwe Deklaracje Zgodności PPWR">
+<meta property="og:description" content="Generuj, archiwizuj i udostępniaj deklaracje zgodności PPWR w kilka sekund. Sprawdź naszą platformę za darmo i bądź gotowy na sierpień 2026.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://deklareo.pl">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap">
@@ -451,162 +457,582 @@ textarea{resize:vertical;min-height:76px;}
 .toast-ok .ph-duotone::after{color:var(--g700);}
 @keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 /* SCROLLBAR */
+/* SCROLLBAR */
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--s200);border-radius:2px;}
+
+/* ── NEW LANDING PAGE STYLES ── */
+.land-section{padding:80px clamp(16px,5vw,48px);max-width:1100px;margin:0 auto;}
+.land-section.bg-white{background:#fff;max-width:none;}
+.land-section.bg-gray{background:var(--s50);max-width:none;}
+.land-section-inner{max-width:1100px;margin:0 auto;}
+
+.land-title{font-size:clamp(28px, 4vw, 36px);font-weight:800;text-align:center;color:var(--s800);margin-bottom:16px;}
+.land-subtitle{font-size:clamp(16px, 2vw, 18px);text-align:center;color:var(--s500);max-width:700px;margin:0 auto 48px auto;}
+
+.land-hero{padding:100px clamp(16px,5vw,48px) 60px;text-align:center;background:white;}
+.land-hero h1{font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--s800);line-height:1.1;margin-bottom:24px;letter-spacing:-0.03em;}
+.land-hero h1 span{color:var(--g500);}
+.land-hero p{font-size:clamp(16px,2vw,20px);color:var(--s500);max-width:800px;margin:0 auto 40px;line-height:1.6;}
+.land-hero-btns{display:flex;gap:16px;justify-content:center;margin-bottom:60px;}
+
+.social-proof{padding:40px 16px;border-top:1px solid var(--s200);border-bottom:1px solid var(--s200);background:var(--s50);text-align:center;}
+.social-proof-title{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--s400);font-weight:700;margin-bottom:24px;}
+.social-proof-logos{display:flex;justify-content:center;gap:clamp(30px, 6vw, 80px);flex-wrap:wrap;opacity:0.6;filter:grayscale(1);}
+.social-proof-logos img{height:30px;object-fit:contain;}
+.social-proof-logos div{font-weight:800;font-size:20px;color:var(--s700);}
+
+.edu-grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:center;}
+@media(min-width:768px){.edu-grid{grid-template-columns:1fr 1fr;}}
+.edu-content h3{font-size:24px;font-weight:800;margin-bottom:16px;color:var(--s800);}
+.edu-content p{font-size:16px;color:var(--s600);line-height:1.7;margin-bottom:16px;}
+.edu-content ul{list-style:none;margin-bottom:24px;}
+.edu-content ul li{position:relative;padding-left:28px;margin-bottom:12px;font-size:15px;color:var(--s700);}
+.edu-content ul li::before{content:'';position:absolute;left:0;top:4px;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%23009b72" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>') no-repeat center;background-size:contain;}
+
+.faq-container{max-width:800px;margin:0 auto;}
+.faq-item{border-bottom:1px solid var(--s200);padding:20px 0;}
+.faq-question{width:100%;text-align:left;background:none;border:none;font-size:18px;font-weight:700;color:var(--s800);cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+.faq-question .ph-duotone{font-size:24px;color:var(--g500);transition:transform .3s;}
+.faq-answer{font-size:15px;color:var(--s600);line-height:1.6;margin-top:12px;display:none;}
+.faq-item.active .faq-answer{display:block;}
+.faq-item.active .faq-question .ph-duotone{transform:rotate(180deg);}
+
+.land-cta{background:var(--s800);color:white;padding:80px clamp(16px,5vw,48px);text-align:center;}
+.land-cta h2{font-size:clamp(28px,4vw,36px);font-weight:800;margin-bottom:16px;color:#fff;}
+.land-cta p{color:rgba(255,255,255,.7);font-size:18px;margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto;}
+.land-cta .land-btn-main{margin:0 auto;padding:16px 32px;font-size:16px;}
+
+.land-btn-sec{color:var(--s800);border-color:var(--s300);background:#fff;}
+.land-btn-sec .ph-duotone{--ph-color:var(--s800);color:var(--s800);}
+.land-btn-sec:hover{background:var(--s50);border-color:var(--s400);}
+
+/* --- MICRO-ANIMATIONS --- */
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-anim {
+  opacity: 0;
+  animation: heroFadeIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.hero-anim-1 { animation-delay: 0.1s; }
+.hero-anim-2 { animation-delay: 0.3s; }
+.hero-anim-3 { animation-delay: 0.5s; }
+.hero-anim-4 { animation-delay: 0.7s; }
+
+/* --- GENERATOR SECTION --- */
+.gen-section {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f8fcf9 0%, #eef8f2 100%);
+  position: relative;
+  overflow: hidden;
+}
+.gen-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .gen-container { grid-template-columns: 1fr; }
+}
+.gen-form-box {
+  background: #fff;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+  border: 1px solid var(--s100);
+}
+.gen-form-box h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--s800);
+  margin-bottom: 8px;
+}
+.gen-form-box p {
+  color: var(--s500);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.gen-preview-box {
+  position: sticky;
+  top: 40px;
+}
+.a4-preview {
+  background: #fdfdfc;
+  background-image: linear-gradient(to bottom, transparent 95%, rgba(0,0,0,0.02) 100%), linear-gradient(to right, transparent 95%, rgba(0,0,0,0.02) 100%);
+  background-size: 20px 20px;
+  border-radius: 4px;
+  padding: 35px 30px;
+  aspect-ratio: 1 / 1.414;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.08), inset 0 0 40px rgba(0,0,0,0.02);
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 10px;
+  line-height: 1.4;
+  color: #222;
+  overflow: hidden;
+  position: relative;
+  transform-origin: top center;
+  border: 1px solid #e0e0e0;
+}
+.a4-header { text-align: center; font-weight: bold; font-size: 14px; margin-bottom: 20px; text-transform: uppercase; border-bottom: 2px solid #333; padding-bottom: 10px; }
+.a4-line { display: flex; flex-direction: column; margin-bottom: 14px; }
+.a4-label { font-weight: bold; margin-bottom: 2px; color: #444; }
+.a4-value { border-bottom: 1px solid #aaa; padding-bottom: 2px; min-height: 14px; color: #111; font-weight: bold; font-family: 'Inter', sans-serif;}
+.a4-text { margin-bottom: 12px; text-align: justify; }
+.a4-checkboxes { margin-top: 12px; }
+.a4-checkbox { margin-bottom: 6px; display: flex; gap: 6px; align-items: flex-start;}
+.a4-checkbox::before { content: '☑'; font-size: 14px; line-height: 10px; color: #333; }
+.a4-watermark { position: absolute; top:50%; left:50%; transform:translate(-50%, -50%) rotate(-45deg); font-size:55px; color:rgba(0,0,0,0.04); font-weight:bold; font-family:sans-serif; pointer-events:none; white-space:nowrap; text-transform: uppercase; letter-spacing: 5px; }
+
+.gen-price-tag {
+  display: inline-flex;
+  align-items: center;
+  background: var(--g50);
+  color: var(--g700);
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  border: 1px solid var(--g200);
+}
+.gen-btn-buy {
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.form-row { display: flex; gap: 16px; }
+.form-row > * { flex: 1; }
+@media(max-width: 600px) { .form-row { flex-direction: column; gap:0;} }
+
+.tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  background: var(--s200);
+  color: var(--s600);
+  border-radius: 50%;
+  font-size: 10px;
+  margin-left: 6px;
+  cursor: help;
+  position: relative;
+  font-weight: bold;
+}
+.tooltip-icon:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--s800);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 400;
+  white-space: normal;
+  width: max-content;
+  max-width: 220px;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  pointer-events: none;
+  line-height: 1.4;
+  text-align: left;
+}
+.tooltip-icon:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--s800);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.price-card, .feat-card, .edu-grid, .faq-item {
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+.price-card:hover, .feat-card:hover {
+  transform: translateY(-8px) scale(1.03) !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1) !important;
+}
+.price-card.popular:hover {
+  transform: scale(1.08) translateY(-6px) !important;
+}
+.btn, .land-btn-main, .land-btn-sec {
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+.btn:hover, .land-btn-main:hover, .land-btn-sec:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.btn:active, .land-btn-main:active, .land-btn-sec:active {
+  transform: scale(0.95) translateY(0) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.ph-duotone {
+  transition: transform 0.6s cubic-bezier(0.34, 1.8, 0.64, 1);
+}
+button:hover .ph-duotone, .feat-card:hover .ph-duotone, .land-btn-sec:hover .ph-duotone {
+  transform: scale(1.2) translateY(-2px) rotate(-5deg);
+}
 </style>
+<script src="js/api.js"></script>
 </head>
 <body>
 
 <!-- ═══ LANDING ═══════════════════════════════════════════ -->
 <div id="landing" class="landing">
-  <nav class="land-nav">
-    <div class="land-nav-logo">
-      <div class="logo-icon" style="background:var(--g600)"><i class="ph-duotone ph-leaf" style="font-size:20px;--ph-color:#fff;color:#fff"></i></div>
-      <div><div class="logo-text" style="color:var(--s800)">Deklareo</div><div class="logo-sub" style="color:var(--s400)">Deklaracje zgodności</div></div>
-    </div>
-    <div class="land-nav-links">
-      <span class="land-nav-link" onclick="scrollSection('features')"><i class="ph-duotone ph-squares-four"></i>Funkcje</span>
-      <span class="land-nav-link" onclick="scrollSection('pricing')"><i class="ph-duotone ph-tag"></i>Cennik</span>
-      <span class="land-nav-link"><i class="ph-duotone ph-chat-dots"></i>Kontakt</span>
-    </div>
-    <button class="btn btn-outline btn-sm" onclick="showAuth('login')">Zaloguj</button>
-    <button class="btn btn-primary btn-sm" onclick="showAuth('register')"><i class="ph-duotone ph-rocket-launch"></i>Zacznij</button>
-  </nav>
-
-  <div class="land-hero">
-    <h1>Deklaracje PPWR<br>dla <span>tartaków i paleciarnii</span></h1>
-    <p>Jedyna polska platforma do zarządzania deklaracjami zgodności PPWR. Generuj, przechowuj i udostępniaj klientom dokumenty zgodne z UE 2025/40 — bez prawnika, bez Excela.</p>
-    <div class="land-hero-btns">
-      <button class="land-btn-main" onclick="showAuth('register')"><i class="ph-duotone ph-rocket-launch"></i>Zacznij za darmo</button>
-      <button class="land-btn-sec" onclick="showAuth('login')"><i class="ph-duotone ph-sign-in"></i>Mam konto</button>
-    </div>
-    <div class="land-stats">
-      <div><div class="land-stat-val">12 sie</div><div class="land-stat-lbl">Obowiązek PPWR</div></div>
-      <div><div class="land-stat-val">10 lat</div><div class="land-stat-lbl">Wymagane archiwum</div></div>
-      <div><div class="land-stat-val">2 min</div><div class="land-stat-lbl">Czas wystawienia</div></div>
-      <div><div class="land-stat-val">🇵🇱</div><div class="land-stat-lbl">Tylko po polsku</div></div>
-    </div>
-  </div>
-
-  <div id="features" class="land-features">
-    <div class="land-feature">
-      <div class="land-feature-ico"><i class="ph-duotone ph-tree"></i></div>
-      <h3>Dla branży drzewnej</h3>
-      <p>Szablony do palet drewnianych, kantówki, skrzynek. Drewno z LP, ISPM 15, gwoździe — już pre-wypełnione.</p>
-    </div>
-    <div class="land-feature">
-      <div class="land-feature-ico"><i class="ph-duotone ph-file-doc"></i></div>
-      <h3>Generator PPWR krok po kroku</h3>
-      <p>Kreator prowadzi przez Załącznik VIII. Eksport do PDF i DOCX. Automatycznie wypełnione pola dla materiałów naturalnych.</p>
-    </div>
-    <div class="land-feature">
-      <div class="land-feature-ico"><i class="ph-duotone ph-share-network"></i></div>
-      <h3>Udostępnianie klientom</h3>
-      <p>Wyślij link lub PDF do klienta jednym kliknięciem. Tracking — wiesz kto pobrał i kiedy.</p>
-    </div>
-    <div class="land-feature">
-      <div class="land-feature-ico"><i class="ph-duotone ph-archive-box"></i></div>
-      <h3>Archiwum 10 lat</h3>
-      <p>Wszystkie deklaracje bezpiecznie w chmurze. Zawsze dostępne na żądanie organu nadzoru rynku.</p>
-    </div>
-    <div class="land-feature">
-      <div class="land-feature-ico"><i class="ph-duotone ph-lightning"></i></div>
-      <h3>Pełny CRUD</h3>
-      <p>Dodawaj nowe typy palet, edytuj, duplikuj, archiwizuj. Całe portfolio opakowań z jednego miejsca.</p>
-    </div>
-    <div class="land-feature">
-      <div class="land-feature-ico"><i class="ph-duotone ph-shield-check"></i></div>
-      <h3>Zgodność z UE 2025/40</h3>
-      <p>Wzór zgodny z Załącznikiem VIII, zaktualizowany o wytyczne KE. REACH, SVHC, PFAS, ISPM 15 — obsłużone.</p>
-    </div>
-  </div>
-
-  <div id="pricing" class="land-pricing">
-    <h2>Prosty cennik</h2>
-    <p class="sub">Zacznij za darmo. Skaluj kiedy potrzebujesz. Bez umów — anuluj kiedy chcesz.</p>
-    <div class="pricing-grid" style="max-width:860px;margin-left:auto;margin-right:auto;">
-      <div class="price-card">
-        <div class="price-plan">DARMOWY</div>
-        <div class="price-amount">0 <span class="price-period">zł/mies.</span></div>
-        <div class="price-features">
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>2 deklaracje PPWR</div>
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>PDF + DOCX</div>
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Archiwum 10 lat</div>
-          <div class="price-feature pf-no"><i class="ph-duotone ph-x-circle"></i>Udostępnianie linkiem</div>
-          <div class="price-feature pf-no"><i class="ph-duotone ph-x-circle"></i>Więcej deklaracji</div>
-        </div>
-        <button class="btn btn-outline w-full" onclick="showAuth('register')">Zarejestruj się</button>
+  <header style="background:#fff;border-bottom:1px solid var(--s200);">
+    <nav class="land-nav" style="max-width:1100px;margin:0 auto;">
+      <div class="land-nav-logo">
+        <div class="logo-icon" style="background:var(--g600)"><i class="ph-duotone ph-leaf" style="font-size:20px;--ph-color:#fff;color:#fff"></i></div>
+        <div><div class="logo-text" style="color:var(--s800)">Deklareo</div><div class="logo-sub" style="color:var(--s500)">Dla opakowań i palet</div></div>
       </div>
-      <div class="price-card popular">
-        <div class="popular-tag">POLECANY</div>
-        <div class="price-plan">BUSINESS</div>
-        <div class="price-amount">49 <span class="price-period">zł/mies.</span></div>
-        <div class="price-features">
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>50 deklaracji</div>
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>PDF + DOCX</div>
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Udostępnianie linkiem</div>
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Tracking pobrań</div>
-          <div class="price-feature pf-no"><i class="ph-duotone ph-x-circle"></i>Wiele firm</div>
-        </div>
-        <button class="btn btn-primary w-full" onclick="showAuth('register')">14 dni gratis →</button>
+      <div class="land-nav-links">
+        <span class="land-nav-link" onclick="scrollSection('ppwr')"><i class="ph-duotone ph-info"></i>Co to PPWR?</span>
+        <span class="land-nav-link" onclick="scrollSection('features')"><i class="ph-duotone ph-squares-four"></i>Rozwiązanie</span>
+        <span class="land-nav-link" onclick="scrollSection('pricing')"><i class="ph-duotone ph-tag"></i>Cennik</span>
+        <span class="land-nav-link" onclick="scrollSection('faq')"><i class="ph-duotone ph-question"></i>FAQ</span>
       </div>
-      <div class="price-card">
-        <div class="price-plan">ENTERPRISE</div>
-        <div class="price-amount">199 <span class="price-period">zł/mies.</span></div>
-        <div class="price-features">
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Nielimit. deklaracji</div>
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Wiele firm/oddziałów</div>
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>API + integracje</div>
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Wsparcie priorytetowe</div>
-          <div class="price-feature pf-ok"><i class="ph-duotone ph-check-circle"></i>Biały label (opcja)</div>
-        </div>
-        <button class="btn btn-outline w-full" onclick="alert('Kontakt: hello@deklareo.pl')">Kontakt</button>
+      <div style="display:flex;gap:12px;">
+        <button class="btn btn-outline btn-sm" onclick="window.location.href='login.html'">Zaloguj się</button>
+        <button class="btn btn-primary btn-sm" onclick="window.location.href='register.html'">Zacznij za darmo</button>
       </div>
-    </div>
-  </div>
+    </nav>
+  </header>
 
-  <div class="land-cta">
-    <h2>Gotowy przed 12 sierpnia 2026?</h2>
-    <p>Bez deklaracji PPWR nie wprowadzisz opakowań na rynek UE. Zacznij teraz — 2 deklaracje gratis.</p>
-    <button class="land-btn-main" onclick="showAuth('register')"><i class="ph-duotone ph-rocket-launch"></i>Zacznij bezpłatnie</button>
-  </div>
-  <div class="land-footer">© 2026 Deklareo · hello@deklareo.pl · <a href="#">Regulamin</a> · <a href="#">Prywatność</a></div>
+  <main>
+    <!-- HERO SECTION -->
+    <section class="land-hero">
+      <h1 class="hero-anim hero-anim-1">Rozporządzenie PPWR <br><span>nie musi blokować</span> Twojej sprzedaży.</h1>
+      <p class="hero-anim hero-anim-2">Generuj deklaracje zgodności PPWR dla palet, opakowań drewnianych i tekturowych w kilka sekund. Spełnij wymogi UE 2025/40 bez pomocy prawnika i kosztownych audytów. Zacznij za darmo i bądź gotowy na sierpień 2026 r.</p>
+      <div class="land-hero-btns hero-anim hero-anim-3">
+        <button class="land-btn-main" onclick="window.location.href='register.html'">Załóż darmowe konto</button>
+        <button class="land-btn-sec" onclick="scrollSection('ppwr')">Dowiedz się więcej</button>
+      </div>
+      
+      <div class="land-stats hero-anim hero-anim-4" style="border:none;margin-top:20px;padding-top:0;">
+        <div><div class="land-stat-val">12 sie 2026</div><div class="land-stat-lbl">Zakaz sprzedaży bez deklaracji</div></div>
+        <div><div class="land-stat-val">10 lat</div><div class="land-stat-lbl">Obowiązek archiwizacji danych</div></div>
+        <div><div class="land-stat-val">Brak PFAS</div><div class="land-stat-lbl">Bezwzględny wymóg prawny</div></div>
+      </div>
+    </section>
+
+    <!-- SOCIAL PROOF -->
+    <section class="social-proof">
+      <div class="social-proof-title">Dołącz do firm przygotowanych na zmiany prawne</div>
+      <div class="social-proof-logos">
+        <div>PRO-PALET</div>
+        <div>Drew-Pak</div>
+        <div>Tartak Mako</div>
+        <div>EcoBox Polska</div>
+      </div>
+    </section>
+
+    <!-- LIVE GENERATOR SECTION -->
+    <section class="gen-section" id="generator">
+      <div class="gen-container">
+        <!-- Form Side -->
+        <div class="gen-form-box reveal">
+          <div class="gen-price-tag"><i class="ph-duotone ph-check-circle" style="margin-right:6px;font-size:18px;"></i> Jednorazowy zakup - brak abonamentu</div>
+          <h3>Wygeneruj uproszczoną deklarację PPWR</h3>
+          <p>Wypełnij poniższe dane, aby natychmiast otrzymać gotowy do podpisu dokument PDF spełniający wymogi Art. 5 PPWR, gotowy do wysłania Twojemu klientowi.</p>
+          
+          <form id="singleGenForm" onsubmit="handleSingleGeneration(event)">
+            <div class="form-group">
+              <label>Dostawca (Twoja firma) <span class="tooltip-icon" data-tip="Zgodnie z PPWR to podmiot wprowadzający opakowanie do obrotu (producent, importer lub dystrybutor). Podaj pełną nazwę prawną.">?</span></label>
+              <input type="text" id="gen_supplier" placeholder="np. Tartak Jan Kowalski" required oninput="updatePreview()">
+            </div>
+            
+            <div class="form-group">
+              <label>Zakład produkcyjny dostawcy <span class="tooltip-icon" data-tip="Adres fizyczny zakładu, w którym opakowanie zostało wyprodukowane lub poddane ostatniej istotnej obróbce.">?</span></label>
+              <input type="text" id="gen_supplier_plant" placeholder="np. ul. Leśna 1, 00-000 Las" required oninput="updatePreview()">
+            </div>
+            
+            <div class="form-group">
+              <label>Dostarczany produkt / gatunek <span class="tooltip-icon" data-tip="Dokładne określenie typu opakowania podlegającego deklaracji, np. 'Paleta drewniana płaska typu EUR' lub 'Pudło tekturowe z tektury falistej'.">?</span></label>
+              <input type="text" id="gen_product" placeholder="np. Paleta drewniana EPAL" required oninput="updatePreview()">
+            </div>
+
+            <div class="form-group">
+              <label>Zakład odbiorcy <span class="tooltip-icon" data-tip="Nazwa i adres klienta, któremu fizycznie dostarczasz dane opakowanie i dla którego wystawiana jest ta deklaracja.">?</span></label>
+              <input type="text" id="gen_receiver_plant" placeholder="np. Magazyn Centralny sp. z o.o." required oninput="updatePreview()">
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Imię i nazwisko (podpisujący) <span class="tooltip-icon" data-tip="Zgodnie z zał. VIII PPWR: osoba fizyczna umocowana prawnie do reprezentowania Twojej firmy w zakresie deklaracji zgodności.">?</span></label>
+                <input type="text" id="gen_name" placeholder="Jan Kowalski" required oninput="updatePreview()">
+              </div>
+              <div class="form-group">
+                <label>Stanowisko <span class="tooltip-icon" data-tip="Funkcja osoby podpisującej, np. Prezes Zarządu, Właściciel, Pełnomocnik ds. Jakości.">?</span></label>
+                <input type="text" id="gen_role" placeholder="Właściciel" required oninput="updatePreview()">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Adres e-mail (do wysyłki PDF i DOCX) <span class="tooltip-icon" data-tip="Na ten adres prześlemy gotowy dokument w PDF oraz edytowalny DOCX w celach archiwizacji (ustawa narzuca wymóg przechowywania przez 10 lat).">?</span></label>
+              <input type="email" id="gen_email" placeholder="jan@kowalski.pl" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary gen-btn-buy" id="btnBuyGen">
+              <i class="ph-duotone ph-shopping-cart"></i> Opłać i pobierz (29.99 zł)
+            </button>
+            <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--s400);">Płatność obsługuje bezpiecznie Przelewy24/Stripe.</div>
+          </form>
+        </div>
+
+        <!-- Preview Side -->
+        <div class="gen-preview-box reveal">
+          <div class="a4-preview" id="a4Preview">
+            <div class="a4-watermark">PODGLĄD NA ŻYWO</div>
+            <div class="a4-header">POTWIERDZENIE I DOKUMENTACJA DOSTAWCY<br>Artykuł 5 PPWR</div>
+            
+            <div class="a4-line">
+              <div class="a4-label">Dostawca (osoba prawna):</div>
+              <div class="a4-value" id="prev_supplier"></div>
+            </div>
+            
+            <div class="a4-line">
+              <div class="a4-label">Dostarczany produkt / gatunek(-i):</div>
+              <div class="a4-value" id="prev_product"></div>
+            </div>
+            
+            <div class="a4-line">
+              <div class="a4-label">Zakład(-y) produkcyjny(-e) dostawcy:</div>
+              <div class="a4-value" id="prev_supplier_plant"></div>
+            </div>
+            
+            <div class="a4-text" style="margin-top:15px; margin-bottom:15px;">
+              Potwierdzamy, w odniesieniu do materiałów opakowaniowych i elementów opakowań wymienionych powyżej i dostarczonych do firmy:
+            </div>
+            
+            <div class="a4-line">
+              <div class="a4-label">Zakład(-y) odbiorcy:</div>
+              <div class="a4-value" id="prev_receiver_plant"></div>
+            </div>
+            
+            <div class="a4-text">
+              <strong>1. Substancje potencjalnie niebezpieczne (art. 5 ust. 1 PPWR).</strong> Ich obecność i stężenie zostały zminimalizowane. Zgodnie z naszą najlepszą wiedzą żadna substancja budząca obawy nie występuje w stężeniu wymagającym ujawnienia zgodnie z obowiązującym prawem UE dotyczącym chemikaliów (w szczególności REACH).
+            </div>
+            <div style="font-weight:bold; margin-bottom:10px;">NIE DOTYCZY</div>
+            
+            <div class="a4-text">
+              <strong>2. Metale ciężkie (art. 5 ust. 4 dyrektywy PPWR).</strong> Suma stężeń ołowiu, kadmu, rtęci i sześciowartościowego chromu nie przekracza 100 mg/kg masy.
+            </div>
+            
+            <div class="a4-checkboxes">
+              <strong>2.1. Podstawa weryfikacji:</strong>
+              <div class="a4-checkbox">Oświadczenie dostawcy oparte na specyfikacjach surowców i oświadczeniach dostawców wyższego szczebla.</div>
+              <div class="a4-checkbox">Wdrożona wewnętrzna procedura oceny zgodności/zarządzania jakością (np. ISO 9001).</div>
+            </div>
+            
+            <div class="a4-checkboxes">
+              <strong>2.2. Ocena ryzyka:</strong>
+              <div class="a4-checkbox">Żaden z tych czterech metali ciężkich nie jest celowo wprowadzany na żadnym etapie naszego procesu produkcyjnego.</div>
+              <div class="a4-checkbox">Nie stosujemy żadnych surowców, mieszanek barwiących, pigmentów ani powłok, o których wiadomo, że zawierają te metale.</div>
+            </div>
+            
+            <div style="display:flex; justify-content:space-between; margin-top:25px; border-top:1px solid #444; padding-top:15px;">
+              <div>
+                <div class="a4-label">Imię i nazwisko</div>
+                <div class="a4-value" id="prev_name" style="width:110px; font-family: 'Brush Script MT', 'Caveat', cursive; font-size: 16px; font-weight: normal; color: #1a4a8c;"></div>
+              </div>
+              <div>
+                <div class="a4-label">Stanowisko</div>
+                <div class="a4-value" id="prev_role" style="width:110px;"></div>
+              </div>
+              <div>
+                <div class="a4-label">Data wydania</div>
+                <div class="a4-value" id="prev_date" style="width:80px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUKACJA PPWR -->
+    <section id="ppwr" class="land-section bg-gray">
+      <div class="land-section-inner">
+        <h2 class="land-title">Czym jest rozporządzenie PPWR?</h2>
+        <p class="land-subtitle">I dlaczego branża opakowaniowa musi zacząć działać już teraz.</p>
+        
+        <div class="edu-grid">
+          <div class="edu-content">
+            <h3>Koniec starych zasad w sierpniu 2026</h3>
+            <p>PPWR (Packaging and Packaging Waste Regulation) to nowe rozporządzenie unijne, które obowiązuje wprost we wszystkich krajach UE, bez konieczności wdrażania go ustawami krajowymi. </p>
+            <p>Od 12 sierpnia 2026 r. wprowadzający opakowania na rynek muszą dysponować <strong>pełną dokumentacją techniczną</strong> potwierdzającą, że produkt jest zgodny z wyśrubowanymi normami. </p>
+            <ul>
+              <li>Zakaz stosowania szkodliwych substancji (np. PFAS w kontakcie z żywnością).</li>
+              <li>Minimalizacja masy i objętości opakowań (szczególnie e-commerce).</li>
+              <li>Wymóg recyclingu, potwierdzony szczegółowymi specyfikacjami i kodami ISPM 15.</li>
+            </ul>
+            <p>Bez deklaracji zgodności — platformy sprzedażowe, sklepy i dystrybutorzy <strong>odrzucą Twoje towary</strong> na bramie wjazdowej.</p>
+          </div>
+          <div>
+            <div style="background:#fff;border-radius:16px;padding:32px;box-shadow:var(--sh-md);border:1px solid var(--s200);">
+              <h4 style="font-weight:800;font-size:18px;margin-bottom:16px;color:var(--danger);display:flex;align-items:center;gap:8px;"><i class="ph-duotone ph-warning"></i> Ryzyka dla producentów</h4>
+              <div style="margin-bottom:12px;display:flex;gap:12px;"><i class="ph-duotone ph-x-circle" style="color:var(--danger);font-size:20px;margin-top:2px;"></i><div><strong>Brak odbioru towaru</strong> <br><span style="font-size:13px;color:var(--s500)">Główni dystrybutorzy zablokują zakupy bez certyfikatów.</span></div></div>
+              <div style="margin-bottom:12px;display:flex;gap:12px;"><i class="ph-duotone ph-x-circle" style="color:var(--danger);font-size:20px;margin-top:2px;"></i><div><strong>Kary finansowe</strong> <br><span style="font-size:13px;color:var(--s500)">Wysokie kary od nadzoru rynku za braki w dokumentacji technicznej.</span></div></div>
+              <div style="margin-bottom:12px;display:flex;gap:12px;"><i class="ph-duotone ph-x-circle" style="color:var(--danger);font-size:20px;margin-top:2px;"></i><div><strong>Zamrożenie kapitału</strong> <br><span style="font-size:13px;color:var(--s500)">Zapasy, które nie spełniają PPWR po sierpniu 2026, mogą stać się bezwartościowe.</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROZWIĄZANIE (FEATURES) -->
+    <section id="features" class="land-section bg-white">
+      <h2 class="land-title">Jak Deklareo rozwiązuje ten problem?</h2>
+      <p class="land-subtitle">Zapomnij o chaotycznych arkuszach Excela i błędach prawnych. Nasz system upraszcza dokumentację do kilku kliknięć.</p>
+      
+      <div class="land-features" style="padding:0;max-width:none;gap:40px;">
+        <div class="land-feature">
+          <div class="land-feature-ico"><i class="ph-duotone ph-magic-wand"></i></div>
+          <h3>Generator krok po kroku</h3>
+          <p>Inteligentny kreator przeprowadzi Cię przez Załącznik VIII rozporządzenia. Całość zajmuje 2 minuty. Odpowiadasz na proste pytania, a system sam buduje dokument.</p>
+        </div>
+        <div class="land-feature">
+          <div class="land-feature-ico"><i class="ph-duotone ph-tree"></i></div>
+          <h3>Szablony dla branży drzewnej</h3>
+          <p>Palety EUR, jednorazowe, kantówki czy skrzynki. Mamy gotowe bazy materiałów: drewno z certyfikatami Lasów Państwowych, gwoździe, obróbka termiczna ISPM 15.</p>
+        </div>
+        <div class="land-feature">
+          <div class="land-feature-ico"><i class="ph-duotone ph-share-network"></i></div>
+          <h3>Natychmiastowe udostępnianie</h3>
+          <p>Zamiast wysyłać ciężkie maile, wysyłasz bezpieczny link klientowi. Śledź statystyki — wiesz, czy audytor klienta pobrał dokumentację z platformy.</p>
+        </div>
+        <div class="land-feature">
+          <div class="land-feature-ico"><i class="ph-duotone ph-archive-box"></i></div>
+          <h3>Gwarancja 10-letniego archiwum</h3>
+          <p>Zgodnie z PPWR, dokumentację musisz trzymać 10 lat po wycofaniu produktu. My zajmujemy się bezpieczną archiwizacją w chmurze bez dodatkowych opłat.</p>
+        </div>
+        <div class="land-feature">
+          <div class="land-feature-ico"><i class="ph-duotone ph-file-doc"></i></div>
+          <h3>Zawsze aktualne wzory</h3>
+          <p>Gdy Komisja Europejska zaktualizuje wytyczne (np. limity PFAS lub SVHC), nasze szablony PDF i DOCX aktualizują się automatycznie dla nowych deklaracji.</p>
+        </div>
+        <div class="land-feature">
+          <div class="land-feature-ico"><i class="ph-duotone ph-users"></i></div>
+          <h3>Dla małych i średnich firm</h3>
+          <p>Platforma stworzona z myślą o lokalnych producentach, którzy nie chcą zatrudniać zewnętrznej agencji doradztwa ekologicznego i płacić tysięcy złotych.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CENNIK -->
+    <section id="pricing" class="land-section bg-gray">
+      <h2 class="land-title">Cennik dopasowany do potrzeb</h2>
+      <p class="land-subtitle">Darmowy start, bez ukrytych opłat i konieczności podpinania karty kredytowej.</p>
+      
+      <div class="pricing-grid" style="max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
+        <div class="price-card" style="background:#fff;padding:32px;border-radius:16px;box-shadow:var(--sh-md);">
+          <div class="price-plan" style="font-weight:800;color:var(--s500);margin-bottom:8px;">STARTER</div>
+          <div class="price-amount" style="font-size:40px;font-weight:800;color:var(--s800);margin-bottom:24px;">0 <span class="price-period" style="font-size:16px;color:var(--s400);">zł/mies.</span></div>
+          <div class="price-features" style="margin-bottom:32px;">
+            <div class="price-feature pf-ok" style="display:flex;gap:8px;margin-bottom:12px;"><i class="ph-duotone ph-check-circle" style="color:var(--g500);"></i>2 deklaracje PPWR</div>
+            <div class="price-feature pf-ok" style="display:flex;gap:8px;margin-bottom:12px;"><i class="ph-duotone ph-check-circle" style="color:var(--g500);"></i>Eksport do PDF i DOCX</div>
+            <div class="price-feature pf-ok" style="display:flex;gap:8px;margin-bottom:12px;"><i class="ph-duotone ph-check-circle" style="color:var(--g500);"></i>Archiwum 10 lat</div>
+            <div class="price-feature pf-no" style="display:flex;gap:8px;margin-bottom:12px;color:var(--s400);"><i class="ph-duotone ph-x-circle"></i>Udostępnianie linkiem do panelu</div>
+          </div>
+          <button class="btn btn-outline w-full" style="width:100%;padding:14px;" onclick="window.location.href='register.html'">Załóż darmowe konto</button>
+        </div>
+        
+        <div class="price-card popular" style="background:#fff;padding:32px;border-radius:16px;box-shadow:var(--sh-lg);position:relative;transform:scale(1.05);z-index:2;border:2px solid var(--g500);">
+          <div class="popular-tag" style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--g500);color:#fff;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:1px;">POLECANY</div>
+          <div class="price-plan" style="font-weight:800;color:var(--g500);margin-bottom:8px;">BUSINESS</div>
+          <div class="price-amount" style="font-size:40px;font-weight:800;color:var(--s800);margin-bottom:24px;">49 <span class="price-period" style="font-size:16px;color:var(--s400);">zł/mies.</span></div>
+          <div class="price-features" style="margin-bottom:32px;">
+            <div class="price-feature pf-ok" style="display:flex;gap:8px;margin-bottom:12px;"><i class="ph-duotone ph-check-circle" style="color:var(--g500);"></i><strong>50 deklaracji</strong> miesięcznie</div>
+            <div class="price-feature pf-ok" style="display:flex;gap:8px;margin-bottom:12px;"><i class="ph-duotone ph-check-circle" style="color:var(--g500);"></i>Bezpieczne linki dla klientów</div>
+            <div class="price-feature pf-ok" style="display:flex;gap:8px;margin-bottom:12px;"><i class="ph-duotone ph-check-circle" style="color:var(--g500);"></i>Analityka pobrań PDF</div>
+            <div class="price-feature pf-ok" style="display:flex;gap:8px;margin-bottom:12px;"><i class="ph-duotone ph-check-circle" style="color:var(--g500);"></i>Baza własnych surowców</div>
+          </div>
+          <button class="btn btn-primary w-full" style="width:100%;padding:14px;background:var(--g500);color:#fff;" onclick="window.location.href='register.html'">Wybierz pakiet Business</button>
+        </div>
+        
+        <div class="price-card" style="background:#fff;padding:32px;border-radius:16px;box-shadow:var(--sh-md);">
+          <div class="price-plan" style="font-weight:800;color:var(--s500);margin-bottom:8px;">ENTERPRISE</div>
+          <div class="price-amount" style="font-size:40px;font-weight:800;color:var(--s800);margin-bottom:24px;">199 <span class="price-period" style="font-size:16px;color:var(--s400);">zł/mies.</span></div>
+          <div class="price-features" style="margin-bottom:32px;">
+            <div class="price-feature pf-ok" style="display:flex;gap:8px;margin-bottom:12px;"><i class="ph-duotone ph-check-circle" style="color:var(--g500);"></i><strong>Nielimitowana</strong> ilość deklaracji</div>
+            <div class="price-feature pf-ok" style="display:flex;gap:8px;margin-bottom:12px;"><i class="ph-duotone ph-check-circle" style="color:var(--g500);"></i>Zarządzanie wieloma spółkami</div>
+            <div class="price-feature pf-ok" style="display:flex;gap:8px;margin-bottom:12px;"><i class="ph-duotone ph-check-circle" style="color:var(--g500);"></i>API / Integracja z systemem ERP</div>
+            <div class="price-feature pf-ok" style="display:flex;gap:8px;margin-bottom:12px;"><i class="ph-duotone ph-check-circle" style="color:var(--g500);"></i>Dedykowany opiekun prawny</div>
+          </div>
+          <button class="btn btn-outline w-full" style="width:100%;padding:14px;" onclick="alert('Napisz do nas: hello@deklareo.pl')">Skontaktuj się</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="land-section bg-white">
+      <h2 class="land-title">Często zadawane pytania (FAQ)</h2>
+      <p class="land-subtitle">Wszystko co musisz wiedzieć o PPWR i platformie Deklareo.</p>
+      
+      <div class="faq-container">
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+          <button class="faq-question">Czy moje palety drewniane podlegają pod PPWR? <i class="ph-duotone ph-caret-down"></i></button>
+          <div class="faq-answer">Tak. Rozporządzenie PPWR obejmuje absolutnie wszystkie opakowania wprowadzane na rynek Unii Europejskiej, w tym opakowania transportowe (drewniane, metalowe, tekturowe). Bez certyfikatu i deklaracji zgodności Twój odbiorca ma obowiązek odmówić przyjęcia towaru.</div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+          <button class="faq-question">Kiedy wchodzą w życie kary za brak deklaracji? <i class="ph-duotone ph-caret-down"></i></button>
+          <div class="faq-answer">Większość kluczowych przepisów PPWR zaczyna wprost obowiązywać od 12 sierpnia 2026 roku. Obejmuje to m.in. zakazy dotyczące obecności PFAS, wymogi projektowania pod kątem recyclingu (Design for Recycling) oraz obowiązek posiadania kompletnej dokumentacji technicznej udostępnianej na żądanie.</div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+          <button class="faq-question">Co to znaczy, że pakiet Starter jest darmowy? <i class="ph-duotone ph-caret-down"></i></button>
+          <div class="faq-answer">To oznacza, że możesz się zarejestrować, wypełnić dane swojej firmy i całkowicie bezpłatnie, bez podawania karty płatniczej, wygenerować 2 pełnoprawne deklaracje zgodności. Będą one archiwizowane na naszych serwerach przez wymagane prawem 10 lat. Płacisz dopiero wtedy, gdy Twoja produkcja jest zróżnicowana i potrzebujesz więcej dokumentów.</div>
+        </div>
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+          <button class="faq-question">Czy wzory dokumentów w Deklareo są poprawne prawnie? <i class="ph-duotone ph-caret-down"></i></button>
+          <div class="faq-answer">Tak. Nasze szablony są opracowane zgodnie z Załącznikiem VIII do rozporządzenia UE 2025/40 oraz dyrektywami powiązanymi (np. REACH). Współpracujemy z ekspertami prawa ekologicznego, by na bieżąco aktualizować szablony o nowe interpretacje Komisji Europejskiej.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTTOM CTA -->
+    <section class="land-cta">
+      <h2>Zabezpiecz przyszłość swojej firmy</h2>
+      <p>Dołącz do przedsiębiorców, którzy już dziś spełniają wymogi PPWR i omijają problemy z dystrybucją po sierpniu 2026. Założenie konta zajmuje minutę.</p>
+      <button class="land-btn-main" onclick="window.location.href='register.html'">Zacznij bezpłatnie już dziś</button>
+    </section>
+  </main>
+
+  <footer class="land-footer" style="padding:40px 16px;background:var(--s50);border-top:1px solid var(--s200);text-align:center;">
+    <div style="font-weight:800;color:var(--s800);margin-bottom:8px;font-size:16px;">Deklareo Sp. z o.o.</div>
+    <div style="color:var(--s500);font-size:13px;margin-bottom:16px;">Innowacje w compliance ekologicznym dla przemysłu.</div>
+    <div style="display:flex;justify-content:center;gap:16px;font-size:13px;margin-bottom:24px;">
+      <a href="#" style="color:var(--g600);font-weight:600;">Regulamin</a>
+      <a href="#" style="color:var(--g600);font-weight:600;">Polityka Prywatności</a>
+      <a href="mailto:hello@deklareo.pl" style="color:var(--g600);font-weight:600;">hello@deklareo.pl</a>
+    </div>
+    <div style="font-size:12px;color:var(--s400);">© 2026 Deklareo. Rozwiązanie klasy Enterprise Software. Wszelkie prawa zastrzeżone.</div>
+  </footer>
 </div>
 
-<!-- ═══ AUTH ══════════════════════════════════════════════ -->
-<div id="auth-page" class="auth-page" style="display:none">
-  <div class="auth-card">
-    <div class="auth-logo">
-      <div style="display:inline-flex;align-items:center;gap:10px;">
-        <div class="logo-icon"><i class="ph-duotone ph-leaf" style="font-size:20px;--ph-color:#fff;color:#fff"></i></div>
-        <div><div class="logo-text" style="color:var(--s800);font-size:17px">Deklareo</div></div>
-      </div>
-    </div>
-    <div id="login-form">
-      <div class="auth-title">Zaloguj się</div>
-      <div class="auth-sub">Nie masz konta? <a href="#" onclick="switchAuth('register')">Zarejestruj się</a></div>
-      <div class="form-group"><label>E-mail</label><input type="email" value="jan@makodrew.pl"></div>
-      <div class="form-group"><label>Hasło</label><input type="text" value="••••••••"></div>
-      <button class="btn btn-primary w-full" style="padding:11px;justify-content:center;" onclick="enterApp()"><i class="ph-duotone ph-sign-in"></i>Zaloguj się</button>
-      <div style="text-align:center;margin-top:10px;font-size:12px;color:var(--s400)"><a href="#">Zapomniałem hasła</a></div>
-    </div>
-    <div id="register-form" style="display:none">
-      <div class="auth-title">Zarejestruj firmę</div>
-      <div class="auth-sub">Masz konto? <a href="#" onclick="switchAuth('login')">Zaloguj się</a></div>
-      <div class="alert alert-green"><i class="ph-duotone ph-gift"></i><div><strong>2 deklaracje gratis</strong> — bez karty kredytowej</div></div>
-      <div class="form-row">
-        <div class="form-group"><label>Imię</label><input type="text" placeholder="Jan"></div>
-        <div class="form-group"><label>Nazwisko</label><input type="text" placeholder="Kowalski"></div>
-      </div>
-      <div class="form-group"><label>Nazwa firmy</label><input type="text" placeholder="Tartak Kowalski s.c."></div>
-      <div class="form-group"><label>E-mail</label><input type="email" placeholder="jan@firma.pl"></div>
-      <div class="form-group"><label>Hasło</label><input type="text" placeholder="Min. 8 znaków"></div>
-      <button class="btn btn-primary w-full" style="padding:11px;justify-content:center;margin-top:4px" onclick="enterApp()"><i class="ph-duotone ph-rocket-launch"></i>Utwórz konto</button>
-      <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--s400)">Akceptujesz <a href="#">Regulamin</a> i <a href="#">Prywatność</a></div>
-    </div>
-  </div>
-</div>
+<!-- AUTH MOVED TO SEPARATE PAGES -->
 
 <!-- ═══ APP SHELL ═════════════════════════════════════════ -->
 <div id="app" class="app-shell" style="display:none">
@@ -1114,25 +1540,14 @@ let filteredDecls=[...declarations], activeMenu=null;
 // ───── ROUTING ───────────────────────────────────────────
 function showLanding(){
   document.getElementById('landing').style.display='flex';
-  document.getElementById('auth-page').style.display='none';
   document.getElementById('app').style.display='none';
-}
-function showAuth(mode){
-  document.getElementById('landing').style.display='none';
-  document.getElementById('auth-page').style.display='flex';
-  document.getElementById('app').style.display='none';
-  switchAuth(mode);
-}
-function switchAuth(mode){
-  document.getElementById('login-form').style.display=mode==='login'?'block':'none';
-  document.getElementById('register-form').style.display=mode==='register'?'block':'none';
 }
 function enterApp(){
   document.getElementById('landing').style.display='none';
-  document.getElementById('auth-page').style.display='none';
   document.getElementById('app').style.display='flex';
   renderAll();
 }
+
 function scrollSection(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
 
 // ───── SIDEBAR (mobile) ──────────────────────────────────
@@ -1470,6 +1885,91 @@ function showToast(msg,type='ok'){
 
 // ───── INIT ───────────────────────────────────────────────
 renderAll();
+if (window.location.search.includes('app=1')) {
+  enterApp();
+}
+
+// ───── MICRO-ANIMATIONS OBSERVER ──────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        entry.target.classList.add('active');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  document.querySelectorAll('.feat-card, .price-card, .edu-grid, .faq-item, .gen-form-box, .gen-preview-box').forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = (i % 3) * 0.1 + 's';
+    observer.observe(el);
+  });
+});
+
+// ───── SINGLE GENERATOR (LIVE PREVIEW) ────────────────────
+function updatePreview() {
+  document.getElementById('prev_supplier').innerText = document.getElementById('gen_supplier').value || '...';
+  document.getElementById('prev_supplier_plant').innerText = document.getElementById('gen_supplier_plant').value || '...';
+  document.getElementById('prev_product').innerText = document.getElementById('gen_product').value || '...';
+  document.getElementById('prev_receiver_plant').innerText = document.getElementById('gen_receiver_plant').value || '...';
+  document.getElementById('prev_name').innerText = document.getElementById('gen_name').value || '...';
+  document.getElementById('prev_role').innerText = document.getElementById('gen_role').value || '...';
+  
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('prev_date').innerText = today;
+}
+
+async function handleSingleGeneration(e) {
+  e.preventDefault();
+  const btn = document.getElementById('btnBuyGen');
+  const orgHtml = btn.innerHTML;
+  btn.innerHTML = '<i class="ph-duotone ph-spinner ph-spin" style="animation: spin 1s linear infinite;"></i> Przetwarzanie płatności...';
+  btn.disabled = true;
+  
+  // Simulate payment delay
+  await new Promise(r => setTimeout(r, 2000));
+  
+  const payload = {
+    supplier: document.getElementById('gen_supplier').value,
+    supplier_plant: document.getElementById('gen_supplier_plant').value,
+    product: document.getElementById('gen_product').value,
+    receiver_plant: document.getElementById('gen_receiver_plant').value,
+    name: document.getElementById('gen_name').value,
+    role: document.getElementById('gen_role').value,
+    email: document.getElementById('gen_email').value
+  };
+
+  try {
+    const res = await fetch('/api/declaration/generate-single', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    
+    if(res.ok) {
+      btn.innerHTML = '<i class="ph-duotone ph-check-circle"></i> Sukces! PDF wysłany.';
+      btn.classList.remove('btn-primary');
+      btn.style.background = 'var(--g500)';
+      document.querySelector('.a4-watermark').innerText = 'ZAPŁACONO';
+      document.querySelector('.a4-watermark').style.color = 'rgba(0,180,0,0.1)';
+      setTimeout(() => {
+        btn.innerHTML = orgHtml;
+        btn.disabled = false;
+        btn.style.background = '';
+        btn.classList.add('btn-primary');
+      }, 5000);
+    } else {
+      throw new Error('Błąd API');
+    }
+  } catch (err) {
+    btn.innerHTML = '<i class="ph-duotone ph-x-circle"></i> Błąd płatności';
+    setTimeout(() => { btn.innerHTML = orgHtml; btn.disabled = false; }, 3000);
+  }
+}
 </script>
+<style>
+@keyframes spin { 100% { transform: rotate(360deg); } }
+</style>
 </body>
 </html>

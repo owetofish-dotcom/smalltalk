@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rejestracja - Deklareo PPWR</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    body {
+      background: var(--s50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    .register-container {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+      border: 1px solid var(--s200);
+    }
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .logo-icon {
+      background: var(--g600);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .auth-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--s800);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .auth-sub {
+      text-align: center;
+      color: var(--s500);
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    .auth-sub a {
+      color: var(--g600);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--s700);
+      margin-bottom: 6px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--s200);
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--s800);
+      background: #fff;
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--g500);
+      box-shadow: 0 0 0 3px rgba(0,155,114,0.1);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all .2s;
+      border: 1px solid transparent;
+      padding: 12px;
+      font-size: 15px;
+      width: 100%;
+    }
+    .btn-primary {
+      background: var(--g600);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,155,114,0.2);
+    }
+    .btn-primary:hover {
+      background: var(--g700);
+      transform: translateY(-1px);
+    }
+    .alert-green {
+      background: var(--g50);
+      border: 1px solid var(--g200);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    .alert-green .ph-duotone {
+      color: var(--g600);
+      font-size: 20px;
+    }
+    .alert-green div {
+      font-size: 13px;
+      color: var(--g800);
+      line-height: 1.4;
+    }
+    
+    /* Sekcja hasła */
+    .password-wrap {
+      position: relative;
+      display: flex;
+    }
+    .password-wrap input {
+      padding-right: 48px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: none;
+    }
+    .btn-generate {
+      background: var(--s50);
+      border: 1px solid var(--s200);
+      border-left: none;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      padding: 0 16px;
+      color: var(--g600);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .btn-generate:hover {
+      background: var(--s100);
+    }
+    .password-strength {
+      height: 4px;
+      background: var(--s200);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+      display: flex;
+    }
+    .password-strength-bar {
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s, background 0.3s;
+    }
+    .strength-text {
+      font-size: 11px;
+      color: var(--s500);
+      margin-top: 6px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="register-container">
+    <div class="auth-logo">
+      <div class="logo-icon"><i class="ph-duotone ph-leaf" style="font-size:24px;--ph-color:#fff;color:#fff"></i></div>
+      <div style="font-weight:800;color:var(--s800);font-size:20px;">Deklareo</div>
+    </div>
+    
+    <div class="auth-title">Załóż darmowe konto</div>
+    <div class="auth-sub">Masz już konto? <a href="index.html">Zaloguj się</a></div>
+    
+    <div class="alert-green">
+      <i class="ph-duotone ph-gift"></i>
+      <div><strong>Otrzymujesz pakiet Starter:</strong> 2 darmowe deklaracje PPWR oraz 10 lat bezpiecznego archiwum w chmurze. Bez karty kredytowej.</div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Imię</label>
+        <input type="text" id="reg-firstname" placeholder="Jan">
+      </div>
+      <div class="form-group">
+        <label>Nazwisko</label>
+        <input type="text" id="reg-lastname" placeholder="Kowalski">
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label>Nazwa firmy</label>
+      <input type="text" id="reg-company" placeholder="Tartak Kowalski s.c.">
+    </div>
+    
+    <div class="form-group">
+      <label>Służbowy adres E-mail</label>
+      <input type="email" id="reg-email" placeholder="jan@firma.pl">
+    </div>
+    
+    <div class="form-group">
+      <label>Silne hasło</label>
+      <div class="password-wrap">
+        <input type="text" id="reg-password" placeholder="Min. 8 znaków" oninput="checkStrength(this.value)">
+        <button class="btn-generate" onclick="generatePassword()" title="Wygeneruj silne hasło">
+          <i class="ph-duotone ph-magic-wand"></i> Generuj
+        </button>
+      </div>
+      <div class="password-strength">
+        <div class="password-strength-bar" id="strength-bar"></div>
+      </div>
+      <div class="strength-text" id="strength-text">Wpisz hasło</div>
+    </div>
+    
+    <button class="btn btn-primary" style="margin-top:24px;" onclick="doRegister()">
+      <i class="ph-duotone ph-rocket-launch"></i> Utwórz konto
+    </button>
+    
+    <div style="text-align:center;margin-top:16px;font-size:12px;color:var(--s400)">
+      Klikając "Utwórz konto", akceptujesz <a href="#" style="color:var(--g600)">Regulamin</a> i <a href="#" style="color:var(--g600)">Politykę Prywatności</a>.
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script>
+    // Generator haseł
+    function generatePassword() {
+      const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+      let pass = "";
+      for (let i = 0; i < 16; i++) {
+        pass += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      const input = document.getElementById('reg-password');
+      input.value = pass;
+      input.type = 'text'; // Pokazujemy wygenerowane hasło
+      checkStrength(pass);
+    }
+
+    // Walidator siły hasła
+    function checkStrength(password) {
+      const bar = document.getElementById('strength-bar');
+      const text = document.getElementById('strength-text');
+      
+      let strength = 0;
+      if (password.length >= 8) strength += 1;
+      if (password.length >= 12) strength += 1;
+      if (/[A-Z]/.test(password)) strength += 1;
+      if (/[0-9]/.test(password)) strength += 1;
+      if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+
+      if (password.length === 0) {
+        bar.style.width = '0%';
+        text.textContent = 'Wpisz hasło';
+      } else if (strength < 2) {
+        bar.style.width = '20%';
+        bar.style.background = 'var(--danger)';
+        text.textContent = 'Słabe';
+        text.style.color = 'var(--danger)';
+      } else if (strength < 4) {
+        bar.style.width = '60%';
+        bar.style.background = 'var(--warn)';
+        text.textContent = 'Dobre';
+        text.style.color = 'var(--warn)';
+      } else {
+        bar.style.width = '100%';
+        bar.style.background = 'var(--g500)';
+        text.textContent = 'Bardzo silne';
+        text.style.color = 'var(--g600)';
+      }
+    }
+
+    // Rejestracja (łączenie z bazą przez API)
+    async function doRegister() {
+      const firstName = document.getElementById('reg-firstname').value;
+      const lastName = document.getElementById('reg-lastname').value;
+      const company = document.getElementById('reg-company').value;
+      const email = document.getElementById('reg-email').value;
+      const pass = document.getElementById('reg-password').value;
+      
+      if(!firstName || !lastName || !company || !email || !pass) {
+          alert('Proszę wypełnić wszystkie pola.');
+          return;
+      }
+
+      try {
+          await DeklareoApi.Auth.register({
+              firstName: firstName,
+              lastName: lastName,
+              companyName: company,
+              email: email,
+              password: pass
+          });
+          
+          alert('Zarejestrowano pomyślnie! Zostaniesz zalogowany.');
+          window.location.href = 'index.html'; // Przekierowanie do aplikacji
+      } catch (e) {
+          alert('Błąd rejestracji: ' + e.message);
+      }
+    }
+  </script>
+</body>
+</html>
