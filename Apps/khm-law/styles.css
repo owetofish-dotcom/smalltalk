@@ -15,7 +15,7 @@ body {
   font-size: 18px;
   line-height: 1.7;
   color: #484C58;
-  background: #fff;
+  background: #FEF4EE;
 }
 
 img { max-width: 100%; display: block; }
@@ -28,7 +28,8 @@ ul { list-style: none; }
   --red: #D84B43;
   --body: #484C58;
   --white: #fff;
-  --cream: #FBF8F5;
+  --cream: #FDE8D4;
+  --apricot: #FDE8D4;
   --border: #E5E2DC;
   --shadow: 0 4px 24px rgba(20,27,71,.09);
   --radius: 6px;
