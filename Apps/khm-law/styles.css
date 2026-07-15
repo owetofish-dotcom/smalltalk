@@ -77,6 +77,7 @@ ul { list-style: none; }
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 16px rgba(20,27,71,.08);
+  overflow-x: clip;
 }
 .header-inner {
   max-width: 1200px;
@@ -154,8 +155,9 @@ ul { list-style: none; }
   background: none;
   border: none;
   cursor: pointer;
-  margin-left: auto;
+  margin-left: 8px;
   padding: 4px;
+  flex-shrink: 0;
 }
 .hamburger span {
   display: block;
@@ -888,5 +890,6 @@ ul { list-style: none; }
   .hero-actions { flex-direction: column; }
   .btn { width: 100%; text-align: center; }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
-  .header-inner { gap: 16px; padding: 0 16px; }
+  .header-inner { gap: 12px; padding: 0 12px 0 16px; }
+  .hamburger { margin-right: 0; flex-shrink: 0; }
 }
