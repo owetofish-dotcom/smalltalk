@@ -347,6 +347,13 @@ ul { list-style: none; }
 }
 .team-card {
   text-align: center;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--transition);
+}
+a.team-card:hover {
+  transform: translateY(-3px);
 }
 .team-avatar {
   width: 120px;
@@ -369,6 +376,57 @@ ul { list-style: none; }
   font-size: 13px;
   color: var(--body);
   line-height: 1.5;
+}
+
+/* ============================================================
+   TEAM PROFILE PAGE
+   ============================================================ */
+.team-profile-header {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  margin-bottom: 36px;
+}
+.team-profile-photo {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  flex-shrink: 0;
+  border: 3px solid var(--border);
+}
+.team-profile-meta h2 {
+  margin-bottom: 4px;
+}
+.team-profile-title {
+  font-size: 15px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.team-profile-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.team-profile-contact a {
+  font-size: 14px;
+  color: var(--body);
+  text-decoration: none;
+}
+.team-profile-contact a:hover {
+  color: var(--accent);
+}
+@media (max-width: 540px) {
+  .team-profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .team-profile-contact {
+    align-items: center;
+  }
 }
 
 /* ============================================================
