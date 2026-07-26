@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo</title>
+<style>
+  :root {
+    --bg: #fafaf8;
+    --text: #111111;
+    --text-muted: #888888;
+    --border: #e2e2e0;
+    --font: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); }
+
+  /* Full-height standalone todo layout (tablet / fullscreen friendly) */
+  .todo-page { max-width: 720px; margin: 0 auto; padding: 12px 20px; height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
+  .todo-head { display: flex; align-items: center; gap: 8px; padding: 4px 0; flex-shrink: 0; }
+  .todo-title { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; margin-right: auto; }
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+  .sync-dot.ok { background: #34c759; }
+  .sync-dot.err { background: #d0342c; }
+  .todo-items { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0; }
+  .todo-row { display: flex; align-items: center; gap: 7px; padding: 4px 2px; border-bottom: 1px solid var(--border); font-size: 0.7rem; color: var(--text); }
+  .todo-row-text { flex: 1; line-height: 1.25; overflow-wrap: anywhere; }
+  .todo-check { width: 13px; height: 13px; border: 1.5px solid var(--text-muted); border-radius: 50%; flex-shrink: 0; background: none; cursor: pointer; padding: 0; position: relative; }
+  .todo-check.on { background: var(--text); border-color: var(--text); }
+  .todo-check.on::after { content: '\2713'; color: #fff; font-size: 8px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -52%); }
+  .todo-add { width: 26px; height: 26px; border: 1px solid var(--border); border-radius: 50%; background: var(--bg); color: var(--text-muted); font-size: 1rem; line-height: 1; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font); }
+  .todo-add:hover { color: var(--text); border-color: var(--text); }
+  .todo-empty { font-size: 0.72rem; color: var(--text-muted); display: block; padding: 10px 2px; }
+  .todo-input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; font-family: var(--font); font-size: 0.78rem; outline: none; background: var(--bg); color: var(--text); min-width: 0; }
+  .todo-tabs { display: flex; gap: 4px; padding: 2px 0 6px; flex-shrink: 0; }
+  .todo-tab { flex: 1; padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text-muted); font-family: var(--font); font-size: 0.66rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all .12s; white-space: nowrap; }
+  .todo-tab.active { background: var(--text); color: #fff; border-color: var(--text); }
+  .todo-cats { display: flex; gap: 4px; padding: 0 0 6px; flex-shrink: 0; }
+  .todo-cat { flex: 1; padding: 3px 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text-muted); font-family: var(--font); font-size: 0.6rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all .12s; white-space: nowrap; }
+  .todo-cat.active { background: var(--text-muted); color: #fff; border-color: var(--text-muted); }
+  .todo-cat-ico { font-size: 0.6rem; flex-shrink: 0; line-height: 1; }
+  .todo-due { font-size: 0.56rem; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; }
+  .todo-due.over { color: #d0342c; font-weight: 600; }
+  .todo-due-input { width: 108px; border: 1px solid var(--border); border-radius: 6px; padding: 3px 6px; font-family: var(--font); font-size: 0.62rem; outline: none; background: var(--bg); color: var(--text); flex-shrink: 0; }
+  .todo-edit-input { flex: 1; border: 1px solid var(--border); border-radius: 6px; padding: 3px 6px; font-family: var(--font); font-size: 0.7rem; outline: none; background: var(--bg); color: var(--text); min-width: 0; }
+  .todo-mini-btn { background: none; border: 1px solid var(--border); border-radius: 5px; color: var(--text-muted); cursor: pointer; font-size: 0.56rem; padding: 1px 4px; font-family: var(--font); flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<div class="todo-page" id="todo-sec">
+  <div class="todo-head">
+    <span class="todo-title">Todo</span>
+    <span class="sync-dot" id="sync-dot" title="Sync"></span>
+    <button class="todo-add" id="todo-add" title="Dodaj zadanie">+</button>
+  </div>
+  <div class="todo-tabs">
+    <button class="todo-tab active" id="todo-tab-open">Do zrobienia (0)</button>
+    <button class="todo-tab" id="todo-tab-done">Wykonane (0)</button>
+  </div>
+  <div class="todo-cats">
+    <button class="todo-cat" id="todo-cat-work">Work (0)</button>
+    <button class="todo-cat" id="todo-cat-other">Other (0)</button>
+    <button class="todo-cat active" id="todo-cat-all">All (0)</button>
+  </div>
+  <div class="todo-items" id="todo-items"></div>
+</div>
+
+<script>
+// ============================================================================
+// STANDALONE TODO PAGE (todo.html)
+//
+// !!! DUPLICATED LOGIC WARNING !!!
+// The todo logic below (data structure, renderTodos, sorting, inline edit,
+// due handling, gist sync payload) is a COPY of the todo section in
+// index.html. Any change to todo logic must be applied IN BOTH FILES:
+//   - index.html  (todo section inside the main IIFE)
+//   - todo.html   (this file)
+//
+// DATA STRUCTURE (shared localStorage + gist file miniapps-data.json):
+//   todos -> localStorage 'miniapps-todos', gist key "todos": array of
+//     { text: string,
+//       done: boolean,       // true = "Wykonane" tab
+//       archived: boolean,   // true = bottom of "Wykonane" tab, italic
+//       cat: "work"|"other", // category subtab; missing = "other"
+//       due: "YYYY-MM-DD" or "YYYY-MM-DD HH:MM", // optional deadline (Europe/Warsaw), red when past
+//       ts: "YYYY-MM-DD HH:MM" } // creation time, Europe/Warsaw
+//   Remote (gist) always wins for todos/archived_apps on load.
+//   The gist push payload must ALWAYS include weights/order/pspo_scores/
+//   archived_apps read from localStorage so other data is never clobbered
+//   (same origin as index.html -> shared localStorage).
+// ============================================================================
+(function() {
+  const TOKEN_KEY = 'miniapps-gist-token';
+  const GIST_KEY = 'miniapps-gist-id';
+  const TODO_KEY = 'miniapps-todos';
+  const ARCHAPP_KEY = 'miniapps-archived-apps';
+  const TODO_CAT_KEY = 'miniapps-todo-cat';
+  const TZ = 'Europe/Warsaw';
+
+  function warsawTodayKey() {
+    return new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  }
+  function nowHHMM() {
+    const parts = new Intl.DateTimeFormat('pl-PL', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date());
+    return parts.replace('.', ':');
+  }
+  function tsNow() { return warsawTodayKey() + ' ' + nowHHMM(); }
+
+  function getTodos() { try { const t = JSON.parse(localStorage.getItem(TODO_KEY) || '[]'); return Array.isArray(t) ? t : []; } catch(e) { return []; } }
+  function saveTodos(t) { localStorage.setItem(TODO_KEY, JSON.stringify(t)); }
+  function catOf(t) { return t.cat === 'work' ? 'work' : 'other'; }
+  const DUE_RE = /^(\d{4})-(\d{2})-(\d{2})( (\d{2}):(\d{2}))?$/;
+  function fmtDue(due) {
+    const m = String(due).match(DUE_RE);
+    if (!m) return String(due);
+    const wd = new Intl.DateTimeFormat('pl-PL', { weekday: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])));
+    return wd + ' ' + m[3] + '.' + m[2] + (m[4] ? ' ' + m[5] + ':' + m[6] : '');
+  }
+  function isOverdue(due) {
+    const d = String(due);
+    if (!DUE_RE.test(d)) return false;
+    return d.length === 10 ? d < warsawTodayKey() : d < warsawTodayKey() + ' ' + nowHHMM();
+  }
+
+  // --- Gist sync (payload identical to index.html getAllData) ---
+  const dot = document.getElementById('sync-dot');
+  function setSync(state) { dot.className = 'sync-dot' + (state ? ' ' + state : ''); }
+  function getAllData() {
+    return {
+      weights: JSON.parse(localStorage.getItem('miniapps-weight') || '{}'),
+      order: JSON.parse(localStorage.getItem('miniapps-order') || '[]'),
+      pspo_scores: JSON.parse(localStorage.getItem('pspo_scores') || '{}'),
+      todos: getTodos(),
+      archived_apps: JSON.parse(localStorage.getItem(ARCHAPP_KEY) || '[]')
+    };
+  }
+  async function fetchFromGist() {
+    const token = localStorage.getItem(TOKEN_KEY), gistId = localStorage.getItem(GIST_KEY);
+    if (!token || !gistId) return;
+    try {
+      const res = await fetch('https://api.github.com/gists/' + gistId, {
+        headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github+json' }
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const content = data.files && data.files['miniapps-data.json'] && data.files['miniapps-data.json'].content;
+      if (content) {
+        const remote = JSON.parse(content);
+        // Remote wins for todos & archived_apps (allows programmatic gist edits)
+        if (Array.isArray(remote.todos)) saveTodos(remote.todos);
+        if (Array.isArray(remote.archived_apps)) localStorage.setItem(ARCHAPP_KEY, JSON.stringify(remote.archived_apps));
+        // Merge weights (remote wins per key) so a later push from this page doesn't lose data
+        if (remote.weights) {
+          const merged = Object.assign({}, JSON.parse(localStorage.getItem('miniapps-weight') || '{}'), remote.weights);
+          localStorage.setItem('miniapps-weight', JSON.stringify(merged));
+        }
+        if (Array.isArray(remote.order) && remote.order.length) localStorage.setItem('miniapps-order', JSON.stringify(remote.order));
+        if (remote.pspo_scores && Object.keys(remote.pspo_scores).length) {
+          const local = JSON.parse(localStorage.getItem('pspo_scores') || '{}');
+          localStorage.setItem('pspo_scores', JSON.stringify(Object.assign({}, local, remote.pspo_scores)));
+        }
+        renderTodos();
+      }
+      setSync('ok');
+    } catch(e) { setSync('err'); }
+  }
+  async function pushToGist() {
+    const token = localStorage.getItem(TOKEN_KEY), gistId = localStorage.getItem(GIST_KEY);
+    if (!token || !gistId) return;
+    try {
+      const res = await fetch('https://api.github.com/gists/' + gistId, {
+        method: 'PATCH',
+        headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ files: { 'miniapps-data.json': { content: JSON.stringify(getAllData(), null, 2) } } })
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      setSync('ok');
+    } catch(e) { setSync('err'); }
+  }
+
+  // --- Render (copy of index.html renderTodos) ---
+  let _todoTab = 'open'; // 'open' | 'done'
+  let _todoCat = localStorage.getItem(TODO_CAT_KEY) || 'all'; // 'work' | 'other' | 'all'
+  function renderTodos() {
+    const items = document.getElementById('todo-items');
+    const todos = getTodos();
+    const active = [], rest = [];
+    todos.forEach((t, i) => ((!t.done && !t.archived) ? active : rest).push([t, i]));
+    const doneCount = rest.filter(([t]) => !t.archived).length;
+    const archCount = rest.length - doneCount;
+    document.getElementById('todo-tab-open').textContent = 'Do zrobienia (' + active.length + ')';
+    document.getElementById('todo-tab-done').textContent = 'Wykonane (' + doneCount + ')' + (archCount ? ' \u00b7 arch. ' + archCount : '');
+    document.getElementById('todo-tab-open').classList.toggle('active', _todoTab === 'open');
+    document.getElementById('todo-tab-done').classList.toggle('active', _todoTab === 'done');
+    items.innerHTML = '';
+    rest.sort((a, b) => (a[0].archived ? 1 : 0) - (b[0].archived ? 1 : 0));
+    const tabList = _todoTab === 'open' ? active : rest;
+    const workN = tabList.filter(([t]) => catOf(t) === 'work').length;
+    const otherN = tabList.length - workN;
+    document.getElementById('todo-cat-work').textContent = 'Work (' + workN + ')';
+    document.getElementById('todo-cat-other').textContent = 'Other (' + otherN + ')';
+    document.getElementById('todo-cat-all').textContent = 'All (' + tabList.length + ')';
+    ['work', 'other', 'all'].forEach(c => document.getElementById('todo-cat-' + c).classList.toggle('active', _todoCat === c));
+    const list = _todoCat === 'all' ? tabList : tabList.filter(([t]) => catOf(t) === _todoCat);
+    // Sort: archived last (done tab), then tasks with due ascending, then tasks without due (insertion order)
+    list.sort((a, b) => {
+      const ar = (a[0].archived ? 1 : 0) - (b[0].archived ? 1 : 0);
+      if (ar) return ar;
+      const ad = a[0].due, bd = b[0].due;
+      if (ad && bd) return ad < bd ? -1 : (ad > bd ? 1 : 0);
+      if (ad) return -1;
+      if (bd) return 1;
+      return 0;
+    });
+    if (!list.length) {
+      items.innerHTML = '<span class="todo-empty">' + (_todoTab === 'open' ? 'Brak zada\u0144' : 'Brak wykonanych') + '</span>';
+      return;
+    }
+    list.forEach(([t, i]) => {
+      const row = document.createElement('div'); row.className = 'todo-row';
+      const c = document.createElement('button');
+      c.className = 'todo-check' + ((t.done || t.archived) ? ' on' : '');
+      c.title = _todoTab === 'open' ? 'Zrobione' : 'Przywr\u00f3\u0107';
+      c.addEventListener('click', async () => {
+        const all = getTodos();
+        if (_todoTab === 'open') { all[i].done = true; } else { all[i].done = false; all[i].archived = false; }
+        saveTodos(all); renderTodos(); await pushToGist();
+      });
+      const txt = document.createElement('span'); txt.className = 'todo-row-text'; txt.textContent = t.text;
+      if (t.archived) { txt.style.fontStyle = 'italic'; txt.style.opacity = '0.6'; }
+      else if (t.done) { txt.style.textDecoration = 'line-through'; txt.style.color = 'var(--text-muted)'; }
+      // Inline edit: tap the text, Enter/blur saves, Esc cancels
+      txt.addEventListener('click', () => {
+        const inp = document.createElement('input');
+        inp.className = 'todo-edit-input'; inp.value = t.text;
+        const din = document.createElement('input');
+        din.className = 'todo-due-input'; din.value = t.due || ''; din.placeholder = 'RRRR-MM-DD [HH:MM]';
+        row.replaceChild(inp, txt);
+        row.insertBefore(din, inp.nextSibling);
+        inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length);
+        let settled = false;
+        const commit = async () => {
+          if (settled) return; settled = true;
+          const v = inp.value.trim();
+          const dv = din.value.trim();
+          const dueValid = dv === '' || DUE_RE.test(dv);
+          const newDue = dueValid ? dv : (t.due || '');
+          const dueChanged = newDue !== (t.due || '');
+          if ((v && v !== t.text) || dueChanged) {
+            const all = getTodos();
+            if (v) all[i].text = v;
+            if (newDue) all[i].due = newDue; else delete all[i].due;
+            saveTodos(all); renderTodos(); await pushToGist();
+          } else renderTodos();
+        };
+        const maybeCommit = () => setTimeout(() => { if (document.activeElement !== inp && document.activeElement !== din) commit(); }, 0);
+        [inp, din].forEach(el => {
+          el.addEventListener('keydown', e => {
+            if (e.key === 'Enter') commit();
+            if (e.key === 'Escape') { settled = true; renderTodos(); }
+          });
+          el.addEventListener('blur', maybeCommit);
+        });
+      });
+      row.appendChild(c);
+      if (catOf(t) === 'work') {
+        const ico = document.createElement('span'); ico.className = 'todo-cat-ico'; ico.textContent = '\uD83D\uDCBC'; ico.title = 'Work';
+        row.appendChild(ico);
+      }
+      row.appendChild(txt);
+      if (t.due) {
+        const dd = document.createElement('span');
+        dd.className = 'todo-due' + (isOverdue(t.due) ? ' over' : '');
+        dd.textContent = fmtDue(t.due);
+        dd.title = 'Deadline: ' + t.due;
+        row.appendChild(dd);
+      }
+      const cb = document.createElement('button'); cb.className = 'todo-mini-btn';
+      cb.textContent = catOf(t); cb.title = 'Prze\u0142\u0105cz kategori\u0119 Work/Other';
+      cb.addEventListener('click', async () => {
+        const all = getTodos(); all[i].cat = catOf(all[i]) === 'work' ? 'other' : 'work';
+        saveTodos(all); renderTodos(); await pushToGist();
+      });
+      row.appendChild(cb);
+      if (_todoTab === 'done' && !t.archived) {
+        const ab = document.createElement('button'); ab.className = 'todo-mini-btn'; ab.textContent = 'arch.'; ab.title = 'Archiwizuj';
+        ab.addEventListener('click', async () => { const all = getTodos(); all[i].archived = true; saveTodos(all); renderTodos(); await pushToGist(); });
+        row.appendChild(ab);
+      }
+      items.appendChild(row);
+    });
+  }
+  document.getElementById('todo-tab-open').addEventListener('click', () => { _todoTab = 'open'; renderTodos(); });
+  document.getElementById('todo-tab-done').addEventListener('click', () => { _todoTab = 'done'; renderTodos(); });
+  ['work', 'other', 'all'].forEach(c => document.getElementById('todo-cat-' + c).addEventListener('click', () => {
+    _todoCat = c; localStorage.setItem(TODO_CAT_KEY, c); renderTodos();
+  }));
+  document.getElementById('todo-add').addEventListener('click', () => {
+    if (document.getElementById('todo-new-input')) { document.getElementById('todo-new-input').focus(); return; }
+    const bar = document.querySelector('#todo-sec .todo-head');
+    const inp = document.createElement('input');
+    inp.id = 'todo-new-input'; inp.className = 'todo-input'; inp.placeholder = 'Nowe zadanie\u2026';
+    bar.insertBefore(inp, document.getElementById('todo-add'));
+    inp.focus();
+    let committed = false;
+    const commit = async () => {
+      if (committed) return; committed = true;
+      const v = inp.value.trim(); inp.remove();
+      if (!v) return;
+      const all = getTodos(); all.push({ text: v, done: false, archived: false, cat: 'other', ts: tsNow() });
+      saveTodos(all); renderTodos(); await pushToGist();
+    };
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') commit(); if (e.key === 'Escape') { committed = true; inp.remove(); } });
+    inp.addEventListener('blur', () => commit());
+  });
+
+  // Init: render local immediately, then refresh from gist (remote wins)
+  renderTodos();
+  fetchFromGist();
+})();
+</script>
+</body>
+</html>

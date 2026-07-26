@@ -370,6 +370,8 @@
   .todo-check { width: 13px; height: 13px; border: 1.5px solid var(--text-muted); border-radius: 50%; flex-shrink: 0; background: none; cursor: pointer; padding: 0; position: relative; }
   .todo-check.on { background: var(--text); border-color: var(--text); }
   .todo-check.on::after { content: '\2713'; color: #fff; font-size: 8px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -52%); }
+  .todo-ext { width: 26px; height: 26px; border: 1px solid var(--border); border-radius: 50%; color: var(--text-muted); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .todo-ext:hover { color: var(--text); border-color: var(--text); }
   .todo-add { width: 26px; height: 26px; border: 1px solid var(--border); border-radius: 50%; background: var(--bg); color: var(--text-muted); font-size: 1rem; line-height: 1; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font); }
   .todo-add:hover { color: var(--text); border-color: var(--text); }
   .todo-empty { font-size: 0.72rem; color: var(--text-muted); display: block; padding: 10px 2px; }
@@ -434,6 +436,7 @@
 <div class="todo-sec" id="todo-sec">
   <div class="todo-head">
     <span class="todo-title">Todo</span>
+    <a class="todo-ext" href="todo.html" target="_blank" title="Otwórz pełną listę todo" id="todo-ext-link"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
     <button class="todo-add" id="todo-add" title="Dodaj zadanie">+</button>
   </div>
   <div class="todo-tabs">
@@ -1616,6 +1619,10 @@
   // Init
   renderCal();
   // ===== TODO LIST + APP ARCHIVE =====
+  // !!! DUPLICATED LOGIC WARNING !!!
+  // The todo logic (renderTodos, sorting, inline edit, due, categories) is
+  // duplicated in the standalone page todo.html. Any change here must also
+  // be applied in todo.html (and vice versa).
   // DATA STRUCTURES (persisted in localStorage and synced to the gist file miniapps-data.json):
   //
   //   todos  -> localStorage 'miniapps-todos', gist key "todos": array of objects
