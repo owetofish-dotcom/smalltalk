@@ -1063,7 +1063,9 @@
   // fix months array (0-indexed):
   const MONTHS = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
 
-  let cur = new Date();
+  const TZ = 'Europe/Warsaw';
+  // "Today" anchored to Europe/Warsaw wall-clock (not device/UTC time)
+  let cur = new Date(new Date().toLocaleString('en-US', { timeZone: TZ }));
   let viewYear = cur.getFullYear();
   let viewMonth = cur.getMonth();
   let selectedKey = null;
@@ -1105,8 +1107,7 @@
     if (val.consulting_desc !== undefined) { if (val.consulting_desc) w[key].consulting_desc = val.consulting_desc; else delete w[key].consulting_desc; }
     // Auto-record first entry time of the day
     if (isFirstEntry && !w[key].first_entry_time) {
-      const _n = new Date();
-      w[key].first_entry_time = String(_n.getHours()).padStart(2,'0') + ':' + String(_n.getMinutes()).padStart(2,'0');
+      w[key].first_entry_time = nowHHMM(); // Europe/Warsaw time
     }
     if (!w[key].weight && !w[key].time && !w[key].km && !w[key].activity && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew && !w[key].nel && !w[key].edyta && !w[key].dom && !w[key].nel_note && !w[key].edyta_note && !w[key].dom_note && !w[key].consulting_h && !w[key].consulting_desc) delete w[key];
     saveWeightsLocal(w);
@@ -1316,8 +1317,9 @@
   // Time helpers
   let _timeActive = true; // always active when weight section open
   function nowHHMM() {
-    const n = new Date();
-    return String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+    // Always Europe/Warsaw wall-clock, regardless of device timezone (avoids UTC offset bug)
+    const parts = new Intl.DateTimeFormat('pl-PL', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date());
+    return parts.replace('.', ':'); // safety: some engines use '.' as separator
   }
   function adjustTime(hhmm, deltaMin) {
     const [hh, mm] = (hhmm || nowHHMM()).split(':').map(Number);
