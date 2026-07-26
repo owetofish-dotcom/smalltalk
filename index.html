@@ -380,6 +380,9 @@
   .todo-cats { display: flex; gap: 4px; padding: 0 0 6px; }
   .todo-cat { flex: 1; padding: 3px 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text-muted); font-family: var(--font); font-size: 0.6rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all .12s; white-space: nowrap; }
   .todo-cat.active { background: var(--text-muted); color: #fff; border-color: var(--text-muted); }
+  .todo-due { font-size: 0.62rem; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; }
+  .todo-due.over { color: #d0342c; font-weight: 600; }
+  .todo-due-input { width: 118px; border: 1px solid var(--border); border-radius: 6px; padding: 4px 6px; font-family: var(--font); font-size: 0.68rem; outline: none; background: var(--bg); color: var(--text); flex-shrink: 0; }
   .todo-edit-input { flex: 1; border: 1px solid var(--border); border-radius: 6px; padding: 4px 6px; font-family: var(--font); font-size: 0.8rem; outline: none; background: var(--bg); color: var(--text); min-width: 0; }
   .todo-mini-btn { background: none; border: 1px solid var(--border); border-radius: 5px; color: var(--text-muted); cursor: pointer; font-size: 0.62rem; padding: 2px 6px; font-family: var(--font); flex-shrink: 0; }
 
@@ -1619,6 +1622,8 @@
   //       done: boolean,       // true = checked off (shown in the "Wykonane" tab)
   //       archived: boolean,   // true = archived (bottom of "Wykonane" tab, italic)
 //       cat: "work"|"other", // category subtab; missing field = "other" (backward compatible)
+//       due: "YYYY-MM-DD" or "YYYY-MM-DD HH:MM", // optional deadline, Europe/Warsaw;
+//                            // missing field = no deadline (backward compatible); shown red when past
   //       ts: "YYYY-MM-DD HH:MM" } // creation time, Europe/Warsaw
   //     Active task: done=false, archived=false (row in the 200px list under the calendar).
   //     To add a task programmatically, append e.g.
@@ -1640,6 +1645,18 @@
   const TODO_CAT_KEY = 'miniapps-todo-cat';
   let _todoCat = localStorage.getItem(TODO_CAT_KEY) || 'all'; // 'work' | 'other' | 'all'
   function catOf(t) { return t.cat === 'work' ? 'work' : 'other'; }
+  const DUE_RE = /^(\d{4})-(\d{2})-(\d{2})( (\d{2}):(\d{2}))?$/;
+  function fmtDue(due) {
+    const m = String(due).match(DUE_RE);
+    if (!m) return String(due);
+    const wd = new Intl.DateTimeFormat('pl-PL', { weekday: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])));
+    return wd + ' ' + m[3] + '.' + m[2] + (m[4] ? ' ' + m[5] + ':' + m[6] : '');
+  }
+  function isOverdue(due) {
+    const d = String(due);
+    if (!DUE_RE.test(d)) return false;
+    return d.length === 10 ? d < warsawTodayKey() : d < warsawTodayKey() + ' ' + nowHHMM();
+  }
   function renderTodos() {
     const items = document.getElementById('todo-items');
     const todos = getTodos();
@@ -1682,22 +1699,43 @@
       txt.addEventListener('click', () => {
         const inp = document.createElement('input');
         inp.className = 'todo-edit-input'; inp.value = t.text;
+        const din = document.createElement('input');
+        din.className = 'todo-due-input'; din.value = t.due || ''; din.placeholder = 'RRRR-MM-DD [HH:MM]';
         row.replaceChild(inp, txt);
+        row.insertBefore(din, inp.nextSibling);
         inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length);
         let settled = false;
         const commit = async () => {
           if (settled) return; settled = true;
           const v = inp.value.trim();
-          if (v && v !== t.text) { const all = getTodos(); all[i].text = v; saveTodos(all); renderTodos(); await pushToGist(); }
-          else renderTodos();
+          const dv = din.value.trim();
+          const dueValid = dv === '' || DUE_RE.test(dv);
+          const newDue = dueValid ? dv : (t.due || '');
+          const dueChanged = newDue !== (t.due || '');
+          if ((v && v !== t.text) || dueChanged) {
+            const all = getTodos();
+            if (v) all[i].text = v;
+            if (newDue) all[i].due = newDue; else delete all[i].due;
+            saveTodos(all); renderTodos(); await pushToGist();
+          } else renderTodos();
         };
-        inp.addEventListener('keydown', e => {
-          if (e.key === 'Enter') commit();
-          if (e.key === 'Escape') { settled = true; renderTodos(); }
+        const maybeCommit = () => setTimeout(() => { if (document.activeElement !== inp && document.activeElement !== din) commit(); }, 0);
+        [inp, din].forEach(el => {
+          el.addEventListener('keydown', e => {
+            if (e.key === 'Enter') commit();
+            if (e.key === 'Escape') { settled = true; renderTodos(); }
+          });
+          el.addEventListener('blur', maybeCommit);
         });
-        inp.addEventListener('blur', () => commit());
       });
       row.appendChild(c); row.appendChild(txt);
+      if (t.due) {
+        const dd = document.createElement('span');
+        dd.className = 'todo-due' + (isOverdue(t.due) ? ' over' : '');
+        dd.textContent = fmtDue(t.due);
+        dd.title = 'Deadline: ' + t.due;
+        row.appendChild(dd);
+      }
       const cb = document.createElement('button'); cb.className = 'todo-mini-btn';
       cb.textContent = catOf(t); cb.title = 'Prze\u0142\u0105cz kategori\u0119 Work/Other';
       cb.addEventListener('click', async () => {
