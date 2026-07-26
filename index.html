@@ -380,6 +380,7 @@
   .todo-cats { display: flex; gap: 4px; padding: 0 0 6px; }
   .todo-cat { flex: 1; padding: 3px 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text-muted); font-family: var(--font); font-size: 0.6rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all .12s; white-space: nowrap; }
   .todo-cat.active { background: var(--text-muted); color: #fff; border-color: var(--text-muted); }
+  .todo-cat-ico { font-size: 0.6rem; flex-shrink: 0; line-height: 1; }
   .todo-due { font-size: 0.56rem; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; }
   .todo-due.over { color: #d0342c; font-weight: 600; }
   .todo-due-input { width: 108px; border: 1px solid var(--border); border-radius: 6px; padding: 3px 6px; font-family: var(--font); font-size: 0.62rem; outline: none; background: var(--bg); color: var(--text); flex-shrink: 0; }
@@ -1678,6 +1679,16 @@
     document.getElementById('todo-cat-all').textContent = 'All (' + tabList.length + ')';
     ['work', 'other', 'all'].forEach(c => document.getElementById('todo-cat-' + c).classList.toggle('active', _todoCat === c));
     const list = _todoCat === 'all' ? tabList : tabList.filter(([t]) => catOf(t) === _todoCat);
+    // Sort: archived last (done tab), then tasks with due ascending, then tasks without due (insertion order)
+    list.sort((a, b) => {
+      const ar = (a[0].archived ? 1 : 0) - (b[0].archived ? 1 : 0);
+      if (ar) return ar;
+      const ad = a[0].due, bd = b[0].due;
+      if (ad && bd) return ad < bd ? -1 : (ad > bd ? 1 : 0);
+      if (ad) return -1;
+      if (bd) return 1;
+      return 0;
+    });
     if (!list.length) {
       items.innerHTML = '<span class="todo-empty">' + (_todoTab === 'open' ? 'Brak zada\u0144' : 'Brak wykonanych') + '</span>';
       return;
@@ -1728,7 +1739,12 @@
           el.addEventListener('blur', maybeCommit);
         });
       });
-      row.appendChild(c); row.appendChild(txt);
+      row.appendChild(c);
+      if (catOf(t) === 'work') {
+        const ico = document.createElement('span'); ico.className = 'todo-cat-ico'; ico.textContent = '\uD83D\uDCBC'; ico.title = 'Work';
+        row.appendChild(ico);
+      }
+      row.appendChild(txt);
       if (t.due) {
         const dd = document.createElement('span');
         dd.className = 'todo-due' + (isOverdue(t.due) ? ' over' : '');
