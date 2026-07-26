@@ -1064,6 +1064,10 @@
   const MONTHS = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
 
   const TZ = 'Europe/Warsaw';
+  function warsawTodayKey() {
+    // YYYY-MM-DD in Europe/Warsaw regardless of device timezone
+    return new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  }
   // "Today" anchored to Europe/Warsaw wall-clock (not device/UTC time)
   let cur = new Date(new Date().toLocaleString('en-US', { timeZone: TZ }));
   let viewYear = cur.getFullYear();
@@ -1106,8 +1110,8 @@
     if (val.consulting_h !== undefined) { if (val.consulting_h) w[key].consulting_h = val.consulting_h; else delete w[key].consulting_h; }
     if (val.consulting_desc !== undefined) { if (val.consulting_desc) w[key].consulting_desc = val.consulting_desc; else delete w[key].consulting_desc; }
     // Auto-record first entry time of the day
-    if (isFirstEntry && !w[key].first_entry_time) {
-      w[key].first_entry_time = nowHHMM(); // Europe/Warsaw time
+    if (isFirstEntry && !w[key].first_entry_time && key === warsawTodayKey()) {
+      w[key].first_entry_time = nowHHMM(); // Europe/Warsaw time; only for the actual current day
     }
     if (!w[key].weight && !w[key].time && !w[key].km && !w[key].activity && !w[key].steps && !w[key].diet && !w[key].no_fizzy && !w[key].flew && !w[key].nel && !w[key].edyta && !w[key].dom && !w[key].nel_note && !w[key].edyta_note && !w[key].dom_note && !w[key].consulting_h && !w[key].consulting_desc) delete w[key];
     saveWeightsLocal(w);
@@ -1391,7 +1395,7 @@
     const initWeight = data.weight ? data.weight.replace('kg','') : (lastW ? lastW.toFixed(1) : '');
     _setWeightActive(!!data.weight, initWeight);
     // Time: use saved time if exists, then first_entry_time as fallback, else blank (captured on toggle/save)
-    _setTimeActive(true, data.time || data.first_entry_time || '');
+    _setTimeActive(true, data.weight ? (data.time || data.first_entry_time || '') : '');
     // If weight section is open, time was already set in _setWeightActive's show path
     // But if weight not yet saved, time row will be hidden anyway (inside weight-section div)
     document.getElementById('km-input').value = data.km;
@@ -1485,7 +1489,8 @@
   document.getElementById('weight-save').addEventListener('click', async () => {
     let wval = _weightActive ? input.value.trim().replace(',', '.') : '';
     if (wval && !wval.endsWith('kg')) wval += 'kg';
-    const tval = _timeActive ? document.getElementById('time-input').value.trim() : '';
+    // Measurement time is only meaningful with a weight value; without one, clear it
+    const tval = (_weightActive && wval) ? document.getElementById('time-input').value.trim() : '';
     let kmval = document.getElementById('km-input').value.trim().replace(',', '.');
     const actval = document.getElementById('activity-input').value.trim();
     setWeight(selectedKey, { weight: wval, time: tval, km: kmval, activity: actval, nel_note: document.getElementById('nel-note').value.trim(), edyta_note: document.getElementById('edyta-note').value.trim(), dom_note: document.getElementById('dom-note').value.trim(), consulting_h: document.getElementById('consulting-h').value.trim().replace(',','.'), consulting_desc: document.getElementById('consulting-desc').value.trim(), ...Object.fromEntries(Object.entries(_toggleState)) });
