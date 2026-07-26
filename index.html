@@ -377,6 +377,9 @@
   .todo-tabs { display: flex; gap: 4px; padding: 2px 0 6px; }
   .todo-tab { flex: 1; padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text-muted); font-family: var(--font); font-size: 0.66rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all .12s; white-space: nowrap; }
   .todo-tab.active { background: var(--text); color: #fff; border-color: var(--text); }
+  .todo-cats { display: flex; gap: 4px; padding: 0 0 6px; }
+  .todo-cat { flex: 1; padding: 3px 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text-muted); font-family: var(--font); font-size: 0.6rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all .12s; white-space: nowrap; }
+  .todo-cat.active { background: var(--text-muted); color: #fff; border-color: var(--text-muted); }
   .todo-edit-input { flex: 1; border: 1px solid var(--border); border-radius: 6px; padding: 4px 6px; font-family: var(--font); font-size: 0.8rem; outline: none; background: var(--bg); color: var(--text); min-width: 0; }
   .todo-mini-btn { background: none; border: 1px solid var(--border); border-radius: 5px; color: var(--text-muted); cursor: pointer; font-size: 0.62rem; padding: 2px 6px; font-family: var(--font); flex-shrink: 0; }
 
@@ -432,6 +435,11 @@
   <div class="todo-tabs">
     <button class="todo-tab active" id="todo-tab-open">Do zrobienia (0)</button>
     <button class="todo-tab" id="todo-tab-done">Wykonane (0)</button>
+  </div>
+  <div class="todo-cats">
+    <button class="todo-cat" id="todo-cat-work">Work (0)</button>
+    <button class="todo-cat" id="todo-cat-other">Other (0)</button>
+    <button class="todo-cat active" id="todo-cat-all">All (0)</button>
   </div>
   <div class="todo-items" id="todo-items"></div>
 </div>
@@ -1610,10 +1618,11 @@
   //     { text: string,        // task text
   //       done: boolean,       // true = checked off (shown in the "Wykonane" tab)
   //       archived: boolean,   // true = archived (bottom of "Wykonane" tab, italic)
+//       cat: "work"|"other", // category subtab; missing field = "other" (backward compatible)
   //       ts: "YYYY-MM-DD HH:MM" } // creation time, Europe/Warsaw
   //     Active task: done=false, archived=false (row in the 200px list under the calendar).
   //     To add a task programmatically, append e.g.
-  //       { "text": "Kup mleko", "done": false, "archived": false, "ts": "2026-07-26 12:00" }
+  //       { "text": "Kup mleko", "done": false, "archived": false, "cat": "other", "ts": "2026-07-26 12:00" }
   //     to the "todos" array in the gist. Remote (gist) always wins on load.
   //
   //   archived_apps -> localStorage 'miniapps-archived-apps', gist key "archived_apps":
@@ -1628,6 +1637,9 @@
   function tsNow() { return warsawTodayKey() + ' ' + nowHHMM(); }
 
   let _todoTab = 'open'; // 'open' | 'done'
+  const TODO_CAT_KEY = 'miniapps-todo-cat';
+  let _todoCat = localStorage.getItem(TODO_CAT_KEY) || 'all'; // 'work' | 'other' | 'all'
+  function catOf(t) { return t.cat === 'work' ? 'work' : 'other'; }
   function renderTodos() {
     const items = document.getElementById('todo-items');
     const todos = getTodos();
@@ -1641,7 +1653,14 @@
     document.getElementById('todo-tab-done').classList.toggle('active', _todoTab === 'done');
     items.innerHTML = '';
     rest.sort((a, b) => (a[0].archived ? 1 : 0) - (b[0].archived ? 1 : 0));
-    const list = _todoTab === 'open' ? active : rest;
+    const tabList = _todoTab === 'open' ? active : rest;
+    const workN = tabList.filter(([t]) => catOf(t) === 'work').length;
+    const otherN = tabList.length - workN;
+    document.getElementById('todo-cat-work').textContent = 'Work (' + workN + ')';
+    document.getElementById('todo-cat-other').textContent = 'Other (' + otherN + ')';
+    document.getElementById('todo-cat-all').textContent = 'All (' + tabList.length + ')';
+    ['work', 'other', 'all'].forEach(c => document.getElementById('todo-cat-' + c).classList.toggle('active', _todoCat === c));
+    const list = _todoCat === 'all' ? tabList : tabList.filter(([t]) => catOf(t) === _todoCat);
     if (!list.length) {
       items.innerHTML = '<span class="todo-empty">' + (_todoTab === 'open' ? 'Brak zada\u0144' : 'Brak wykonanych') + '</span>';
       return;
@@ -1679,6 +1698,13 @@
         inp.addEventListener('blur', () => commit());
       });
       row.appendChild(c); row.appendChild(txt);
+      const cb = document.createElement('button'); cb.className = 'todo-mini-btn';
+      cb.textContent = catOf(t); cb.title = 'Prze\u0142\u0105cz kategori\u0119 Work/Other';
+      cb.addEventListener('click', async () => {
+        const all = getTodos(); all[i].cat = catOf(all[i]) === 'work' ? 'other' : 'work';
+        saveTodos(all); renderTodos(); await pushToGist();
+      });
+      row.appendChild(cb);
       if (_todoTab === 'done' && !t.archived) {
         const ab = document.createElement('button'); ab.className = 'todo-mini-btn'; ab.textContent = 'arch.'; ab.title = 'Archiwizuj';
         ab.addEventListener('click', async () => { const all = getTodos(); all[i].archived = true; saveTodos(all); renderTodos(); await pushToGist(); });
@@ -1689,6 +1715,9 @@
   }
   document.getElementById('todo-tab-open').addEventListener('click', () => { _todoTab = 'open'; renderTodos(); });
   document.getElementById('todo-tab-done').addEventListener('click', () => { _todoTab = 'done'; renderTodos(); });
+  ['work', 'other', 'all'].forEach(c => document.getElementById('todo-cat-' + c).addEventListener('click', () => {
+    _todoCat = c; localStorage.setItem(TODO_CAT_KEY, c); renderTodos();
+  }));
   document.getElementById('todo-add').addEventListener('click', () => {
     if (document.getElementById('todo-new-input')) { document.getElementById('todo-new-input').focus(); return; }
     const bar = document.querySelector('#todo-sec .todo-head');
@@ -1701,7 +1730,7 @@
       if (committed) return; committed = true;
       const v = inp.value.trim(); inp.remove();
       if (!v) return;
-      const all = getTodos(); all.push({ text: v, done: false, archived: false, ts: tsNow() });
+      const all = getTodos(); all.push({ text: v, done: false, archived: false, cat: 'other', ts: tsNow() });
       saveTodos(all); renderTodos(); await pushToGist();
     };
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') commit(); if (e.key === 'Escape') { committed = true; inp.remove(); } });
