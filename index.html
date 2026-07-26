@@ -359,6 +359,39 @@
   @media (pointer: coarse) {
     .drag-handle { opacity: 0.6; }
   }
+
+  /* ===== TODO LIST ===== */
+  .todo-sec { max-width: 720px; margin: 0 auto; padding: 6px 20px 2px; border-bottom: 1px solid var(--border); }
+  .todo-bar { display: flex; align-items: center; gap: 6px; min-height: 50px; }
+  .todo-items { display: flex; gap: 6px; flex: 1; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .todo-items::-webkit-scrollbar { display: none; }
+  .todo-chip { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; max-width: 34%; min-width: 88px; border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; background: var(--bg); font-size: 0.72rem; line-height: 1.25; }
+  .todo-chip-text { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .todo-check { width: 16px; height: 16px; border: 1.5px solid var(--text-muted); border-radius: 50%; flex-shrink: 0; background: none; cursor: pointer; padding: 0; position: relative; }
+  .todo-check.on { background: var(--text); border-color: var(--text); }
+  .todo-check.on::after { content: '\2713'; color: #fff; font-size: 9px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -52%); }
+  .todo-add { width: 26px; height: 26px; border: 1px solid var(--border); border-radius: 50%; background: var(--bg); color: var(--text-muted); font-size: 1rem; line-height: 1; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font); }
+  .todo-add:hover { color: var(--text); border-color: var(--text); }
+  .todo-empty { font-size: 0.72rem; color: var(--text-muted); }
+  .todo-input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; font-family: var(--font); font-size: 0.78rem; outline: none; background: var(--bg); color: var(--text); min-width: 0; }
+  .todo-acc-head { display: flex; align-items: center; gap: 6px; font-size: 0.68rem; color: var(--text-muted); cursor: pointer; padding: 2px 0 6px; user-select: none; }
+  .todo-acc-list { display: none; padding-bottom: 6px; }
+  .todo-acc-list.open { display: block; }
+  .todo-done-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 0.72rem; color: var(--text-muted); }
+  .todo-done-row .txt { flex: 1; text-decoration: line-through; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .todo-done-row .txt.arch { text-decoration: none; font-style: italic; opacity: 0.7; }
+  .todo-mini-btn { background: none; border: 1px solid var(--border); border-radius: 5px; color: var(--text-muted); cursor: pointer; font-size: 0.62rem; padding: 2px 6px; font-family: var(--font); flex-shrink: 0; }
+
+  /* ===== APP ARCHIVE ===== */
+  .app-archive { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; border: none; background: none; color: var(--text-muted); opacity: 0.3; cursor: pointer; flex-shrink: 0; position: relative; z-index: 1; padding: 0; }
+  .app-row:hover .app-archive { opacity: 0.8; }
+  .arch-sec { max-width: 720px; margin: 0 auto; padding: 8px 20px 48px; }
+  .arch-head { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; display: flex; align-items: center; gap: 6px; user-select: none; padding: 6px 0; }
+  .arch-list { display: none; }
+  .arch-list.open { display: block; }
+  .arch-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
+  .arch-row a { color: var(--text); text-decoration: none; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .arch-restore { background: none; border: 1px solid var(--border); border-radius: 6px; color: var(--text-muted); font-family: var(--font); font-size: 0.66rem; padding: 3px 8px; cursor: pointer; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -385,6 +418,16 @@
     </div>
   </div>
   <div class="cal-grid" id="cal-grid"></div>
+</div>
+
+<!-- TODO -->
+<div class="todo-sec" id="todo-sec">
+  <div class="todo-bar">
+    <div class="todo-items" id="todo-items"></div>
+    <button class="todo-add" id="todo-add" title="Dodaj zadanie">+</button>
+  </div>
+  <div class="todo-acc-head" id="todo-acc-head" style="display:none;"><span id="todo-acc-arrow">▸</span><span id="todo-acc-label">Zrobione (0)</span></div>
+  <div class="todo-acc-list" id="todo-acc-list"></div>
 </div>
 
 <!-- SETTINGS POPUP -->
@@ -902,6 +945,12 @@
 
 </ul>
 
+<!-- ARCHIWUM -->
+<div class="arch-sec" id="arch-sec" style="display:none;">
+  <div class="arch-head" id="arch-head"><span id="arch-arrow">▸</span><span id="arch-label">Archiwum</span></div>
+  <div class="arch-list" id="arch-list"></div>
+</div>
+
 <script>
 (function () {
   const list = document.getElementById('appList');
@@ -1140,12 +1189,17 @@
     return {
       weights: getWeights(),
       order: JSON.parse(localStorage.getItem('miniapps-order') || '[]'),
-      pspo_scores: JSON.parse(localStorage.getItem('pspo_scores') || '{}')
+      pspo_scores: JSON.parse(localStorage.getItem('pspo_scores') || '{}'),
+      todos: getTodos(),
+      archived_apps: getArchivedApps()
     };
   }
 
   // Restore all data from remote
   function restoreAllData(remote) {
+    // todos & archived_apps: remote wins (allows programmatic gist edits)
+    if (Array.isArray(remote.todos)) { saveTodos(remote.todos); renderTodos(); }
+    if (Array.isArray(remote.archived_apps)) { saveArchivedApps(remote.archived_apps); renderArchive(); }
     if (remote.weights) {
       const merged = Object.assign({}, getWeights(), remote.weights);
       saveWeightsLocal(merged);
@@ -1538,6 +1592,136 @@
 
   // Init
   renderCal();
+  // ===== TODO LIST + APP ARCHIVE =====
+  // DATA STRUCTURES (persisted in localStorage and synced to the gist file miniapps-data.json):
+  //
+  //   todos  -> localStorage 'miniapps-todos', gist key "todos": array of objects
+  //     { text: string,        // task text
+  //       done: boolean,       // true = checked off (shown in the "Zrobione" accordion)
+  //       archived: boolean,   // true = archived (hidden in accordion, italic)
+  //       ts: "YYYY-MM-DD HH:MM" } // creation time, Europe/Warsaw
+  //     Active task: done=false, archived=false (chip under the calendar).
+  //     To add a task programmatically, append e.g.
+  //       { "text": "Kup mleko", "done": false, "archived": false, "ts": "2026-07-26 12:00" }
+  //     to the "todos" array in the gist. Remote (gist) always wins on load.
+  //
+  //   archived_apps -> localStorage 'miniapps-archived-apps', gist key "archived_apps":
+  //     array of app ids (data-id of .app-row), e.g. ["chords", "ppla"].
+  //     Apps listed here are hidden from the main list and shown in "Archiwum".
+  const TODO_KEY = 'miniapps-todos';
+  const ARCHAPP_KEY = 'miniapps-archived-apps';
+  function getTodos() { try { const t = JSON.parse(localStorage.getItem(TODO_KEY) || '[]'); return Array.isArray(t) ? t : []; } catch(e) { return []; } }
+  function saveTodos(t) { localStorage.setItem(TODO_KEY, JSON.stringify(t)); }
+  function getArchivedApps() { try { const a = JSON.parse(localStorage.getItem(ARCHAPP_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch(e) { return []; } }
+  function saveArchivedApps(a) { localStorage.setItem(ARCHAPP_KEY, JSON.stringify(a)); }
+  function tsNow() { return warsawTodayKey() + ' ' + nowHHMM(); }
+
+  function renderTodos() {
+    const items = document.getElementById('todo-items');
+    const accList = document.getElementById('todo-acc-list');
+    const accHead = document.getElementById('todo-acc-head');
+    const todos = getTodos();
+    const active = [], rest = [];
+    todos.forEach((t, i) => ((!t.done && !t.archived) ? active : rest).push([t, i]));
+    items.innerHTML = '';
+    if (!active.length) items.innerHTML = '<span class="todo-empty">Brak zada\u0144</span>';
+    active.forEach(([t, i]) => {
+      const chip = document.createElement('div'); chip.className = 'todo-chip';
+      const c = document.createElement('button'); c.className = 'todo-check'; c.title = 'Zrobione';
+      c.addEventListener('click', async () => { const all = getTodos(); all[i].done = true; saveTodos(all); renderTodos(); await pushToGist(); });
+      const txt = document.createElement('span'); txt.className = 'todo-chip-text'; txt.textContent = t.text;
+      chip.appendChild(c); chip.appendChild(txt); items.appendChild(chip);
+    });
+    accList.innerHTML = '';
+    rest.sort((a, b) => (a[0].archived ? 1 : 0) - (b[0].archived ? 1 : 0));
+    rest.forEach(([t, i]) => {
+      const row = document.createElement('div'); row.className = 'todo-done-row';
+      const c = document.createElement('button'); c.className = 'todo-check on'; c.title = 'Przywr\u00f3\u0107';
+      c.addEventListener('click', async () => { const all = getTodos(); all[i].done = false; all[i].archived = false; saveTodos(all); renderTodos(); await pushToGist(); });
+      const txt = document.createElement('span'); txt.className = 'txt' + (t.archived ? ' arch' : ''); txt.textContent = t.text;
+      row.appendChild(c); row.appendChild(txt);
+      if (!t.archived) {
+        const ab = document.createElement('button'); ab.className = 'todo-mini-btn'; ab.textContent = 'arch.'; ab.title = 'Archiwizuj';
+        ab.addEventListener('click', async () => { const all = getTodos(); all[i].archived = true; saveTodos(all); renderTodos(); await pushToGist(); });
+        row.appendChild(ab);
+      }
+      accList.appendChild(row);
+    });
+    const doneCount = rest.filter(([t]) => !t.archived).length;
+    const archCount = rest.length - doneCount;
+    document.getElementById('todo-acc-label').textContent = 'Zrobione (' + doneCount + ')' + (archCount ? ' \u00b7 arch. ' + archCount : '');
+    accHead.style.display = rest.length ? 'flex' : 'none';
+    if (!rest.length) accList.classList.remove('open');
+  }
+  document.getElementById('todo-acc-head').addEventListener('click', () => {
+    const l = document.getElementById('todo-acc-list');
+    l.classList.toggle('open');
+    document.getElementById('todo-acc-arrow').textContent = l.classList.contains('open') ? '\u25be' : '\u25b8';
+  });
+  document.getElementById('todo-add').addEventListener('click', () => {
+    if (document.getElementById('todo-new-input')) { document.getElementById('todo-new-input').focus(); return; }
+    const bar = document.querySelector('#todo-sec .todo-bar');
+    const inp = document.createElement('input');
+    inp.id = 'todo-new-input'; inp.className = 'todo-input'; inp.placeholder = 'Nowe zadanie\u2026';
+    bar.insertBefore(inp, document.getElementById('todo-add'));
+    inp.focus();
+    let committed = false;
+    const commit = async () => {
+      if (committed) return; committed = true;
+      const v = inp.value.trim(); inp.remove();
+      if (!v) return;
+      const all = getTodos(); all.push({ text: v, done: false, archived: false, ts: tsNow() });
+      saveTodos(all); renderTodos(); await pushToGist();
+    };
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') commit(); if (e.key === 'Escape') { committed = true; inp.remove(); } });
+    inp.addEventListener('blur', () => commit());
+  });
+
+  const _appListEl = document.getElementById('appList');
+  function renderArchive() {
+    const ids = getArchivedApps();
+    const sec = document.getElementById('arch-sec');
+    const listEl = document.getElementById('arch-list');
+    _appListEl.querySelectorAll('.app-row[data-id]').forEach(row => {
+      if (row.dataset.id === 'placeholder') return;
+      row.style.display = ids.includes(row.dataset.id) ? 'none' : '';
+    });
+    listEl.innerHTML = '';
+    ids.forEach(id => {
+      const row = _appListEl.querySelector('.app-row[data-id="' + id + '"]');
+      if (!row) return;
+      const r = document.createElement('div'); r.className = 'arch-row';
+      const a = document.createElement('a');
+      a.href = row.dataset.href || '#';
+      a.textContent = (row.querySelector('.app-name') || {}).textContent || id;
+      const b = document.createElement('button'); b.className = 'arch-restore'; b.textContent = 'Przywr\u00f3\u0107';
+      b.addEventListener('click', async () => { saveArchivedApps(getArchivedApps().filter(x => x !== id)); renderArchive(); await pushToGist(); });
+      r.appendChild(a); r.appendChild(b); listEl.appendChild(r);
+    });
+    document.getElementById('arch-label').textContent = 'Archiwum' + (ids.length ? ' (' + ids.length + ')' : '');
+    sec.style.display = ids.length ? 'block' : 'none';
+  }
+  _appListEl.querySelectorAll('.app-row[data-id]').forEach(row => {
+    if (row.dataset.id === 'placeholder') return;
+    const btn = document.createElement('button');
+    btn.className = 'app-archive'; btn.title = 'Archiwizuj';
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>';
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation(); e.preventDefault();
+      const ids = getArchivedApps();
+      if (!ids.includes(row.dataset.id)) ids.push(row.dataset.id);
+      saveArchivedApps(ids); renderArchive(); await pushToGist();
+    });
+    row.appendChild(btn);
+  });
+  document.getElementById('arch-head').addEventListener('click', () => {
+    const l = document.getElementById('arch-list');
+    l.classList.toggle('open');
+    document.getElementById('arch-arrow').textContent = l.classList.contains('open') ? '\u25be' : '\u25b8';
+  });
+  renderTodos();
+  renderArchive();
+
   fetchFromGist(); // pull on load
 })();
 </script>
