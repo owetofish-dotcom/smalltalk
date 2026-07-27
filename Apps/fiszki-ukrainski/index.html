@@ -178,10 +178,80 @@
     padding: 2px 5px; font-family: monospace; font-size: 10px; margin: 0 2px;
   }
 
+  /* KNOWLEDGE LEVEL */
+  .know {
+    display: flex; gap: 8px;
+    padding: 0 16px 10px;
+    max-width: 632px; margin: 0 auto; width: 100%;
+  }
+  .know button {
+    flex: 1; background: var(--bg); border: 1.5px solid var(--border);
+    padding: 8px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500;
+    transition: background .12s, color .12s;
+  }
+  .know button:hover { color: var(--text); }
+  .know button.active { color: white; font-weight: 700; }
+  .know button[data-level="know"].active { background: #2e7d32; border-color: #2e7d32; }
+  .know button[data-level="mid"].active  { background: #b98500; border-color: #b98500; }
+  .know button[data-level="no"].active   { background: #d0342c; border-color: #d0342c; }
+
+  /* EMPTY POOL */
+  .empty {
+    width: 100%; max-width: 600px;
+    border: 1.5px dashed var(--border); background: white;
+    padding: 36px 28px; text-align: center;
+  }
+  .empty p { font-size: 15px; line-height: 1.5; margin-bottom: 18px; }
+  .empty button {
+    background: var(--bg); border: 1.5px solid var(--border);
+    padding: 10px 14px; margin: 0 4px;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
+  }
+  .empty button:hover { background: var(--hover); }
+
+  /* HEADER LINK */
+  .header-link {
+    background: none; border: none;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); padding: 2px 0;
+    border-bottom: 1px dotted var(--muted); flex-shrink: 0;
+  }
+  .header-link:hover { color: var(--text); border-bottom-color: var(--text); }
+
+  /* LIST VIEW */
+  .list-view {
+    flex: 1; overflow-y: auto;
+    padding: 16px; max-width: 760px; margin: 0 auto; width: 100%;
+  }
+  .list-section {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin: 18px 0 8px;
+  }
+  .list-row {
+    display: flex; align-items: center; gap: 10px;
+    border: 1px solid var(--border); background: white;
+    padding: 8px 10px; margin-bottom: 6px;
+  }
+  .list-txt { flex: 1; min-width: 0; }
+  .list-front { font-size: 13px; line-height: 1.4; }
+  .list-back { font-size: 12px; color: var(--muted); line-height: 1.4; }
+  .list-know { display: flex; gap: 4px; flex-shrink: 0; }
+  .list-know button {
+    border: 1px solid var(--border); background: var(--bg);
+    font-size: 9.5px; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 4px 7px; color: var(--muted);
+  }
+  .list-know button.active { color: white; font-weight: 700; }
+  .list-know button[data-level="know"].active { background: #2e7d32; border-color: #2e7d32; }
+  .list-know button[data-level="mid"].active  { background: #b98500; border-color: #b98500; }
+  .list-know button[data-level="no"].active   { background: #d0342c; border-color: #d0342c; }
+
   @media (max-width: 560px) {
     .card { padding: 26px 18px; min-height: 240px; }
     .card-pl { font-size: 19px; }
     .card-uk { font-size: 17px; }
+    .list-row { flex-direction: column; align-items: flex-start; gap: 6px; }
   }
 </style>
 </head>
@@ -193,6 +263,7 @@
     MiniApps
   </a>
   <span class="header-title">Fiszki — ukraiński</span>
+  <button class="header-link" id="listBtn">Wszystkie fiszki</button>
   <span class="counter" id="counter">01 / 00</span>
 </header>
 
@@ -212,12 +283,24 @@
       <div class="card-note" id="cardNote" hidden></div>
     </div>
   </div>
+  <div class="empty" id="emptyBox" style="display:none;">
+    <p>Wszystkie fiszki w tej talii masz oznaczone jako "Znam". Nie ma czego powtarzać.</p>
+    <button id="emptyResetBtn">Resetuj statusy</button>
+    <button id="emptyAllBtn">Przeglądaj wszystkie</button>
+  </div>
 </main>
+
+<section class="list-view" id="listView" style="display:none;"></section>
 
 <div class="controls">
   <button id="prevBtn">◄ Poprz.</button>
   <button id="revealBtn" class="btn-reveal">Odkryj</button>
   <button id="nextBtn">Nast. ►</button>
+</div>
+<div class="know" id="knowRow">
+  <button data-level="know">Znam</button>
+  <button data-level="mid">Średnio znam</button>
+  <button data-level="no">Nie znam</button>
 </div>
 <div class="util">
   <button id="shuffleBtn">Wymieszaj</button>
@@ -293,8 +376,28 @@ const DATA = {
   ]
 };
 
+// Poziomy znajomosci: 'know' | 'mid' | 'no' (brak wpisu = 'no').
+// Persist w localStorage pod KNOW_KEY, indeksowane stabilnym hashem tresci fiszki
+// (djb2 po pl+uk bez tagow HTML), wiec dopisywanie nowych fiszek nie psuje stanu.
+const KNOW_KEY = 'fiszki-ua-knowledge';
+const DECK_NAMES = { sentences: 'Zdania', idioms: 'Idiomy / kolokacje' };
+
+function hashCard(c) {
+  const s = (c.pl + '|' + (c.uk || '')).replace(/<[^>]*>/g, '');
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = (((h << 5) + h) + s.charCodeAt(i)) >>> 0;
+  return 'c' + h.toString(36);
+}
+function loadKnow() { try { return JSON.parse(localStorage.getItem(KNOW_KEY)) || {}; } catch (e) { return {}; } }
+let knowMap = loadKnow();
+function saveKnow() { try { localStorage.setItem(KNOW_KEY, JSON.stringify(knowMap)); } catch (e) {} }
+function statusOf(c) { return knowMap[hashCard(c)] || 'no'; }
+function setStatus(c, lvl) { knowMap[hashCard(c)] = lvl; saveKnow(); }
+
 let deck = 'sentences';
-let order = [];
+let showAll = false;
+let listMode = false;
+let pool = [];
 let idx = 0;
 let revealed = false;
 
@@ -309,14 +412,55 @@ const el = {
   example: document.getElementById('cardExample'),
   note: document.getElementById('cardNote'),
   revealBtn: document.getElementById('revealBtn'),
+  emptyBox: document.getElementById('emptyBox'),
+  emptyResetBtn: document.getElementById('emptyResetBtn'),
+  emptyAllBtn: document.getElementById('emptyAllBtn'),
+  knowRow: document.getElementById('knowRow'),
+  knowBtns: document.querySelectorAll('#knowRow button'),
+  listBtn: document.getElementById('listBtn'),
+  listView: document.getElementById('listView'),
+  mainEl: document.querySelector('main'),
+  controlsEl: document.querySelector('.controls'),
+  utilEl: document.querySelector('.util'),
+  kbEl: document.querySelector('.kb'),
+  tabsEl: document.querySelector('.tabs'),
   tabs: document.querySelectorAll('.tab')
 };
 
-function buildOrder() { order = DATA[deck].map((_, i) => i); }
 function pad(n) { return String(n).padStart(2, '0'); }
 
+function shuffleArr(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function poolFor(name) {
+  const all = DATA[name];
+  return showAll ? [...all] : all.filter(c => statusOf(c) !== 'know');
+}
+
+function buildPool() { pool = shuffleArr(poolFor(deck)); idx = 0; }
+
+function updateKnowButtons() {
+  const st = pool.length ? statusOf(pool[idx]) : null;
+  el.knowBtns.forEach(b => b.classList.toggle('active', b.dataset.level === st));
+}
+
 function render() {
-  const item = DATA[deck][order[idx]];
+  if (!pool.length) {
+    el.card.style.display = 'none';
+    el.emptyBox.style.display = 'block';
+    el.knowRow.style.visibility = 'hidden';
+    el.counter.textContent = '00 / 00';
+    return;
+  }
+  el.card.style.display = '';
+  el.emptyBox.style.display = 'none';
+  el.knowRow.style.visibility = '';
+  const item = pool[idx];
   el.pl.textContent = item.pl;
   el.uk.innerHTML = item.uk;
   el.ph.textContent = item.ph || '';
@@ -329,8 +473,9 @@ function render() {
     el.note.innerHTML = item.note;
     el.note.hidden = false;
   } else { el.note.hidden = true; }
-  el.counter.textContent = pad(idx + 1) + ' / ' + pad(order.length);
+  el.counter.textContent = pad(idx + 1) + ' / ' + pad(pool.length);
   setRevealed(false);
+  updateKnowButtons();
 }
 
 function setRevealed(state) {
@@ -339,20 +484,59 @@ function setRevealed(state) {
   el.hint.hidden = state;
   el.revealBtn.textContent = state ? 'Ukryj' : 'Odkryj';
 }
-function toggleReveal() { setRevealed(!revealed); }
-function go(delta) { idx = (idx + delta + order.length) % order.length; render(); }
-function shuffle() {
-  for (let i = order.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [order[i], order[j]] = [order[j], order[i]];
-  }
-  idx = 0; render();
-}
-function resetOrder() { buildOrder(); idx = 0; render(); }
+function toggleReveal() { if (pool.length) setRevealed(!revealed); }
+function go(delta) { if (!pool.length) return; idx = (idx + delta + pool.length) % pool.length; render(); }
+function shuffle() { if (!pool.length) return; shuffleArr(pool); idx = 0; render(); }
+function resetOrder() { showAll = false; buildPool(); render(); }
 function switchDeck(name) {
-  deck = name;
+  deck = name; showAll = false;
   el.tabs.forEach(t => t.classList.toggle('active', t.dataset.deck === name));
-  buildOrder(); idx = 0; render();
+  buildPool(); render();
+}
+
+function renderList() {
+  el.listView.innerHTML = '';
+  Object.keys(DATA).forEach(dk => {
+    const h = document.createElement('div');
+    h.className = 'list-section';
+    h.textContent = DECK_NAMES[dk] + ' (' + DATA[dk].length + ')';
+    el.listView.appendChild(h);
+    DATA[dk].forEach(c => {
+      const row = document.createElement('div'); row.className = 'list-row';
+      const txt = document.createElement('div'); txt.className = 'list-txt';
+      const f = document.createElement('div'); f.className = 'list-front'; f.textContent = c.pl;
+      const b = document.createElement('div'); b.className = 'list-back';
+      b.textContent = (c.uk || '').replace(/<[^>]*>/g, '') + (c.ph ? ' [' + c.ph + ']' : '');
+      txt.appendChild(f); txt.appendChild(b);
+      const kn = document.createElement('div'); kn.className = 'list-know';
+      [['know', 'Znam'], ['mid', 'Średnio'], ['no', 'Nie znam']].forEach(([lvl, label]) => {
+        const btn = document.createElement('button');
+        btn.dataset.level = lvl; btn.textContent = label;
+        btn.classList.toggle('active', statusOf(c) === lvl);
+        btn.addEventListener('click', () => {
+          setStatus(c, lvl);
+          kn.querySelectorAll('button').forEach(x => x.classList.toggle('active', x.dataset.level === lvl));
+        });
+        kn.appendChild(btn);
+      });
+      row.appendChild(txt); row.appendChild(kn);
+      el.listView.appendChild(row);
+    });
+  });
+}
+
+function setListMode(on) {
+  listMode = on;
+  el.mainEl.style.display = on ? 'none' : '';
+  el.controlsEl.style.display = on ? 'none' : '';
+  el.knowRow.style.display = on ? 'none' : '';
+  el.utilEl.style.display = on ? 'none' : '';
+  el.kbEl.style.display = on ? 'none' : '';
+  el.tabsEl.style.display = on ? 'none' : '';
+  el.listView.style.display = on ? 'block' : 'none';
+  el.listBtn.textContent = on ? 'Wróć do nauki' : 'Wszystkie fiszki';
+  if (on) { renderList(); }
+  else { buildPool(); render(); }
 }
 
 el.card.addEventListener('click', toggleReveal);
@@ -362,14 +546,26 @@ document.getElementById('nextBtn').addEventListener('click', () => go(1));
 document.getElementById('shuffleBtn').addEventListener('click', shuffle);
 document.getElementById('resetBtn').addEventListener('click', resetOrder);
 el.tabs.forEach(t => t.addEventListener('click', () => switchDeck(t.dataset.deck)));
+el.knowBtns.forEach(b => b.addEventListener('click', () => {
+  if (!pool.length) return;
+  setStatus(pool[idx], b.dataset.level);
+  updateKnowButtons();
+}));
+el.emptyResetBtn.addEventListener('click', () => {
+  DATA[deck].forEach(c => { delete knowMap[hashCard(c)]; });
+  saveKnow(); showAll = false; buildPool(); render();
+});
+el.emptyAllBtn.addEventListener('click', () => { showAll = true; buildPool(); render(); });
+el.listBtn.addEventListener('click', () => setListMode(!listMode));
 document.addEventListener('keydown', (e) => {
+  if (listMode) return;
   if (e.code === 'Space') { e.preventDefault(); toggleReveal(); }
   else if (e.code === 'ArrowLeft') { e.preventDefault(); go(-1); }
   else if (e.code === 'ArrowRight') { e.preventDefault(); go(1); }
 });
 el.card.addEventListener('keydown', (e) => { if (e.code === 'Enter') { e.preventDefault(); toggleReveal(); } });
 
-buildOrder();
+buildPool();
 render();
 </script>
 </body>
