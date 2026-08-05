@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Morning Brief</title>
-<style>
+<!DOCTYPE html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Morning Brief</title><style>
 :root{
-  --bg:#0e1116; --panel:#161b22; --line:#2a323d;
-  --txt:#e6edf3; --dim:#8b949e; --acc:#58a6ff;
+  --bg:#fafaf8; --panel:#ffffff; --line:#e2e2e0;
+  --txt:#111111; --dim:#888888; --acc:#111111;
+  --warn:#b45309; --ok:#15803d; --red:#c62828;
+  --font:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,sans-serif;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text",Segoe UI,Roboto,sans-serif}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.55 var(--font);-webkit-font-smoothing:antialiased}
 .wrap{max-width:860px;margin:0 auto;padding:20px 16px 60px}
 .topbar{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:8px}
 .topbar a.back{color:var(--dim);text-decoration:none;font-size:13px}
@@ -19,23 +15,49 @@ body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.55 -apple-system
 .topbar .stamp{color:var(--dim);font-size:12px;font-variant-numeric:tabular-nums}
 #content{min-height:120px}
 .msg{color:var(--dim);padding:24px 0}
-.msg a{color:var(--acc)}
-/* neutralize injected page chrome so brief fits inside our wrap */
-#content .wrap{max-width:100%;padding:0}
+.msg a{color:var(--txt)}
+
+/* ===== Light restyle of injected brief content =====
+   Brief.html styles are NOT injected; everything below
+   styles the brief markup with the SmallTalk light palette. */
+#content .wrap{max-width:100%;padding:8px 0 0;margin:0}
 #content body{background:transparent}
-</style>
-</head>
-<body>
-<div class="wrap">
+#content header{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:20px}
+#content h1{margin:0;font-size:22px;letter-spacing:-.4px;color:var(--txt)}
+#content .sub{color:var(--dim);font-size:12px;margin-top:6px;text-transform:uppercase;letter-spacing:1.4px}
+#content h2{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--dim);margin:30px 0 12px;font-weight:600}
+#content .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:12px}
+#content .card.alert{border-left:3px solid var(--warn)}
+#content .card.hot{border-left:3px solid var(--red)}
+#content .card.good{border-left:3px solid var(--ok)}
+#content .row{display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line)}
+#content .row:last-child{border-bottom:0}
+#content .t{color:var(--dim);font-size:12px;min-width:62px;font-variant-numeric:tabular-nums}
+#content .who{color:#444444;font-weight:600;font-size:13px;min-width:150px}
+#content .what{flex:1}
+#content .tag{display:inline-block;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:20px;border:1px solid var(--line);color:var(--dim);margin-left:6px;background:transparent}
+#content .tag.work{border-color:#bcd4ea;color:#1e5b94;background:#f2f7fc}
+#content .tag.other{border-color:#e4d6bd;color:#8a6a33;background:#faf6ee}
+#content .tag.due{border-color:#efc4c4;color:var(--red);background:#fdf3f3;font-weight:600}
+#content ul{margin:6px 0 0;padding-left:18px}
+#content li{margin:5px 0}
+#content .muted{color:var(--dim);font-size:13px}
+#content .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){#content .grid{grid-template-columns:1fr}#content .who{min-width:0}}
+#content .k{font-weight:600}
+#content a{color:var(--txt)}
+#content footer{margin-top:36px;color:var(--dim);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+
+/* Safety net: if brief markup ever changes, force light surfaces */
+#content, #content div, #content section, #content article{color:inherit}
+</style></head><body><div class="wrap">
   <div class="topbar">
     <a class="back" href="../../index.html">&larr; SmallTalk</a>
     <h1>Morning Brief</h1>
     <span class="stamp" id="stamp"></span>
   </div>
   <div id="content"><div class="msg">Wczytywanie…</div></div>
-</div>
-<script>
-(async function(){
+</div><script>(async function(){
   var content = document.getElementById('content');
   var stamp = document.getElementById('stamp');
   try{
@@ -46,17 +68,19 @@ body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.55 -apple-system
     stamp.textContent = m ? m[1] : 'wczytano';
     var doc = new DOMParser().parseFromString(text, 'text/html');
     content.innerHTML = '';
-    doc.querySelectorAll('head style').forEach(function(s){
-      content.appendChild(s.cloneNode(true));
-    });
+    // Intentionally skip injecting <style> from brief.html (dark theme).
+    // The light theme above styles all brief classes.
     var host = document.createElement('div');
     host.innerHTML = doc.body ? doc.body.innerHTML : text;
+    // Strip inline colors/backgrounds that would bring the dark theme back.
+    host.querySelectorAll('[style]').forEach(function(el){
+      el.style.removeProperty('background');
+      el.style.removeProperty('background-color');
+      el.style.removeProperty('color');
+    });
     content.appendChild(host);
   }catch(e){
     content.innerHTML = '<div class="msg">Nie udało się wczytać briefu (' + e.message +
       '). <a href="./brief.html">Otwórz brief.html bezpośrednio</a>.</div>';
   }
-})();
-</script>
-</body>
-</html>
+})();</script></body></html>
