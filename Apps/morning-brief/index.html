@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morning Brief</title>
+<style>
+:root{
+  --bg:#0e1116; --panel:#161b22; --line:#2a323d;
+  --txt:#e6edf3; --dim:#8b949e; --acc:#58a6ff;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text",Segoe UI,Roboto,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 60px}
+.topbar{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:8px}
+.topbar a.back{color:var(--dim);text-decoration:none;font-size:13px}
+.topbar a.back:hover{color:var(--txt)}
+.topbar h1{margin:0;font-size:20px;letter-spacing:-.3px;flex:1}
+.topbar .stamp{color:var(--dim);font-size:12px;font-variant-numeric:tabular-nums}
+#content{min-height:120px}
+.msg{color:var(--dim);padding:24px 0}
+.msg a{color:var(--acc)}
+/* neutralize injected page chrome so brief fits inside our wrap */
+#content .wrap{max-width:100%;padding:0}
+#content body{background:transparent}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a class="back" href="../../index.html">&larr; SmallTalk</a>
+    <h1>Morning Brief</h1>
+    <span class="stamp" id="stamp"></span>
+  </div>
+  <div id="content"><div class="msg">Wczytywanie…</div></div>
+</div>
+<script>
+(async function(){
+  var content = document.getElementById('content');
+  var stamp = document.getElementById('stamp');
+  try{
+    var res = await fetch('./brief.html', {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    var text = await res.text();
+    var m = text.match(/<!--\s*generated:\s*([^>]*?)\s*-->/i);
+    stamp.textContent = m ? m[1] : 'wczytano';
+    var doc = new DOMParser().parseFromString(text, 'text/html');
+    content.innerHTML = '';
+    doc.querySelectorAll('head style').forEach(function(s){
+      content.appendChild(s.cloneNode(true));
+    });
+    var host = document.createElement('div');
+    host.innerHTML = doc.body ? doc.body.innerHTML : text;
+    content.appendChild(host);
+  }catch(e){
+    content.innerHTML = '<div class="msg">Nie udało się wczytać briefu (' + e.message +
+      '). <a href="./brief.html">Otwórz brief.html bezpośrednio</a>.</div>';
+  }
+})();
+</script>
+</body>
+</html>
