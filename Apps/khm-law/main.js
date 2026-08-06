@@ -81,26 +81,4 @@
     });
   }
 
-  /* -- Contact form: mailto submit -- */
-  const contactForm = document.getElementById('contact-form');
-  if (contactForm) {
-    contactForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const name = (document.getElementById('cf-name') || {}).value || '';
-      const company = (document.getElementById('cf-company') || {}).value || '';
-      const email = (document.getElementById('cf-email') || {}).value || '';
-      const phone = (document.getElementById('cf-phone') || {}).value || '';
-      const message = (document.getElementById('cf-message') || {}).value || '';
-
-      const subject = encodeURIComponent('Enquiry from website' + (name ? ' — ' + name : ''));
-      let body = 'Name: ' + name + '\n';
-      if (company) body += 'Company: ' + company + '\n';
-      body += 'Email: ' + email + '\n';
-      if (phone) body += 'Phone: ' + phone + '\n';
-      body += '\nMessage:\n' + message;
-
-      window.location.href = 'mailto:biuro@kancelariakhm.pl?subject=' + subject + '&body=' + encodeURIComponent(body);
-    });
-  }
-
 })();
