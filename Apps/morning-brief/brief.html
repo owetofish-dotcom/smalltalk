@@ -1,125 +1,156 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Morning Brief &middot; 8 sierpnia 2026</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief - sobota 8 sierpnia 2026</title>
 <style>
-:root{
-  --bg:#0d1117;--panel:#161b22;--panel2:#1c232c;--line:#2a323d;
-  --txt:#e6edf3;--dim:#8b98a5;--accent:#f0b429;--red:#f85149;--green:#3fb950;--blue:#58a6ff;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Segoe UI,Roboto,sans-serif;line-height:1.55;padding:32px 20px 80px}
-.wrap{max-width:900px;margin:0 auto}
-header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:28px}
-.kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700}
-h1{font-size:38px;letter-spacing:-.02em;margin:6px 0 4px;font-weight:800}
-.sub{color:var(--dim);font-size:14px}
-section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:18px}
-h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-h2 .n{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 7px;color:var(--dim);font-size:11px;letter-spacing:0}
-.row{display:flex;gap:12px;padding:9px 0;border-top:1px solid var(--line);align-items:flex-start}
-.row:first-of-type{border-top:none}
-.tag{flex:0 0 auto;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:var(--panel2);border:1px solid var(--line);color:var(--dim);margin-top:3px;white-space:nowrap}
-.tag.hot{color:var(--red);border-color:#5c2b2b}
-.tag.ok{color:var(--green);border-color:#255c33}
-.tag.blue{color:var(--blue);border-color:#1f4b7a}
-.t{font-weight:600}
-.d{color:var(--dim);font-size:13px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-.mail-h{font-size:12px;color:var(--blue);font-weight:700;margin-bottom:6px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-.news .t{font-size:15px}
-.news .d{margin-top:2px}
-.note{background:var(--panel2);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 8px 8px 0;font-size:13px;color:var(--dim);margin-top:14px}
-.att{border-color:#5c4a1f;background:#221c0f}
-footer{color:var(--dim);font-size:12px;text-align:center;margin-top:26px}
-a{color:var(--blue);text-decoration:none}
-@media(max-width:700px){.grid2{grid-template-columns:1fr}h1{font-size:28px}}
+  body { background:#101216; color:#d8dce3; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; margin:0; padding:24px 12px; }
+  .wrap { max-width:860px; margin:0 auto; }
+  h1 { font-size:1.5rem; letter-spacing:0.04em; color:#f2f4f8; }
+  .date { color:#8a93a3; margin-bottom:24px; }
+  .card { background:#171a20; border:1px solid #2a2f3a; border-radius:12px; padding:18px 20px; margin-bottom:18px; }
+  h2 { font-size:1.05rem; text-transform:uppercase; letter-spacing:0.08em; color:#9fb4d8; margin:0 0 12px 0; }
+  h3 { font-size:0.92rem; color:#c3cad6; margin:14px 0 6px 0; }
+  ul { margin:6px 0; padding-left:20px; }
+  li { margin-bottom:7px; line-height:1.45; }
+  a { color:#6ea8fe; text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .overdue { color:#ff6b6b; font-weight:600; }
+  .today { color:#ffd166; font-weight:600; }
+  .done { text-decoration:line-through; color:#5c6472; }
+  .tag { font-size:0.72rem; border:1px solid #3a4150; border-radius:6px; padding:1px 6px; margin-left:6px; color:#8a93a3; }
+  .alert { border-left:3px solid #ff6b6b; padding-left:12px; margin-bottom:10px; }
+  .muted { color:#8a93a3; font-size:0.88rem; }
 </style>
 </head>
 <body>
 <div class="wrap">
+<h1>MORNING BRIEF</h1>
+<div class="date">Sobota, 8 sierpnia 2026</div>
 
-<header>
-  <div class="kicker">Morning Brief</div>
-  <h1>Sobota, 8 sierpnia 2026</h1>
-  <div class="sub">Zakres: ostatnie 24 h &middot; zrodla: lista TODO, Gmail (dominikhamala@gmail.com, dhamala@makodrew.pl), Kalendarz Google, TVN24, Frontline Intel</div>
-</header>
+<div class="card">
+<h2>Na co zwrocic uwage</h2>
+<div class="alert"><b>Deklaracja PPWR nieoplacona.</b> Nieprzeczytany mail od Deklareo.pl (wczoraj 21:42, skrzynka makodrew): platnosc nie przeszla, dokument nie jest dostepny do pobrania. Masz tez otwarty tab z tym mailem i z deklareo.pl, wiec sprawa wisi od wczoraj.</div>
+<div class="alert"><b>GitHub, konto deklareo: dodano nowy klucz SSH</b> (mail z 6.08). Jesli to nie Ty dodales klucz, to sygnal przejecia konta. Zweryfikuj w ustawieniach GitHuba.</div>
+<div class="alert"><b>Google Ads: wymagana weryfikacja reklamodawcy do 5 wrzesnia</b> (konto 984-620-8525), inaczej konto zostanie wstrzymane. Uwaga: task "Ustawic reklamy w Google" masz oznaczony jako wykonany, ale weryfikacja to osobny, nadal otwarty temat.</div>
+<div class="alert"><b>3 zalegle taski:</b> zaplata Hubertowi (termin 30.07, a Maria Kozak przeslala tresc od Huberta mailem 31.07, prawdopodobnie rachunek), nowe PKD dla hamaLAB (01.08) i oferta ING (01.08). Temat ING wraca w kalendarzu 11.08 ("czy na ING hipoteka sa srodki na kredyt"), warto ogarnac przed wtorkiem.</div>
+<div class="alert"><b>Sprzecznosc w mailu od Katarzyny (ewidencja, 7.08):</b> twierdzi, ze w lipcu nikt od Was juz nie pracowal i umowa byla wczesniej wypowiedziana. Jesli ewidencja ma to odzwierciedlac, sprawdz rozliczenie za lipiec.</div>
+<ul>
+<li><b>Dzisiaj kumulacja:</b> aktualizacja dowodu w XTB (task z terminem na dzis), wyslanie rachunkow najemcom (kalendarz, caly dzien), Monika 08:00, ZUS do zaplaty 20:00.</li>
+<li><b>Niezalatwione tematy handlowe Mako-Drew:</b> Supplier NDA do podpisania (przetarg "Wooden P.", mail 6.08, bez NDA nie dostaniesz szczegolow), RFQ na palety od Veroniki Danielovej (4.08) i zapytanie ZPR 26064 o pakowanie morskie (3.08). Zadne nie widnieje w todo ani w kalendarzu.</li>
+<li>ekoFaktura TOYA 54,98 zl, platna do 19.08 (mail 7.08).</li>
+<li>Maczfit: przerwa techniczna 21-22.08, wypada tuz przed wakacjami z Padlincurami (24-30.08).</li>
+<li>Kalendarz makodrew poza swietami jest pusty, wszystkie sprawy firmowe zyja tylko w mailach i todo.</li>
+</ul>
+</div>
 
-<section>
-  <h2>Na co zwrocic uwage <span class="n">priorytet</span></h2>
-  <div class="row"><span class="tag hot">dzis</span><div><div class="t">ZUS do zaplaty (20:00) oraz wyslanie rachunkow najemcom</div><div class="d">Dwa cykliczne obowiazki finansowe wpadaja na dzisiaj. Rachunki sa oznaczone jako calodniowe, ZUS ma przypomnienie na wieczor.</div></div></div>
-  <div class="row"><span class="tag hot">zalegle</span><div><div class="t">Trzy zadania po terminie: Hubert za uslugi ogrodnicze (30.07), PKD dla hamaLAB (01.08), oferta ING i umowa (01.08)</div><div class="d">Najstarsze wisi juz ponad tydzien. Watek Huberta wraca dodatkowo mailem przekazanym przez Mako-Drew z 7 sierpnia.</div></div></div>
-  <div class="row"><span class="tag">dzis</span><div><div class="t">Aktualizacja dowodu osobistego w XTB ma termin na dzis</div><div class="d">Termin z listy TODO na 08.08. XTB przyslal wczoraj rutynowy mail o punktach swapowych, wiec konto jest aktywne.</div></div></div>
-  <div class="row"><span class="tag blue">biznes</span><div><div class="t">Deklareo: nieoplacona deklaracja PPWR na skrzynce Mako-Drew</div><div class="d">Mail z 7.08 o 21:42 jest jedyna nieprzeczytana wiadomoscia na dhamala@makodrew.pl. Rownolegle przyszedl dzienny raport transakcyjny Autopay dla Deklareo za 6 sierpnia.</div></div></div>
-  <div class="row"><span class="tag ok">wplyw</span><div><div class="t">Wplyw 8 180,00 PLN od hamaLAB Dominik Hamala</div><div class="d">Alert Erste Bank z 7.08, godz. 16:47.</div></div></div>
-</section>
+<div class="card">
+<h2>Do zrobienia</h2>
+<ul>
+<li>Zaplacic Hubertowi za uslugi ogrodnicze <span class="overdue">czw. 30.07 (zalegle)</span><span class="tag">other</span></li>
+<li>Dodac nowe PKD dla hamaLAB <span class="overdue">sob. 01.08 (zalegle)</span><span class="tag">work</span></li>
+<li>Sprawdzic oferte ING, skopiowac Claude umowe <span class="overdue">sob. 01.08 (zalegle)</span><span class="tag">other</span></li>
+<li>Zaktualizowac dowod osobisty w XTB <span class="today">sob. 08.08 (dzisiaj)</span><span class="tag">other</span></li>
+<li>Naprawic lampke w salonie, sob. 15.08<span class="tag">other</span></li>
+<li>Post LinkedIn (bez terminu)<span class="tag">other</span></li>
+<li>Umowic przeglad RAV4 (bez terminu)<span class="tag">other</span></li>
+</ul>
+</div>
 
-<section>
-  <h2>Lista zadan <span class="n">7 otwartych</span></h2>
-  <div class="row"><span class="tag hot">30.07</span><div><div class="t">Zaplacic Hubertowi za uslugi ogrodnicze</div><div class="d">other &middot; po terminie</div></div></div>
-  <div class="row"><span class="tag hot">01.08</span><div><div class="t">Dodac nowe PKD dla hamaLAB</div><div class="d">work &middot; po terminie</div></div></div>
-  <div class="row"><span class="tag hot">01.08</span><div><div class="t">Sprawdzic oferte ING, skopiowac umowe do analizy</div><div class="d">other &middot; po terminie</div></div></div>
-  <div class="row"><span class="tag">08.08</span><div><div class="t">Zaktualizowac dowod osobisty w XTB</div><div class="d">other &middot; termin dzis</div></div></div>
-  <div class="row"><span class="tag">15.08</span><div><div class="t">Naprawic lampke w salonie</div><div class="d">other</div></div></div>
-  <div class="row"><span class="tag">bez daty</span><div><div class="t">Post LinkedIn</div><div class="d">other</div></div></div>
-  <div class="row"><span class="tag">bez daty</span><div><div class="t">Umowic przeglad RAV4</div><div class="d">other &middot; w kalendarzu jest przeglad techniczny 8 wrzesnia, warto zsynchronizowac</div></div></div>
-</section>
+<div class="card">
+<h2>Zrobione ostatnio</h2>
+<ul>
+<li class="done">Wyslac oferty GOZ II (26.07)</li>
+<li class="done">Wystawic zbiorcza fakture za Deklareo (30.07)</li>
+<li class="done">Kupic nowa plyte indukcyjna najemcom (30.07)</li>
+<li class="done">Ustawic drukarke 3D dla Makodrewu (30.07)</li>
+<li class="done">Zrobic statystyki MAKODREW (30.07)</li>
+<li class="done">Wystawic FV Lysk i FV APS (30.07)</li>
+<li class="done">Przelac pieniadze na bieglego (01.08)</li>
+<li class="done">Wyslac DroneValley D2D i DroneValley Lysk (01.08)</li>
+<li class="done">Meteora naklejki, Uber rozliczony, domena makodrew.pl sprawdzona, szkolenie PPLA odpisane, gniazdko w narzedziowni, HDA dkws odpisane, wideo lore x bms nagrane, materialy od Florenta przeczytane, dowod rejestracyjny RAV4 zeskanowany, obserwatorium na FB, reklamy w Google ustawione</li>
+</ul>
+</div>
 
-<section>
-  <h2>Kalendarz <span class="n">dzis i nadchodzace</span></h2>
-  <div class="row"><span class="tag hot">dzis</span><div><div class="t">Wyslac rachunki najemcom</div><div class="d">caly dzien &middot; wydarzenie cykliczne</div></div></div>
-  <div class="row"><span class="tag hot">08:00</span><div><div class="t">Monika</div><div class="d">08:00 do 09:00</div></div></div>
-  <div class="row"><span class="tag hot">20:00</span><div><div class="t">ZUS do zaplaty</div><div class="d">20:00 do 21:00 &middot; cykliczne</div></div></div>
-  <div class="row"><span class="tag">11.08</span><div><div class="t">Sprawdzic czy na ING hipoteka sa srodki na kredyt</div><div class="d">wtorek, 19:00</div></div></div>
-  <div class="row"><span class="tag">13.08</span><div><div class="t">Credit Agricole 529,80 rata Mac mini 5/5</div><div class="d">czwartek &middot; ostatnia rata</div></div></div>
-  <div class="row"><span class="tag">15.08</span><div><div class="t">Wniebowziecie NMP</div><div class="d">sobota &middot; dzien ustawowo wolny</div></div></div>
-  <div class="row"><span class="tag">17.08</span><div><div class="t">Rozliczyc ryczalt od najmu</div><div class="d">poniedzialek</div></div></div>
-  <div class="row"><span class="tag">18.08</span><div><div class="t">Podatek PIT zaliczka</div><div class="d">wtorek, 13:00</div></div></div>
-  <div class="row"><span class="tag">19.08</span><div><div class="t">Urodziny taty</div><div class="d">sroda &middot; tego samego dnia kontrola soli w zmiekczaczu</div></div></div>
-  <div class="row"><span class="tag">23.08</span><div><div class="t">VAT do zaplaty</div><div class="d">niedziela, 20:00</div></div></div>
-  <div class="row"><span class="tag blue">24 do 30.08</span><div><div class="t">Wakacje z Padlincurami, 7 dni</div><div class="d">warto domknac ryczalt, PIT i VAT przed wyjazdem</div></div></div>
-  <div class="note">Kalendarz Mako-Drew (dhamala@makodrew.pl) nie ma wlasnych wydarzen, widoczne sa wylacznie polskie swieta.</div>
-</section>
+<div class="card">
+<h2>Poczta</h2>
+<h3>dominikhamala@gmail.com</h3>
+<ul>
+<li><b>billpl:</b> faktura FedEx 530057572 (wczoraj 21:32) oraz wczesniejsza 530053529 (6.08).</li>
+<li><b>Alerty24:</b> wplyw 8 180,00 PLN od hamaLAB (7.08); wczesniej wplyw 28 385,18 PLN (4.08, transakcja eFX).</li>
+<li><b>WM Bagry Park I:</b> glosowanie uchwal wspolnoty, prosba o aktywny udzial (7.08).</li>
+<li><b>ekoFaktura TOYA 08/2026:</b> 54,98 zl, termin 19.08 (7.08).</li>
+<li><b>Maria Kozak (Mako-Drew):</b> przekazana wiadomosc od Huberta z zalacznikiem IMG_0335.jpeg (31.07), laczy sie z zaleglym taskiem zaplaty.</li>
+<li><b>Google Ads:</b> wymagane dzialanie, weryfikacja reklamodawcy do 5.09 (6.08).</li>
+<li><b>BOK Grupa Telekom:</b> faktura ARTUS 09392/LMS/2026, saldo 0,00 (6.08).</li>
+<li><b>Maczfit:</b> przerwa techniczna 21-22.08 (6.08). <b>XTB:</b> punkty swapowe na tydzien 10-16.08.</li>
+</ul>
+<h3>dhamala@makodrew.pl</h3>
+<ul>
+<li><b>Deklareo.pl (2 maile, NIEPRZECZYTANE, wczoraj 21:42):</b> Deklaracja PPWR nieoplacona, dokument wstrzymany.</li>
+<li><b>Katarzyna, ewidencja (7.08):</b> w lipcu nikt juz nie pracowal, umowa wypowiedziana wczesniej.</li>
+<li><b>GitHub (6.08):</b> nowy klucz SSH dodany do konta deklareo.</li>
+<li><b>Procurement (6.08):</b> Supplier NDA do podpisania przed udostepnieniem szczegolow przetargu "Wooden P.".</li>
+<li><b>Veronika Danielova (4.08):</b> RFQ 8052/26 na produkcje i dostawe palet, z zalacznikami PD_96484005 i PD_98644866.</li>
+<li><b>Wiktoria (3.08):</b> ZPR 26064, zapytanie o pakowanie morskie wymiennikow ciepla (odpowiedziano czesciowo, watek trwa).</li>
+<li><b>Dovile (31.07):</b> one-way pallets, specjalizuja sie w niestandardowych wymiarach.</li>
+<li><b>ZABEK, leasing (30.07):</b> 4 oferty finansowania linii produkcyjnej, 47 miesiecy, 0% wkladu (potem odwolanie wiadomosci przez nadawce).</li>
+<li><b>Autopay:</b> codzienne raporty transakcji Deklareo, w tym faktura VAT za platnosci online (2.08).</li>
+</ul>
+<p class="muted">Skrzynki owetofish@gmail.com i biuro@makodrew.pl pominiete zgodnie z konfiguracja.</p>
+</div>
 
-<section>
-  <h2>Poczta <span class="n">ostatnie 24 h</span></h2>
-  <div class="grid2">
-    <div>
-      <div class="mail-h">dominikhamala@gmail.com</div>
-      <div class="row"><span class="tag">21:32</span><div><div class="t">FedEx, faktura 530057572</div><div class="d">billpl &middot; zalacznik 530057572_copy.pdf</div></div></div>
-      <div class="row"><span class="tag">16:55</span><div><div class="t">XTB, punkty swapowe na nadchodzacy tydzien</div><div class="d">informacyjny</div></div></div>
-      <div class="row"><span class="tag ok">16:47</span><div><div class="t">Alerty24, wplyw na konto 8 180,00 PLN od hamaLAB</div><div class="d">Erste Bank Polska</div></div></div>
-      <div class="row"><span class="tag">14:23</span><div><div class="t">WM Bagry Park I, glosowanie uchwal</div><div class="d">prosba o aktywny udzial w glosowaniach, wymaga decyzji</div></div></div>
-      <div class="row"><span class="tag">13:00</span><div><div class="t">ekoFaktura TOYA 08/2026, 54,98 zl</div><div class="d">kod abonenta 09429232</div></div></div>
-      <div class="row"><span class="tag">11:18</span><div><div class="t">Mako-Drew (Maria Kozak), Fwd wiadomosci od Huberta</div><div class="d">zalacznik IMG_0335.jpeg &middot; laczy sie z zaleglym zadaniem platnosci dla Huberta</div></div></div>
-    </div>
-    <div>
-      <div class="mail-h">dhamala@makodrew.pl</div>
-      <div class="row"><span class="tag hot">21:42</span><div><div class="t">Deklareo.pl, Twoja Deklaracja PPWR nie zostala oplacona</div><div class="d">nieprzeczytana &middot; platnosc nie przeszla, dokument niedostepny, konto nie zostalo obciazone</div></div></div>
-      <div class="row"><span class="tag">11:09</span><div><div class="t">Katarzyna, ewidencja</div><div class="d">w lipcu nikt od Panstwa juz nie pracowal, umowa byla wczesniej wypowiedziana</div></div></div>
-      <div class="row"><span class="tag">00:38</span><div><div class="t">Autopay, raport dzienny Deklareo za 6.08</div><div class="d">zalaczniki csv i xlsx</div></div></div>
-      <div class="note">Starsze, ale wciaz otwarte: NDA od Procurement (IWT Confidentiality Agreement, 6.08) oraz zapytanie ofertowe na palety od Veroniki Danielovej (4.08).</div>
-    </div>
-  </div>
-</section>
+<div class="card">
+<h2>Kalendarz</h2>
+<h3>Dzisiaj, sobota 8.08</h3>
+<ul>
+<li>Caly dzien: Wyslac rachunki najemcom</li>
+<li>08:00-09:00: Monika</li>
+<li>20:00-21:00: ZUS do zaplaty</li>
+</ul>
+<h3>Najblizsze dni</h3>
+<ul>
+<li>Wt 11.08, 19:00: Czy na ING hipoteka sa srodki na kredyt</li>
+<li>Czw 13.08: Credit Agricole rata 529,80 (Mac mini 5/5, ostatnia)</li>
+<li>Pon 17.08: Rozliczyc ryczalt od najmu</li>
+<li>Wt 18.08, 13:00: Podatek PIT zaliczka</li>
+<li>Sr 19.08: sol w zmiekczaczu (08:15), Urodziny taty (10:00)</li>
+<li>Niedz 23.08, 20:00: VAT do zaplaty</li>
+<li>24-30.08: Wakacje z Padlincurami (7 dni)</li>
+</ul>
+<p class="muted">Kalendarz makodrew: brak wydarzen poza swietami panstwowymi.</p>
+</div>
 
-<section class="news">
-  <h2>Prasowka TVN24 <span class="n">polityka, swiat, gospodarka</span></h2>
-  <div class="row"><span class="tag blue">USA i Rosja</span><div><div class="t">Senat USA podjal decyzje opisywana jako zla wiadomosc ekonomiczna dla Rosji</div><div class="d">Material w cyklu Rozmowy na szczycie omawia skutki glosowania amerykanskiego senatu dla rosyjskiej gospodarki. Watek laczy sie z presja sankcyjna i finansowaniem wojny.</div></div></div>
-  <div class="row"><span class="tag blue">polityka PL</span><div><div class="t">Morawiecki buduje wlasne zaplecze, klub Rozwoj Plus</div><div class="d">TVN24 analizuje sklad nowego klubu tworzonego przez politykow, ktorzy odeszli z PiS, i pyta co ich laczy, a co dzieli. Rownolegle Morawiecki prowadzil kampanijne spotkanie z pizza na wroclawskim Jagodnie, w okregu uznawanym za bastion Koalicji Obywatelskiej.</div></div></div>
-  <div class="row"><span class="tag blue">gospodarka</span><div><div class="t">Projekt rozporzadzenia o placy minimalnej na 2027 rok</div><div class="d">Rada Ministrow przygotowala projekt podnoszacy place minimalna. Dla firmy jednoosobowej i dla Mako-Drew to sygnal do przeliczenia kosztow pracy na przyszly rok.</div></div></div>
-  <div class="row"><span class="tag blue">Ukraina</span><div><div class="t">Wildberries szuka partnerow po ukrainskich uderzeniach w magazyny</div><div class="d">Rosyjska platforma handlowa chce otwierac nowe huby magazynowe po tym, jak Ukraina zniszczyla jej obiekty. To ta sama kampania uderzen w gleboka logistyke, ktora opisuje Frontline Intel.</div></div></div>
-  <div class="row"><span class="tag blue">Iran</span><div><div class="t">Doniesienia o powaznych problemach zdrowotnych Modztaby Chameneia</div><div class="d">Wedlug TVN24 nawet prezydent Masud Pezeszkian ma bardzo utrudniony kontakt z najwyzszym przywodca. Kwestia sukcesji w Iranie wraca jako czynnik ryzyka na Bliskim Wschodzie.</div></div></div>
-  <div class="row"><span class="tag blue">USA</span><div><div class="t">Trump: wyborcy sa zli na republikanow, nie na mnie</div><div class="d">Prezydent dystansuje sie od nastrojow wobec wlasnej partii przed wyborami polowkowymi.</div></div></div>
-  <div class="row"><span class="tag">pogoda</span><div><div class="t">Powrot burz i upalu, IMGW zapowiada mozliwe alarmy drugiego stopnia</div><div class="d">Silne burze przechodza tez przez Litwe, gdzie sluzby usuwaly dziesiatki powalonych drzew.</div></div></div>
-  <div class="note">Uwaga metodologiczna: tresci pelnych artykulow TVN24 nie dalo sie pobrac (strona zwraca sam interfejs), wiec powyzsze opisy opieraja sie na tytulach i zapowiedziach z listy najnowszych materialow.</div>
-</section>
+<div class="card">
+<h2>Prasowka</h2>
+<h3>Polska (TVN24)</h3>
+<ul>
+<li>Hiszpania wprowadzila kontrole graniczne dla przybywajacych z Wloch, "proporcjonalny" srodek odwetowy w sporze migracyjnym, obowiazuje do 7 wrzesnia. <a href="https://tvn24.pl/swiat/rzad-hiszpanii-zarzadzil-kontrole-graniczne-dla-wlochow-od-polnocy-st9179962?source=rss">zrodlo</a></li>
+<li>IMGW: w weekend i na poczatku tygodnia mozliwe alerty 2. stopnia przed upalem i burzami. <a href="https://tvn24.pl/tvnmeteo/prognoza/burze-i-upal-prognoza-zagrozen-imgw-moga-pojawic-sie-alarmy-drugiego-stopnia-st9170791?source=rss">zrodlo</a></li>
+<li>Sobotni skrot: akcja ratunkowa na jeziorze Seksty (wywrocone lodki obozu zeglarskiego), akt oskarzenia wobec bylych wladz spolek Orlenu, Katarzyna Niewiadoma-Phinney wygrala etap Tour de France. <a href="https://tvn24.pl/polska/szesc-rzeczy-ktore-warto-wiedziec-w-sobote-8-sierpnia-najwazniejsze-informacje-st9179964?source=rss">zrodlo</a></li>
+<li>Rzad proponuje place minimalna 4950 zl brutto w 2027 r., stawka godzinowa 32,30 zl. <a href="https://tvn24.pl/biznes/dla-pracownika/placa-minimalna-w-2027-roku-jest-projekt-rozporzadzenia-rady-ministrow-st9179855?source=rss">zrodlo</a></li>
+<li>Sad apelacyjny w USA zablokowal budowe sali balowej przy Bialym Domu, Trump zapowiada odwolanie. <a href="https://tvn24.pl/swiat/sad-apelacyjny-zablokowal-budowe-sali-balowej-przy-bialym-domu-donald-trump-skrytykowal-decyzje-st9179963?source=rss">zrodlo</a></li>
+<li>Morawiecki zbiera klub Rozwoj Plus, ponad 40 politykow, analiza kto odszedl z PiS i dlaczego. <a href="https://tvn24.pl/polska/kto-jest-w-klubie-rozwoj-plus-i-odszedl-z-pis-co-laczy-politykow-a-co-dzieli-st9172586?source=rss">zrodlo</a></li>
+</ul>
+<h3>Swiat (BBC World)</h3>
+<ul>
+<li>Rosyjskie ataki rakietowe pod Kijowem, wsrod trzech zabitych dziecko; Zelenski ostrzega o konczacych sie zapasach interceptorow. <a href="https://www.bbc.co.uk/news/articles/cz7dy8gq99eo">zrodlo</a></li>
+<li>Hiszpania naklada kontrole graniczne na Wlochy, eskalacja sporu o naplyw ok. 78 tys. migrantow do Ceuty. <a href="https://www.bbc.co.uk/news/articles/c5yv5l6yr5ko">zrodlo</a></li>
+<li>Tajlandia: premier zapowiada zaostrzenie prawa do broni po strzelaninie, w ktorej 14-latek zabil 8 osob. <a href="https://www.bbc.co.uk/news/articles/cdewx6rew04o">zrodlo</a></li>
+<li>Arabia Saudyjska, Turcja i Pakistan podpisaly pakt obronny: atak na jednego oznacza atak na wszystkich. <a href="https://www.bbc.co.uk/news/articles/c30418m4mj4o">zrodlo</a></li>
+<li>Hunter Biden w wywiadzie dla BBC: ulaskawienie "nie bylo dobre" dla Ameryki, rak ojca sie rozprzestrzenil. <a href="https://www.bbc.co.uk/news/articles/cy8ey458pv5o">zrodlo</a></li>
+<li>Ukrainscy medycy ostrzegaja przed rosnaca liczba rosyjskich atakow dronowych na szpitale i karetki. <a href="https://www.bbc.co.uk/news/articles/c3r073eqvrjo">zrodlo</a></li>
+</ul>
+<h3>Frontline Intel (ostatnie 24h)</h3>
+<ul>
+<li>UA: CISO "A" niszczy reaktywny Szahed na wyrzutni na lotnisku w Doniecku, nowa taktyka "hunt the launcher" zamiast przechwytywania w powietrzu. <a href="https://owetofish-dotcom.github.io/frontline-intel/">zrodlo</a></li>
+<li>RU: FPV na kablu optycznym o zasiegu 50 km aktywnie stosowany pod Dobropilla, RU technicznie przewyzsza UA w dronach optycznych dalekiego zasiegu. <a href="https://owetofish-dotcom.github.io/frontline-intel/">zrodlo</a></li>
+<li>UA: Magura USV GUR Grupy 13 atakuje port w Jalcie, potwierdzony atak morskich dronow na Krym. <a href="https://owetofish-dotcom.github.io/frontline-intel/">zrodlo</a></li>
+</ul>
+</div>
 
-<section class="news">
-  <h2>Frontline Intel <span class="n">wpisy z 7 VIII 2026</span></h2>
-  <div class="row"><span class="tag hot">UA</span><div><div class="t">CISO A niszczy reaktywny Szahed na wyrzutni na lotnisku w Doniecku</div><div class="d">Trafiony zostal takze pojazd MVG. Nowa taktyka to hunt the launcher zamiast przechwytywania w powietrZu, czyli przesuniecie punktu ciezkosci na niszczenie wyrzutni przed startem.</div></div></div>
-  <div class="row"><span class="tag hot">RU</span><div><div class="t">FPV na swiatlowodzie o zasiegu 50 km w rejonie Dobropilla</div><div class="d">Rosja aktywnie stosuje drony sterowane kablem optycznym, odporne na zagluszanie. Wedlug wpisu strona rosyjska technicznie przewyzsza Ukraine w dronach optycznych dalekiego zasiegu.</div></div></div>
-  <div class="row"><span class="tag hot">UA</span><div><div class="t">Magura USV z GUR Grupy 13 atakuje port w Jalcie</div><div class="d">Potwierdzony atak morskich dronow na Krym, nagranie GUR potwierdza uzycie platformy Magura.</div></div></div>
-  <div class="note">Brak wpisow z 8 sierpnia. Kontekst z ostatnich dni: rosyjskie wielowarstwowe pakiety dronowe uderzajace w system gospodarczy Ukrainy oraz ukrainska+Å≠Öµ¡Öπ•ÑÅ±Ωù•Õ—•çÃÅ±Ωç≠ëΩ›∏∞Å‹Å—Â¥ÅÖ—Ö¨ÅπÑÅçïπ—…’¥Å]•±ëâï……•ïÃÅ‹Å±ï≠Õ•π•î∏Ωë•ÿ¯(ΩÕïç—•Ω∏¯((ÒôΩΩ—ï»˘]Âùïπï…Ω›ÖπºÅÖ’—ΩµÖ—ÂçÈπ•îÄôµ•ëëΩ–ÏÄ‡ÅÕ•ï…¡π•ÑÄ»¿»ÿÄôµ•ëëΩ–ÏÅÈÖ≠…ïÃÄ»–Å†ΩôΩΩ—ï»¯((Ωë•ÿ¯(ΩâΩë‰¯(Ω°—µ∞¯(
+<p class="muted">Wygenerowano automatycznie, sobota 8.08.2026 rano. Brief online: <a href="https://owetofish-dotcom.github.io/smalltalk/Apps/morning-brief/">smalltalk/morning-brief</a></p>
+</div>
+</body>
+</html>
