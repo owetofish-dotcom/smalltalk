@@ -45,6 +45,17 @@
   .todo-due-input { width: 108px; border: 1px solid var(--border); border-radius: 6px; padding: 3px 6px; font-family: var(--font); font-size: 0.62rem; outline: none; background: var(--bg); color: var(--text); flex-shrink: 0; }
   .todo-edit-input { flex: 1; border: 1px solid var(--border); border-radius: 6px; padding: 3px 6px; font-family: var(--font); font-size: 0.7rem; outline: none; background: var(--bg); color: var(--text); min-width: 0; }
   .todo-mini-btn { background: none; border: 1px solid var(--border); border-radius: 5px; color: var(--text-muted); cursor: pointer; font-size: 0.56rem; padding: 1px 4px; font-family: var(--font); flex-shrink: 0; }
+
+  /* Upcoming calendar events */
+  .ev-sec { flex-shrink: 0; border-top: 1px solid var(--border); padding: 8px 0 4px; max-height: 32%; display: flex; flex-direction: column; }
+  .ev-title { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; padding-bottom: 4px; flex-shrink: 0; }
+  .ev-items { overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0; }
+  .ev-row { display: flex; align-items: baseline; gap: 7px; padding: 3px 2px; border-bottom: 1px solid var(--border); font-size: 0.68rem; color: var(--text); }
+  .ev-date { color: var(--text-muted); font-size: 0.6rem; white-space: nowrap; flex-shrink: 0; width: 64px; }
+  .ev-date.today { color: #d0342c; font-weight: 600; }
+  .ev-who { font-size: 0.56rem; color: var(--text-muted); border: 1px solid var(--border); border-radius: 5px; padding: 0 4px; flex-shrink: 0; }
+  .ev-text { flex: 1; line-height: 1.25; overflow-wrap: anywhere; }
+  .ev-empty { font-size: 0.68rem; color: var(--text-muted); display: block; padding: 6px 2px; }
 </style>
 </head>
 <body>
@@ -65,6 +76,10 @@
     <button class="todo-cat active" id="todo-cat-all">All (0)</button>
   </div>
   <div class="todo-items" id="todo-items"></div>
+  <div class="ev-sec">
+    <span class="ev-title">Zbliżające się wydarzenia</span>
+    <div class="ev-items" id="ev-items"></div>
+  </div>
 </div>
 
 <script>
@@ -87,6 +102,10 @@
 //       due: "YYYY-MM-DD" or "YYYY-MM-DD HH:MM", // optional deadline (Europe/Warsaw), red when past
 //       ts: "YYYY-MM-DD HH:MM" } // creation time, Europe/Warsaw
 //   Remote (gist) always wins for todos/archived_apps on load.
+//   "Zbliżające się wydarzenia": read-only list built from the calendar data
+//   in weights (gist key "weights", localStorage 'miniapps-weight'). Events
+//   are the per-day note fields nel_note / edyta_note / dom_note entered in
+//   the index.html calendar popup. Only dates >= today, sorted ascending.
 //   The gist push payload must ALWAYS include weights/order/pspo_scores/
 //   archived_apps read from localStorage so other data is never clobbered
 //   (same origin as index.html -> shared localStorage).
@@ -162,6 +181,7 @@
           localStorage.setItem('pspo_scores', JSON.stringify(Object.assign({}, local, remote.pspo_scores)));
         }
         renderTodos();
+        renderEvents();
       }
       setSync('ok');
     } catch(e) { setSync('err'); }
@@ -178,6 +198,41 @@
       if (!res.ok) throw new Error('HTTP ' + res.status);
       setSync('ok');
     } catch(e) { setSync('err'); }
+  }
+
+  // --- Upcoming calendar events (read-only, from weights day notes) ---
+  function renderEvents() {
+    const box = document.getElementById('ev-items');
+    let w = {};
+    try { w = JSON.parse(localStorage.getItem('miniapps-weight') || '{}'); } catch(e) {}
+    const today = warsawTodayKey();
+    const NOTES = [['nel_note', 'Nel'], ['edyta_note', 'Edyta'], ['dom_note', 'Dom']];
+    const evs = [];
+    Object.keys(w).forEach(k => {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(k) || k < today) return;
+      const d = w[k];
+      if (!d || typeof d !== 'object') return;
+      NOTES.forEach(([f, who]) => {
+        const v = String(d[f] || '').trim();
+        if (v) evs.push({ date: k, who: who, text: v });
+      });
+    });
+    evs.sort((a, b) => a.date < b.date ? -1 : (a.date > b.date ? 1 : 0));
+    box.innerHTML = '';
+    if (!evs.length) {
+      box.innerHTML = '<span class="ev-empty">Brak nadchodz\u0105cych wydarze\u0144</span>';
+      return;
+    }
+    evs.forEach(ev => {
+      const row = document.createElement('div'); row.className = 'ev-row';
+      const dt = document.createElement('span');
+      dt.className = 'ev-date' + (ev.date === today ? ' today' : '');
+      dt.textContent = fmtDue(ev.date); dt.title = ev.date;
+      const who = document.createElement('span'); who.className = 'ev-who'; who.textContent = ev.who;
+      const tx = document.createElement('span'); tx.className = 'ev-text'; tx.textContent = ev.text;
+      row.appendChild(dt); row.appendChild(who); row.appendChild(tx);
+      box.appendChild(row);
+    });
   }
 
   // --- Render (copy of index.html renderTodos) ---
@@ -318,6 +373,7 @@
 
   // Init: render local immediately, then refresh from gist (remote wins)
   renderTodos();
+  renderEvents();
   fetchFromGist();
 })();
 </script>
