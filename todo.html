@@ -377,5 +377,23 @@
   fetchFromGist();
 })();
 </script>
+<div class="nato-sec">
+  <div class="nato-head">Wskaźnik ryzyka Rosja-NATO</div>
+  <div id="nato-body"><span class="nato-empty">Ładowanie noty...</span></div>
+</div>
+<style>
+  .nato-sec { max-width: 720px; margin: 0 auto; padding: 16px 20px 32px; border-top: 1px solid var(--border); }
+  .nato-head { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; padding-bottom: 6px; }
+  .nato-empty { font-size: 0.7rem; color: var(--text-muted); display: block; padding: 6px 2px; }
+</style>
+<script>
+(function () {
+  var box = document.getElementById('nato-body');
+  fetch('nato-risk.html?v=' + Date.now())
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(function (t) { box.innerHTML = t; })
+    .catch(function () { box.innerHTML = '<span class="nato-empty">Brak noty na dzi\u015b</span>'; });
+})();
+</script>
 </body>
 </html>
