@@ -1,0 +1,106 @@
+{
+  "run_date": "2026-08-29",
+  "run_type": "baseline (first run - no prior state to diff against)",
+  "party": "2 adults + 1 child (age 5)",
+  "requirement": "breakfast included, cheapest room that fits 3",
+  "scope": "Fri->Sun weekends, Sep-Nov 2026 (rows 1-13 of tracking table)",
+
+  "methodology": {
+    "source": "triverna.pl hotel pages, date-picker calendar DOM + 'Do zaplaty brutto' total",
+    "note": "Calendar cell = lowest nightly rate for the CHEAPEST room, not necessarily the room that fits 3. Weekend total = Fri night + Sat night, plus extra-bed surcharge where applicable.",
+    "caution": "The 'Do zaplaty brutto' figure animates upward on load. Must wait ~6-8s before reading or the value is wrong (observed 20 -> 49 -> 1191 -> 1830 on one page)."
+  },
+
+  "hotels": {
+    "bachledka": {
+      "name": "Grand Hotel Bachledka Strachan, Zdziar (SK)",
+      "stars": 4,
+      "room": "Pokoj 2+1 standard + 1x dostawka (dostawka GRATIS)",
+      "board": "breakfast + dinner (obiadokolacja) included",
+      "child_policy": "child under 10 on extra bed free",
+      "formula": "fri_rate + sat_rate",
+      "formula_verified": "2026-09-25/27 = 915+915 = 1830 (matches page total)",
+      "nightly_pattern": "Fri/Sat 915 zl, Mon-Thu/Sun 785 zl (flat across Sep-Nov)",
+      "weekends": {
+        "2026-09-04": 1830,
+        "2026-09-11": 1830,
+        "2026-09-18": 1830,
+        "2026-09-25": 1830,
+        "2026-10-02": 1830,
+        "2026-10-09": 1830,
+        "2026-10-16": 1830,
+        "2026-10-23": 1830,
+        "2026-10-30": 1830,
+        "2026-11-06": 2817,
+        "2026-11-13": null,
+        "2026-11-20": 1830,
+        "2026-11-27": 1830
+      },
+      "notes": {
+        "2026-11-06": "Fri 6.11 spikes to 1902 zl/night (vs usual 915). Special-event pricing block 4-6.11.",
+        "2026-11-13": "UNAVAILABLE - 12.11 and 13.11 sold out / not bookable",
+        "2026-10-30": "All Saints long weekend but NO premium - still 1830"
+      }
+    },
+
+    "carynska": {
+      "name": "Carynska Resort & SPA, Dwernik (Bieszczady)",
+      "rating": 4.9,
+      "room": "Pokoj 2-os. standard + 1x dostawka (child on sofa bed)",
+      "board": "breakfast included",
+      "formula": "fri_rate + sat_rate + 300 (extra bed 150 zl/night)",
+      "formula_verified": [
+        "2026-11-20/22 = 405+405+300 = 1110 (matches page total)",
+        "2026-10-23/25 = 540+540+300 = 1380 (matches page total)"
+      ],
+      "important": "The saved monitoring URL points at 'Domek 4+2 os.' which is roughly 2x the price (2340 zl vs 1110 zl for 20-22.11). Standard room + extra bed is the correct cheapest config for 3 people.",
+      "weekends": {
+        "2026-09-04": 1560,
+        "2026-09-11": 1893,
+        "2026-09-18": 1686,
+        "2026-09-25": null,
+        "2026-10-02": 1560,
+        "2026-10-09": 2640,
+        "2026-10-16": 1524,
+        "2026-10-23": 1380,
+        "2026-10-30": 1380,
+        "2026-11-06": 1110,
+        "2026-11-13": 1470,
+        "2026-11-20": 1110,
+        "2026-11-27": 1110
+      },
+      "notes": {
+        "2026-09-25": "Fri 25.09 nightly rate not readable (date was pre-selected in picker). Sat 26.09 = 558. Re-check next run.",
+        "2026-10-09": "Peak - 1170 zl/night Fri+Sat, roughly 3x the November rate",
+        "2026-11": "Season low: 405 zl/night Fri/Sat, 360 zl weekdays"
+      }
+    },
+
+    "poziom511": {
+      "name": "Poziom 511 Jura Wellness Hotel & Spa, Ogrodzieniec",
+      "stars": 4,
+      "status": "NOT BOOKABLE for this party",
+      "reason": "All rooms in both Triverna offers (breakfast-only offer 7604 and half-board offer 16590) show 'Mozliwe dostawki: 0'. Setting DZIECI=1 returns 'Przykro mi, ale nie mozna dobrac takiej liczby osob'. Max 2 people per room.",
+      "workaround": "Would require booking 2 rooms - not cost-competitive.",
+      "reference_2adults_only": {
+        "2026-11-20": 1774,
+        "note": "887 zl/night Fri/Sat in Nov; 914 zl in Oct; Sept has almost no Fri/Sat availability at all"
+      },
+      "september_availability": "All Fridays (4, 11, 18) and Saturdays (5, 12, 19, 26) UNAVAILABLE in Sept 2026"
+    }
+  },
+
+  "best_deals": [
+    {"hotel": "Carynska", "dates": "2026-11-06/08", "price": 1110},
+    {"hotel": "Carynska", "dates": "2026-11-20/22", "price": 1110},
+    {"hotel": "Carynska", "dates": "2026-11-27/29", "price": 1110},
+    {"hotel": "Carynska", "dates": "2026-10-23/25", "price": 1380},
+    {"hotel": "Carynska", "dates": "2026-10-30/11-01", "price": 1380}
+  ],
+
+  "watch_next_run": [
+    "Both hotels show 'Oferta konczy sie za 2-3 dni' - offers may be repriced within days. Expect movement on the next run.",
+    "Carynska 2026-09-25 Friday rate still unknown",
+    "Bachledka 2026-11-13 availability may reopen"
+  ]
+}

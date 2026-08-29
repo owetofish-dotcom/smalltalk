@@ -395,5 +395,23 @@
     .catch(function () { box.innerHTML = '<span class="nato-empty">Brak noty na dzi\u015b</span>'; });
 })();
 </script>
+<div class="hotel-sec">
+  <div class="hotel-head">Hotele — weekendy Pt→Nd</div>
+  <div id="hotel-body"><span class="hotel-empty">Ładowanie noty...</span></div>
+</div>
+<style>
+  .hotel-sec { max-width: 720px; margin: 0 auto; padding: 16px 20px 32px; border-top: 1px solid var(--border); }
+  .hotel-head { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; padding-bottom: 6px; }
+  .hotel-empty { font-size: 0.7rem; color: var(--text-muted); display: block; padding: 6px 2px; }
+</style>
+<script>
+(function () {
+  var box = document.getElementById('hotel-body');
+  fetch('hotelove.html?v=' + Date.now())
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(function (t) { box.innerHTML = t; })
+    .catch(function () { box.innerHTML = '<span class="hotel-empty">Brak noty na dzi\u015b</span>'; });
+})();
+</script>
 </body>
 </html>
