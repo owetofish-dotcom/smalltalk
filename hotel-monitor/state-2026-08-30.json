@@ -1,0 +1,157 @@
+{
+  "run_date": "2026-08-30",
+  "run_seq": 3,
+  "run_type": "regular (diff vs state-2026-08-29b.json)",
+  "party": "2 adults + 1 child (born 2021, age 5)",
+  "requirement": "breakfast included, cheapest room that fits 3 (extra bed OK)",
+  "scope": "Fri->Sun weekends, rolling window: nearest Friday (2026-09-04) to +120 days (2026-12-28)",
+  "currency": "PLN, total gross for 2 nights (Fri + Sat)",
+  "headline": "NO CHANGE. Every weekend price on both hotels is identical to run 2 (2026-08-29 17:00). Only movement is the offer countdowns ticking down.",
+
+  "urls_verified_2026_08_30": {
+    "carynska": "https://triverna.pl/hotel/carynska-resort-spa-dwernik",
+    "bachledka": "https://triverna.pl/hotel/grand-hotel-bachledka-strachan-zdiar",
+    "poziom511": "unknown - old slug poziom-511-jura-wellness-hotel-spa 404s, re-resolve on 2026-09-28 recheck"
+  },
+
+  "methodology": {
+    "source": "triverna.pl hotel page, date-picker calendar grid + 'Do zaplaty brutto' total",
+    "calendar_trick": "Click the arrival date field -> calendar shows nightly rates for the whole month. Arrow forward for subsequent months. One zoom = one month.",
+    "room_param_note": "CONFIRMED AGAIN: no room= URL param needed. Bare slug works. Sequence: click arrival date -> click departure date -> OSOB dropdown auto-opens, pick 2 -> room radio list appears with cheapest room preselected -> DZIECI dropdown -> 1 -> 'Liczba przekracza limit' -> 'Dodaj 1 dostawke'.",
+    "ui_layout_warning": "The widget COLLAPSES the calendars after dates are set, so every click shifts the panel upward. Re-screenshot before each click; do not trust the fixed coordinates in prompt section 4.",
+    "counter_timing": "CONFIRMED: 'Do zaplaty brutto' counter needs 50-70 SECONDS to settle, not 6-8. Observed Carynska 21 -> 177 -> 322 -> 626 -> 636 -> 699 -> 808 -> 1032 -> 1103 -> 1110 over ~68s; Bachledka 74 -> 383 -> 1056 -> 1533 -> 1739 -> 1830 over ~60s. Poll until two consecutive reads match.",
+    "caution": "Calendar cell = lowest nightly rate of the CHEAPEST room in the offer, not necessarily the room that fits 3. Formulas below convert calendar rates to the real total."
+  },
+
+  "hotels": {
+    "carynska": {
+      "name": "Carynska Resort & SPA, Dwernik (Bieszczady)",
+      "rating": 4.9,
+      "room": "Pokoj 2-os. standard (22 m2, maks. 2 os. + 2 dostawki) + 1x dostawka",
+      "board": "breakfast included",
+      "formula": "fri_rate + sat_rate + 300",
+      "formula_verified": [
+        "2026-11-06/08 = 405+405+300 = 1110 -> page total 1110 zl (verified 2026-08-30, run 3)",
+        "2026-12-04/06 = 405+405+300 = 1110 -> page total 1110 zl (verified run 2)",
+        "2026-11-20/22 = 405+405+300 = 1110 (verified run 1)",
+        "2026-10-23/25 = 540+540+300 = 1380 (verified run 1)"
+      ],
+      "extra_bed_policy": "child 4-12 yrs: 150 zl/night incl. breakfast; person 12+: 200 zl/night; infant/child under 4 free sharing parents' bed",
+      "offer_countdown": "Oferta konczy sie za 1 dzien (was 2 dni on run 2, 2-3 dni on run 1)",
+      "offer_window_end": "2026-12-22 (22.12 hatched, 23.12 onwards not bookable)",
+      "weekends": {
+        "2026-09-04": 1560,
+        "2026-09-11": 1893,
+        "2026-09-18": 1686,
+        "2026-09-25": 2118,
+        "2026-10-02": 1560,
+        "2026-10-09": 2640,
+        "2026-10-16": 1524,
+        "2026-10-23": 1380,
+        "2026-10-30": 1380,
+        "2026-11-06": 1110,
+        "2026-11-13": 1470,
+        "2026-11-20": 1110,
+        "2026-11-27": 1110,
+        "2026-12-04": 1110,
+        "2026-12-11": 1110,
+        "2026-12-18": 1110,
+        "2026-12-25": null
+      },
+      "delta_vs_run2": {
+        "all_weekends": "unchanged, 0 zl delta on all 16 bookable weekends",
+        "2026-12-25": "still unavailable (offer ends 22.12)"
+      },
+      "nightly_rates_read": {
+        "sep": "1-3: 495 | 4: 630 | 5: 630 | 6-8: 585 | 9: 675 | 10: 765 | 11: 900 | 12: 693 | 13-16: 585 | 17: 621 | 18: 693 | 19: 693 | 20: 495 | 21-23: 522 | 24: 1215 | 25: 1260 | 26: 558 | 27: 495 | 28-29: 585 | 30: 540",
+        "oct": "1: 675 | 2: 720 | 3: 540 | 4-5: 495 | 6-7: 558 | 8: 783 | 9-10: 1170 | 11-15: 495 | 16-17: 612 | 18-22: 495 | 23-24: 540 | 25-29: 495 | 30-31: 540",
+        "nov": "weekdays 360, Fri/Sat 405, except 11-12: 540 and 13-14: 585",
+        "dec": "flat 405 zl every day 1-21.12; 22.12 hatched; 23.12+ unavailable"
+      },
+      "notes": {
+        "2026-10-09": "Peak - 1170 zl/night Fri+Sat",
+        "2026-11": "Season floor 405 zl/night Fri/Sat, 360 zl weekdays; December flat 405 zl EVERY day through 21.12",
+        "domek": "Domek 4+2 os. tooltip confirms +615 zl/night over the standard room - never the right pick for 3 people",
+        "aug_tail": "30-31.08 showing 495 zl/night (outside the Fri->Sun window, noted only)"
+      }
+    },
+
+    "bachledka": {
+      "name": "Grand Hotel Bachledka Strachan, Zdziar (SK)",
+      "stars": 4,
+      "room": "Pokoj 2+1 standard + 1x dostawka (dostawka GRATIS)",
+      "board": "breakfast + dinner (obiadokolacja) included",
+      "child_policy": "DZIECI dropdown = ages 3-10, free; OSOB dropdown = 10+",
+      "formula": "fri_rate + sat_rate",
+      "formula_verified": [
+        "2026-11-20/22 = 915+915 = 1830 -> page total 1830 zl (verified 2026-08-30, run 3)",
+        "2026-12-04/06 = 915+915 = 1830 -> page total 1830 zl (verified run 2)",
+        "2026-09-25/27 = 915+915 = 1830 (verified run 1)"
+      ],
+      "nightly_pattern": "Fri/Sat 915 zl, all other days 785 zl (flat Sep-Dec), except the 4-6.11 event block",
+      "offer_countdown": "Oferta konczy sie za 2 dni (was 3 dni on run 2)",
+      "offer_window_end": "2026-12-10 (10.12 hatched, 11.12 onwards not bookable)",
+      "weekends": {
+        "2026-09-04": 1830,
+        "2026-09-11": 1830,
+        "2026-09-18": 1830,
+        "2026-09-25": 1830,
+        "2026-10-02": 1830,
+        "2026-10-09": 1830,
+        "2026-10-16": 1830,
+        "2026-10-23": 1830,
+        "2026-10-30": 1830,
+        "2026-11-06": 2817,
+        "2026-11-13": null,
+        "2026-11-20": 1830,
+        "2026-11-27": 1830,
+        "2026-12-04": 1830,
+        "2026-12-11": null,
+        "2026-12-18": null,
+        "2026-12-25": null
+      },
+      "delta_vs_run2": {
+        "all_weekends": "unchanged, 0 zl delta on all 13 bookable weekends",
+        "2026-11-13": "still sold out (3rd consecutive run)"
+      },
+      "notes": {
+        "2026-11-06": "Fri 6.11 = 1902 zl/night (vs usual 915). Event block 4-6.11 (4.11 and 5.11 = 1773 zl).",
+        "2026-11-13": "STILL UNAVAILABLE - 12 and 13.11 sold out (unchanged run 1 -> 2 -> 3)",
+        "availability_drift": "18.11 is newly greyed out this run (was available). Hatched days: 7.09, 7.10, 20.10, 11.11, 17.11, 10.12. Greyed: 8-10.09, 8.10, 21.10, 12-13.11, 18.11, 11.12+. None of these break a Fri->Sun weekend beyond 13-15.11.",
+        "value_note": "Dinner included both nights. For 3 people that is roughly 600-800 zl of food value the Carynska price does not cover."
+      }
+    },
+
+    "poziom511": {
+      "name": "Poziom 511 Jura Wellness Hotel & Spa, Ogrodzieniec",
+      "status": "DISABLED - not bookable for this party (all rooms 'Mozliwe dostawki: 0')",
+      "skipped_this_run": true,
+      "next_recheck": "2026-09-28",
+      "reference_2adults_only": {"2026-11-20": 1774}
+    }
+  },
+
+  "best_deals": [
+    {"hotel": "Carynska", "dates": "2026-11-06/08", "price": 1110, "status": "unchanged", "verified_live": true},
+    {"hotel": "Carynska", "dates": "2026-11-20/22", "price": 1110, "status": "unchanged"},
+    {"hotel": "Carynska", "dates": "2026-11-27/29", "price": 1110, "status": "unchanged"},
+    {"hotel": "Carynska", "dates": "2026-12-04/06", "price": 1110, "status": "unchanged"},
+    {"hotel": "Carynska", "dates": "2026-12-11/13", "price": 1110, "status": "unchanged"},
+    {"hotel": "Carynska", "dates": "2026-12-18/20", "price": 1110, "status": "unchanged"}
+  ],
+
+  "thresholds_triggered": {
+    "drop_10pct": "none",
+    "under_1200": "6 Carynska weekends at 1110 zl - same six as run 2, no new entrants",
+    "availability_change": "Bachledka 18.11 newly unavailable (weekday, no weekend impact). No weekend gained or lost on either hotel.",
+    "new_record_low": "no - 1110 zl remains the floor, unchanged across all three runs"
+  },
+
+  "watch_next_run": [
+    "Carynska countdown now at 1 DAY, Bachledka at 2 DAYS. Prices have been frozen across three runs spanning 27 hours. The repricing, if it comes, lands within the next 24-48h - the next run is the one that matters.",
+    "Poziom 511 dostawka recheck due 2026-09-28; its slug also needs re-resolving.",
+    "Bachledka 2026-11-13 sold out for a third run - treat as permanently gone unless it reappears.",
+    "When the window rolls past 22.12 (Carynska) / 10.12 (Bachledka), both need a fresh offer to have any January dates.",
+    "Correct prompt section 3.4 and section 4: counter needs 50-70s, and the fixed UI coordinates drift because the widget collapses its calendars after dates are picked."
+  ]
+}
