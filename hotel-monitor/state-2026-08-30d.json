@@ -1,0 +1,275 @@
+{
+  "run_date": "2026-08-30",
+  "run_seq": 6,
+  "run_type": "CORRECTION - supersedes run 5",
+  "headline": "KRYTYCZNA KOREKTA. Runy 2-5 bledne wykluczyly Muczne jako 'brak w inwentarzu Booking'. Przyczyna: szukalem nazwy 'Centrum Promocji Lesnictwa Muczne'; poprawna nazwa w Booking to 'Centrum Promocji Lesnictwa w Mucznem' (property_id 3048540). Muczne JEST w Booking i ma 760 zl / 2 noce na 8 weekendach - to NOWY REKORD CALEGO MONITORA, o 350 zl ponizej dotychczasowego minimum Carynskiej (1110 zl na Trivernie) i o 549,60 zl ponizej podlogi Booking Carynskiej (1309,60 zl). Cross-check na stronie wlasnej hotelu POTWIERDZA 760 zl co do zlotowki na 3 z 4 sprawdzonych miesiecy.",
+  "window": {
+    "from": "2026-09-04",
+    "to": "2026-12-25",
+    "weekends": 17,
+    "pattern": "Fri->Sun, 2 nights"
+  },
+  "party": {
+    "adults": 2,
+    "children_ages": [5],
+    "child_birth_year": 2021,
+    "rooms": 1,
+    "requirement": "breakfast included, cheapest room fitting 3 (extra bed OK)"
+  },
+  "currency": "PLN",
+  "source": "Booking.com MCP connector + cross-check on hotel own websites",
+
+  "error_correction": {
+    "what_went_wrong": "Runs 2-5 recorded Muczne as 'NOT MONITORABLE VIA BOOKING - zero inventory'. Two lookups failed and I treated the failure as a finding instead of testing name variants.",
+    "failed_query_1": "hotel_names=['Centrum Promocji Lesnictwa Muczne'] -> not_found",
+    "failed_query_2": "coordinates lat 49.1006 lon 22.7761 radius 8km -> not_found",
+    "why_coords_failed": "Actual property coordinates are 49.130783 / 22.746373. My estimate was ~3.4 km south, still inside an 8 km radius, so the coordinate search SHOULD have hit. Radius search appears unreliable for this property - do not trust it as a negative signal.",
+    "working_query": "hotel_names=['Centrum Promocji Lesnictwa w Mucznem'], destination='Muczne, Poland' -> resolves id 3048540",
+    "root_cause": "Missing the locative 'w Mucznem'. Booking indexes the full registered name.",
+    "corrected_by": "User supplied the live Booking URL slug 'centrum-promocji-lesnictwa-w-mucznem'.",
+    "rule_for_future_runs": "A not_found on hotel_names is NEVER sufficient to declare a property absent from inventory. Must try: (a) full official name incl. grammatical case, (b) coordinate search, (c) destination-only search listing the area. Only declare absent if all three fail."
+  },
+
+  "hotels": {
+    "carynska": {
+      "name": "Carynska Resort & SPA",
+      "location": "Dwernik, Bieszczady",
+      "rating": 4.9,
+      "booking_property_id": 1822553,
+      "formula": "cena_Pt + cena_Sb + 300 (dostawka 150 zl/noc)",
+      "formula_verified": false,
+      "formula_note": "Booking connector returns one aggregate price, no room name, no board type. Formula unverifiable from this source.",
+      "weekends_booking": {
+        "2026-09-04": 1809.60,
+        "2026-09-11": 2709.60,
+        "2026-09-18": 1949.60,
+        "2026-09-25": 2809.60,
+        "2026-10-02": 2709.60,
+        "2026-10-09": 2709.60,
+        "2026-10-16": 1769.60,
+        "2026-10-23": 1609.60,
+        "2026-10-30": 1609.60,
+        "2026-11-06": 1309.60,
+        "2026-11-13": 1709.60,
+        "2026-11-20": 1309.60,
+        "2026-11-27": 1309.60,
+        "2026-12-04": 1309.60,
+        "2026-12-11": 1309.60,
+        "2026-12-18": 1309.60,
+        "2026-12-25": null
+      },
+      "delta_vs_run5": "all 0.00 - unchanged",
+      "triverna_floor_unverified": 1110.00,
+      "triverna_last_read": "run 3 (2026-08-29)"
+    },
+
+    "bachledka": {
+      "name": "Grand Hotel**** Bachledka Strachan",
+      "location": "Zdiar, Slovakia",
+      "rating": 9.5,
+      "booking_property_id": 312697,
+      "formula": "cena_Pt + cena_Sb (bez doplat)",
+      "formula_verified": false,
+      "weekends_booking": {
+        "2026-09-04": 1824.59,
+        "2026-09-11": 1950.72,
+        "2026-09-18": 2209.63,
+        "2026-09-25": 2123.33,
+        "2026-10-02": 2488.85,
+        "2026-10-09": 2590.38,
+        "2026-10-16": 2387.31,
+        "2026-10-23": 2387.31,
+        "2026-10-30": null,
+        "2026-11-06": 2387.31,
+        "2026-11-13": null,
+        "2026-11-20": 2387.31,
+        "2026-11-27": 2387.31,
+        "2026-12-04": 2785.63,
+        "2026-12-11": 2387.31,
+        "2026-12-18": 2387.31,
+        "2026-12-25": null
+      },
+      "delta_vs_run5": "all 0.00 - unchanged"
+    },
+
+    "muczne": {
+      "name": "Centrum Promocji Lesnictwa w Mucznem",
+      "location": "Muczne 2, 38-713 Lutowiska",
+      "coordinates": {"lat": 49.130783, "lon": 22.746373},
+      "booking_property_id": 3048540,
+      "booking_slug": "centrum-promocji-lesnictwa-w-mucznem",
+      "own_site": "https://lasybieszczadzkie.pl/oferta/cennik/",
+      "status": "REINSTATED - was wrongly excluded in runs 2-5",
+      "operator": "Lasy Panstwowe / Nadlesnictwo Stuposiany",
+      "weekends_booking": {
+        "2026-09-04": null,
+        "2026-09-11": 1080.00,
+        "2026-09-18": null,
+        "2026-09-25": null,
+        "2026-10-02": 1600.00,
+        "2026-10-09": 1200.00,
+        "2026-10-16": 880.00,
+        "2026-10-23": 880.00,
+        "2026-10-30": 760.00,
+        "2026-11-06": 760.00,
+        "2026-11-13": 760.00,
+        "2026-11-20": 760.00,
+        "2026-11-27": 760.00,
+        "2026-12-04": 760.00,
+        "2026-12-11": 760.00,
+        "2026-12-18": 760.00,
+        "2026-12-25": null
+      },
+      "availability_note": "4 nulls: 09-04, 09-18, 09-25 (high-season weekends sold out) and 12-25 (Christmas block).",
+      "own_site_tariff": {
+        "product": "Nocleg + Sniadanie (breakfast IS included in the headline rate)",
+        "low_season_ranges": ["2026-01-03..2026-04-03", "2026-04-05..2026-04-29", "2026-10-30..2026-12-22"],
+        "low_season_per_person_per_night": 160.00,
+        "high_season_ranges": ["2026-04-30..2026-10-29", "2026-12-23..2027-01-02"],
+        "high_season_per_person_per_night": 200.00,
+        "weekend_surcharge_per_person_per_night": 30.00,
+        "child_free_rule": "Dzieci do lat 5 niekorzystajace z osobnego lozka - bezplatnie. NASZE DZIECKO MA 5 LAT -> wypada z progu.",
+        "extra_bed_dostawka": 120.00,
+        "extra_bed_unit_ambiguous": "Cennik podaje '120 zl/osoba' bez jednoznacznego wskazania per noc czy per pobyt. Do potwierdzenia telefonicznie.",
+        "local_tax": "oplata miejscowa wg uchwaly Rady Gminy Lutowiska - nie ujeta w powyzszych"
+      },
+      "formula": "(stawka_sezonowa + 30 doplata weekendowa) x 2 osoby x 2 noce + dostawka 120 za dziecko",
+      "formula_verified": true,
+      "formula_verification": "Niski sezon: (160+30) x 2 x 2 = 760,00 zl - IDENTYCZNE z cena Booking na 30.10, 06.11, 13.11, 20.11, 27.11, 04.12, 11.12, 18.12. Wysoki sezon: (200+30) x 2 x 2 = 920,00 zl.",
+      "real_total_with_child": {
+        "low_season_weekend": "760 + 120 = 880,00 zl (jesli dostawka per pobyt) lub 760 + 240 = 1000,00 zl (jesli per noc)",
+        "worst_case": 1000.00,
+        "still_beats_carynska_record": true,
+        "margin_vs_carynska_triverna_1110": "110 zl do 230 zl taniej"
+      },
+      "cross_check_vs_own_site": {
+        "method": "min. 1 weekend per month, prioritising the cheapest Booking date - per task section 2",
+        "2026-09-11": {"booking": 1080.00, "own_site_tariff": 920.00, "delta": 160.00, "delta_pct": 17.4, "verdict": "Booking drozej - prawdopodobnie inny/wiekszy pokoj lub blok wysokiego sezonu"},
+        "2026-10-30": {"booking": 760.00, "own_site_tariff": 760.00, "delta": 0.00, "verdict": "PARYTET co do zlotowki"},
+        "2026-11-06": {"booking": 760.00, "own_site_tariff": 760.00, "delta": 0.00, "verdict": "PARYTET co do zlotowki"},
+        "2026-12-04": {"booking": 760.00, "own_site_tariff": 760.00, "delta": 0.00, "verdict": "PARYTET co do zlotowki"},
+        "conclusion": "3 z 4 miesiecy w idealnym parytecie. Lasy Panstwowe stosuja sztywna taryfe publiczna, Booking jej nie obciaza marza w niskim sezonie. Odwrotnie niz przy Carynskiej (+199,60 zl staly narzut). Rezerwacja bezposrednia nie daje oszczednosci, ale daje kontrole nad pokojem i dostawka.",
+        "outliers_to_investigate": {
+          "2026-10-02": {"booking": 1600.00, "own_site_tariff": 920.00, "delta_pct": 73.9},
+          "2026-10-09": {"booking": 1200.00, "own_site_tariff": 920.00, "delta_pct": 30.4},
+          "note": "Oba w wysokim sezonie. Rozjazd sugeruje, ze Booking wystawia apartament (440 zl/noc wysoki sezon) albo blok o innej konfiguracji, nie pokoj wieloosobowy."
+        }
+      },
+      "booking_engine_on_own_site": false,
+      "own_site_reservation_method": "telefon +48 516 824 694 lub formularz /kontakt-noclegi-muczne/",
+      "second_offer_domek_mysliwski": {
+        "name": "Domek Mysliwski",
+        "capacity": "6 pokoi, do 14 osob",
+        "low_season_ranges": ["2026-01-04..2026-04-03", "2026-04-07..2026-05-31", "2026-11-01..2026-12-23"],
+        "low_season_per_person_per_night": 100.00,
+        "high_season_per_person_per_night": 130.00,
+        "weekend_surcharge": "brak",
+        "extra_bed_dostawka": 100.00,
+        "whole_lodge": 1400.00,
+        "computed_weekend_low_season": "100 x 2 x 2 + 100 = 500,00 zl",
+        "DISQUALIFIED": "Cennik nie deklaruje sniadania w cenie (w przeciwienstwie do glownego CPL, gdzie produkt to jawnie 'Nocleg + Sniadanie'). Nie spelnia wymogu par. 1. Do potwierdzenia telefonicznie - jesli sniadanie da sie dokupic tanio, 500 zl bylby absolutnym rekordem.",
+        "action_next_run": "Zadzwonic lub sprawdzic czy sniadanie jest dokupywalne i za ile."
+      }
+    },
+
+    "poziom511": {
+      "name": "Poziom 511 Jura Wellness",
+      "location": "Ogrodzieniec",
+      "booking_property_id": 331218,
+      "status": "REACTIVATED but non-competitive",
+      "weekends_booking_sampled": {
+        "2026-09-04": null,
+        "2026-10-23": 2783.50,
+        "2026-11-06": 2720.50,
+        "2026-12-11": 2741.50
+      },
+      "assessment": "Wycenialny dla 2+1 przez Booking (blokada 'dostawki: 0' byla ograniczeniem Triverny, nie hotelu). Ale 2720,50 zl vs 760 zl w Mucznem na 06.11 - 3,6x drozej. Zejsc do probki 2 terminow na przebieg albo wylaczyc.",
+      "sampling_policy": "2-3 weekends per run, not full window"
+    }
+  },
+
+  "thresholds_triggered": {
+    "drop_10pct": {
+      "triggered": false,
+      "note": "Carynska i Bachledka bez ruchu vs run 5. Muczne nie ma bazy porownawczej - to pierwszy poprawny odczyt."
+    },
+    "under_1200": {
+      "triggered": true,
+      "count": 10,
+      "hits": [
+        {"hotel": "Muczne", "date": "2026-10-16", "price": 880.00},
+        {"hotel": "Muczne", "date": "2026-10-23", "price": 880.00},
+        {"hotel": "Muczne", "date": "2026-10-30", "price": 760.00},
+        {"hotel": "Muczne", "date": "2026-11-06", "price": 760.00},
+        {"hotel": "Muczne", "date": "2026-11-13", "price": 760.00},
+        {"hotel": "Muczne", "date": "2026-11-20", "price": 760.00},
+        {"hotel": "Muczne", "date": "2026-11-27", "price": 760.00},
+        {"hotel": "Muczne", "date": "2026-12-04", "price": 760.00},
+        {"hotel": "Muczne", "date": "2026-12-11", "price": 760.00},
+        {"hotel": "Muczne", "date": "2026-12-18", "price": 760.00}
+      ],
+      "plus_1080_near_miss": "2026-09-11 Muczne 1080,00 zl - takze ponizej progu",
+      "corrected_count": 11
+    },
+    "availability_change": {
+      "triggered": true,
+      "note": "Strukturalna: 13 nowych wycenialnych datapointow (Muczne) wchodzi do monitora. Carynska i Bachledka bez zmian dostepnosci."
+    },
+    "new_record_low": {
+      "triggered": true,
+      "value": 760.00,
+      "hotel": "Muczne",
+      "dates": ["2026-10-30", "2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"],
+      "previous_record": 1110.00,
+      "previous_record_holder": "Carynska (Triverna, unverified since run 3)",
+      "improvement": 350.00,
+      "improvement_pct": 31.5,
+      "with_child_extra_bed": "880,00 zl - nadal rekord, poprawa 230 zl / 20,7%"
+    }
+  },
+
+  "cheapest_overall_any_channel": {
+    "price": 760.00,
+    "with_child_extra_bed_estimate": 880.00,
+    "hotel": "Centrum Promocji Lesnictwa w Mucznem",
+    "dates": "8 weekendow: 30.10, 06.11, 13.11, 20.11, 27.11, 04.12, 11.12, 18.12",
+    "channel": "Booking.com == strona wlasna (parytet)",
+    "breakfast": "TAK - produkt taryfowy to jawnie 'Nocleg + Sniadanie'",
+    "confidence": "WYSOKA - jedyny punkt w calym monitorze potwierdzony dwoma niezaleznymi zrodlami"
+  },
+
+  "notes": [
+    "Muczne jest jedynym hotelem w monitorze, dla ktorego sniadanie jest POTWIERDZONE (nazwa produktu taryfowego). Dla Carynskiej, Bachledki i Poziomu 511 pozostaje niezweryfikowane.",
+    "Muczne jest tez jedynym, dla ktorego formula zostala zweryfikowana arytmetycznie na zrodle wlasnym.",
+    "Wniosek strukturalny: obiekt Lasow Panstwowych ma taryfe publiczna i sztywna - to czyni go najbardziej przewidywalnym i najtanszym elementem monitora. Carynska i Bachledka stosuja pricing dynamiczny.",
+    "Runy 4 i 5 byly 3h od siebie - ich identycznosc dowodzila determinizmu konektora, nie stabilnosci cen. Nadal brak realnego pomiaru tydzien-do-tygodnia."
+  ],
+
+  "watch_next_run": [
+    "PRIORYTET 1: potwierdzic telefonicznie w Mucznem czy dostawka 120 zl jest per pobyt czy per noc, oraz czy 5-latek faktycznie wypada z progu 'do lat 5'. Roznica 880 vs 1000 zl.",
+    "PRIORYTET 2: sprawdzic czy w Domku Mysliwskim da sie dokupic sniadanie - baza 500 zl bylaby absolutnym rekordem.",
+    "PRIORYTET 3: Triverna nieczytana od runu 3. Rekord 1110 zl Carynskiej niezweryfikowany. Teraz mniej pilne, bo Muczne i tak bije ta cene.",
+    "Zbadac outliery Muczne 02.10 (1600) i 09.10 (1200) vs taryfa 920 - prawdopodobnie apartament zamiast pokoju wieloosobowego.",
+    "Zastosowac nowa regule anty-falszywie-negatywna do KAZDEGO hotela: not_found nie oznacza braku w inwentarzu. Zweryfikowac czy Carynska, Bachledka i Poziom 511 nie maja alternatywnych wpisow w Booking.",
+    "Wzorzec 17 wywolan (hotel_names nadpisuje destination) dziala; Muczne wymaga osobnego wywolania z destination='Muczne, Poland'.",
+    "Poziom 511 zejsc do 2 probek na przebieg - 3,6x drozszy od Mucznego.",
+    "Okno przesuwa sie do 2027-01-01 w nastepny piatek; 04.09 wypada z zakresu."
+  ],
+
+  "methodology": {
+    "calls_this_run": 17,
+    "call_pattern": "hotel_names is the primary search target, destination only disambiguates. One call covers Carynska (PL) + Bachledka (SK). Muczne and Poziom 511 need their own destination context.",
+    "params": {
+      "number_of_adults": 2,
+      "children_ages": [5],
+      "number_of_rooms": 1,
+      "currency": "PLN",
+      "user_country_code": "pl",
+      "user_locale": "pl"
+    },
+    "cross_check_performed": true,
+    "cross_check_scope": "Muczne only - 4 weekends, one per month, cheapest-first, per task section 2"
+  },
+
+  "supersedes": "state-2026-08-30c.json (run 5) - its muczne_resolution block is WRONG and should be disregarded"
+}
