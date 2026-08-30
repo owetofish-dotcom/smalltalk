@@ -1,0 +1,143 @@
+{
+  "run_date": "2026-08-30",
+  "run_seq": 5,
+  "run_type": "confirmation run on Booking.com MCP connector (2nd Booking run, ~3h after run 4)",
+  "party": "2 adults + 1 child (born 2021, age 5)",
+  "requirement": "breakfast included, cheapest room that fits 3 (extra bed OK)",
+  "scope": "Fri->Sun weekends, rolling window: nearest Friday (2026-09-04) to +120 days (2026-12-28)",
+  "currency": "PLN, total gross for 2 nights (Fri + Sat)",
+  "headline": "NO CHANGE vs run 4 (2026-08-30, state-2026-08-30b.json). All 34 datapoints for Carynska and Bachledka are byte-identical - not one weekend moved, not one availability gap opened or closed. CAVEAT: run 4 was only ~3 hours earlier, so this confirms the connector is deterministic, NOT that prices are stable week-over-week. Two genuinely new facts: Poziom 511 IS bookable for this party via Booking (unblocked after 4 runs of Triverna dead-end), and Centrum Promocji Lesnictwa Muczne does not exist in Booking inventory at all.",
+
+  "methodology": {
+    "source": "Booking.com MCP connector (accommodations_search)",
+    "call_pattern": "OPTIMISATION vs run 4: one call per weekend with hotel_names=[Carynska, Bachledka] and destination='Bieszczady, Poland'. The connector treats hotel_names as the primary target and destination only as disambiguation context, so it returns the Slovak property too despite the Polish destination. 17 calls instead of 34.",
+    "carynska_property_id": 1822553,
+    "bachledka_property_id": 312697,
+    "poziom511_property_id": 331218,
+    "params": "number_of_adults=2, children_ages=[5], number_of_rooms=1, currency=PLN, user_country_code=pl",
+    "poziom511_sampling": "Spot-sampled 4 weekends (2026-09-04, 10-23, 11-06, 12-11), not the full window. Decision made autonomously: the prompt schedules Poziom 511 for a 30-day recheck on 2026-09-28, but since a sample proved it is now priceable this channel, a partial scan was cheap and materially changes its status.",
+    "muczne_resolution": "Coordinate search (49.1006 / 22.7761, radius 8 km) returned zero accommodations. Name-based search returned nothing either. Centrum Promocji Lesnictwa Muczne is NOT distributed on Booking.com. It cannot be monitored through this source at all.",
+    "LIMITATION_CRITICAL": "Unchanged from run 4. The connector returns ONE aggregate 'book' price with NO room name, NO board type, NO extra-bed detail. Breakfast / cheapest-3-person-room / extra bed remain UNVERIFIABLE from this source."
+  },
+
+  "hotels": {
+    "carynska": {
+      "name": "Carynska Resort & SPA, Dwernik (Bieszczady)",
+      "rating": 4.9,
+      "booking_url": "https://www.booking.com/hotel/pl/pensjonat-carynska-dwernik.html",
+      "location": "Dwernik 15, 38-713 Lutowiska",
+      "room": "UNKNOWN - connector does not disclose room or board",
+      "formula": "Booking aggregate 2-night total, taken as-is (the Triverna formula cena_Pt + cena_Sb + 300 does not apply to this channel)",
+      "formula_verified": false,
+      "weekends_booking": {
+        "2026-09-04": 1809.60,
+        "2026-09-11": 2709.60,
+        "2026-09-18": 1949.60,
+        "2026-09-25": 2809.60,
+        "2026-10-02": 2709.60,
+        "2026-10-09": 2709.60,
+        "2026-10-16": 1769.60,
+        "2026-10-23": 1609.60,
+        "2026-10-30": 1609.60,
+        "2026-11-06": 1309.60,
+        "2026-11-13": 1709.60,
+        "2026-11-20": 1309.60,
+        "2026-11-27": 1309.60,
+        "2026-12-04": 1309.60,
+        "2026-12-11": 1309.60,
+        "2026-12-18": 1309.60,
+        "2026-12-25": null
+      },
+      "delta_vs_run4": "0.00 on all 16 bookable weekends. 2026-12-25 still unavailable.",
+      "notes": "The flat +199.60 zl Booking-over-Triverna premium observed in run 4 for the low season is unchanged, because neither side moved."
+    },
+
+    "bachledka": {
+      "name": "Grand Hotel**** Bachledka Strachan, Zdziar (SK)",
+      "stars": 4,
+      "review_score": 9.5,
+      "number_of_reviews": 871,
+      "booking_url": "https://www.booking.com/hotel/sk/bachledka.html",
+      "location": "Bachledova Dolina 695, 05955 Zdziar",
+      "room": "UNKNOWN - connector does not disclose room or board",
+      "formula": "Booking aggregate 2-night total, no surcharges added",
+      "formula_verified": false,
+      "weekends_booking": {
+        "2026-09-04": 1824.59,
+        "2026-09-11": 1950.72,
+        "2026-09-18": 2209.63,
+        "2026-09-25": 2123.33,
+        "2026-10-02": 2488.85,
+        "2026-10-09": 2590.38,
+        "2026-10-16": 2387.31,
+        "2026-10-23": 2387.31,
+        "2026-10-30": null,
+        "2026-11-06": 2387.31,
+        "2026-11-13": null,
+        "2026-11-20": 2387.31,
+        "2026-11-27": 2387.31,
+        "2026-12-04": 2785.63,
+        "2026-12-11": 2387.31,
+        "2026-12-18": 2387.31,
+        "2026-12-25": null
+      },
+      "delta_vs_run4": "0.00 on all 14 bookable weekends. Gaps unchanged: 2026-10-30, 2026-11-13, 2026-12-25.",
+      "notes": "2 387.31 zl remains the hard rate-plan floor, now on six weekends. 2026-11-13 is unavailable for a 5th consecutive run across two channels - treat as permanently gone."
+    },
+
+    "poziom511": {
+      "name": "Poziom 511 Jura Wellness Hotel & Spa, Ogrodzieniec",
+      "stars": 4,
+      "review_score": 9.2,
+      "number_of_reviews": 589,
+      "booking_url": "https://www.booking.com/hotel/pl/poziom-511-hotel-spa.html",
+      "location": "ul. Bonerow 33, 42-440 Ogrodzieniec",
+      "status": "REACTIVATED - bookable for 2 adults + 1 child via Booking.com. The Triverna 'Mozliwe dostawki: 0' limitation that disabled this hotel for runs 1-4 is a Triverna constraint, not a hotel constraint.",
+      "weekends_booking_sampled": {
+        "2026-09-04": null,
+        "2026-10-23": 2783.50,
+        "2026-11-06": 2720.50,
+        "2026-12-11": 2741.50
+      },
+      "assessment": "Priceable but not competitive. The sampled range 2 720-2 784 zl sits above Carynska on every comparable date (roughly +1 100 to +1 400 zl) and above or level with Bachledka. On 2026-11-06 it is 2 720.50 vs Carynska 1 309.60 - more than double. Nothing here approaches the 1 200 zl threshold.",
+      "recommendation": "Keep in rotation now that it prices, but at low priority - sample 3-4 weekends per run rather than the full window, unless it drops below ~2 000 zl."
+    },
+
+    "muczne": {
+      "name": "Centrum Promocji Lesnictwa Muczne",
+      "status": "NOT MONITORABLE VIA BOOKING - zero inventory. Confirmed by both a name search and a coordinate search (8 km radius around the village).",
+      "recommendation": "Either drop it from the monitor or read it from its own website / Lasy Panstwowe booking system. The Booking connector will never see it."
+    }
+  },
+
+  "best_deals_booking_channel": [
+    {"hotel": "Carynska", "dates": "2026-11-06/08 | 11-20/22 | 11-27/29 | 12-04/06 | 12-11/13 | 12-18/20", "price": 1309.60, "note": "six-way tie, Booking floor, unchanged"},
+    {"hotel": "Carynska", "dates": "2026-10-23/25 | 10-30-11/01", "price": 1609.60, "note": "cheapest autumn option"},
+    {"hotel": "Bachledka", "dates": "2026-09-04/06", "price": 1824.59, "note": "Bachledka floor in the window"}
+  ],
+
+  "cheapest_overall_any_channel": {
+    "hotel": "Carynska",
+    "price": 1110,
+    "channel": "Triverna",
+    "dates": "6-8.11, 20-22.11, 27-29.11, 4-6.12, 11-13.12, 18-20.12",
+    "note": "Unchanged floor across all five runs. Not re-verified this run - Triverna was not touched. This figure is now 1 day stale and was already flagged in runs 1-3 as sitting behind an expiring offer countdown."
+  },
+
+  "thresholds_triggered": {
+    "drop_10pct": "NONE.",
+    "under_1200": "NONE. Booking floor is 1 309.60 zl.",
+    "availability_change": "NONE for Carynska or Bachledka. Structural change only: Poziom 511 became priceable for this party via Booking; Muczne confirmed absent from Booking inventory.",
+    "new_record_low": "NO. 1 110 zl (Triverna, Carynska) stands unverified; 1 309.60 zl (Booking, Carynska) stands verified."
+  },
+
+  "watch_next_run": [
+    "Run 4 and run 5 are 3 hours apart and identical. That is a determinism check, not a stability check. The first meaningful price-movement signal will come from the next run on a DIFFERENT day - do not read this run as evidence that prices are flat.",
+    "PRIORITY: Triverna has not been read since run 3. The 1 110 zl floor and the expired offer countdowns (Carynska 1 day, Bachledka 2 days as of run 3) are unresolved. Either hit Triverna directly next run or formally demote it and make Booking the sole source of record.",
+    "Carynska Sep/Oct Booking prices still look like a different, pricier room than standard+dostawka (spread vs Triverna ranged +2.6% to +73.7%). Verify 2026-10-02 against Triverna or the hotel's own site before trusting high-season Booking numbers.",
+    "Poziom 511 now prices via Booking at 2 720-2 784 zl. Sample 3-4 weekends per run. Escalate to full window only if it breaks below ~2 000 zl.",
+    "Muczne: decide whether to drop it or add a non-Booking reader. Currently it is in the prompt but unmonitorable.",
+    "Call-pattern optimisation confirmed: hotel_names + a single destination returns cross-border results. 17 calls per full sweep instead of 34. Reuse this.",
+    "Window rolls to 2027-01-01 next Friday - 2026-09-04 will drop out and a new January weekend enters."
+  ]
+}
