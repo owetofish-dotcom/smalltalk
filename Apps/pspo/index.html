@@ -98,6 +98,11 @@
 
   .mini-explanation { background: var(--accent-light); border-left: 3px solid var(--text-muted); border-radius: 0 8px 8px 0; padding: 12px 16px; margin-top: 12px; font-size: 0.9rem; line-height: 1.6; animation: slideDown 0.3s ease; }
 
+  .possible-q { background: #fdf6e3; border: 1px solid #e8dcc0; border-left: 4px solid #ca8a04; border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 14px 0; font-size: 0.88rem; line-height: 1.6; }
+  .possible-q .pq-label { font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #ca8a04; margin-bottom: 6px; }
+  .possible-q .pq-a { margin-top: 6px; }
+  .possible-q .pq-why { margin-top: 6px; font-size: 0.82rem; color: #555; }
+
   .info-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 32px; margin: 24px 0; font-size: 1.1rem; color: #555555; line-height: 1.7; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
   .info-box h4 { color: var(--text); font-size: 1.25rem; margin-bottom: 20px; font-weight: 600; letter-spacing: -0.01em; }
   .info-box strong { color: var(--text); font-weight: 600; }
@@ -306,7 +311,7 @@
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
       <div style="font-weight:600;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);">Spis treści — zaznacz gdy umiesz<span id="theory-sync-indicator" style="font-size:0.72rem;margin-left:8px;color:#888;"></span></div>
       <div style="display:flex;align-items:center;gap:10px;">
-        <span id="toc-counter" style="font-size:0.8rem;color:var(--text-muted);white-space:nowrap;">0 / 14 sekcji</span>
+        <span id="toc-counter" style="font-size:0.8rem;color:var(--text-muted);white-space:nowrap;">0 / 16 sekcji</span>
         <div style="width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
           <div id="toc-progress-bar" style="height:100%;width:0%;background:var(--accent);border-radius:3px;transition:width 0.3s;"></div>
         </div>
@@ -492,7 +497,24 @@
     &bull; Scrum is a <em>framework</em>, not a process/methodology<br>
     &bull; Definition of Ready — NOT in the Scrum Guide<br>
     &bull; Cone of Uncertainty: early = high uncertainty, each Sprint narrows it<br>
-    &bull; 3 feedback loops: Daily Scrum, Sprint Review, Sprint Retrospective<br><br>
+    &bull; 3 feedback loops: Daily Scrum, Sprint Review, Sprint Retrospective<br>
+    &bull; Twórcy Scrum: <strong>Ken Schwaber i Jeff Sutherland</strong> (autorzy Scrum Guide)<br>
+    &bull; Scrum jest: <em>lightweight, simple to understand, difficult to master</em><br>
+    &bull; Słowo "development" w Scrum = <strong>praca złożona</strong> (complex work): software, hardware, badania, marketing, operacje, niemal wszystko<br>
+    &bull; Empiryzm = model: mały krok, obserwacja wyniku, korekta następnego kroku na bazie obserwacji<br>
+    &bull; Jakość decyzji zespołu zależy od <strong>transparentności artefaktów</strong>: mało transparentne artefakty = decyzje obarczone ryzykiem<br><br>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      Who developed Scrum?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Ken Schwaber and Jeff Sutherland.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> To autorzy Scrum Guide. Pytanie czysto pamięciowe, pojawia się w bankach pytań. Nie mylić z Mike Beedle (współautor wczesnej książki o Scrum) ani z twórcami Agile Manifesto.</div>
+    </div>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      What does the word "development" mean in the context of Scrum?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Complex work, obejmująca software, hardware, badania, operacje i więcej.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> Scrum Guide 2020 celowo usunął odniesienia wyłącznie do IT. Scrum stosuje się do każdej pracy złożonej, więc odpowiedź "tylko software" jest pułapką.</div>
+    </div>
     <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
     <strong>Real life:</strong> You're building a banking app. You don't know upfront what users really need — you release a payment feature after Sprint 1, inspect real usage data (Inspection), and adapt the backlog: drop "virtual wallet" since nobody uses it (Adaptation). Empiricism in action.
     </span>
@@ -500,13 +522,33 @@
 
   <div class="info-box" id="theory-2">
     <h4>2. Scrum Team &mdash; Roles &amp; Accountabilities</h4>
-    <strong>One Product Owner (PO) + one SM + Developers</strong> &mdash; max 10 people, self-managing, cross-functional.<br><br>
+    <strong>One Product Owner (PO) + one Scrum Master (SM) + Developers</strong> &mdash; max 10 people, self-managing, cross-functional.<br><br>
     <strong>Product Owner:</strong><br>
     &bull; ONE person (not a committee) — accountable for maximizing product value<br>
     &bull; Orders Product Backlog (value, risk, learning, dependencies)<br>
     &bull; Authority = unlimited — no CFO/CEO/architect overrides PO ordering<br>
     &bull; <strong>Entire organization must respect PO decisions</strong> — visible in PB content/ordering + Increment at Review<br>
-    &bull; PO is mandatory at Sprint Retrospective<br><br>
+    &bull; PO is mandatory at Sprint Retrospective<br>
+    &bull; <strong>3 kluczowe cechy PO (egzamin):</strong> Product Value Maximizer, Lead Facilitator of Key Stakeholder Involvement, Product Marketplace Expert<br>
+    &bull; <strong>NIE są cechami PO</strong> (to domena SM): coach zespołu w self-organization, remover of impediments<br>
+    &bull; Ile czasu PO spędza z zespołem? <strong>Tyle, by zespół nie był zaskoczony wartością pokazaną na Sprint Review</strong><br>
+    &bull; PO może korzystać z pomocy innych przy zarządzaniu backlogiem, ale <strong>nie może delegować (proxy/outsource) swoich obowiązków wobec Scrum Team</strong><br>
+    &bull; PO ≠ Project Manager: PM zarządza wszystkimi aspektami projektu, PO maksymalizuje wartość produktu<br>
+    &bull; PO nie raportuje formalnie do nikogo w Scrum: jest odpowiedzialny wobec stakeholderów, ale bez linii raportowania<br>
+    &bull; SM i PO to <strong>osobne odpowiedzialności, pełnione przez różne osoby</strong> (typowa odpowiedź egzaminacyjna); mogą natomiast wykonywać pracę Developera, choć nie jest to zalecane (konflikt interesów)<br>
+    &bull; User stories: Scrum nie określa kto je pisze, decyduje samoorganizujący się zespół; PO może ufać Developerom, że sami napiszą historie<br><br>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      What are three key characteristics of the Product Owner role?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Product Value Maximizer, Lead Facilitator of Key Stakeholder Involvement, Product Marketplace Expert.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> To trzy filary roli PO w materiałach Scrum.org. Dystraktory typu "coach zespołu" lub "usuwanie przeszkód" opisują Scrum Mastera, nie PO.</div>
+    </div>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      How much time should the Product Owner spend with the Developers?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Enough so the team is not surprised by the value delivered at the Sprint Review.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> Scrum nie podaje liczby godzin. Kryterium jest jakościowe: stała współpraca, brak zaskoczeń co do wartości. Odpowiedzi z konkretnym procentem czasu to pułapki.</div>
+    </div>
     <strong>Scrum Master:</strong><br>
     &bull; Accountable for Scrum effectiveness &amp; removing impediments<br>
     &bull; Serves PO, Developers, and the organization<br><br>
@@ -537,7 +579,11 @@
     &bull; Sprint Review ≠ demo/sign-off — it's inspect &amp; adapt the product<br>
     &bull; Retro ≠ Developers only — full Scrum Team (PO required)<br>
     &bull; Daily Scrum = Developers only — SM optional; PO <strong>may participate if actively working on Sprint Backlog items</strong> (as Developer)<br>
-    &bull; Stakeholders attend Sprint Review only — not Planning/Daily/Retro<br>
+    &bull; Stakeholders attend Sprint Review — not Daily/Retro; <strong>uwaga:</strong> Scrum Team może zaprosić inne osoby na Sprint Planning jako doradców (Scrum Guide), więc pytanie "w których 2 eventach mogą brać udział osoby spoza zespołu" ma odpowiedź: Sprint Review + Sprint Planning<br>
+    &bull; Daily Scrum: 3 klasyczne pytania (co wczoraj, co dziś, przeszkody) <strong>NIE są obowiązkowe</strong>; Developers wybierają dowolną strukturę<br>
+    &bull; Sprint Goal powinien wyrażać <strong>wartość biznesową</strong>, nie kryterium techniczne (np. "100% testów przechodzi" to zły Sprint Goal)<br>
+    &bull; Czynniki doboru długości Sprintu: zdolność wyjścia na rynek z release, poziom niepewności technologii, ryzyko odklejenia się od stakeholderów<br>
+    &bull; Zespół nie kończy pracy na czas? Sprint się <strong>nie wydłuża</strong>: długość stała, zespół uczy się ile realnie mieści się w Sprincie<br>
     &bull; No pre-conditions for Sprint Planning defined in Scrum Guide<br>
     &bull; Sprint cancelled ONLY if Sprint Goal becomes obsolete (PO decides)<br>
     &bull; New Sprint starts IMMEDIATELY after previous — zero gap<br>
@@ -546,7 +592,20 @@
     &bull; PO cannot delegate attendance at Scrum events — can delegate PB management tasks, not personal participation<br>
     &bull; Sprint Planning ends even without all work decomposed — first few days planned is enough; close and start<br>
     &bull; Scrum <em>minimizes</em> extra meetings, doesn't ban them — additional meetings are allowed when needed<br>
-    &bull; Improvements can happen anytime — Retro = formal opportunity, not the only one<br><br>
+    &bull; Improvements can happen anytime — Retro = formal opportunity, not the only one<br>
+    &bull; <strong>Uwaga na starsze pytania:</strong> Scrum Guide 2017 mówił "co najmniej jedno usprawnienie z Retro trafia do następnego Sprint Backlogu"; wersja 2020 mówi "may even be added". W starszych bankach pytań poprawna odpowiedź to nadal "include at least one high priority improvement"<br><br>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      Select the two meetings in which people outside the Scrum Team are allowed to participate.
+      <div class="pq-a"><strong>Odpowiedź:</strong> Sprint Review oraz Sprint Planning.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> Stakeholderzy uczestniczą w Sprint Review, a Scrum Guide pozwala zaprosić inne osoby na Sprint Planning w roli doradców. Daily Scrum i Retrospective pozostają zamknięte dla osób spoza zespołu.</div>
+    </div>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      A Scrum Team crafts the Sprint Goal: "All code passes 100% automated unit tests." Is this appropriate?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Nie. Sprint Goal powinien odzwierciedlać oczekiwaną wartość biznesową, nie kryterium techniczne.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> Kryteria jakościowe należą do Definition of Done. Sprint Goal odpowiada na pytanie "po co" robimy ten Sprint z perspektywy wartości dla produktu.</div>
+    </div>
     <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
     <strong>Real life:</strong> Sprint ends Friday. Sprint Review happens — the team shows a live checkout flow to the sales VP (stakeholder). Monday morning: Sprint Retrospective — the team (PO included) decides to write more automated tests after a QA incident. New Sprint Planning starts Monday afternoon. Zero gap.
     </span>
@@ -570,7 +629,23 @@
     &bull; DoD ≠ Acceptance Criteria — DoD = quality floor for ALL; AC = specific to one Product Backlog Item (PBI)<br>
     &bull; Undone work → returns to Product Backlog<br>
     &bull; <strong>Sprint Review should NEVER be considered a gate to releasing value</strong> — release can happen anytime during Sprint<br>
-    &bull; The moment a PBI meets the DoD, <strong>an Increment is born</strong><br><br>
+    &bull; The moment a PBI meets the DoD, <strong>an Increment is born</strong><br>
+    &bull; <strong>Atrybuty PBI:</strong> typowe to opis, kolejność (order), oszacowanie (size/estimate) i wartość; atrybuty <strong>opcjonalne</strong> to np. zależności (dependencies) i opisy testów potwierdzających ukończenie<br>
+    &bull; <strong>"Ready":</strong> PBI, które Scrum Team może ukończyć (Done) w jednym Sprincie, są uznane za gotowe (ready) do wyboru na Sprint Planning; dobrze zrefinowane, zwykle na górze backlogu. To co innego niż formalny "Definition of Ready", którego w Scrum Guide nie ma<br>
+    &bull; <strong>Wiele zespołów, jeden produkt:</strong> wspólny Definition of Done (lub wzajemnie zgodny), aby zintegrowany Increment był spójny<br>
+    &bull; Wymagania niefunkcjonalne (wydajność, bezpieczeństwo): dodaj do Definition of Done (sprawdzane w każdym Incremencie) lub jako PBI do Product Backlogu<br><br>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      When multiple Scrum Teams work on the same product, must their Definition of Done be the same?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Tak. Muszą mieć wspólny (lub wzajemnie zgodny) Definition of Done.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> Scrum Guide: jeśli wiele zespołów pracuje nad produktem, muszą wspólnie zdefiniować i przestrzegać tej samej DoD, bo ich praca składa się na jeden zintegrowany Increment.</div>
+    </div>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      Which two attributes of a Product Backlog Item are optional?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Dependencies oraz test descriptions (opisy testów potwierdzających ukończenie).</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> Typowe atrybuty PBI to opis, kolejność, oszacowanie i wartość. Zależności i opisy testów bywają przydatne, ale nie są wymagane dla każdego PBI.</div>
+    </div>
     <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
     <strong>Real life:</strong> Developers finish a "dark mode" feature but skip security review (part of DoD). The PO cannot release it — DoD is not met. It goes back to the backlog. At the Retrospective, the team adds "penetration test" to the DoD to prevent recurrence.
     </span>
@@ -597,11 +672,25 @@
     PO accountable for <strong>maximizing value</strong> — Scrum Guide doesn't prescribe how to measure it.<br><br>
     <strong>Output vs Outcome:</strong><br>
     &bull; Output = features, velocity, story points (internal metrics)<br>
-    &bull; Outcome = revenue, user adoption, NPS, cost reduction (value)<br>
+    &bull; Outcome = revenue, user adoption, NPS (Net Promoter Score), cost reduction (value)<br>
     <em>Always choose outcomes over outputs on exam.</em><br><br>
     <strong>Backlog ordering factors:</strong> Value &middot; Risk &middot; Dependencies &middot; Learning &middot; Cost of delay<br><br>
-    <strong>TCO (Total Cost of Ownership):</strong> PO considers full lifecycle — build + run + maintain. Cheap to build ≠ good investment if expensive to support.<br><br>
+    <strong>TCO (Total Cost of Ownership):</strong> PO considers full lifecycle — build + run + maintain. Wszystkie inwestycje: pomysł, rozwój, operowanie i utrzymanie produktu. Cheap to build ≠ good investment if expensive to support. Pokrewny skrót: ROI (Return on Investment), zwrot z inwestycji, który PO maksymalizuje porządkując backlog wartością.<br><br>
     <strong>Value realized only when Increment reaches users</strong> — not when Sprint ends.<br><br>
+    <strong>Validated learning:</strong> nauka staje się "zwalidowana", gdy założenia można sprawdzić wynikami. Kluczowy sposób dla PO: <strong>wydać Increment na rynek</strong> i zweryfikować założenia biznesowe wbudowane w produkt. PO zarządza wartością przez: kolejność Product Backlogu + walidację założeń częstymi release'ami.<br><br>
+    <strong>Redukcja marnotrawstwa (waste):</strong> PO odracza decyzje do ostatniego sensownego momentu, nie detalizuje pozycji backlogu, dopóki nie zbliżą się do realizacji. Szczegółowe opisywanie rzeczy, które mogą nigdy nie powstać, to waste.<br><br>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      What is the key way for a Product Owner to apply validated learning?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Release an Increment to the market to learn about the business assumptions built into the product.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> Tylko realne użycie produktu przez rynek weryfikuje założenia o wartości. Ankiety i opinie wewnętrzne nie zastąpią feedbacku z działającego produktu.</div>
+    </div>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      How can the Product Owner reduce potential waste in product development?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Odraczając decyzje i nie detalizując pozycji Product Backlogu, dopóki nie będą bliskie realizacji.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> Lean thinking: praca nad szczegółami pozycji, które mogą wypaść z backlogu, to marnotrawstwo. Góra backlogu jest szczegółowa, dół pozostaje zgrubny.</div>
+    </div>
     <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
     <strong>Real life:</strong> Team ships a notification feature. Velocity went up. But users disabled notifications immediately — adoption is 3%. PO measures outcome (adoption, NPS) not output (velocity). Next Sprint: investigate why and build an opt-in preferences screen instead of more features.
     </span>
@@ -621,7 +710,17 @@
     &bull; PBIs can be removed from Product Backlog when no longer valuable or relevant<br>
     &bull; Product Backlog is retired when the product retires<br>
     &bull; Additional artifacts (UI mockups, wireframes) are allowed if they help explain PBIs<br>
-    &bull; Subsequent Sprints have 2 extra inputs vs first Sprint: past team performance (velocity) + latest Increment<br><br>
+    &bull; Subsequent Sprints have 2 extra inputs vs first Sprint: past team performance (velocity) + latest Increment<br>
+    &bull; Product Backlog jest w pełni transparentny <strong>dla Scrum Teamu i kluczowych stakeholderów</strong><br>
+    &bull; Transparentność backlogu utrzymujesz przez: pozycje odpowiednio małe (mieszczą się w Sprincie) + backlog zawsze odzwierciedla najnowszą wiedzę i priorytety<br>
+    &bull; PO <strong>nie porządkuje wyłącznie po wartości pojedynczych pozycji</strong>: bierze pod uwagę wszystko, co pomaga osiągnąć cele produktu (ryzyko, zależności, uczenie się, spójność)<br>
+    &bull; Refinement: do momentu gdy pozycja jest na tyle przejrzysta, by ją zrozumieć i oszacować, oraz na tyle mała, by dała się ukończyć w Sprincie<br><br>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      Which statement about the transparency of the Product Backlog is true?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Product Backlog powinien być w pełni transparentny dla Scrum Teamu i kluczowych stakeholderów.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> Transparentność to filar empiryzmu. Ukrywanie backlogu przed stakeholderami uniemożliwia inspekcję i adaptację; ograniczanie go tylko do PO lub tylko do Developerów to pułapki.</div>
+    </div>
     <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
     <strong>Real life:</strong> A compliance team reports a new EU regulation kicks in 3 weeks. PO adds "GDPR consent flow" to the Product Backlog and moves it near the top. Developers refine it with the PO — they break it into 3 PBIs and estimate during a refinement session. No "Definition of Ready" gate needed — they just make sure it's understood.
     </span>
@@ -636,6 +735,12 @@
     &bull; Stakeholders can talk to anyone anytime — just not in those events<br><br>
     <strong>PO protects team from:</strong> ad-hoc requests that bypass the Product Backlog.<br>
     <strong>To change the backlog:</strong> stakeholders must convince the PO — they cannot change it directly.<br><br>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      Which is the most important stakeholder the Product Owner must satisfy?
+      <div class="pq-a"><strong>Odpowiedź:</strong> The product's end users.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> Wartość produktu realizuje się przez użytkowników końcowych. Zarząd, sponsorzy i klienci płacący są ważni, ale bez zadowolonych użytkowników produkt nie generuje wartości.</div>
+    </div>
     <strong>3 kategorie stakeholderów:</strong><br>
     &bull; <strong>Users</strong> — używają produktu bezpośrednio (najważniejsi — egzamin: "most important stakeholders = end users")<br>
     &bull; <strong>External Customers</strong> — kupują / finansują produkt, mogą nie być użytkownikami<br>
@@ -655,7 +760,8 @@
     <strong>Key facts:</strong><br>
     &bull; "Potentially releasable" = meets DoD — user-ready<br>
     &bull; Undone work cannot be released, cannot be shown at Sprint Review<br>
-    &bull; CI/CD = not prescribed by Scrum, but strongly complementary<br>
+    &bull; CI/CD (Continuous Integration / Continuous Delivery) = not prescribed by Scrum, but strongly complementary<br>
+    &bull; Agile Product Development zaleca: <strong>wczesne i częste wydawanie</strong> użytecznych Incrementów<br>
     &bull; Technical debt: limits future value delivery — PO must understand it, manage it via backlog<br>
     &bull; Multiple Done Increments can exist before release<br><br>
     <strong>Czynniki decyzji o release (PO bierze pod uwagę):</strong><br>
@@ -683,6 +789,12 @@
     <strong>Continuous improvement:</strong><br>
     &bull; Retro = formal improvement event; DoD becomes stricter over time<br>
     &bull; Improvements from Retro <strong>may</strong> be added to next Sprint Backlog — Scrum Guide says "may even", not "must at least 1"<br><br>
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      During a Sprint, the Developers realize they cannot build all selected Product Backlog Items. What should happen?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Developers zwracają się do Product Ownera i renegocjują zakres Sprintu.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> Zakres Sprint Backlogu jest elastyczny i może być renegocjowany między PO a Developers, o ile Sprint Goal pozostaje nienaruszony. Sprint nie jest wydłużany ani anulowany z tego powodu.</div>
+    </div>
     <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
     <strong>Real life:</strong> 3 teams build the same e-commerce platform. All start Sprint 5 on Monday. One PO orders a single shared backlog. Teams pick their PBIs at Sprint Planning. At Sprint Review on Friday, all three present to the same stakeholders. Integration issues are visible and fixed before Sprint 6.
     </span>
@@ -854,7 +966,7 @@
   <strong>Story Map</strong> = visual technique to organize backlog by user journey:<br>
   &bull; Horizontal axis = user journey steps (backbone)<br>
   &bull; Vertical axis = stories ordered by value/priority<br>
-  &bull; Helps PO identify MVP slice and plan releases<br><br>
+  &bull; Helps PO identify MVP (Minimum Viable Product) slice and plan releases<br><br>
 
   <strong>Exam tip:</strong> AC ≠ DoD. PBI not meeting AC → not shippable even if DoD met. DoD is the absolute minimum; AC are additional conditions per story.<br><br>
   <span style="background:#e8f5e9;border-radius:4px;padding:3px 8px;font-size:0.85rem;">
@@ -874,7 +986,7 @@
     &bull; Sprint Review = working session, NOT demo/approval/sign-off<br>
     &bull; Refinement = no timebox, NOT a Scrum event<br>
     &bull; Scrum does NOT prescribe: user stories, story points, velocity, burn-down, Definition of Ready (DoR)<br>
-    &bull; Multiple teams = one PO + one Product Backlog + same Sprint cadence<br>
+    &bull; Multiple teams = one PO + one Product Backlog + shared DoD (długość Sprintów może się różnić, start najlepiej wspólny)<br>
     &bull; PO required at Sprint Retro (mandatory, not optional)<br>
     &bull; New Sprint = IMMEDIATELY after previous, zero gap<br>
     &bull; Value ≠ revenue only (NPS, adoption, cost reduction, strategic position)<br>
@@ -900,6 +1012,54 @@
       <li>&#x1F4CA; <strong>&#x201E;Velocity i story points NIE s&#x105; w Scrum Guide&#x201D;</strong> &mdash; Scrum nie nakazuje ich u&#x17C;ywania</li>
       <li>&#x1F4DA; <strong>&#x201E;Przeczytaj Scrum Guide co najmniej 3 razy&#x201D;</strong> &mdash; ka&#x17C;de czytanie ujawnia co&#x15B; nowego</li>
     </ul>
+  </div>
+
+  <div class="info-box" id="theory-tips">
+    <h4>15. Tips i mnemotechniki od zdających PSPO I</h4>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:14px;">Zebrane z blogów zdających, Medium, forów Scrum.org i poradników egzaminacyjnych. Tylko PSPO I.</p>
+
+    <strong>Zasady wyboru odpowiedzi:</strong><br>
+    &bull; <strong>Wybieraj odpowiedź najbardziej zgodną ze Scrum Guide</strong>, nie z tym "jak jest u ciebie w firmie". Egzamin testuje czysty Scrum, nie praktykę korporacyjną<br>
+    &bull; Gdy dwie odpowiedzi wyglądają dobrze: wybierz tę, która wzmacnia <strong>empiryzm, transparentność i samozarządzanie</strong>, a nie "szybki fix" lub kontrolę menedżerską<br>
+    &bull; Odpowiedzi zawierające słowa <strong>"always", "never", "must" poza kontekstem Scrum Guide</strong> są zwykle błędne; wyjątki: reguły twarde (1 PO, timeboxy, DoD)<br>
+    &bull; Odpowiedzi typu "eskaluj do managera", "poproś o zgodę", "czekaj na approval" są prawie zawsze złe: Scrum Team jest samozarządzający<br>
+    &bull; Myśl jak Product Owner maksymalizujący wartość, nie jak Project Manager pilnujący zakresu i terminu<br><br>
+
+    <strong>Pułapki językowe:</strong><br>
+    &bull; Czytaj uważnie <strong>NOT, FALSE, EXCEPT</strong> w treści pytania; przeczenie zmienia wszystko<br>
+    &bull; "Select 2 / Select 3": policz ile odpowiedzi zaznaczyłeś zanim klikniesz dalej; brak jednej = 0 punktów za pytanie<br>
+    &bull; "Prioritized" zamiast "ordered", "requirements" zamiast "Product Backlog items", "roles" zamiast "accountabilities": stare słownictwo w odpowiedzi często sygnalizuje dystraktor<br>
+    &bull; "Development Team" w starszych pytaniach = "Developers" w Scrum Guide 2020; znaczenie to samo<br><br>
+
+    <strong>Zarządzanie czasem (80 pytań / 60 min = 45 s na pytanie):</strong><br>
+    &bull; Pierwsze przejście: odpowiadaj od razu na pewniaki, nie przekraczaj ok. 30 s na pytanie<br>
+    &bull; Trudne pytania <strong>zakładkuj (bookmark)</strong> i wracaj po pierwszym przejściu; celuj w pierwsze przejście w ok. 45 minut<br>
+    &bull; Nie zostawiaj pustych odpowiedzi: nie ma punktów ujemnych, zawsze zaznacz coś<br>
+    &bull; Egzamin online, otwierany z profilu scrum.org; miej stabilne łącze i ciszę przez pełne 60 minut<br><br>
+
+    <strong>Przygotowanie (najczęstsze rady zdających):</strong><br>
+    &bull; <strong>Product Owner Open Assessment 3 razy z rzędu na 100%</strong> przed podejściem; spora część pytań otwartych wraca na realnym egzaminie w wariantach<br>
+    &bull; Zrób też Scrum Open Assessment (baza PSM I): podstawy Scrum Guide to duża część PSPO I<br>
+    &bull; Po każdym błędzie otwórz Scrum Guide na właściwej sekcji i przeczytaj kontekst; to buduje pamięć lepiej niż samo klikanie testów<br>
+    &bull; Przeczytaj EBM Guide (ok. 15 stron): pytania o wartość i metryki pochodzą stamtąd<br>
+    &bull; Rozumienie zamiast wkuwania: pytania scenariuszowe testują "dlaczego", nie definicje<br><br>
+
+    <strong>Mnemotechniki:</strong><br>
+    &bull; <strong>FORCC</strong> ("Force"): Focus, Openness, Respect, Courage, Commitment = 5 wartości Scrum. Zdanie pomocnicze: "Faster Output Requires Close Collaboration"<br>
+    &bull; <strong>TIA</strong>: Transparency, Inspection, Adaptation = 3 filary empiryzmu (w tej kolejności: bez transparentności nie ma inspekcji, bez inspekcji nie ma adaptacji)<br>
+    &bull; Timeboxy dla Sprintu 1-miesięcznego: <strong>"8 do 15 przez 4 na 3"</strong>: Planning 8 h, Daily 15 min, Review 4 h, Retro 3 h<br>
+    &bull; Artefakt i jego commitment: <strong>"PB-PG, SB-SG, I-DoD"</strong>: Product Backlog ma Product Goal, Sprint Backlog ma Sprint Goal, Increment ma Definition of Done<br>
+    &bull; KVA w EBM: <strong>"CUTA"</strong>: Current Value, Unrealized Value, Time to Market, Ability to Innovate (2 rynkowe + 2 zdolnościowe)<br>
+    &bull; <strong>INVEST</strong> dla User Story: Independent, Negotiable, Valuable, Estimable, Small, Testable<br>
+    &bull; Rola PO w 3 słowach: <strong>"Value, Voice, Vision"</strong>: maksymalizuje wartość, jest głosem stakeholderów, niesie wizję produktu<br>
+    &bull; Kto co estymuje: <strong>"Devs size, PO decides"</strong>: Developers szacują, PO porządkuje<br><br>
+
+    <div class="possible-q">
+      <div class="pq-label">Możliwe pytanie</div>
+      Na egzaminie widzisz dwie sensowne odpowiedzi: jedna opisuje dobrą praktykę z twojej firmy, druga cytuje niemal wprost Scrum Guide. Którą wybrać?
+      <div class="pq-a"><strong>Odpowiedź:</strong> Tę zgodną ze Scrum Guide.</div>
+      <div class="pq-why"><strong>Uzasadnienie:</strong> PSPO I ocenia znajomość Scruma według Scrum Guide i materiałów Scrum.org, nie praktyk branżowych. To najczęściej powtarzana rada osób, które zdały.</div>
+    </div>
   </div>
 
   <div class="info-box" id="theory-study-plan">
@@ -1323,7 +1483,8 @@ const TOC_SECTIONS = [
   { id: 'theory-14', label: '12. User Stories & Acceptance Criteria' },
   { id: 'theory-12', label: '13. Exam Traps — Quick Kills' },
   { id: 'theory-13', label: '14. Community Tips' },
-  { id: 'theory-study-plan', label: '15. Plan nauki — 3 tygodnie' },
+  { id: 'theory-tips', label: '15. Tips i mnemotechniki od zdających' },
+  { id: 'theory-study-plan', label: '16. Plan nauki — 3 tygodnie' },
 ];
 
 function buildToc() {
