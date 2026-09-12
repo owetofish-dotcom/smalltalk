@@ -1,0 +1,300 @@
+{
+  "run_date": "2026-09-12",
+  "run_seq": 20,
+  "run_type": "pelny",
+  "supersedes": "state-2026-09-11.json (przebieg 19)",
+  "parametry": {
+    "obsada": "2 doroslych + 1 dziecko ur. 2021 (5 lat w 2026)",
+    "noce": "Pt+Sb (2 noce)",
+    "wyzywienie": "sniadanie w cenie",
+    "waluta": "PLN, cena calkowita brutto za pobyt"
+  },
+  "okno": {
+    "od": "2026-09-18",
+    "do": "2027-01-08",
+    "liczba_weekendow": 17,
+    "weekendy": ["2026-09-18","2026-09-25","2026-10-02","2026-10-09","2026-10-16","2026-10-23","2026-10-30","2026-11-06","2026-11-13","2026-11-20","2026-11-27","2026-12-04","2026-12-11","2026-12-18","2026-12-25","2027-01-01","2027-01-08"],
+    "bez_zmian_vs_przebieg_19": true,
+    "uzasadnienie": "Dzis sobota 12.09; najblizszy piatek to nadal 18.09, +120 dni = 2027-01-10, wiec 08.01 (Pt-Nd do 10.01) nadal miesci sie w oknie, a 15.01 nadal poza. Okno przesunie sie dopiero po piatku 18.09 (przebieg z 19.09): wypadnie 18-20.09, nie wejdzie nic.",
+    "wypada_nastepnym_razem": "2026-09-18 wypadnie 19.09; 2027-01-15 wejdzie dopiero przy przebiegu z 17.09.2026 + 120 dni, czyli ok. 18.09"
+  },
+  "source": {
+    "booking": "MCP accommodations_search, number_of_adults=2, children_ages=[5], rooms=1, currency=PLN, user_country_code=pl",
+    "carynska_wlasne": "triverna.pl/hotel/carynska-resort-spa-dwernik - kalendarz dobowy odczytany na zywo (IX 2026 - I 2027)",
+    "muczne_wlasne": "lasybieszczadzkie.pl/cennik - cennik CPL Muczne odczytany na zywo",
+    "poziom511_wlasne": "booking.profitroom.com/pl/poziom511jurawellnesshotelspa/home - silnik Profitroom, kalendarz orientacyjny dla 2 gosci",
+    "bachledka_wlasne": "NIEMOZLIWE - patrz P7",
+    "fx": {
+      "nbp_tabela": "177/A/NBP/2026",
+      "nbp_data": "2026-09-11",
+      "nbp_eur_pln": 4.3228,
+      "kurs_wewnetrzny_bookinga": 4.31938,
+      "spread_booking_vs_nbp_proc": -0.079,
+      "poprzedni_spread_proc": 0.066,
+      "komentarz": "Spread wrocil do wartosci ujemnej po jednym przebiegu na plusie. Kurs wewnetrzny Bookinga spadl z 4,32085 na 4,31938 (-0,034%) podczas gdy NBP wzrosl z 4,3180 na 4,3228 (+0,111%). Potwierdza wniosek z przebiegu 19: spread oscyluje wokol zera, nie ma trendu."
+    }
+  },
+  "hotele": {
+    "muczne": {
+      "nazwa_kanoniczna_booking": "Centrum Promocji Lesnictwa w Mucznem",
+      "formula_verified": true,
+      "formula_zmieniona_w_przebiegu_20": true,
+      "taryfa_wlasna_model": {
+        "opis": "KOREKTA: do przebiegu 19 wlacznie liczono taryfe z apartamentu 2-osobowego (380/440 zl/doba) + dostawka 120 zl. Cennik CPL zawiera tansza pozycje 'pokoje wieloosobowe' w cenie za osobodobe, i to ona odtwarza cene bookingowa co do zlotowki.",
+        "pokoj_wieloosobowy_sezon_niski": "160 zl/os./doba (ze sniadaniem)",
+        "pokoj_wieloosobowy_sezon_wysoki": "200 zl/os./doba (ze sniadaniem)",
+        "doplata_weekendowa": "30 zl/os./doba",
+        "dzieci_verbatim": "Oplata za nocleg nie jest pobierana w przypadku dzieci do lat 5 nie korzystajacych z osobnego lozka",
+        "dostawka_apartament": "120 zl/os. w sezonie niskim (dotyczy apartamentu, nie pokoju wieloosobowego)",
+        "taryfa_sezon_niski": 760,
+        "taryfa_sezon_wysoki": 920,
+        "wyliczenie_niski": "160 x 2 os. x 2 doby = 640; + 30 x 2 os. x 2 doby = 120; razem 760",
+        "wyliczenie_wysoki": "200 x 2 os. x 2 doby = 800; + 30 x 2 os. x 2 doby = 120; razem 920",
+        "dziecko_5_lat": "Booking wycenia 2+1 identycznie jak 2 osoby doroslych (760 zl), wiec 5-latek jest traktowany jako bezplatny. RYZYKO: cennik mowi 'do lat 5', a dziecko ma juz 5 lat ukonczonych - obiekt moze naliczyc doplate na miejscu.",
+        "granice_sezonow_wg_bookinga": "wysoki do 29.10; niski 30.10-22.12; wysoki 23.12-02.01; niski od 03.01"
+      },
+      "weekends_booking": {
+        "2026-09-18": null,
+        "2026-09-25": 1200,
+        "2026-10-02": 1600,
+        "2026-10-09": null,
+        "2026-10-16": 880,
+        "2026-10-23": null,
+        "2026-10-30": 760,
+        "2026-11-06": 760,
+        "2026-11-13": 760,
+        "2026-11-20": 760,
+        "2026-11-27": 760,
+        "2026-12-04": 760,
+        "2026-12-11": 760,
+        "2026-12-18": 760,
+        "2026-12-25": 1080,
+        "2027-01-01": null,
+        "2027-01-08": null
+      },
+      "delty_vs_przebieg_19": {
+        "2026-10-09": "1080 -> BRAK DOSTEPNOSCI (nowe zamkniecie)",
+        "2026-12-25": "BRAK -> 1080 zl (nowe otwarcie)",
+        "pozostale": "bez zmian"
+      },
+      "werdykty_cross_check": {
+        "2026-09-25": "Booking 1200 vs taryfa 920 - Booking drozej o 30,43%",
+        "2026-10-02": "Booking 1600 vs taryfa 920 - Booking drozej o 73,91% (outlier, prawdopodobnie apartament)",
+        "2026-10-16": "Booking 880 vs taryfa 920 - Booking taniej o 4,35%; niewyjasnione, 880 = taryfa niska 760 + 120 dostawki",
+        "2026-10-30 do 2026-12-18": "Booking 760 vs taryfa 760 - PARYTET 0,00% na 8 terminach",
+        "2026-12-25": "Booking 1080 vs taryfa 920 - Booking drozej o 17,39%"
+      },
+      "hotel_record": {
+        "cena": 760,
+        "kanal": "Booking",
+        "terminy": ["2026-10-30","2026-11-06","2026-11-13","2026-11-20","2026-11-27","2026-12-04","2026-12-11","2026-12-18"],
+        "set_on_run": 6,
+        "held_runs": 15
+      },
+      "domek_mysliwski": {
+        "cennik_sezon_niski": "100 zl/os./doba, BEZ SNIADANIA",
+        "cennik_sezon_wysoki": "130 zl/os./doba, BEZ SNIADANIA",
+        "caly_domek": "1400 zl/doba (max 14 osob)",
+        "sniadanie_do_dokupienia": "brak w cenniku - dziewiaty odczyt potwierdza",
+        "status": "pozycja nieklasyfikowalna w monitorze (brak sniadania)"
+      }
+    },
+    "carynska": {
+      "nazwa_kanoniczna_booking": "Carynska Resort & SPA",
+      "formula_verified": true,
+      "formula": "cena_piatku + cena_soboty + 300 (dostawka dziecko 4-12 lat: 150 zl/doba ze sniadaniem)",
+      "triverna_dostawki_verbatim": {
+        "dziecko_4_12": "150 zl/doba ze sniadaniem",
+        "osoba_12plus": "200 zl/doba ze sniadaniem",
+        "lozeczko_niemowlece": "100 zl/pobyt"
+      },
+      "weekends_booking": {
+        "2026-09-18": null,
+        "2026-09-25": 2909.6,
+        "2026-10-02": 2709.6,
+        "2026-10-09": null,
+        "2026-10-16": 2709.6,
+        "2026-10-23": 1769.6,
+        "2026-10-30": 1609.6,
+        "2026-11-06": 1309.6,
+        "2026-11-13": 1709.6,
+        "2026-11-20": 1309.6,
+        "2026-11-27": 1309.6,
+        "2026-12-04": 1309.6,
+        "2026-12-11": 1309.6,
+        "2026-12-18": 1309.6,
+        "2026-12-25": null,
+        "2027-01-01": null,
+        "2027-01-08": 1409.6
+      },
+      "weekends_triverna": {
+        "2026-09-18": null,
+        "2026-09-25": 2820,
+        "2026-10-02": 2640,
+        "2026-10-09": null,
+        "2026-10-16": 2640,
+        "2026-10-23": 1524,
+        "2026-10-30": 1380,
+        "2026-11-06": 1110,
+        "2026-11-13": 1470,
+        "2026-11-20": 1110,
+        "2026-11-27": 1110,
+        "2026-12-04": 1110,
+        "2026-12-11": 1110,
+        "2026-12-18": 1110,
+        "2026-12-25": null,
+        "2027-01-01": null,
+        "2027-01-08": 1200
+      },
+      "triverna_stawki_dzienne_verbatim": {
+        "2026-09": "12:1080, 13-16:495, 17-19:brak, 20:405, 21-23:432, 24:1215, 25-26:1260, 27:405, 28-29:495, 30:450",
+        "2026-10": "1:1125, 2-3:1170, 4-6:405, 7:558, 8:630, 9-10:brak, 11-14:405, 15:1125, 16-17:1170, 18-22:495, 23-24:612, 25-29:495, 30-31:540",
+        "2026-11": "1-5:360, 6-7:405, 8-9:360, 10:585, 11:765, 12:540, 13-14:585, 15-19:360, 20-21:405, 22-26:360, 27-28:405, 29-30:360",
+        "2026-12": "1-21:405, 22-31:brak",
+        "2027-01": "7:405, 8-9:450, 10-14:405, 15-16:450, 17-21:405, 22-23:450, 24-28:405, 29-30:450, 31:405"
+      },
+      "stala_kanalowa": {
+        "69.60": ["2026-10-02","2026-10-16"],
+        "89.60": ["2026-09-25"],
+        "199.60": ["2026-11-06","2026-11-20","2026-11-27","2026-12-04","2026-12-11","2026-12-18"],
+        "209.60": ["2027-01-08"],
+        "229.60": ["2026-10-30"],
+        "239.60": ["2026-11-13"],
+        "245.60": ["2026-10-23"]
+      },
+      "outliery_odwrotne": {},
+      "delty_vs_przebieg_19": {
+        "2026-09-18": "Booking 2909,60 -> BRAK; Triverna tez brak (17-19.09 niedostepne) - zamkniecie potwierdzone dwukanalowo",
+        "2026-10-16": "Booking 1769,60 -> 2709,60 (+53,12%). Triverna bez zmian 2640. ARBITRAZ ZAMKNIETY - stala kanalowa wrocila do +69,60 (+2,64%)",
+        "triverna": "wszystkie stawki dzienne identyczne jak w przebiegu 19 - drugi przebieg pelnego zamrozenia kanalu wlasnego",
+        "pozostale": "bez zmian"
+      },
+      "hotel_record": {
+        "cena": 1110,
+        "kanal": "Triverna",
+        "terminy": ["2026-11-06","2026-11-20","2026-11-27","2026-12-04","2026-12-11","2026-12-18"],
+        "set_on_run": 3,
+        "held_runs": 14,
+        "zweryfikowany_zrodlowo": true
+      },
+      "uwaga": "Na karcie Triverny widnieje komunikat 'Oferta konczy sie za 1 dzien' - do sprawdzenia przy nastepnym przebiegu, czy oferta znika czy sie odnawia."
+    },
+    "bachledka": {
+      "nazwa_kanoniczna_booking": "Grand Hotel Bachledka Strachan, Zdiar (SK)",
+      "formula_verified": false,
+      "cross_check_mozliwy": false,
+      "weekends_booking": {
+        "2026-09-18": 2158.77,
+        "2026-09-25": 2704.48,
+        "2026-10-02": 2029.75,
+        "2026-10-09": 2201.74,
+        "2026-10-16": 2367.11,
+        "2026-10-23": 2029.75,
+        "2026-10-30": null,
+        "2026-11-06": 1943.76,
+        "2026-11-13": null,
+        "2026-11-20": 2029.75,
+        "2026-11-27": 2029.75,
+        "2026-12-04": 2367.11,
+        "2026-12-11": 2029.75,
+        "2026-12-18": 2029.75,
+        "2026-12-25": null,
+        "2027-01-01": null,
+        "2027-01-08": 2978.03
+      },
+      "weekends_eur_reconstructed": {
+        "kurs_uzyty": 4.31938,
+        "2026-09-18": 499.79,
+        "2026-09-25": 626.13,
+        "2026-10-02": 469.92,
+        "2026-10-09": 509.74,
+        "2026-10-16": 548.02,
+        "2026-10-23": 469.92,
+        "2026-11-06": 450.01,
+        "2026-11-20": 469.92,
+        "2026-11-27": 469.92,
+        "2026-12-04": 548.02,
+        "2026-12-11": 469.92,
+        "2026-12-18": 469.92,
+        "2027-01-08": 689.46
+      },
+      "delty_vs_przebieg_19": {
+        "2026-09-18": "489,83 EUR -> 499,79 EUR (+2,03%) - realna zmiana taryfy",
+        "2026-09-25": "538,07 EUR -> 626,13 EUR (+16,37%) - realna zmiana taryfy, najwieksza w historii monitora dla tego obiektu",
+        "pozostale_11_terminow": "identyczne co do centa - ruch wylacznie kursowy (-0,034% w PLN)"
+      },
+      "minimum_w_oknie": {
+        "cena_pln": 1943.76,
+        "cena_eur": 450.01,
+        "termin": "2026-11-06"
+      },
+      "hotel_record": {
+        "cena": 1824.59,
+        "status": "ZAMROZONY - termin poza oknem",
+        "komentarz": "Minimum w biezacym oknie 1943,76 zl (6-8.11), o 6,53% powyzej rekordu."
+      }
+    },
+    "poziom511": {
+      "nazwa_kanoniczna_booking": "Poziom 511 (krotka nazwa) + destination 'Podzamcze, Poland'",
+      "tryb": "probka 3-4 weekendow na przebieg",
+      "weekends_booking_probka": {
+        "2026-10-23": 2888.5,
+        "2026-11-06": 2783.5,
+        "2026-11-27": 2783.5,
+        "2026-12-11": 2804.5
+      },
+      "delty_vs_przebieg_19": "wszystkie cztery identyczne - trzeci przebieg pelnego zamrozenia",
+      "silnik_wlasny": {
+        "slug_profitroom_ODKRYTY": "poziom511jurawellnesshotelspa",
+        "url_dzialajacy": "https://booking.profitroom.com/pl/poziom511jurawellnesshotelspa/home?currency=PLN",
+        "url_martwy": "https://booking.profitroom.com/pl/poziom511/ - piata nieudana proba, zly slug",
+        "sciezki_martwe": ["/rooms", "/offers"],
+        "kalendarz_2_gosci_pln_za_dobe_pazdziernik": "3:1200, 4:824, 5:887, 6:950, 8:887, 9:1400, 10:1400, 11:824, 12:887, 13:887, 14:887, 15:932, 16:941, 18:824, 19:950, 20:1100, 22:1100, 23:1100, 24:1000, 25:824, 26:824, 27:887, 28:824, 29:824, 30:932",
+        "cross_check_23_25_10": "silnik wlasny ok. 2100 zl (1100 + 1000) dla 2 gosci / 2 noce vs Booking 2888,50 zl dla 2+1. Werdykt: outlier - inna obsada, nieporownywalne.",
+        "kontrolka_dzieci": "ISTNIEJE w oknie 'Goscie i pokoje' (klasa occupancy-picker-children__switch), ale nie reaguje na zdarzenia syntetyczne z JS. Nastepny przebieg: uzyc mcp__Claude_in_Chrome__computer (realne klikniecie myszka) zamiast wstrzykiwania JS."
+      },
+      "hotel_record": {
+        "cena": 2390,
+        "kanal": "strona wlasna",
+        "status": "nieosiagniety w biezacym oknie"
+      }
+    }
+  },
+  "cheapest_overall_any_channel": {
+    "cena": 760,
+    "hotel": "Muczne",
+    "kanal": "Booking",
+    "liczba_terminow": 8,
+    "held_runs": 15,
+    "nowa_interpretacja": "Po korekcie taryfy wlasnej 760 zl to nie rabat, tylko DOKLADNIE cena cennikowa pokoju wieloosobowego w sezonie niskim z doplata weekendowa. Parytet 0,00%. Deklarowana w przebiegach 6-19 'oszczednosc 24%' byla artefaktem porownania z taryfa apartamentowa."
+  },
+  "progi_par_5_uruchomione": [
+    "Muczne 9-11.10: zmiana dostepnosci (1080 zl -> zamkniete)",
+    "Muczne 25-27.12: zmiana dostepnosci (zamkniete -> 1080 zl)",
+    "Carynska 18-20.09: zmiana dostepnosci (2909,60 zl -> zamkniete, potwierdzone na Trivernie)",
+    "Carynska 16-18.10: rozbieznosc Booking vs kanal wlasny spadla z -32,97% na +2,64% - prog >10% przestal byc przekroczony",
+    "Prog globalny 'cena <= 1200 zl': Muczne 760 (8 terminow), 880, 1080, 1200"
+  ],
+  "watch_next_run": {
+    "P0": "ZAMKNIETY. Arbitraz Carynskiej 16-18.10 rozwiazany sam: Booking podniosl cene z 1769,60 na 2709,60, wracajac do stalej kanalowej +69,60. Byla to pomylka cenowa Bookinga utrzymujaca sie trzy przebiegi, a nie inny produkt.",
+    "P1": "Poziom 511 - silnik wlasny z dzieckiem. Slug odkryty, kontrolka dzieci zlokalizowana w DOM, ale odporna na JS. Uzyc realnego klikniecia (Claude in Chrome computer).",
+    "P2": "CZESCIOWO ZAMKNIETY. Muczne - pytanie o dostawke 120 zl bylo zle postawione: dostawka 120 zl dotyczy apartamentu, a monitor kupuje pokoj wieloosobowy rozliczany za osobodobe. Booking wycenia 5-latka na 0 zl. Pozostaje jedno ryzyko do telefonu (+48 516 824 694): cennik mowi 'dzieci do lat 5', a dziecko ma 5 lat ukonczonych - czy obiekt naliczy doplate na miejscu.",
+    "P3": "ZAMKNIETY. Domek Mysliwski - dziewiaty odczyt cennika, nadal jawnie 'bez sniadania', brak pozycji sniadaniowej do dokupienia. Pozycja trwale nieklasyfikowalna.",
+    "P4": "Muczne 16-18.10 = 880 zl nie zgadza sie z zadnym czystym wariantem taryfy (niski 760 + 120 dostawki = 880, ale sezon jest wysoki). Zrzut ekranu strony Bookinga z nazwa pokoju rozstrzygnie.",
+    "P5": "Muczne 23-25.10 zamkniete trzeci przebieg z rzedu.",
+    "P6": "Carynska - Triverna wyswietla 'Oferta konczy sie za 1 dzien'. Sprawdzic 13.09, czy oferta znika, czy sie odnawia; jesli znika, rekord 1110 zl moze przestac byc osiagalny.",
+    "P7": "Bachledka - cross-check trwale niemozliwy. strachanresort.sk/cennik 404 (dziewiata proba), bachledka.sk/ubytovanie blad certyfikatu TLS (ERR_TLS_CERT_ALTNAME_INVALID). Substytutem pozostaje dekompozycja kursowa.",
+    "P8": "Bachledka 25-27.09 +16,37% w EUR - najwiekszy skok taryfowy tego obiektu w historii monitora. Sprawdzic, czy sie utrzyma, czy to chwilowe domykanie ostatnich pokoi.",
+    "P9": "Okno przesunie sie 19.09: wypadnie 18-20.09, nie wejdzie nic (15-17.01.2027 przekracza +120 dni)."
+  },
+  "methodology": {
+    "regula_anty_falszywie_negatywna": {
+      "muczne": "rozpoznawany WYLACZNIE jako 'Centrum Promocji Lesnictwa w Mucznem' z destination 'Muczne, Poland'. UWAGA przebieg 20: nazwa z encjami HTML (&#347;) powoduje blad hotel_names_not_resolved - przekazywac czyste ASCII 'Lesnictwa'.",
+      "poziom511": "rozpoznawany WYLACZNIE jako krotka nazwa 'Poziom 511' z destination 'Podzamcze, Poland'; pelna nazwa z ampersandem zawodzi.",
+      "carynska_bachledka": "jedno wywolanie z destination 'Bieszczady, Poland' i hotel_names dla obu obiektow."
+    },
+    "liczba_wywolan_bookinga": 26,
+    "cross_check_wykonany_dla": ["muczne", "carynska", "poziom511"],
+    "cross_check_niemozliwy_dla": ["bachledka"]
+  }
+}
