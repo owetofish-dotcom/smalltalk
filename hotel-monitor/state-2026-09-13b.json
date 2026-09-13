@@ -1,0 +1,85 @@
+{
+  "run_date": "2026-09-13",
+  "run_seq": 22,
+  "run_type": "pelny",
+  "supersedes": "state-2026-09-13.json",
+  "headline": "Rerun tego samego dnia (b). Booking niemal w calosci deterministyczny wzgledem przebiegu 21: Carynska 17/17 identycznie, Poziom 511 4/4 identycznie (5. zamrozenie probki). Dwa ruchy: Bachledka 9-11.10 wrocila dostepnosc (2201,74 zl, jak w przebiegu 20), Muczne 25-27.09 skok 1200 -> 1600 zl (+33,33%, teraz rowna sie 2-4.10, outlier +73,9% vs taryfa 920 zl). Rekord 760 zl x8 trzyma 16. przebieg. Nowe odkrycie: Triverna dla Poziomu 511 deklaruje dostawke dziecka 4-15 lat GRATIS, co wstepnie mierzy luke kanalowa na -29,8%.",
+  "window": {"from": "2026-09-18", "to": "2027-01-08", "weekends": 17},
+  "party": {"adults": 2, "children_ages": [5], "rooms": 1, "board": "sniadanie wliczone"},
+  "currency": "PLN",
+  "source": "Booking MCP + lasybieszczadzkie.pl + triverna.pl + klub.strachanresort.sk (przebieg 21 ten sam dzien) + NBP 4.3228 (tab. 177/A z 11.09, niedziela bez publikacji)",
+  "methodology": "Rerun tego samego dnia: identycznosc wynikow dowodzi wylacznie determinizmu konektora, NIE stabilnosci cen w czasie. Nulle Bookinga (hotel_names_no_availability) traktowane jako brak dostepnosci po 3-stopniowej weryfikacji w przebiegach wczesniejszych. Cross-checki zrodlowe z przebiegu 21 (ten sam dzien) uznane za obowiazujace tam, gdzie silniki sa wylacznie interaktywne.",
+  "hotels": {
+    "muczne": {
+      "name": "Centrum Promocji Lesnictwa w Mucznem",
+      "property_id": 3048540,
+      "record": {"price": 760, "runs_held": 16, "terms": ["2026-10-30", "2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"]},
+      "booking_weekends": {
+        "2026-09-18": null, "2026-09-25": 1600, "2026-10-02": 1600, "2026-10-09": null,
+        "2026-10-16": 1200, "2026-10-23": null, "2026-10-30": 760, "2026-11-06": 760,
+        "2026-11-13": 760, "2026-11-20": 760, "2026-11-27": 760, "2026-12-04": 760,
+        "2026-12-11": 760, "2026-12-18": 760, "2026-12-25": 1080, "2027-01-01": null, "2027-01-08": null
+      },
+      "deltas_vs_run21": {"2026-09-25": "1200 -> 1600 (+33.33%), zrownanie z 2-4.10; outlier +73.91% vs taryfa 920"},
+      "closures": {"2026-10-23": "5. kolejne zamkniecie"},
+      "cross_check": {"source": "lasybieszczadzkie.pl/oferta/cennik/", "read_no": 11, "status": "taryfa potwierdzona verbatim, bez zmian", "tariff": "160 zl/os/doba niski (30.10-22.12), 200 zl wysoki, +30 zl/os/doba weekend, Wielkanoc 230, dzieci do lat 5 bez lozka gratis, sniadanie wliczone", "parity": "760 = (160+30)*2*2, 0.00%"}
+    },
+    "carynska": {
+      "name": "Carynska Resort & SPA",
+      "property_id": 1822553,
+      "record": {"price": 1110, "channel": "Triverna", "terms": ["2026-11-06", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"]},
+      "booking_weekends": {
+        "2026-09-18": null, "2026-09-25": 2909.6, "2026-10-02": 2709.6, "2026-10-09": null,
+        "2026-10-16": 2709.6, "2026-10-23": 1769.6, "2026-10-30": 1609.6, "2026-11-06": 1309.6,
+        "2026-11-13": 1709.6, "2026-11-20": 1309.6, "2026-11-27": 1309.6, "2026-12-04": 1309.6,
+        "2026-12-11": 1309.6, "2026-12-18": 1309.6, "2026-12-25": null, "2027-01-01": null, "2027-01-08": 1409.6
+      },
+      "deltas_vs_run21": "17/17 identycznie co do grosza (4. przebieg pelnego zamrozenia)",
+      "cross_check": {"source": "triverna.pl", "status": "regulamin dostawek potwierdzony (ponizej 4 lat gratis; 4-12 lat 150 zl/doba ze sniadaniem; 12+ 200 zl), pokoj 2-os. standard 22 m2, sniadanie potwierdzone; kalendarz interaktywny pokazal tylko wrzesien (405-1260 zl); stawki X-I wg odczytu z przebiegu 21 (ten sam dzien), formula 405+405+300=1110 obowiazuje", "channel_constant": "+199.60 zl Booking vs Triverna na terminach rekordowych"}
+    },
+    "bachledka": {
+      "name": "Grand Hotel Bachledka Strachan, Zdiar (SK)",
+      "property_id": 312697,
+      "record": {"price": 1824.59, "status": "poza oknem, zamrozony"},
+      "min_in_window": {"price": 1943.76, "term": "2026-11-06"},
+      "booking_weekends": {
+        "2026-09-18": 2582.12, "2026-09-25": 2367.11, "2026-10-02": 2029.75, "2026-10-09": 2201.74,
+        "2026-10-16": 2367.11, "2026-10-23": 2029.75, "2026-10-30": null, "2026-11-06": 1943.76,
+        "2026-11-13": null, "2026-11-20": 2029.75, "2026-11-27": 2029.75, "2026-12-04": 2453.11,
+        "2026-12-11": 2029.75, "2026-12-18": 2029.75, "2026-12-25": null, "2027-01-01": null, "2027-01-08": 2978.03
+      },
+      "deltas_vs_run21": {"2026-10-09": "POWROT DOSTEPNOSCI: null -> 2201.74 zl (identycznie jak w przebiegu 20); reszta identyczna co do centa"},
+      "fx": {"nbp": 4.3228, "table": "177/A z 2026-09-11", "booking_internal": 4.31938},
+      "cross_check": {"source": "klub.strachanresort.sk", "status": "silnik wylacznie interaktywny (WebFetch: kalendarze IX 2026 - IX 2027, wymaga klikniecia Vyhladat); obowiazuje cross-check z przebiegu 21 tego samego dnia: Izba Standard s ranajkami 445 EUR = 1923.65 zl vs Booking 1943.76 zl, parytet +1.05%"}
+    },
+    "poziom511": {
+      "name": "Poziom 511 Jura Wellness Hotel & Spa, Ogrodzieniec",
+      "property_id": 331218,
+      "record": {"price": 2390, "status": "nieosiagniety"},
+      "mode": "probkowanie (4 terminy), 5. przebieg zamrozenia probki",
+      "booking_sample": {"2026-10-23": 2888.5, "2026-11-06": 2783.5, "2026-11-27": 2783.5, "2026-12-11": 2804.5},
+      "deltas_vs_run21": "4/4 identycznie",
+      "return_to_full_scan_below": 2000,
+      "cross_check": {"source": "triverna.pl", "status": "NOWE: strona Triverny deklaruje 'Dostawka dla dziecka w wieku 4-15 lat: gratis' oraz dostawke doroslego 300 zl/noc, sniadanie potwierdzone; kalendarz pokazal tylko wrzesien (824-932 zl/doba)", "provisional_gap": "6-8.11: Triverna 977+977+0 = 1954 zl (2+1, jesli dostawka gratis) vs Booking 2783.50 zl = -29.8%; wymaga potwierdzenia w koszyku rezerwacyjnym (przebieg 21 raportowal brak mozliwosci dodania dostawki w silniku)"}
+    }
+  },
+  "thresholds_triggered": [
+    {"type": "availability_change", "hotel": "bachledka", "term": "2026-10-09", "detail": "powrot dostepnosci po 1 przebiegu, 2201.74 zl"},
+    {"type": "divergence_gt_10pct", "hotel": "muczne", "term": "2026-09-25", "detail": "Booking 1600 vs taryfa 920 = +73.91% (wczesniej +30.43%)"},
+    {"type": "divergence_gt_10pct_provisional", "hotel": "poziom511", "term": "2026-11-06", "detail": "Booking 2783.50 vs Triverna 1954 (2+1, dostawka dziecka gratis wg regulaminu) = -29.8%; do potwierdzenia w koszyku"}
+  ],
+  "cheapest_overall_any_channel": {"price": 760, "hotel": "muczne", "channel": "Booking = taryfa wlasna", "terms_count": 8},
+  "notes": [
+    "Rerun 'b' tego samego dnia: zgodnosc 36/38 punktow danych z przebiegiem 21 dowodzi determinizmu konektora, nie stabilnosci cen.",
+    "Muczne 25-27.09: drugi outlier posrednika (jak 2-4.10); taryfa zrodlowa bez zmian przy 11. odczytie.",
+    "Poziom 511: informacja o dostawce 4-15 gratis na Trivernie sprzeczna z ustaleniem przebiegu 21 (silnik nie pozwalal dodac dostawki). Priorytet na kolejny przebieg."
+  ],
+  "watch_next_run": [
+    "P1: Muczne 23-25.10 - czy zamkniecie ustapi (6. przebieg)",
+    "P2: Bachledka 9-11.10 - stabilnosc powroconej dostepnosci",
+    "P3: Poziom 511 - potwierdzic dostawke dziecka gratis w koszyku Triverny (przegladarka); jesli tak, luka -29.8% jest realna i probka wraca pod lupe",
+    "P4: Muczne 25-27.09 - czy outlier 1600 sie utrzyma",
+    "P5: Carynska - stawki X-I na Trivernie odczytac swiezo (kalendarz interaktywny, przegladarka)",
+    "P6: Bachledka - sprobowac silnika klub.strachanresort.sk przegladarka dla 2-3 terminow"
+  ]
+}
