@@ -1,0 +1,137 @@
+{
+  "run_date": "2026-09-14",
+  "run_seq": 23,
+  "run_type": "pelny",
+  "supersedes": "state-2026-09-13b.json",
+  "headline": "Przebieg dnia nastepnego (pierwszy realny pomiar stabilnosci od run 21). Booking prawie calkowicie nieruchomy: Carynska 17/17, Bachledka 17/17, Poziom 511 4/4 identycznie co do grosza wzgledem przebiegu 22. Jedyny ruch: Muczne 23-25.10 wrocilo po 5 przebiegach zamkniecia za 880 zl, co rozwiazuje stara anomalie - to stawka apartamentu 2-osobowego 440 zl/doba, parytet 0,00%. Trzy przelomy cross-checkowe: (1) Poziom 511 - wlasny silnik Profitroom potwierdzil koszyk 2+1 i obalil prowizoryczna luke -29,8%, realna stala kanalowa to -12,2% na ofercie bezzwrotnej, nowe minimum miedzykanalowe 2444 zl na 6-8.11 (+2,26% do rekordu 2390); (2) Carynska - otwarty kanal wlasny carynska.bieszczady.pl, Standard 22 m2 od 1155 zl na 6-8.11 = -11,80% wobec Bookinga; (3) Bachledka - silnik klubowy odczytany przegladarka, 445 EUR publiczne i 429 EUR klubowe. Rekord 760 zl x8 trzyma 17. przebieg.",
+  "window": {"from": "2026-09-18", "to": "2027-01-08", "weekends": 17},
+  "party": {"adults": 2, "children_ages": [5], "rooms": 1, "board": "sniadanie wliczone"},
+  "currency": "PLN",
+  "source": "Booking MCP + lasybieszczadzkie.pl + booking.profitroom.com/poziom511jurawellnesshotelspa + carynska.bieszczady.pl + klub.strachanresort.sk + NBP 4.3228 (tab. 177/A z 11.09, tabela na 14.09 jeszcze nieopublikowana w chwili przebiegu)",
+  "methodology": "Pierwszy przebieg dnia nastepnego po parze 21/22, wiec zgodnosc wynikow mierzy tym razem realna stabilnosc cen, nie tylko determinizm konektora. Triverna.pl niedostepna w tym przebiegu (Next.js zwraca wylacznie szkielety ladowania, takze po kliknieciu ponow) - pivot na wlasne silniki rezerwacyjne hoteli, co jest mocniejszym zrodlem cross-checku niz posrednik. Nulle Bookinga (hotel_names_no_availability) traktowane jako brak dostepnosci po 3-stopniowej weryfikacji. Zaden przycisk finalizacji rezerwacji nie zostal klikniety, zadne dane osobowe ani platnicze nie zostaly wprowadzone.",
+  "hotels": {
+    "muczne": {
+      "name": "Centrum Promocji Lesnictwa w Mucznem",
+      "property_id": 3048540,
+      "record": {"price": 760, "runs_held": 17, "terms": ["2026-10-30", "2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"]},
+      "booking_weekends": {
+        "2026-09-18": null, "2026-09-25": 1600, "2026-10-02": 1600, "2026-10-09": null,
+        "2026-10-16": 1200, "2026-10-23": 880, "2026-10-30": 760, "2026-11-06": 760,
+        "2026-11-13": 760, "2026-11-20": 760, "2026-11-27": 760, "2026-12-04": 760,
+        "2026-12-11": 760, "2026-12-18": 760, "2026-12-25": 1080, "2027-01-01": null, "2027-01-08": null
+      },
+      "deltas_vs_run22": {"2026-10-23": "POWROT DOSTEPNOSCI po 5 przebiegach zamkniecia: null -> 880 zl; reszta 16/16 identycznie"},
+      "cross_check": {
+        "source": "lasybieszczadzkie.pl/oferta/cennik/",
+        "read_no": 12,
+        "status": "odczyt bogatszy niz w poprzednich przebiegach - ujawnil stawki apartamentowe",
+        "tariff": "pokoj wieloosobowy: 160 zl/os/doba sezon niski, 200 zl wysoki, +30 zl/os/doba weekend; apartament 2-osobowy: 440 zl/doba sezon wysoki; 04.04 szczyt 230 zl; dzieci do lat 5 bez lozka gratis; sniadanie wliczone",
+        "seasons": "niski: 03.01-03.04, 05.04-29.04, 30.10-22.12; wysoki: 30.04-29.10 oraz 23.12-02.01",
+        "parity": "760 = (160+30)*2*2, 0,00%. ROZWIAZANA ANOMALIA: 880 = 440*2 = apartament 2-osobowy w sezonie wysokim, parytet 0,00%. Wczesniejsza hipoteza 'rabat -4,35% wobec 920 zl' odrzucona - 920 zl to inna klasa pokoju.",
+        "domek_mysliwski": "trwale poza monitorem (bez sniadania)"
+      }
+    },
+    "carynska": {
+      "name": "Carynska Resort & SPA",
+      "property_id": 1822553,
+      "record": {"price": 1110, "channel": "Triverna", "terms": ["2026-11-06", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"]},
+      "booking_weekends": {
+        "2026-09-18": null, "2026-09-25": 2909.6, "2026-10-02": 2709.6, "2026-10-09": null,
+        "2026-10-16": 2709.6, "2026-10-23": 1769.6, "2026-10-30": 1609.6, "2026-11-06": 1309.6,
+        "2026-11-13": 1709.6, "2026-11-20": 1309.6, "2026-11-27": 1309.6, "2026-12-04": 1309.6,
+        "2026-12-11": 1309.6, "2026-12-18": 1309.6, "2026-12-25": null, "2027-01-01": null, "2027-01-08": 1409.6
+      },
+      "deltas_vs_run22": "17/17 identycznie co do grosza (5. przebieg pelnego zamrozenia, pierwszy raz miedzy dwoma roznymi dniami)",
+      "cross_check": {
+        "source": "carynska.bieszczady.pl (wlasny silnik rezerwacyjny) - NOWY KANAL",
+        "note": "carynska.pl to INNY obiekt (Zajazd Pod Carynska, Ustrzyki Gorne) - nie mylic",
+        "term": "2026-11-06 (najtanszy termin Bookingowy tego hotelu)",
+        "rooms": {"Standard 22 m2, lozko kontynentalne, balkon": 1155, "Studio 2+1, 28 m2": 1345, "Apartament No1 42 m2": 2295, "Apartament No2 40 m2": 2295, "Apartament Widok 70 m2": 2580},
+        "gap_vs_booking": "1155 vs 1309,60 = -11,80% (prog >10% przekroczony)",
+        "gap_vs_record": "1155 vs 1110 (Triverna) = +4,05%, czyli w pasmie +5% od minimum historycznego",
+        "caveat": "widget 'Dokoncz wyszukiwanie!' na tej samej stronie reklamowal 2900 zl dla identycznych dat i skladu - zaprzeczone przez faktyczny wynik wyszukiwania, figura odrzucona jako niewiarygodna",
+        "limitation": "silnik zamarl po pierwszym wyszukaniu (rozwijanie 'Wybierz oferte' i zmiana dat bez reakcji), wiec cross-check objal tylko 1 weekend zamiast jednego na miesiac"
+      }
+    },
+    "bachledka": {
+      "name": "Grand Hotel Bachledka Strachan, Zdiar (SK)",
+      "property_id": 312697,
+      "record": {"price": 1824.59, "status": "poza oknem, zamrozony"},
+      "min_in_window": {"price": 1943.76, "term": "2026-11-06"},
+      "booking_weekends": {
+        "2026-09-18": 2582.12, "2026-09-25": 2367.11, "2026-10-02": 2029.75, "2026-10-09": 2201.74,
+        "2026-10-16": 2367.11, "2026-10-23": 2029.75, "2026-10-30": null, "2026-11-06": 1943.76,
+        "2026-11-13": null, "2026-11-20": 2029.75, "2026-11-27": 2029.75, "2026-12-04": 2453.11,
+        "2026-12-11": 2029.75, "2026-12-18": 2029.75, "2026-12-25": null, "2027-01-01": null, "2027-01-08": 2978.03
+      },
+      "deltas_vs_run22": "17/17 identycznie co do centa; powrot 9-11.10 z przebiegu 22 potwierdzony i stabilny (P2 zamkniete)",
+      "fx": {"nbp": 4.3228, "table": "177/A z 2026-09-11", "booking_internal": 4.31938, "caveat": "tabela NBP na 14.09 nieopublikowana w chwili przebiegu"},
+      "cross_check": {
+        "source": "klub.strachanresort.sk (silnik Hoteladmin, odczytany przegladarka - P6 ZAMKNIETE)",
+        "term": "2026-11-06, 2 dorosli + 1 dziecko (5 lat), 1 izba",
+        "rates_eur": {
+          "Izba Standard, ubytovanie s ranajkami": {"public": 445, "club": 429},
+          "Rodinny pobyt (2 deti do 10 rokov ZDARMA)": {"public": 474, "club": 462},
+          "Ubytovanie s polpenziou": {"public": 607, "club": 591}
+        },
+        "conversion": "445 EUR * 4,3228 = 1923,65 zl; 429 EUR * 4,3228 = 1854,48 zl",
+        "parity": "Booking 1943,76 zl vs kanal wlasny publiczny 1923,65 zl = Booking +1,05%; vs stawka klubowa 1854,48 zl = Booking +4,81%",
+        "finding": "stawka 445 EUR ze sniadaniem obejmuje juz dziecko 5-letnie; wariant 'Rodinny pobyt' jest DROZSZY (474 EUR), wiec nie oplaca sie mimo nazwy; Chalet Strachan niedostepny",
+        "note": "stawki klubowe wymagaja rejestracji konta - nie zakladano, do porownania uzyto ceny publicznej"
+      }
+    },
+    "poziom511": {
+      "name": "Poziom 511 Jura Wellness Hotel & Spa, Ogrodzieniec",
+      "property_id": 331218,
+      "record": {"price": 2390, "status": "nieosiagniety, ale najblizej w historii monitora"},
+      "mode": "probkowanie (4 terminy), 6. przebieg zamrozenia probki",
+      "booking_sample": {"2026-10-23": 2888.5, "2026-11-06": 2783.5, "2026-11-27": 2783.5, "2026-12-11": 2804.5},
+      "deltas_vs_run22": "4/4 identycznie",
+      "return_to_full_scan_below": 2000,
+      "cross_check": {
+        "source": "booking.profitroom.com/pl/poziom511jurawellnesshotelspa (wlasny silnik, przegladarka) - P3 ZAMKNIETE",
+        "url_api": "https://booking.profitroom.com/pl/poziom511jurawellnesshotelspa/pricelist/offers/?check-in=YYYY-MM-DD&check-out=YYYY-MM-DD&currency=PLN&r1_adults=2&r1_child5-15=1",
+        "child_buckets": "silnik dzieli dzieci na '0-4 lat' i '5-15 lat' - dziecko 5-letnie wpada w bucket platny, wiec deklaracja Triverny o 'dostawce 4-15 lat gratis' NIE MA pokrycia w koszyku hotelu",
+        "retraction": "prowizoryczna luka -29,8% z przebiegu 22 ODWOLANA jako artefakt bledu regulaminowego Triverny",
+        "direct_prices": {
+          "2026-10-23": {"bezzwrotna": 2534, "elastyczna": 2770},
+          "2026-11-06": {"bezzwrotna": 2444, "elastyczna": 2670},
+          "2026-12-11": {"bezzwrotna": 2462, "elastyczna": 2690}
+        },
+        "channel_constant": "oferta bezzwrotna ze sniadaniem: -12,27% / -12,20% / -12,21% (srednia -12,23%); oferta elastyczna: -4,10% / -4,08% / -4,08% (srednia -4,09%). Wyjatkowa stabilnosc narzutu sugeruje staly kontrakt OTA, nie recznie ustawiana marza.",
+        "new_cross_channel_min": {"price": 2444, "term": "2026-11-06", "channel": "Profitroom bezzwrotna", "vs_record": "+2,26% wobec rekordu 2390 zl"}
+      }
+    }
+  },
+  "thresholds_triggered": [
+    {"type": "availability_change", "hotel": "muczne", "term": "2026-10-23", "detail": "powrot po 5 przebiegach zamkniecia, 880 zl = apartament 2-os., parytet 0,00%"},
+    {"type": "price_under_1200", "hotel": "muczne", "term": "2026-10-23", "detail": "880 zl, drugi najtanszy termin w calym oknie"},
+    {"type": "divergence_gt_10pct", "hotel": "muczne", "term": "2026-09-25", "detail": "Booking 1600 vs taryfa 920 = +73,91%, outlier utrzymany (P4)"},
+    {"type": "divergence_gt_10pct", "hotel": "muczne", "term": "2026-10-02", "detail": "Booking 1600 vs taryfa 920 = +73,91%"},
+    {"type": "divergence_gt_10pct", "hotel": "carynska", "term": "2026-11-06", "detail": "kanal wlasny 1155 vs Booking 1309,60 = -11,80%"},
+    {"type": "within_5pct_of_historical_min", "hotel": "carynska", "term": "2026-11-06", "detail": "1155 zl kanal wlasny vs rekord 1110 zl = +4,05%"},
+    {"type": "divergence_gt_10pct", "hotel": "poziom511", "term": "2026-10-23", "detail": "Booking 2888,50 vs Profitroom 2534 = +13,99%"},
+    {"type": "divergence_gt_10pct", "hotel": "poziom511", "term": "2026-11-06", "detail": "Booking 2783,50 vs Profitroom 2444 = +13,89%"},
+    {"type": "divergence_gt_10pct", "hotel": "poziom511", "term": "2026-12-11", "detail": "Booking 2804,50 vs Profitroom 2462 = +13,91%"},
+    {"type": "within_5pct_of_historical_min", "hotel": "poziom511", "term": "2026-11-06", "detail": "2444 zl kanal wlasny vs rekord 2390 zl = +2,26%, pierwszy raz w pasmie +5%"},
+    {"type": "retraction", "hotel": "poziom511", "term": "2026-11-06", "detail": "prog z przebiegu 22 (-29,8%) odwolany po weryfikacji w koszyku"}
+  ],
+  "cheapest_overall_any_channel": {"price": 760, "hotel": "muczne", "channel": "Booking = taryfa wlasna", "terms_count": 8},
+  "notes": [
+    "Pierwszy przebieg dzien po parze 21/22: 38 z 39 punktow danych Bookinga bez ruchu przez dobe. To juz realna stabilnosc cen, nie tylko determinizm konektora.",
+    "Muczne 23-25.10: zamkniecie ustapilo po 5 przebiegach (P1 zamkniete). 880 zl to apartament 2-osobowy 440 zl/doba w sezonie wysokim, parytet 0,00%.",
+    "Triverna.pl calkowicie niedostepna w tym przebiegu (szkielety Next.js). Zastapiona wlasnymi silnikami hoteli - trwala zmiana metodyki na lepsze zrodlo.",
+    "Poziom 511: deklaracja Triverny o darmowej dostawce dziecka 4-15 lat jest bledna wobec koszyka hotelu (bucket 5-15 jest platny). Luka kanalowa to -12,2%, nie -29,8%.",
+    "Carynska: nowy, dzialajacy kanal wlasny carynska.bieszczady.pl. Uwaga: carynska.pl to inny obiekt.",
+    "Bachledka: stawka 'Rodinny pobyt (2 deti do 10 rokov ZDARMA)' jest drozsza (474 EUR) niz zwykla 'Ubytovanie s ranajkami' (445 EUR) dla skladu 2+1. Nazwa myli.",
+    "Kurs NBP na 14.09 nieopublikowany w chwili przebiegu - uzyto 4,3228 z tabeli 177/A (11.09), jak w przebiegu 22."
+  ],
+  "watch_next_run": [
+    "P1: Muczne 23-25.10 - czy 880 zl (apartament) utrzyma sie, czy to byl jednorazowy zwrot allotmentu",
+    "P2: Poziom 511 - czy stala kanalowa -12,2% trzyma na 4. terminie (27-29.11 nieodpytany w kanale wlasnym)",
+    "P3: Carynska - drugi i trzeci weekend w kanale wlasnym (pokrycie miesieczne), silnik zamarl po pierwszym wyszukaniu",
+    "P4: Muczne 25-27.09 i 2-4.10 - czy outliery 1600 zl ustapia przed terminem",
+    "P5: Bachledka - drugi termin w silniku klubowym dla potwierdzenia stalej +1,05%",
+    "P6: Triverna - czy frontend wroci; jesli nie, wykreslic ze zrodel i oprzec sie wylacznie na kanalach wlasnych"
+  ]
+}
