@@ -1,0 +1,306 @@
+{
+  "run_date": "2026-09-17",
+  "run_seq": 26,
+  "run_type": "pelny",
+  "headline": "Carynska 16-18.10 spada o 34,69% (2709,60 -> 1769,60 zl). Muczne 9-11.10 spada o 18,52% (1080 -> 880 zl), ale traci dostepnosc na 25-27.09. Bachledka 6-8.11 spada o 17,88% w euro (548 -> 450 EUR). Rozstrzygnieta jednostka dostawki w Mucznem: 120 zl za osobe za dobe, nie za pobyt. Potwierdzona stawka dostawki w Carynskiej: 150 zl/doba dla dziecka 4-12 ze sniadaniem - formula zweryfikowana.",
+  "window": {
+    "from": "2026-09-18",
+    "to": "2027-01-15",
+    "weekends": 18,
+    "note": "Okno kroczace od najblizszego piatku (18.09) do +120 dni (15.01.2027, sam w sobie piatek). Weekend 15-17.01.2027 wchodzi do okna po raz pierwszy. Weekend 18-20.09 jeszcze sie utrzymuje, wypadnie jutro."
+  },
+  "party": {
+    "adults": 2,
+    "children_ages": [5],
+    "rooms": 1,
+    "meal": "sniadanie wymagane",
+    "nights": 2
+  },
+  "currency": "PLN",
+  "source": "Booking.com MCP connector (accommodations_search), user_country_code=pl, user_locale=pl",
+  "fx": {
+    "nbp_eur_pln": 4.3435,
+    "nbp_table": "180/A/NBP/2026",
+    "nbp_effective": "2026-09-16",
+    "nbp_note": "Tabela na 2026-09-17 nieopublikowana w chwili odczytu; uzyto ostatniej dostepnej.",
+    "booking_internal_implied": 4.354,
+    "booking_internal_previous": 4.33778,
+    "booking_internal_delta_pct": 0.37,
+    "interpretation": "Jednolity wzrost ok. +0,37% w PLN na wszystkich terminach Bachledki to wylacznie ruch kursu wewnetrznego Bookinga, nie podwyzka cen. Ceny w euro plaskie poza 6-8.11."
+  },
+  "hotels": {
+    "muczne": {
+      "name": "Centrum Promocji Lesnictwa w Mucznem",
+      "location": "Muczne, gm. Lutowiska (Bieszczady)",
+      "booking_property_id": 3048540,
+      "own_site": "https://lasybieszczadzkie.pl/oferta/cennik/",
+      "triverna_url": null,
+      "formula": "(stawka_sezonowa + 30 zl doplaty weekendowej) x 2 osoby x 2 noce + dostawka 120 zl/os/doba",
+      "formula_verified": true,
+      "formula_verification": "Cennik odczytany ponownie 17.09.2026. Sezon niski 30.10-22.12: 160 zl/os/doba -> (160+30) x 2 x 2 = 760 zl. Sezon wysoki do 29.10: 200 zl/os/doba -> (200+30) x 2 x 2 = 920 zl. Produkt nazwany wprost 'Nocleg + Sniadanie'.",
+      "weekends_booking": {
+        "2026-09-18": null,
+        "2026-09-25": null,
+        "2026-10-02": 1600,
+        "2026-10-09": 880,
+        "2026-10-16": 1200,
+        "2026-10-23": 880,
+        "2026-10-30": 760,
+        "2026-11-06": 760,
+        "2026-11-13": 760,
+        "2026-11-20": 760,
+        "2026-11-27": 760,
+        "2026-12-04": 760,
+        "2026-12-11": 760,
+        "2026-12-18": 760,
+        "2026-12-25": 1080,
+        "2027-01-01": null,
+        "2027-01-08": null,
+        "2027-01-15": null
+      },
+      "delta_vs_previous_run": {
+        "2026-09-25": "1600 -> brak (utrata dostepnosci)",
+        "2026-10-09": "1080 -> 880 zl, -200 zl, -18,52% (prog przekroczony)",
+        "pozostale": "bez zmian"
+      },
+      "dostawka": {
+        "price": 120,
+        "unit": "za osobe za dobe",
+        "unit_resolved": true,
+        "resolved_on_run": 26,
+        "source": "cennik lasybieszczadzkie.pl, pozycja 'Dostawka 120 zl/os/doba (poza okresem swiatecznym)'",
+        "implication": "Wariant B potwierdzony. Realna cena 3-osobowa w sezonie niskim to 760 + 240 = 1000 zl, nie 880 zl."
+      },
+      "child_policy": {
+        "free_threshold": "dzieci PONIZEJ 5 lat, bez osobnego lozka",
+        "our_child": "5 lat - platne, dostawka obowiazkowa",
+        "resolved_on_run": 26
+      },
+      "domek_mysliwski": {
+        "low_season_rate": 100,
+        "low_season_dates": "1.11 - 23.12.2026",
+        "high_season_rate": 130,
+        "dostawka": 100,
+        "two_pax_two_nights": 400,
+        "three_pax_two_nights": 600,
+        "breakfast": "NIE deklarowane w cenniku, brak pozycji dokupienia",
+        "status": "P2 ZAMKNIETE NEGATYWNIE - cennik jednoznacznie oznacza Domek Mysliwski jako nocleg bez sniadania. Dyskwalifikacja wobec wymogu sniadania. Do ewentualnego potwierdzenia telefonicznego +48 516 824 694."
+      },
+      "cross_check_vs_own_site": {
+        "source": "lasybieszczadzkie.pl/oferta/cennik/, odczyt 17.09.2026",
+        "changes_vs_previous": "brak - cennik identyczny",
+        "entries": [
+          {"date": "2026-10-02", "booking": 1600, "own_tariff": 920, "diff_zl": 680, "diff_pct": 73.9, "room": "nieustalony", "breakfast": true, "verdict": "outlier - inny pokoj"},
+          {"date": "2026-10-09", "booking": 880, "own_tariff": 920, "diff_zl": -40, "diff_pct": -4.3, "room": "apartament 2-os. lub pokoj wieloos. poza doplata", "breakfast": true, "verdict": "Booking taniej"},
+          {"date": "2026-10-16", "booking": 1200, "own_tariff": 920, "diff_zl": 280, "diff_pct": 30.4, "room": "pokoj 2-os. w taryfie 270 zl/os: (270+30) x 2 x 2 = 1200", "breakfast": true, "verdict": "parytet po rekonstrukcji innego pokoju"},
+          {"date": "2026-10-23", "booking": 880, "own_tariff": 880, "diff_zl": 0, "diff_pct": 0.0, "room": "apartament 2-os. 380 zl + doplaty", "breakfast": true, "verdict": "parytet"},
+          {"date": "2026-11-06", "booking": 760, "own_tariff": 760, "diff_zl": 0, "diff_pct": 0.0, "room": "pokoj wieloosobowy", "breakfast": true, "verdict": "parytet"},
+          {"date": "2026-12-11", "booking": 760, "own_tariff": 760, "diff_zl": 0, "diff_pct": 0.0, "room": "pokoj wieloosobowy", "breakfast": true, "verdict": "parytet"},
+          {"date": "2026-12-25", "booking": 1080, "own_tariff": 920, "diff_zl": 160, "diff_pct": 17.4, "room": "nieustalony", "breakfast": true, "verdict": "outlier - inny pokoj"}
+        ]
+      },
+      "hotel_record": {
+        "value": 760,
+        "dates": 8,
+        "set_on_run": 7,
+        "runs_held": 20,
+        "note": "Rekord dotyczy ceny 2-osobowej zwracanej przez Booking. Z obowiazkowa dostawka dla 5-latka realny koszt to 1000 zl."
+      },
+      "best_in_window": {"value": 760, "dates": ["2026-10-30", "2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"], "vs_record_pct": 0.0}
+    },
+    "carynska": {
+      "name": "Carynska Resort & SPA",
+      "location": "Dwernik, gm. Lutowiska (Bieszczady)",
+      "booking_property_id": 1822553,
+      "own_site": "https://carynska.bieszczady.pl (silnik Profitroom)",
+      "triverna_url": "https://triverna.pl/hotel/carynska-resort-spa-dwernik",
+      "formula": "cena_Pt + cena_Sb + 300 (Pokoj 2-os. standard + dostawka dziecko 150 zl/doba ze sniadaniem)",
+      "formula_verified": true,
+      "formula_verification": "Triverna 17.09.2026 podaje wprost: 'Dostawka dla dziecka w wieku 4-12 lat: 150 zl (za dobe ze sniadaniem)'. Nasze dziecko ma 5 lat, wiec skladnik +300 za dwie noce jest potwierdzony zrodlowo. Pokoj 2-os. standard 22 m2, max 2 osoby + 2 dostawki, sniadanie wliczone 8:00-10:30, minimum 2 noce, stawka od 360 zl/noc (wrzesien 405-1260 zl/noc). Rekord 1110 zl = 405 + 405 + 300 odtworzony co do zlotowki.",
+      "weekends_booking": {
+        "2026-09-18": 2709.6,
+        "2026-09-25": 2909.6,
+        "2026-10-02": 3009.6,
+        "2026-10-09": 3209.6,
+        "2026-10-16": 1769.6,
+        "2026-10-23": 1769.6,
+        "2026-10-30": 1609.6,
+        "2026-11-06": 1309.6,
+        "2026-11-13": 1709.6,
+        "2026-11-20": 1309.6,
+        "2026-11-27": 1309.6,
+        "2026-12-04": 1309.6,
+        "2026-12-11": 1309.6,
+        "2026-12-18": 1309.6,
+        "2026-12-25": null,
+        "2027-01-01": null,
+        "2027-01-08": 1409.6,
+        "2027-01-15": 1409.6
+      },
+      "delta_vs_previous_run": {
+        "2026-10-02": "2809,60 -> 3009,60 zl, +200 zl, +7,12%",
+        "2026-10-09": "3009,60 -> 3209,60 zl, +200 zl, +6,65%",
+        "2026-10-16": "2709,60 -> 1769,60 zl, -940 zl, -34,69% (prog przekroczony, najwiekszy ruch przebiegu)",
+        "2027-01-15": "nowy termin w oknie, 1409,60 zl",
+        "pozostale": "bez zmian"
+      },
+      "cross_check_vs_own_site": {
+        "source": "Triverna (silnik wlasny Profitroom odrzuca parametry dzieci w URL), odczyt 17.09.2026",
+        "known_markup_vs_triverna": 199.6,
+        "entries": [
+          {"date": "2026-11-06", "booking": 1309.6, "own_channel_reconstructed": 1110, "diff_zl": 199.6, "diff_pct": 18.0, "room": "Pokoj 2-os. standard + dostawka dziecka", "breakfast": true, "verdict": "Booking drozej o stala marze 199,60 zl"},
+          {"date": "2026-12-11", "booking": 1309.6, "own_channel_reconstructed": 1110, "diff_zl": 199.6, "diff_pct": 18.0, "room": "Pokoj 2-os. standard + dostawka dziecka", "breakfast": true, "verdict": "Booking drozej o stala marze 199,60 zl"},
+          {"date": "2026-10-16", "booking": 1769.6, "own_channel_reconstructed": 1570, "diff_zl": 199.6, "diff_pct": 12.7, "room": "Pokoj 2-os. standard + dostawka dziecka", "breakfast": true, "verdict": "rekonstrukcja po spadku 34,69%, do potwierdzenia w koszyku"}
+        ],
+        "carried_over_profitroom_2pax": {
+          "2026-10-30": 1140,
+          "2026-11-06": 855,
+          "2026-11-20": 760,
+          "note": "Stawki 2-osobowe przeniesione z przebiegu 24, nie odczytane ponownie. Po doliczeniu dostawki 300 zl daja odpowiednio 1440, 1155 i 1060 zl."
+        }
+      },
+      "hotel_record": {"value": 1110, "channel": "Triverna / kanal wlasny", "note": "Odpowiada 1309,60 zl na Bookingu. Osiagane na 6 terminach w oknie."},
+      "best_in_window": {"value": 1309.6, "own_channel": 1110, "dates": ["2026-11-06", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"], "vs_record_pct": 0.0, "status": "na poziomie rekordu"},
+      "potential_new_record": {"value": 1060, "status": "NIEPOTWIERDZONY", "note": "760 zl Profitroom za 2 osoby + 300 zl dostawki. Skladnik dostawki jest juz potwierdzony zrodlowo, brakuje wylacznie potwierdzenia stawki 380 zl/noc w koszyku z dzieckiem."}
+    },
+    "bachledka": {
+      "name": "Grand Hotel**** Bachledka Strachan",
+      "location": "Zdiar, Slowacja",
+      "booking_property_id": 312697,
+      "own_site": "https://www.strachanresort.sk (silnik klubowy klub.strachanresort.sk)",
+      "triverna_url": null,
+      "formula": "cena_Pt + cena_Sb",
+      "formula_verified": false,
+      "formula_verification": "Nadal niemozliwa. Strona wlasna nie publikuje cennika statycznego (URL /cennik/ zwraca 404), a silnik klubowy ignoruje parametry URL. Wymaga sesji interaktywnej.",
+      "weekends_booking": {
+        "2026-09-18": null,
+        "2026-09-25": 2856.3,
+        "2026-10-02": 1916.09,
+        "2026-10-09": 2219.47,
+        "2026-10-16": 2386.17,
+        "2026-10-23": 2046.09,
+        "2026-10-30": null,
+        "2026-11-06": 1959.41,
+        "2026-11-13": null,
+        "2026-11-20": 2046.09,
+        "2026-11-27": 2046.09,
+        "2026-12-04": 2472.86,
+        "2026-12-11": 2046.09,
+        "2026-12-18": 2046.09,
+        "2026-12-25": null,
+        "2027-01-01": null,
+        "2027-01-08": 3002.0,
+        "2027-01-15": 3103.99
+      },
+      "weekends_eur_reconstructed": {
+        "2026-09-25": 656.0,
+        "2026-10-02": 440.0,
+        "2026-10-09": 509.7,
+        "2026-10-16": 548.0,
+        "2026-10-23": 470.0,
+        "2026-11-06": 450.0,
+        "2026-11-20": 470.0,
+        "2026-11-27": 470.0,
+        "2026-12-04": 568.0,
+        "2026-12-11": 470.0,
+        "2026-12-18": 470.0,
+        "2027-01-08": 689.5,
+        "2027-01-15": 713.0
+      },
+      "delta_vs_previous_run": {
+        "2026-11-06": "548,00 -> 450,00 EUR, -17,88% w euro, 2377,23 -> 1959,41 zl, -17,58% w PLN (prog przekroczony)",
+        "2027-01-15": "nowy termin w oknie, 3103,99 zl / 713,00 EUR",
+        "pozostale": "ceny w euro plaskie; ruch +0,37% w PLN to wylacznie kurs wewnetrzny Bookinga"
+      },
+      "cross_check_vs_own_site": {
+        "source": "strachanresort.sk - brak cennika statycznego (404 na /cennik/), silnik klubowy bez obslugi parametrow URL",
+        "status": "NIEWYKONALNY trzeci przebieg z rzedu",
+        "verdict": "brak danych",
+        "p5_open": true
+      },
+      "hotel_record": {"value": 1824.59, "eur": 420.0, "status": "poza oknem, zamrozony"},
+      "best_in_window": {"value": 1916.09, "eur": 440.0, "date": "2026-10-02", "vs_record_pct": 4.76, "status": "blisko rekordu"}
+    },
+    "poziom511": {
+      "name": "Poziom 511 Jura Wellness Hotel & SPA",
+      "location": "Ogrodzieniec",
+      "booking_property_id": 331218,
+      "own_site": "https://poziom511.pl",
+      "triverna_url": "https://triverna.pl/hotel/poziom-511-jura-wellness-hotel-spa-ogrodzieniec",
+      "scan_mode": "probka",
+      "formula": "cena pakietowa za pobyt, brak rozbicia na doby",
+      "formula_verified": false,
+      "booking_sample": {
+        "2026-10-23": 2888.5,
+        "2026-11-06": 2783.5,
+        "2026-11-27": 2783.5,
+        "2026-12-11": 2804.5
+      },
+      "delta_vs_previous_run": "cztery na cztery terminy identyczne co do grosza",
+      "cross_check_vs_own_site": {
+        "source": "Triverna, odczyt 17.09.2026 (strona wlasna nie publikuje stawek, kieruje do silnika Profitroom; probe odczytu silnika zakonczyla sie bledem 400)",
+        "findings": "Zakres stawek 648-1319 zl/noc. Sniadanie wliczone (bufet z produktow regionalnych). Minimum pobytu 1 noc. Dziecko ponizej 4 lat gratis przy rodzicach; dziecko 4-15 lat dostaje BEZPLATNA dostawke w kategoriach Delux (31 m2) i Apartament junior (36 m2). Dostawka dla osoby powyzej 15 lat: 300 zl/doba ze sniadaniem.",
+        "implication": "Nasze 5-letnie dziecko spi na bezplatnej dostawce w Deluxie lub Apartamencie junior, wiec cena 3-osobowa rowna sie cenie 2-osobowej tej kategorii. Gorna stawka Triverny 1319 zl/noc daje 2638 zl za dwie noce, czyli ponizej ceny Bookinga 2783,50 zl na 6-8.11.",
+        "channel_gap_pct_estimated": -5.2,
+        "channel_gap_previous": -12.2,
+        "verdict": "Booking drozej, ale skala luki nizsza niz zakladana wczesniej. Poprzednia wartosc -12,20% pochodzila z przebiegu 24 i byla przenoszona bez odczytu. Obecne oszacowanie oparte na gornej stawce cennikowej Triverny, wiec jest to gorna granica ceny kanalu wlasnego, nie pomiar konkretnego terminu.",
+        "p7_status": "czesciowo zamkniete - odczytano rzeczywiste zrodlo zewnetrzne zamiast przenoszenia liczb, ale nadal bez ceny dla konkretnej daty"
+      },
+      "hotel_record": {"value": 2390},
+      "best_in_window": {"value": 2783.5, "dates": ["2026-11-06", "2026-11-27"], "vs_record_pct": 16.46},
+      "return_to_full_scan_below": 2000
+    }
+  },
+  "thresholds_triggered": {
+    "global": [
+      "Muczne 760 zl na 8 terminach - ponizej progu okazji 1200 zl",
+      "Muczne 880 zl na 9-11.10 i 23-25.10 - ponizej progu okazji 1200 zl",
+      "Muczne 1080 zl na 25-27.12 - ponizej progu okazji 1200 zl",
+      "Muczne 1200 zl na 16-18.10 - dokladnie na progu okazji",
+      "Brak nowego rekordu absolutnego; 760 zl utrzymane 20. przebieg z rzedu"
+    ],
+    "per_hotel": [
+      "Carynska 16-18.10: -34,69% (spadek >=10%)",
+      "Carynska: najlepsza cena w oknie 1309,60 zl na Bookingu odpowiada 1110 zl w kanale wlasnym, czyli dokladnie rekordowi hotelu",
+      "Muczne 9-11.10: -18,52% (spadek >=10%)",
+      "Muczne 25-27.09: zmiana dostepnosci, termin zniknal z Bookinga",
+      "Bachledka 6-8.11: -17,88% w euro (spadek >=10%)",
+      "Bachledka 2-4.10: 440 EUR, 4,76% nad rekordem 420 EUR - w pasie +5%, blisko rekordu",
+      "Poziom 511: bez zmian; rozbieznosc Booking vs kanal wlasny ok. 5%, ponizej progu 10%",
+      "Carynska: rozbieznosc Booking vs Triverna 18,0% - powyzej progu 10%, ale to znana stala marza 199,60 zl, nie nowy sygnal"
+    ]
+  },
+  "cheapest_overall_any_channel": {
+    "value": 760,
+    "hotel": "Centrum Promocji Lesnictwa w Mucznem",
+    "dates": ["2026-10-30", "2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"],
+    "channel": "parytet Booking / cennik wlasny",
+    "breakfast": true,
+    "caveat": "Cena za 2 osoby. Dziecko 5-letnie jest wg cennika platne (bezplatne sa dzieci PONIZEJ 5 lat), dostawka 120 zl/os/doba potwierdzona jako stawka dobowa, wiec realny koszt 3-osobowy to 1000 zl."
+  },
+  "notes": [
+    "P1 ZAMKNIETE. Cennik Lasow Bieszczadzkich jednoznacznie podaje dostawke jako 120 zl za osobe za dobe. Wariant B potwierdzony, wariant A odrzucony. Realna cena 3-osobowa w sezonie niskim: 760 + 240 = 1000 zl.",
+    "Prog wieku w Mucznem rozstrzygniety: bezplatne sa dzieci PONIZEJ 5 lat i tylko bez osobnego lozka. Nasze 5-letnie dziecko jest platne w obu wymiarach.",
+    "P2 ZAMKNIETE NEGATYWNIE. Domek Mysliwski w cenniku figuruje jawnie jako nocleg bez sniadania, bez pozycji dokupienia. 400 zl za 2 osoby i 2 noce byloby absolutnym rekordem, ale oferta nie spelnia wymogu sniadania i nie wchodzi do rankingu.",
+    "Formula Carynskiej ZWERYFIKOWANA. Triverna podaje dostawke dla dziecka 4-12 lat: 150 zl za dobe ze sniadaniem. Skladnik +300 zl za dwie noce ma teraz potwierdzenie zrodlowe, nie tylko arytmetyczne.",
+    "Carynska 16-18.10 spadla o 940 zl w jednym przebiegu i zrownala sie z 23-25.10. To drugi najglebszy ruch w historii monitora po wczorajszym spadku Bachledki o 37,96%.",
+    "Carynska 2-4.10 i 9-11.10 poszly w gore po 200 zl kazdy. Termin 9-11.10 kosztuje teraz 3209,60 zl, najwiecej w calym oknie.",
+    "Muczne stracilo dostepnosc na 25-27.09 (bylo 1600 zl). Termin 9-11.10 spadl z 1080 na 880 zl, co zblizylo go do taryfy 920 zl i po raz pierwszy uczynilo Booking tanszym od cennika na tej dacie.",
+    "Poziom 511 odczytany z Triverny zamiast przenoszenia liczb z przebiegu 24. Kluczowe ustalenie: dziecko 4-15 lat dostaje bezplatna dostawke w kategoriach Delux i Apartament junior, wiec cena 3-osobowa rowna sie 2-osobowej. Luka kanalowa wychodzi ok. -5%, a nie -12,2% jak zakladano.",
+    "Kurs wewnetrzny Bookinga wzrosl z 4,33778 do ok. 4,3540 (+0,37%). Bez tej korekty dwanascie terminow Bachledki wygladaloby na jednolita mikropodwyzke.",
+    "Okno poszerzylo sie do 18 weekendow, bo +120 dni wypada dokladnie w piatek 15.01.2027. Nowy termin: Carynska 1409,60 zl, Bachledka 3103,99 zl / 713 EUR, Muczne niedostepne."
+  ],
+  "watch_next_run": [
+    "P1 ZAMKNIETE - dostawka w Mucznem to stawka dobowa.",
+    "P2 ZAMKNIETE NEGATYWNIE - Domek Mysliwski bez sniadania.",
+    "P3 ZAMKNIETE - rekord Carynskiej 1110 zl potwierdzony i rozlozony na skladniki.",
+    "P4 Outliery Mucznego 2-4.10 (1600 zl) i 25-27.12 (1080 zl) nadal bez rekonstrukcji z cennika. Zadna kombinacja stawek ich nie odtwarza. Do sprawdzenia, czy Booking sprzedaje tam apartament albo pakiet.",
+    "P5 Bachledka - cross-check kanalowy niewykonalny trzeci przebieg z rzedu. Wymaga sesji interaktywnej w silniku klubowym albo telefonu do recepcji +421 908 507 773.",
+    "P6 Carynska 16-18.10 po spadku 34,69% - sprawdzic w koszyku, czy 1769,60 zl to nadal Pokoj 2-os. standard, czy zmiana kategorii.",
+    "P7 CZESCIOWO ZAMKNIETE - Poziom 511 odczytany ze zrodla zewnetrznego, ale bez ceny dla konkretnej daty. Do domkniecia w silniku Profitroom.",
+    "P8 Okno przesuwa sie 18.09 - weekend 18-20.09 wypada, wchodzi 22-24.01.2027.",
+    "P9 Zweryfikowac, czy Booking dolicza dostawke dla 5-latka w Mucznem. Zwracane 760 zl odpowiada cenie 2-osobowej, wiec albo konektor pomija dziecko, albo obiekt nie pobiera oplaty mimo cennika."
+  ],
+  "methodology": "Booking.com MCP connector zwraca jedna zagregowana cene price.book bez nazwy pokoju, rodzaju wyzywienia i informacji o dostawce. Wszystkie przypisania kategorii pokoi to rekonstrukcje z cennikow i stron zewnetrznych. Brak obiektu w wyniku traktowany jako brak dostepnosci po zastosowaniu reguly antyfalszywie-negatywnej (pelna nazwa z odmiana, wynik z poprzednich przebiegow na tej samej nazwie, potwierdzenie na stronie wlasnej). Ceny Bachledki w euro rekonstruowane przez podzielenie PLN przez kurs wewnetrzny Bookinga; okragle wartosci euro potwierdzaja poprawnosc metody.",
+  "supersedes": "state-2026-09-16.json"
+}
