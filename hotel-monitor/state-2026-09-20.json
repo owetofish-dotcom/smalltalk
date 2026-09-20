@@ -1,0 +1,441 @@
+{
+  "run_date": "2026-09-20",
+  "run_seq": 29,
+  "run_type": "scheduled",
+  "supersedes": "state-2026-09-19.json",
+  "headline": "Nowy rekord Carynskiej: 1036 zl za 20-22.11 i 27-29.11 w kanale wlasnym (Profitroom), -24 zl / -2,26% wobec 1060 zl z przebiegu 27. Bachledka odzyskala allotment w Bookingu z 3/18 do 13/18, ale jej kanal wlasny stoi w miejscu, co daje rozjazd +223,65 zl (+11,8%) na 2-4.10. Muczne trzyma 760 zl na osmiu datach, 23. przebieg z rzedu. Caryn Booking bez jednego ruchu na 18/18 dat.",
+  "window": {
+    "anchor_friday": "2026-09-25",
+    "end": "2027-01-24",
+    "weekends": 18,
+    "shifted_this_run": false,
+    "note": "20.09 to niedziela, najblizszy piatek nadal 25.09. Okno identyczne jak w przebiegu 28. P15 (przesuniecie okna) uruchomi sie 26.09."
+  },
+  "party": {
+    "adults": 2,
+    "children_ages": [5],
+    "rooms": 1,
+    "breakfast_required": true,
+    "nights": 2,
+    "pattern": "Pt -> Nd"
+  },
+  "currency": "PLN",
+  "fx": {
+    "nbp_eur_pln": 4.3633,
+    "table": "182/A/NBP/2026",
+    "effective_date": "2026-09-18",
+    "note": "20.09 to niedziela, NBP nie publikuje. Obowiazuje ostatnia tabela z piatku 18.09, identyczna jak w przebiegu 28."
+  },
+  "source": {
+    "primary": "Booking.com MCP connector",
+    "params": "number_of_adults=2, children_ages=[5], number_of_rooms=1, currency=PLN, user_country_code=pl, user_locale=pl",
+    "cross_check": "silniki wlasne hoteli + Triverna + cennik Lasow Panstwowych"
+  },
+  "hotels": {
+    "carynska": {
+      "name": "Carynska Resort & SPA, Dwernik",
+      "property_id": 1822553,
+      "scan_mode": "pelny",
+      "coverage": "18/18",
+      "booking": {
+        "2026-09-25": 3209.60,
+        "2026-10-02": 3009.60,
+        "2026-10-09": 3209.60,
+        "2026-10-16": 2709.60,
+        "2026-10-23": 1769.60,
+        "2026-10-30": 1609.60,
+        "2026-11-06": 1609.60,
+        "2026-11-13": 1709.60,
+        "2026-11-20": 1309.60,
+        "2026-11-27": 1309.60,
+        "2026-12-04": 1309.60,
+        "2026-12-11": 1309.60,
+        "2026-12-18": 1309.60,
+        "2026-12-25": null,
+        "2027-01-01": null,
+        "2027-01-08": 1409.60,
+        "2027-01-15": 1409.60,
+        "2027-01-22": 1409.60
+      },
+      "booking_delta_vs_prev": "0 na wszystkich 18 datach. Zerowy ruch, w tym cofniecie sie oczekiwane dla 16-18.10 nie nastapilo.",
+      "own_channel": {
+        "engine": "Profitroom",
+        "tenant_slug": "carynskaresortspa",
+        "url": "booking.profitroom.com/pl/carynskaresortspa/",
+        "calendar_legend": "Przyblizona najnizsza cena (PLN) pobytu dla 2 gosci na 1 noc",
+        "formula": "cena_Pt + cena_Sb + 300",
+        "formula_verified": true,
+        "dostawka": "300 zl za 2 doby (150 zl/doba ze sniadaniem, dziecko 4-12 lat)",
+        "weekend_totals": {
+          "2026-09-25": 1540,
+          "2026-10-02": 2800,
+          "2026-10-09": 3000,
+          "2026-10-16": 2700,
+          "2026-10-23": 1530,
+          "2026-10-30": 1345,
+          "2026-11-06": 1345,
+          "2026-11-13": 1321,
+          "2026-11-20": 1036,
+          "2026-11-27": 1036,
+          "2026-12-04": 1060,
+          "2026-12-11": 1060,
+          "2026-12-18": 1060,
+          "2026-12-25": null,
+          "2027-01-01": null,
+          "2027-01-08": 1132,
+          "2027-01-15": 1132,
+          "2027-01-22": 1132
+        },
+        "movement_vs_prev": "Sobota 21.11 spadla z 380 na 356 zl. To jedyny ruch w kalendarzu wlasnym i to on generuje rekord."
+      },
+      "channel_gap": {
+        "2026-09-25": "+1669,60 zl / +108,4% (ekstremalny outlier)",
+        "2026-10-02": "+209,60 zl / +7,5%",
+        "2026-10-09": "+209,60 zl / +7,0%",
+        "2026-10-16": "+9,60 zl / +0,4% (parytet)",
+        "2026-10-23": "+239,60 zl / +15,7%",
+        "2026-10-30": "+264,60 zl / +19,7%",
+        "2026-11-06": "+264,60 zl / +19,7%",
+        "2026-11-13": "+388,60 zl / +29,4%",
+        "2026-11-20": "+273,60 zl / +26,4%",
+        "2026-11-27": "+273,60 zl / +26,4%",
+        "2026-12-04": "+249,60 zl / +23,5%",
+        "2026-12-11": "+249,60 zl / +23,5%",
+        "2026-12-18": "+249,60 zl / +23,5%",
+        "2027-01-08": "+277,60 zl / +24,5%",
+        "2027-01-15": "+277,60 zl / +24,5%",
+        "2027-01-22": "+277,60 zl / +24,5%"
+      },
+      "hotel_record": {
+        "price": 1036.00,
+        "dates": ["2026-11-20", "2026-11-27"],
+        "channel": "Profitroom direct",
+        "room": "Pokoj 2-os. standard + dostawka",
+        "set_on_run": 29,
+        "previous_record": 1060.00,
+        "delta": "-24,00 zl / -2,26%"
+      },
+      "verdict": "Booking drozej na 14 z 16 dostepnych dat, stale pasmo +250-280 zl. 16-18.10 na parytecie. 25-27.09 outlier +108%."
+    },
+    "bachledka": {
+      "name": "Grand Hotel**** Bachledka Strachan, Zdiar (SK)",
+      "property_id": 312697,
+      "scan_mode": "pelny",
+      "coverage": "13/18",
+      "coverage_prev": "3/18",
+      "booking": {
+        "2026-09-25": null,
+        "2026-10-02": 2126.05,
+        "2026-10-09": 2463.63,
+        "2026-10-16": 2649.11,
+        "2026-10-23": 2270.73,
+        "2026-10-30": null,
+        "2026-11-06": 2556.37,
+        "2026-11-13": null,
+        "2026-11-20": 2270.73,
+        "2026-11-27": 2270.73,
+        "2026-12-04": 2745.56,
+        "2026-12-11": 2270.73,
+        "2026-12-18": 2270.73,
+        "2026-12-25": null,
+        "2027-01-01": null,
+        "2027-01-08": 3334.30,
+        "2027-01-15": 3447.77,
+        "2027-01-22": 3447.77
+      },
+      "booking_delta_vs_prev": "Dziesiec dat odzyskanych (02.10, 09.10, 16.10, 23.10, 06.11, 27.11, 04.12, 11.12, 08.01, 22.01). Trzy bez zmian (20.11, 18.12, 15.01). 30.10, 13.11, 25.12, 01.01, 25.09 nadal null.",
+      "own_channel": {
+        "engine": "booking.hotelbachledka.sk (Hoteladmin)",
+        "legend": "orientacnu najvyhodnejsiu cenu za ubytovanie s ranajkami na 1 noc pre 2 dospele osoby",
+        "measured_2026-10-02": {
+          "izba_standard_flex_eur": 468,
+          "izba_standard_eur": 436,
+          "izba_standard_klub_eur": 421
+        },
+        "child_supplement_eur": 112,
+        "child_supplement_derivation": "436 - 324 = 112 EUR, identycznie jak w przebiegu 28",
+        "weekend_totals_eur": {
+          "2026-10-02": 436,
+          "2026-10-09": 500,
+          "2026-10-16": 536,
+          "2026-10-23": 464,
+          "2026-10-30": 493,
+          "2026-11-06": 482,
+          "2026-11-20": 464,
+          "2026-11-27": 464,
+          "2026-12-04": 476,
+          "2026-12-11": 436,
+          "2026-12-18": 436,
+          "2026-12-25": 668,
+          "2027-01-01": 774,
+          "2027-01-08": 516,
+          "2027-01-15": 530,
+          "2027-01-22": 530
+        },
+        "movement_vs_prev": "Zero. Wszystkie stawki identyczne co do euro z przebiegiem 28.",
+        "hidden_availability": ["2026-10-30", "2026-12-25", "2027-01-01"]
+      },
+      "channel_gap": {
+        "2026-10-02": "Booking 2126,05 vs wlasny 436 EUR = 1902,40 zl -> +223,65 zl / +11,8% (PROG §5 przekroczony)",
+        "2026-11-20": "Booking 2270,73 vs 464 EUR = 2024,57 zl -> +246,16 zl / +12,2%",
+        "2026-12-11": "Booking 2270,73 vs 436 EUR = 1902,40 zl -> +368,33 zl / +19,4%",
+        "2026-12-18": "Booking 2270,73 vs 436 EUR = 1902,40 zl -> +368,33 zl / +19,4%"
+      },
+      "hotel_record": {
+        "price_pln": 1824.59,
+        "price_eur": 420,
+        "status": "zamrozony, data poza oknem",
+        "set_on_run": 11
+      },
+      "near_record": {
+        "price_eur": 436,
+        "price_pln": 1902.40,
+        "dates": ["2026-10-02", "2026-12-11", "2026-12-18"],
+        "delta_vs_record": "+3,81%",
+        "trigger": "blisko rekordu (prog +5%)"
+      },
+      "verdict": "P12 rozstrzygniete przeczaco: 3/18 bylo stanem przejsciowym, nie trwalym. Allotment wrocil do 13/18 przy calkowicie plaskim kanale wlasnym, co potwierdza, ze null w Bookingu to zdarzenie dystrybucyjne, nie rynkowe."
+    },
+    "muczne": {
+      "name": "Centrum Promocji Lesnictwa w Mucznem, Lutowiska",
+      "property_id": 3048540,
+      "scan_mode": "pelny",
+      "coverage": "18/18",
+      "booking": {
+        "2026-09-25": null,
+        "2026-10-02": null,
+        "2026-10-09": null,
+        "2026-10-16": 1200,
+        "2026-10-23": 880,
+        "2026-10-30": 760,
+        "2026-11-06": 760,
+        "2026-11-13": 760,
+        "2026-11-20": 760,
+        "2026-11-27": 760,
+        "2026-12-04": 760,
+        "2026-12-11": 760,
+        "2026-12-18": 760,
+        "2026-12-25": 1080,
+        "2027-01-01": null,
+        "2027-01-08": null,
+        "2027-01-15": null,
+        "2027-01-22": null
+      },
+      "booking_delta_vs_prev": "02-04.10 znikneto z inwentarza (bylo 1600 zl). Pozostale 17 dat bez zmian.",
+      "own_channel": {
+        "source": "lasybieszczadzkie.pl/oferta/cennik/",
+        "engine": "brak silnika online, rezerwacje telefoniczne",
+        "phone": "+48 516 824 694",
+        "formula": "(stawka_sezonowa + 30 zl doplata weekendowa) x 2 os. x 2 noce",
+        "formula_verified": true,
+        "tariff": {
+          "sezon_1": "30.10-22.12: 160 zl/os. pokoj wieloosobowy, 190 zl pokoj 2-os.",
+          "sezon_2": "do 29.10 oraz 23.12-02.01: 200 zl/os. wieloosobowy, 270 zl 2-os.",
+          "apartament": "380 / 440 zl",
+          "doplata_weekendowa": "+30 zl/os/noc",
+          "dostawka": "120 zl/os/doba",
+          "sniadanie": "w cenie w obiekcie glownym",
+          "dzieci": "ponizej 5 lat gratis"
+        },
+        "tariff_movement_vs_prev": "Brak. Cennik identyczny."
+      },
+      "reconstruction": {
+        "2026-10-16": "1200 = (270+30) x 2 x 2 -> parytet",
+        "2026-10-23": "880 = (190+30) x 2 x 2 -> parytet",
+        "2026-10-30..2026-12-18": "760 = (160+30) x 2 x 2 -> parytet na 8 datach",
+        "2026-12-25": "1080 nie rekonstruuje sie (outlier P13)",
+        "2026-10-02": "nieaktualne - data wypadla z inwentarza; taryfa dalaby (200+30) x 2 x 2 = 920 zl"
+      },
+      "hotel_record": {
+        "price": 760.00,
+        "dates": ["2026-10-30", "2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"],
+        "set_on_run": 7,
+        "held_for_runs": 23,
+        "channel": "Booking = taryfa LP, pelny parytet"
+      },
+      "child_policy_finding": "P9 zamkniete twierdzaco w przebiegu 28: potrojny parytet z taryfa dla dwoch osob dowodzi, ze Booking nie nalicza doplaty za pieciolatka.",
+      "p2_closed": "Domek Mysliwski nie ma sniadania - taryfa stwierdza to wprost. P2 zamkniete.",
+      "p4_status": "Outlier 1600 zl na 02-04.10 nie zostal wyjasniony, tylko zniknal razem z dostepnoscia. P4 zamykam jako nierozstrzygniety.",
+      "verdict": "parytet"
+    },
+    "poziom511": {
+      "name": "Poziom 511 Jura Wellness Hotel & SPA, Ogrodzieniec",
+      "property_id": 331218,
+      "scan_mode": "probka",
+      "coverage": "4/4 probki",
+      "booking": {
+        "2026-11-06": 2783.50,
+        "2026-11-27": 2783.50,
+        "2026-12-04": 2941.00,
+        "2026-12-11": 2804.50
+      },
+      "booking_delta_vs_prev": "0 na wszystkich czterech datach.",
+      "band": "2783,50 - 2941,00 zl",
+      "threshold_2000_zl": "nieprzekroczony, tryb probki utrzymany",
+      "own_channel": {
+        "triverna": "wylacznie inwentarz wrzesniowy, 824-1067 zl/noc, oferta wygasa za 1 dzien, 'Dzieci jada gratis'",
+        "poziom511_pl": "pakiety 'Odetchnij w weekend' i 'Jesien w SPA' od 3500 zl/pobyt"
+      },
+      "channel_gap": "Booking pozostaje najtanszym kanalem. Pakiety wlasne o ok. 700 zl drozsze od Bookinga.",
+      "hotel_record": {
+        "price": 2390.00,
+        "status": "poza oknem",
+        "set_on_run": 9
+      },
+      "p7_status": "Triverna nie ma inwentarza w oknie monitoringu, wiec P7 (1067 vs 1319 zl) pozostaje nierozstrzygalny tym kanalem."
+    }
+  },
+  "thresholds_triggered": [
+    {
+      "type": "nowy rekord hotelu",
+      "hotel": "carynska",
+      "detail": "1036 zl na 20-22.11 i 27-29.11, kanal Profitroom, -24 zl / -2,26% wobec 1060 zl"
+    },
+    {
+      "type": "cena <= 1200 zl (prog globalny)",
+      "hotel": "carynska",
+      "detail": "1036 zl w kanale wlasnym"
+    },
+    {
+      "type": "cena <= 1200 zl (prog globalny)",
+      "hotel": "muczne",
+      "detail": "760 zl na 8 datach, 880 zl na 23-25.10, 1200 zl na 16-18.10"
+    },
+    {
+      "type": "rozjazd Booking vs kanal wlasny > 10%",
+      "hotel": "bachledka",
+      "detail": "+223,65 zl / +11,8% na 02-04.10; +12,2% na 20-22.11; +19,4% na 11-13.12 i 18-20.12"
+    },
+    {
+      "type": "rozjazd Booking vs kanal wlasny > 10%",
+      "hotel": "carynska",
+      "detail": "+15,7% do +29,4% na 11 datach, plus ekstremum +108,4% na 25-27.09"
+    },
+    {
+      "type": "blisko rekordu (+5%)",
+      "hotel": "bachledka",
+      "detail": "436 EUR vs rekord 420 EUR = +3,81%"
+    },
+    {
+      "type": "zmiana dostepnosci",
+      "hotel": "bachledka",
+      "detail": "3/18 -> 13/18, dziesiec dat odzyskanych"
+    },
+    {
+      "type": "zmiana dostepnosci",
+      "hotel": "muczne",
+      "detail": "02-04.10 utracone (bylo 1600 zl)"
+    }
+  ],
+  "cheapest_overall_any_channel": {
+    "price": 760.00,
+    "hotel": "Centrum Promocji Lesnictwa w Mucznem",
+    "dates": ["2026-10-30", "2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"],
+    "channel": "Booking / taryfa wlasna (parytet)"
+  },
+  "promocje_spozywcze": {
+    "data_odczytu": "2026-09-20",
+    "uwaga": "20.09 to niedziela niehandlowa. Biedronka i Lidl zamkniete, czynna tylko Zabka. Gazetka Biedronki 17-23.09 obowiazuje, ale czesc pozycji masla miala wezsze okno 17-19.09 i juz wygasla. Nowa gazetka Biedronki startuje 21.09, nowa gazetka Lidla 21.09.",
+    "pozycje": [
+      {
+        "produkt": "Maslo (kostka 200 g)",
+        "sklep": "Biedronka",
+        "cena": "0,99 zl - Maslo Ekstra Mleczna Dolina 200 g",
+        "warunki": "przy zakupach za min. 99 zl, limit 1 szt./dzien na konto Moja Biedronka; cena regularna 4,99 zl",
+        "okres": "17-19.09.2026 (wygaslo)",
+        "status": "wygaslo"
+      },
+      {
+        "produkt": "Maslo (kostka 200 g)",
+        "sklep": "Biedronka",
+        "cena": "2,49 zl przy zakupie 3 szt.",
+        "warunki": "karta lub aplikacja Moja Biedronka",
+        "okres": "17-19.09.2026 (wygaslo)",
+        "status": "wygaslo"
+      },
+      {
+        "produkt": "Maslo (kostka 200 g)",
+        "sklep": "Lidl",
+        "cena": "1,99 zl - maslo ekstra Mlekovita",
+        "warunki": "gazetka od 14.09, warunek wielosztukowy / Lidl Plus",
+        "okres": "14-19.09.2026 (wygaslo)",
+        "status": "wygaslo"
+      },
+      {
+        "produkt": "Maslo (kostka 200 g)",
+        "sklep": "Zabka",
+        "cena": "brak danych",
+        "warunki": "Zabka nie publikuje wykazu promocji poza aplikacja Zappka",
+        "okres": "-",
+        "status": "nieweryfikowalne"
+      },
+      {
+        "produkt": "Maka pszenna typ 500",
+        "sklep": "Biedronka / Lidl / Zabka",
+        "cena": "brak promocji",
+        "warunki": "zadna z trzech sieci nie ma tej pozycji w biezacych gazetkach; orientacyjna cena polkowa w Biedronce ok. 5,99 zl (niepotwierdzona co do gramatury)",
+        "okres": "-",
+        "status": "brak promocji"
+      },
+      {
+        "produkt": "Mleko 2% bez laktozy",
+        "sklep": "Biedronka / Lidl / Zabka",
+        "cena": "brak promocji",
+        "warunki": "jedyna oferta bez laktozy na rynku w tym tygodniu to Mlekovita w Netto (poza monitorowanymi sieciami). Lidl ma mleko bez laktozy w stalej ofercie, ale nie w promocji.",
+        "okres": "-",
+        "status": "brak promocji"
+      },
+      {
+        "produkt": "Cola Zero",
+        "sklep": "Zabka",
+        "cena": "3,99 zl (-28%) za butelke Coca-Cola",
+        "warunki": "akcja 'Cos dobrego tuz za rogiem'; dodatkowo kupon w aplikacji Zappka na puszke Coca-Cola Zero 150 ml za 1 zappsa",
+        "okres": "09-22.09.2026",
+        "status": "aktywne"
+      },
+      {
+        "produkt": "Cola Zero",
+        "sklep": "Biedronka",
+        "cena": "2,49 zl",
+        "warunki": "warunek wielosztukowy prawdopodobny, niepotwierdzony w zrodle; wariant Zero niepotwierdzony",
+        "okres": "gazetka 17-23.09.2026",
+        "status": "czesciowo potwierdzone"
+      },
+      {
+        "produkt": "Cola Zero",
+        "sklep": "Lidl",
+        "cena": "brak promocji",
+        "warunki": "brak pozycji Cola Zero w gazetce wrzesniowej",
+        "okres": "-",
+        "status": "brak promocji"
+      }
+    ],
+    "metoda": "Aggregatory zawiodly ponownie (lidl.pl/c/aktualne-promocje 404, blix.pl/gazetki/lidl 404, blix.pl/szukaj ignoruje parametr zapytania, biedronka.pl/pl/promocje 404). biedronka.pl/pl/nowa-oferta laduje sie, ale renderuje oferty wylacznie jako obrazy - wyszukiwanie tekstowe zwraca IDX:-1. Dane pozyskane przez wyszukiwarke webowa i portale branzowe."
+  },
+  "notes": [
+    "Okno niezmienione wobec przebiegu 28 - dzis niedziela, kotwica piatkowa nadal 25.09.",
+    "Kurs NBP przeniesiony z piatku (tabela 182/A, 4,3633), bo NBP nie publikuje w weekend. Wartosci PLN dla Bachledki sa wiec porownywalne 1:1 z przebiegiem 28.",
+    "Carynska: Booking zerowy ruch na 18/18, ale kanal wlasny sie poruszyl. To dowodzi, ze monitorowanie samego Bookinga przeoczyloby rekord.",
+    "Bachledka: P12 zamkniete przeczaco. Kanal wlasny calkowicie plaski przy odzyskaniu dziesieciu dat w Bookingu - to argument, ze wahania allotmentu nalezy odfiltrowywac od sygnalu cenowego.",
+    "Muczne: P4 zamkniety jako nierozstrzygniety. Outlier 1600 zl zniknal razem z dostepnoscia zamiast zostac wyjasniony.",
+    "P2 zamkniete: Domek Mysliwski w Mucznem nie ma sniadania.",
+    "Poziom 511: zero ruchu na calej probce, tryb probki utrzymany.",
+    "Promocje spozywcze odczytane w niedziele niehandlowa - wiekszosc pozycji maslowych z gazetki 17-23.09 miala okno 17-19.09 i wygasla wczoraj wieczorem."
+  ],
+  "watch_next_run": [
+    "P7 - Triverna nie ma inwentarza w oknie; rozwazyc zamkniecie pozycji jako nierozstrzygalnej tym kanalem",
+    "P10 - wzorzec zrzutu allotmentu Carynskiej (25-27.09 outlier +108%)",
+    "P13 - Muczne 1080 zl na 25-27.12 nadal nie rekonstruuje sie z taryfy",
+    "P14 - czy Carynska 16-18.10 cofnie sie do 1769,60 zl po powrocie inwentarza Standardu (w tym przebiegu nie cofnela sie)",
+    "P15 - 26.09 okno przesunie sie: 25.09 wypada, wchodzi 29-31.01.2027",
+    "P16 (nowe) - czy rekord Carynskiej 1036 zl utrzyma sie i czy sobota 21.11 wrocila trwale na 356 zl",
+    "P17 (nowe) - czy Bachledka utrzyma 13/18 czy allotment znow sie zamknie; jesli utrzyma, 02-04.10 za 436 EUR to najlepsza oferta tego hotelu w oknie",
+    "P1 - telefon do Mucznego: dostawka 120 zl za pobyt czy za dobe; status pieciolatka wobec progu 'do 5 lat gratis'"
+  ],
+  "methodology": {
+    "cross_check_done": ["carynska", "bachledka", "muczne", "poziom511"],
+    "anti_false_negative": "null w Bookingu nie dowodzi braku miejsc. Bachledka potwierdzila to trzeci przebieg z rzedu: 30.10, 25.12 i 01.01 sa sprzedawane w kanale wlasnym mimo null w Bookingu.",
+    "channel_parity_rule": "Kazde porownanie kanalowe musi uzywac identycznej konfiguracji gosci. Silniki wlasne startuja z 2 doroslymi i 0 dzieci; roznica na Bachledce to 112 EUR.",
+    "determinism_caveat": "Poprzedni przebieg byl wczoraj, nie dzis, wiec zerowy ruch Carynskiej i Poziomu 511 to realna stabilnosc cen, a nie artefakt determinizmu konektora."
+  }
+}
