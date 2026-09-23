@@ -1,0 +1,355 @@
+{
+  "run_date": "2026-09-23",
+  "run_seq": 32,
+  "run_type": "regular",
+  "headline": "Caryn\u0301ska 2-4.10 cofa wczorajszy spadek (+76,1% na Bookingu, 3009,60 z\u0142) \u2014 potwierdzone jako jednodniowe zdarzenie jednego pokoju. Muczne rusza po 25 runach: 2-4.10 pojawia si\u0119 za 1600 z\u0142, 16-18.10 ro\u015bnie 1200 -> 1600 z\u0142 (+33,3%). Rekord Caryn\u0301skiej 1036 z\u0142 uniewa\u017cniony jako metodologicznie niesp\u00f3jny, zweryfikowana warto\u015b\u0107 dla 2+1 to 1155 z\u0142.",
+  "window": {
+    "anchor_friday": "2026-09-25",
+    "end": "2027-01-23",
+    "horizon_days": 120,
+    "weekends_count": 18,
+    "weekends": ["2026-09-25", "2026-10-02", "2026-10-09", "2026-10-16", "2026-10-23", "2026-10-30", "2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18", "2026-12-25", "2027-01-01", "2027-01-08", "2027-01-15", "2027-01-22"],
+    "unchanged_vs_previous_run": true
+  },
+  "party": {
+    "adults": 2,
+    "children_ages": [5],
+    "rooms": 1,
+    "nights": 2,
+    "meal": "sniadanie w cenie",
+    "child_policy_assumption": "dziecko 5 lat traktowane jako platne, zawsze doliczana dostawka (granica 'do lat 5' zwykle oznacza ponizej 5)"
+  },
+  "currency": "PLN",
+  "source": "Booking.com MCP connector + cross-check poza Bookingiem (strony wlasne / Profitroom API / cennik LP)",
+  "fx": {
+    "pair": "EUR/PLN",
+    "rate": 4.3463,
+    "table": "184/A/NBP/2026",
+    "effective_date": "2026-09-22",
+    "previous_rate": 4.3545,
+    "previous_table": "183/A/NBP/2026",
+    "change_pct": -0.188
+  },
+  "hotels": {
+    "carynska": {
+      "name": "Caryn\u0301ska Resort & SPA",
+      "location": "Dwernik, Bieszczady",
+      "booking_property_id": "1822553",
+      "own_site": "carynska.bieszczady.pl (silnik Profitroom, slug carynskaresortspa)",
+      "triverna_url": "https://triverna.pl/hotel/carynska-resort-spa-dwernik",
+      "formula": "cena_Pt + cena_Sb + 300 (dostawka 150 zl/doba)",
+      "formula_verified": true,
+      "formula_verification": "Zweryfikowana na endpointcie availability 30.10 i 6.11: 570 + 570 + 300 = 1440, dokladnie zgodne z realna suma 2-nocna dla 2 doroslych + dziecko 5 lat (oferta 333402, pokoj 192806 Standard).",
+      "reference_room": "192806 Pokoj 2-os. standard + dostawka",
+      "reference_room_note": "Pokoj 192808 Standard Small NIE pojawia sie przy obsadzie 3-osobowej, wiec nie moze przyjac dostawki. Ceny 192808 z poprzednich runow (760/855 za 2 os.) nie sa baza dla wariantu 2+1.",
+      "weekends_booking": {
+        "2026-09-25": null,
+        "2026-10-02": 3009.60,
+        "2026-10-09": null,
+        "2026-10-16": 2709.60,
+        "2026-10-23": 1769.60,
+        "2026-10-30": 1609.60,
+        "2026-11-06": 1609.60,
+        "2026-11-13": 1709.60,
+        "2026-11-20": 1309.60,
+        "2026-11-27": 1309.60,
+        "2026-12-04": 1309.60,
+        "2026-12-11": 1309.60,
+        "2026-12-18": 1309.60,
+        "2026-12-25": null,
+        "2027-01-01": null,
+        "2027-01-08": 1409.60,
+        "2027-01-15": 1409.60,
+        "2027-01-22": 1409.60
+      },
+      "booking_coverage": "14/18",
+      "delta_vs_previous_run": {
+        "2026-10-02": {"previous": 1709.60, "current": 3009.60, "delta_pln": 1300.00, "delta_pct": 76.1, "comment": "Cofniecie wczorajszego spadku -43,2%. Jednostka Studio 2+1 (192812), ktora wygenerowala wczorajsze 1235/1511, zniknela z dostepnosci."},
+        "pozostale_terminy": "bez zmian, co do grosza"
+      },
+      "cross_check_vs_own_site": [
+        {"date": "2026-10-02", "booking": 3009.60, "own": 3055.00, "diff_pln": -45.40, "diff_pct": -1.5, "room": "249196 Domek (oferta 333402)", "breakfast": true, "verdict": "Booking taniej"},
+        {"date": "2026-10-16", "booking": 2709.60, "own": 2770.00, "diff_pln": -60.40, "diff_pct": -2.2, "room": "249196 Domek (oferta 333402)", "breakfast": true, "verdict": "Booking taniej"},
+        {"date": "2026-10-30", "booking": 1609.60, "own": 1440.00, "diff_pln": 169.60, "diff_pct": 11.8, "room": "192806 Standard + dostawka (333402)", "breakfast": true, "verdict": "Booking drozej"},
+        {"date": "2026-11-06", "booking": 1609.60, "own": 1440.00, "diff_pln": 169.60, "diff_pct": 11.8, "room": "192806 Standard + dostawka (333402)", "breakfast": true, "verdict": "Booking drozej"},
+        {"date": "2026-11-20", "booking": 1309.60, "own": 1155.00, "diff_pln": 154.60, "diff_pct": 13.4, "room": "192806 Standard + dostawka (333402)", "breakfast": true, "verdict": "Booking drozej"},
+        {"date": "2026-12-18", "booking": 1309.60, "own": 1155.00, "diff_pln": 154.60, "diff_pct": 13.4, "room": "192806 Standard + dostawka (333402)", "breakfast": true, "verdict": "Booking drozej"},
+        {"date": "2027-01-08", "booking": 1409.60, "own": 1250.00, "diff_pln": 159.60, "diff_pct": 12.8, "room": "192806 Standard + dostawka (333402)", "breakfast": true, "verdict": "Booking drozej"}
+      ],
+      "cross_check_coverage": "7 weekendow, po jednym na kazdy miesiac okna plus wszystkie terminy przekraczajace progi",
+      "own_site_calendar_2os_sums": {
+        "2026-09-25": 1045, "2026-10-02": 2755, "2026-10-09": null, "2026-10-16": 2470,
+        "2026-10-23": 1292, "2026-10-30": 1140, "2026-11-06": 1140, "2026-11-13": 1140,
+        "2026-11-20": 760, "2026-11-27": 760, "2026-12-04": 760, "2026-12-11": 760,
+        "2026-12-18": 760, "2026-12-25": null, "2027-01-01": null,
+        "2027-01-08": 855, "2027-01-15": 855, "2027-01-22": 855
+      },
+      "hotel_record": {
+        "value": 1155.00,
+        "dates": ["2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"],
+        "channel": "strona wlasna (Profitroom, oferta 333402, pokoj 192806 + dostawka)",
+        "set_on_run": 32,
+        "verified": true,
+        "restated_from": 1036.00,
+        "restatement_note": "Rekord 1036 z\u0142 z runu 29 byl liczony na pokoju 192808 Standard Small, ktory nie przyjmuje dostawki i nie wystepuje przy obsadzie 3-osobowej. Nie da sie go odtworzyc. Rekord przeliczony na zweryfikowanej referencji 2+1: 427,50 + 427,50 + 300 = 1155 z\u0142."
+      },
+      "best_in_window": {"value": 1155.00, "date": "2026-11-20", "channel": "strona wlasna"},
+      "best_in_window_booking": {"value": 1309.60, "date": "2026-11-20"}
+    },
+    "bachledka": {
+      "name": "Grand Hotel**** Bachledka Strachan",
+      "location": "\u017ddiar, S\u0142owacja",
+      "booking_property_id": "312697",
+      "own_site": "strachanresort.sk (silnik booking.hotelbachledka.sk)",
+      "triverna_url": null,
+      "formula": "cena_Pt + cena_Sb (EUR, przeliczane po kursie NBP z dnia runu)",
+      "formula_verified": true,
+      "formula_verification": "Suma weekendowa na stronie wlasnej = ceil(Pt) + ceil(Sb) + 112 EUR (dostawka dziecka). Wartosc placeholder 8.88 w data-prices filtrowana.",
+      "weekends_booking": {
+        "2026-09-25": null,
+        "2026-10-02": 2120.68,
+        "2026-10-09": 2457.41,
+        "2026-10-16": 2738.62,
+        "2026-10-23": 2313.10,
+        "2026-10-30": null,
+        "2026-11-06": 2549.91,
+        "2026-11-13": null,
+        "2026-11-20": 2264.99,
+        "2026-11-27": 2264.99,
+        "2026-12-04": 2738.62,
+        "2026-12-11": 2264.99,
+        "2026-12-18": 2264.99,
+        "2026-12-25": null,
+        "2027-01-01": null,
+        "2027-01-08": 3325.88,
+        "2027-01-15": 3439.06,
+        "2027-01-22": 3439.06
+      },
+      "booking_coverage": "13/18",
+      "delta_vs_previous_run": {
+        "comment": "Wszystkie zmiany na Bookingu to czysty efekt kursowy. Jednolity mnoznik 1,001554 na kazdej dacie. Zadnej realnej zmiany cennika po stronie Bookingu.",
+        "fx_factor": 1.001554
+      },
+      "own_site_eur": {
+        "2026-09-25": {"total": 554, "available": false},
+        "2026-10-02": {"total": 428, "previous": 437, "delta_pct": -2.1},
+        "2026-10-09": {"total": 500, "previous": 500, "delta_pct": 0.0},
+        "2026-10-16": {"total": 572, "previous": 554, "delta_pct": 3.2},
+        "2026-10-23": {"total": 464, "previous": 473, "delta_pct": -1.9},
+        "2026-10-30": {"total": 484, "previous": 493, "delta_pct": -1.8},
+        "2026-11-06": {"total": 536, "previous": 482, "delta_pct": 11.2},
+        "2026-11-13": {"total": 464, "available": false},
+        "2026-11-20": {"total": 464, "previous": 464, "delta_pct": 0.0},
+        "2026-11-27": {"total": 464, "previous": 464, "delta_pct": 0.0},
+        "2026-12-04": {"total": 436, "previous": 476, "delta_pct": -8.4},
+        "2026-12-11": {"total": 436, "previous": 436, "delta_pct": 0.0},
+        "2026-12-18": {"total": 436, "previous": 436, "delta_pct": 0.0},
+        "2026-12-25": {"total": 668, "previous": 668, "delta_pct": 0.0},
+        "2027-01-01": {"total": 820, "previous": 774, "delta_pct": 5.9},
+        "2027-01-08": {"total": 516, "previous": 516, "delta_pct": 0.0},
+        "2027-01-15": {"total": 530, "previous": 530, "delta_pct": 0.0},
+        "2027-01-22": {"total": 530, "previous": 530, "delta_pct": 0.0}
+      },
+      "cross_check_vs_own_site": [
+        {"date": "2026-10-02", "booking": 2120.68, "own_eur": 428, "own_pln": 1860.22, "diff_pln": 260.46, "diff_pct": 14.0, "breakfast": true, "verdict": "Booking drozej"},
+        {"date": "2026-11-06", "booking": 2549.91, "own_eur": 536, "own_pln": 2329.62, "diff_pln": 220.29, "diff_pct": 9.5, "breakfast": true, "verdict": "Booking drozej"},
+        {"date": "2026-12-11", "booking": 2264.99, "own_eur": 436, "own_pln": 1894.98, "diff_pln": 370.01, "diff_pct": 19.5, "breakfast": true, "verdict": "Booking drozej, przekroczony prog rozbieznosci 10%"}
+      ],
+      "hotel_record": {
+        "value_eur": 420,
+        "status": "zamrozony, poza oknem",
+        "note": "Najlepsza wartosc w oknie 436 EUR jest 3,81% powyzej rekordu, czyli poza progiem 'blisko rekordu' (+5%) o wlos."
+      },
+      "best_in_window": {"value_eur": 436, "value_pln": 1894.98, "dates": ["2026-12-04", "2026-12-11", "2026-12-18"], "channel": "strona wlasna"},
+      "best_in_window_booking": {"value": 2120.68, "date": "2026-10-02"}
+    },
+    "muczne": {
+      "name": "Centrum Promocji Le\u015bnictwa w Mucznem",
+      "location": "Lutowiska, Bieszczady",
+      "booking_property_id": "3048540",
+      "own_site": "lasybieszczadzkie.pl/oferta/cennik/",
+      "triverna_url": null,
+      "formula": "(stawka_sezonowa + 30 zl doplata weekendowa) x 2 os. x 2 noce + dostawka",
+      "formula_verified": true,
+      "formula_verification": "Sezon niski 30.10-22.12: (160 + 30) x 2 x 2 = 760 z\u0142, dokladnie zgodne z cena Bookingu na 8 terminach. Booking wycenia 2 doroslych, dziecko 5 lat przechodzi jako bezplatne.",
+      "weekends_booking": {
+        "2026-09-25": null,
+        "2026-10-02": 1600,
+        "2026-10-09": null,
+        "2026-10-16": 1600,
+        "2026-10-23": 880,
+        "2026-10-30": 760,
+        "2026-11-06": 760,
+        "2026-11-13": 760,
+        "2026-11-20": 760,
+        "2026-11-27": 760,
+        "2026-12-04": 760,
+        "2026-12-11": 760,
+        "2026-12-18": 760,
+        "2026-12-25": 1080,
+        "2027-01-01": null,
+        "2027-01-08": null,
+        "2027-01-15": null,
+        "2027-01-22": null
+      },
+      "booking_coverage": "11/18",
+      "delta_vs_previous_run": {
+        "2026-10-02": {"previous": null, "current": 1600, "comment": "Pojawienie sie dostepnosci po 3 runach nieobecnosci. Zmiana dostepnosci, prog uruchomiony."},
+        "2026-10-16": {"previous": 1200, "current": 1600, "delta_pln": 400, "delta_pct": 33.3, "comment": "Pierwszy ruch cenowy Mucznego od 25 runow."},
+        "pozostale_terminy": "bez zmian"
+      },
+      "cross_check_vs_own_site": [
+        {"date": "2026-10-30", "booking": 760, "taryfa_wlasna": 760, "diff_pln": 0, "diff_pct": 0.0, "breakfast": true, "verdict": "parytet"},
+        {"date": "2026-11-20", "booking": 760, "taryfa_wlasna": 760, "diff_pln": 0, "diff_pct": 0.0, "breakfast": true, "verdict": "parytet"},
+        {"date": "2026-12-18", "booking": 760, "taryfa_wlasna": 760, "diff_pln": 0, "diff_pct": 0.0, "breakfast": true, "verdict": "parytet"},
+        {"date": "2026-10-23", "booking": 880, "taryfa_wlasna": 920, "diff_pln": -40, "diff_pct": -4.3, "breakfast": true, "verdict": "Booking taniej, P18 nadal otwarty: 880 = (190+30)x2x2, czyli stawka niepasujaca do zadnej linii cennika sezonu wysokiego"},
+        {"date": "2026-12-25", "booking": 1080, "taryfa_wlasna": 920, "diff_pln": 160, "diff_pct": 17.4, "breakfast": true, "verdict": "Booking drozej, przekroczony prog rozbieznosci"},
+        {"date": "2026-10-02", "booking": 1600, "taryfa_wlasna": 920, "diff_pln": 680, "diff_pct": 73.9, "breakfast": true, "verdict": "outlier, inny pokoj. 1600 nie pasuje do zadnej linii cennika, hipoteza apartamentu"},
+        {"date": "2026-10-16", "booking": 1600, "taryfa_wlasna": 920, "diff_pln": 680, "diff_pct": 73.9, "breakfast": true, "verdict": "outlier, inny pokoj. Hipoteza apartamentu wzmocniona przez identyczna wartosc na dwoch datach"}
+      ],
+      "tariff_read": {
+        "read_on": "2026-09-23",
+        "unchanged": true,
+        "sezon_niski": {"okresy": ["03.01-03.04", "05.04-29.04", "30.10-22.12"], "stawki": [160, 190, 380]},
+        "sezon_wysoki": {"okresy": ["30.04-29.10", "23.12-02.01"], "stawki": [200, 270, 440]},
+        "szczyt": {"okresy": ["04.04"], "stawki": [230, 260, 520]},
+        "doplata_weekendowa": "30 zl/os./doba",
+        "dostawka": "Mozliwosc pobytowa dla 1 dodatkowej osoby w apartamencie na dostawce - 120,00 zl/os. (190 zl/doba tylko 04.04)",
+        "dzieci": "Oplata za nocleg nie jest pobierana w przypadku dzieci do lat 5 nie korzystajacych z osobnego lozka",
+        "sniadanie": "w cenie wszystkich stawek",
+        "domek_mysliwski": {"niski": "100-135", "wysoki": "130-160", "dostawka": "100 zl/os.", "caly_domek": "1400 zl/doba, max 14 os."}
+      },
+      "hotel_record": {
+        "value": 760.00,
+        "dates": ["2026-10-30", "2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"],
+        "channel": "Booking, zgodne z taryfa wlasna",
+        "set_on_run": 7,
+        "held_runs": 26
+      },
+      "best_in_window": {"value": 760.00, "date": "2026-10-30", "channel": "Booking = taryfa wlasna, parytet"}
+    },
+    "poziom511": {
+      "name": "Poziom 511 Jura Wellness Hotel & SPA",
+      "location": "Ogrodzieniec",
+      "booking_property_id": "331218",
+      "own_site": "poziom511.pl (silnik Profitroom, slug poziom511jurawellnesshotelspa)",
+      "triverna_url": "https://triverna.pl/hotel/poziom-511-jura-wellness-hotel-spa-ogrodzieniec",
+      "formula": "cena_Pt + cena_Sb + dostawka",
+      "formula_verified": false,
+      "formula_verification": "Sprawdzana probkowo. Endpoint availability na 11.12 zwraca 2462 PLN dla 2 doroslych + dziecko 5 lat (oferta 51390, pokoj 9570, 36 propozycji w 9 pokojach). Zawartosc sniadania w ofercie 51390 niepotwierdzona.",
+      "sampling_mode": "probka 3-4 weekendy na run, powod: poziom cen ok. 3,5x Muczne",
+      "weekends_booking": {
+        "2026-11-06": 2783.50,
+        "2026-11-27": 2783.50,
+        "2026-12-04": 2941.00,
+        "2026-12-11": 2804.50
+      },
+      "delta_vs_previous_run": {"comment": "Wszystkie cztery terminy identyczne co do grosza jak w runie 31."},
+      "band": {"min": 2783.50, "max": 2941.00},
+      "own_site_calendar_2os_sums": {
+        "2026-11-06": {"total": 1954, "room": "9360"},
+        "2026-11-27": {"total": 1954, "room": "9360"},
+        "2026-12-04": {"total": 2089, "room": "9360"},
+        "2026-12-11": {"total": 1846, "room": "231764"}
+      },
+      "cross_check_vs_own_site": [
+        {"date": "2026-12-11", "booking": 2804.50, "own": 2462.00, "diff_pln": 342.50, "diff_pct": 13.9, "room": "9570 (oferta 51390)", "breakfast": "niepotwierdzone", "verdict": "Booking drozej, przekroczony prog rozbieznosci 10%"}
+      ],
+      "hotel_record": {"value": 2470.00, "status": "zamrozony"},
+      "best_in_window": {"value": 2462.00, "date": "2026-12-11", "channel": "strona wlasna"},
+      "best_in_window_booking": {"value": 2783.50, "dates": ["2026-11-06", "2026-11-27"]},
+      "full_scan_trigger": "Powrot do pelnego skanu dopiero gdy cena spadnie ponizej 2000 zl. Najlepsza wartosc 2462 zl, prog nieosiagniety."
+    }
+  },
+  "thresholds_triggered": {
+    "global": [
+      {"type": "oferta ponizej 1200 zl", "hotel": "muczne", "value": 760.00, "dates": ["2026-10-30", "2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"], "comment": "Osiem terminow po 760 zl, parytet Booking vs taryfa wlasna."},
+      {"type": "oferta ponizej 1200 zl", "hotel": "muczne", "value": 880.00, "dates": ["2026-10-23"]},
+      {"type": "oferta ponizej 1200 zl", "hotel": "muczne", "value": 1080.00, "dates": ["2026-12-25"]},
+      {"type": "nowy rekord absolutny", "triggered": false, "comment": "Rekord absolutny 760 zl utrzymany, bez zmiany."}
+    ],
+    "per_hotel": [
+      {"hotel": "carynska", "type": "wzrost 76,1% na 2-4.10", "comment": "Nie jest to prog spadkowy, ale zamyka watch_next_run z runu 31: wczorajszy spadek -43,2% byl jednodniowym zdarzeniem jednej jednostki."},
+      {"hotel": "carynska", "type": "restatement rekordu", "from": 1036.00, "to": 1155.00, "comment": "Rekord przeliczony na zweryfikowanej referencji 2+1."},
+      {"hotel": "carynska", "type": "rozbieznosc Booking vs strona wlasna powyzej 10%", "dates": ["2026-10-30", "2026-11-06", "2026-11-20", "2026-12-18", "2027-01-08"], "range_pct": "11,8 do 13,4"},
+      {"hotel": "bachledka", "type": "wzrost na stronie wlasnej powyzej 10%", "date": "2026-11-06", "from_eur": 482, "to_eur": 536, "delta_pct": 11.2},
+      {"hotel": "bachledka", "type": "rozbieznosc Booking vs strona wlasna powyzej 10%", "dates": ["2026-10-02", "2026-12-11"], "max_pct": 19.5},
+      {"hotel": "muczne", "type": "zmiana dostepnosci", "date": "2026-10-02", "comment": "Termin pojawil sie po 3 runach nieobecnosci, cena 1600 zl."},
+      {"hotel": "muczne", "type": "wzrost 33,3%", "date": "2026-10-16", "from": 1200, "to": 1600},
+      {"hotel": "muczne", "type": "rozbieznosc Booking vs taryfa wlasna powyzej 10%", "dates": ["2026-10-02", "2026-10-16", "2026-12-25"]},
+      {"hotel": "poziom511", "type": "rozbieznosc Booking vs strona wlasna powyzej 10%", "date": "2026-12-11", "delta_pct": 13.9}
+    ]
+  },
+  "cheapest_overall_any_channel": {
+    "value": 760.00,
+    "hotel": "Centrum Promocji Le\u015bnictwa w Mucznem",
+    "dates": ["2026-10-30", "2026-11-06", "2026-11-13", "2026-11-20", "2026-11-27", "2026-12-04", "2026-12-11", "2026-12-18"],
+    "channel": "Booking, cena zgodna z taryfa wlasna LP",
+    "unchanged_since_run": 7
+  },
+  "notes": [
+    "Caryn\u0301ska 2-4.10: sprawa zamknieta. Wczorajszy spadek na Bookingu do 1709,60 z\u0142 i cena 1235 z\u0142 na stronie wlasnej wynikaly z jednej dostepnej jednostki Studio 2+1 (192812). Dzis tej jednostki nie ma, a najtanszy pokoj mieszczacy 3 osoby to Domek 249196 za 3055 z\u0142.",
+    "Rekord Caryn\u0301skiej 1036 z\u0142 zostal uniewazniony. Byl liczony na pokoju 192808 Standard Small, ktory przy obsadzie 3-osobowej w ogole nie wystepuje w silniku, wiec nie mogl przyjac dostawki. Nowy, zweryfikowany rekord 1155 z\u0142.",
+    "Bachledka: ruchy na Bookingu to wylacznie kurs NBP, mnoznik 1,001554 jednolity na wszystkich 13 dostepnych datach. Realne zmiany widac tylko na stronie wlasnej, gdzie 6-8.11 podrozalo o 11,2%, a 4-6.12 stanialo o 8,4%.",
+    "Muczne poruszylo sie pierwszy raz od 25 runow. Wartosc 1600 z\u0142 na 2-4.10 i 16-18.10 nie odtwarza sie z zadnej linii cennika Lasow Panstwowych. Hipoteza apartamentu (linia 380/440 z\u0142) pozostaje najlepszym wyjasnieniem, ale nie da sie jej potwierdzic bez telefonu.",
+    "Rozbieznosc Booking vs strona wlasna jest systemowa u trzech hoteli: Caryn\u0301ska 11,8-13,4%, Bachledka do 19,5%, Poziom 511 13,9%. Jedyny parytet to Muczne, gdzie Booking odwzorowuje sztywna taryfe publiczna.",
+    "Poziom 511 pozostaje w trybie probkowym. Najlepsza wartosc 2462 z\u0142 na stronie wlasnej, wciaz daleko od progu 2000 z\u0142 uruchamiajacego pelny skan.",
+    "Triverna nieodczytana od runu 3. Nie udalo sie jej wykorzystac do weryfikacji, a legacy rekord Caryn\u0301skiej 1110 z\u0142 z tego zrodla nalezy traktowac jako niepotwierdzony, podobnie jak uniewazniony dzis 1036 z\u0142."
+  ],
+  "watch_next_run": [
+    "Czy Muczne 2-4.10 i 16-18.10 utrzyma 1600 z\u0142, czy byl to jednorazowy wyskok analogiczny do wczorajszego zdarzenia w Caryn\u0301skiej.",
+    "Czy Studio 2+1 (192812) w Caryn\u0301skiej wroci do dostepnosci na 2-4.10 lub innych terminach, bo to jedyna jednostka zdolna zejsc ponizej referencji 192806.",
+    "Bachledka 6-8.11: czy wzrost do 536 EUR sie utrzyma. Jesli wroci do 482 EUR, bedzie to efekt jednodniowej zmiany dostepnosci, a nie cennika.",
+    "Potwierdzenie sniadania w ofercie 51390 Poziomu 511.",
+    "Kurs EUR/PLN: 4,3463 po spadku o 0,188%. Przy dalszym umacnianiu zlotego Bachledka bedzie tanial na Bookingu bez zadnej zmiany cennika."
+  ],
+  "open_items": {
+    "P1": {"status": "czesciowo rozwiazany", "desc": "Dostawka w Mucznem 120 z\u0142/os. Cennik podaje ta kwote bez kwalifikatora /doba, w odroznieniu od stawek noclegowych, co przemawia za naliczaniem za pobyt. Dziecko 5 lat: zapis 'do lat 5 nie korzystajacych z osobnego lozka' i zgodnosc 760 z\u0142 z arytmetyka dla 2 osob dowodzi, ze Booking liczy dziecko jako bezplatne. Do ostatecznego potwierdzenia telefonicznie +48 516 824 694."},
+    "P2": {"status": "otwarty", "desc": "Sniadanie w Domku Mysliwskim w Mucznem."},
+    "P3": {"status": "otwarty", "desc": "Triverna nieodczytana od runu 3. Rekord Caryn\u0301skiej 1110 z\u0142 z tego zrodla niezweryfikowany."},
+    "P18": {"status": "otwarty", "desc": "Muczne 23-25.10 wycenione na 880 z\u0142, czyli (190+30)x2x2, przy oczekiwanych 920 z\u0142 z taryfy sezonu wysokiego. Stawka 190 nalezy do sezonu niskiego."},
+    "P20": {"status": "rozwiazany", "desc": "Rozbieznosc pokoju referencyjnego w Caryn\u0301skiej. Ustalone: 192806 Standard to jedyna baza dla 2+1, 192808 Standard Small nie obsluguje 3 osob."},
+    "P21": {"status": "rozwiazany", "desc": "Promocja na maslo w Lidlu byla nieweryfikowalna przez gazetki.pl. Potwierdzona w runie 32 przez wyszukiwanie: PILOS maslo ekstra 83% 200 g za 1,99 z\u0142 przy zakupie 3 szt., 21-23.09.2026."},
+    "P22": {"status": "nowy", "desc": "Muczne 25-27.12 wycenione na 1080 z\u0142 przy oczekiwanych 920 z\u0142. Trzecia data, ktora nie odtwarza sie z taryfy."}
+  },
+  "promocje_spozywcze": {
+    "checked_on": "2026-09-23",
+    "sources": ["blix.pl", "gazetkowo.pl", "gazetki.pl", "gazetkonosz.pl", "wyszukiwanie web"],
+    "maslo_200g": [
+      {"sklep": "Lidl", "produkt": "PILOS Maslo ekstra 83% 200 g", "cena": 1.99, "obnizka_pct": 60, "warunki": "przy zakupie 3 szt.", "okres": "21-23.09.2026", "status": "NOWE, konczy sie dzis"},
+      {"sklep": "Biedronka", "produkt": "Maslo ekstra Z Polskiej Mleczarni 200 g", "cena": 2.49, "cena_regularna": 5.99, "warunki": "przy zakupie 4 szt. z karta Moja Biedronka lub aplikacja", "okres": "21-26.09.2026", "status": "trwa"},
+      {"sklep": "Biedronka", "produkt": "Maslo ekstra Mlekovita / Maslo Ekstra Mleczna Dolina", "cena": null, "warunki": "blix oznacza jako 'ostatnie 24h'", "okres": "do 23.09.2026", "status": "konczy sie dzis"},
+      {"sklep": "Zabka", "produkt": null, "cena": null, "status": "brak promocji na maslo"}
+    ],
+    "maka_pszenna_typ_500": {
+      "status": "BRAK PROMOCJI, piaty run z rzedu",
+      "szczegoly": "Zaden z trzech sklepow nie ma w gazetce maki pszennej typ 500. Blix zwraca wprost brak ofert dla Lidla i Biedronki.",
+      "substytuty": [
+        {"sklep": "Lidl", "produkt": "Belbake maka pszenna tortowa typ 450", "cena": 1.69},
+        {"sklep": "Lidl", "produkt": "Belbake maka pszenna luksusowa typ 550", "cena": 1.79},
+        {"sklep": "Biedronka", "produkt": "maka pszenna", "cena": 5.99, "uwaga": "cena polkowa, nie promocja"}
+      ]
+    },
+    "mleko_bez_laktozy_2proc": {
+      "status": "BRAK PROMOCJI",
+      "szczegoly": "Biedronka i Zabka bez ofert na mleko bez laktozy w gazetkach. Lidl bez pozycji bezlaktozowej w ofercie od 21.09.",
+      "trop_niepotwierdzony": {"sklep": "Biedronka", "produkt": "Mleko UHT bez laktozy Mleczna Dolina 3,2% 1 l", "cena": 1.59, "warunki": "przy zakupie 6 szt. z karta Moja Biedronka", "uwaga": "to wariant 3,2%, nie 2%. Blix nie potwierdza tej oferty, zrodlo tylko z wyszukiwania."},
+      "poza_trojka_sklepow": {"sklep": "Netto", "produkt": "Maslo/mleko bez laktozy Mlekovita, Miletto", "uwaga": "poza zakresem monitoringu"}
+    },
+    "cola_zero": [
+      {"sklep": "Biedronka", "produkt": "Napoj gazowany Coca-Cola / Coca-Cola Zero 1,75 l", "cena": 4.49, "okres": "17-23.09.2026", "status": "konczy sie dzis. Zapowiedzianych 7 nowych promocji na Coca-Cole od 22.09, szczegoly cenowe nieujawnione w gazetce online."},
+      {"sklep": "Zabka", "produkt": null, "cena": null, "status": "brak potwierdzonej promocji. Oferty 1,5 l za 6,99 z\u0142 i 330 ml za 3,99 z\u0142 z runu 31 wygasly 22.09."},
+      {"sklep": "Lidl", "produkt": "Coca-Cola cherry 330 ml", "warunki": "1+1 gratis", "uwaga": "wariant cherry, nie Zero"}
+    ],
+    "podsumowanie": "Jedyna mocna pozycja to maslo. Lidl 1,99 z\u0142 za PILOS 200 g przy zakupie 3 szt. konczy sie dzis, Biedronka 2,49 z\u0142 przy zakupie 4 szt. trwa do soboty. Maka typ 500 i mleko bez laktozy 2% bez promocji. Cola Zero praktycznie bez oferty, cykl promocyjny w Biedronce i Zabce wlasnie sie przelamuje."
+  },
+  "methodology": {
+    "booking": "mcp accommodations_search, number_of_adults=2, children_ages=[5], number_of_rooms=1, currency=PLN, user_country_code=pl, user_locale=pl. Jedno zapytanie na destination 'Bieszczady, Poland' pokrywa Caryn\u0301ska i Bachledke, Muczne i Poziom 511 maja wlasne destination.",
+    "anti_false_negative": "hotel_names_no_availability nie oznacza braku obiektu. Wszystkie cztery obiekty potwierdzone w inwentarzu, wartosci null oznaczaja brak dostepnosci na dany termin, nie brak obiektu.",
+    "cross_check": "Profitroom API wolane z poziomu strony przez fetch() w przegladarce (endpointy calendar/prices i availability). Bachledka przez DOM strony wlasnej (data-date, data-prices, data-availability, filtrowanie placeholdera 8.88). Muczne przez publiczny cennik Lasow Panstwowych.",
+    "profitroom_rate_limit": "Zapytania availability w petli zwracaja obciete odpowiedzi. Konieczne jedno zapytanie na wywolanie narzedzia.",
+    "fx": "Kurs sredni NBP tabela A z dnia runu, api.nbp.pl.",
+    "no_booking_actions": "Nie kliknieto zadnego przycisku rezerwacji, nie wprowadzono zadnych danych osobowych ani platniczych."
+  },
+  "supersedes": "state-2026-09-22.json"
+}
