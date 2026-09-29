@@ -92,6 +92,10 @@
   .option.wrong .option-letter    { background: var(--text-muted) !important; color: #fff !important; }
   .option.show-correct .option-letter { background: var(--accent) !important; color: #fff !important; }
   .option-letter { background: var(--accent-light); color: var(--text); width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 16px; font-size: 0.95rem; flex-shrink: 0; }
+  .option-check { width: 20px; height: 20px; border: 2px solid var(--border); border-radius: 4px; margin-right: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: transparent; transition: all 0.15s; background: var(--bg-card); }
+  .option.selected .option-check { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .option.answered .option-check { display: none; }
+  .multi-hint { display: block; margin-top: 12px; width: fit-content; font-size: 0.8rem; font-weight: 600; color: var(--accent); background: var(--accent-light); border: 1px solid var(--accent); border-radius: 6px; padding: 6px 12px; }
 
   .explanation { display: none; background: var(--accent-light); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 24px 32px; margin-bottom: 32px; font-size: 1.15rem; color: #555555; line-height: 1.6; }
   .explanation.show { display: block; animation: slideDown 0.3s ease; }
@@ -1446,6 +1450,23 @@ let state = {
 const CATS = [...new Set(QUESTIONS.map(q => q.cat))];
 
 // ============================
+// MULTI-ANSWER HELPERS
+// q.ans: number  -> single choice (radio-style, auto-advance flow)
+// q.ans: [n, n]  -> multiple answers (checkbox UI + confirm button, exact-match scoring)
+// ============================
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function setQuestionText(elId, q) {
+  const el = document.getElementById(elId);
+  if (Array.isArray(q.ans)) {
+    el.innerHTML = escapeHtml(q.q) + `<span class="multi-hint">Select all correct answers (${q.ans.length})</span>`;
+  } else {
+    el.textContent = q.q;
+  }
+}
+
+// ============================
 // INIT
 // ============================
 document.getElementById('totalQ').textContent = QUESTIONS.length;
@@ -1695,7 +1716,7 @@ function renderStudyQ() {
   document.getElementById('study-num').textContent = `${state.studyIndex + 1} / ${total}`;
   document.getElementById('study-progress').style.width = Math.round(state.studyIndex / total * 100) + '%';
   const isMulti = Array.isArray(q.ans);
-  document.getElementById('study-question').textContent = q.q + (isMulti ? ` (Select ${q.ans.length} correct answers)` : '');
+  setQuestionText('study-question', q);
   document.getElementById('study-explanation').className = 'explanation';
   document.getElementById('study-next-btn').style.display = 'none';
   state.studyAnswered = false;
@@ -1707,7 +1728,7 @@ function renderStudyQ() {
     q.opts.forEach((opt, i) => {
       const div = document.createElement('div');
       div.className = 'option';
-      div.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+      div.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-check">&#10003;</span><span>${opt}</span>`;
       div.onclick = () => {
         if (state.studyAnswered) return;
         if (selectedSet.has(i)) { selectedSet.delete(i); div.classList.remove('selected'); }
@@ -1720,7 +1741,7 @@ function renderStudyQ() {
     checkBtn.className = 'btn';
     checkBtn.style.cssText = 'margin-top:14px;width:100%;';
     checkBtn.textContent = 'Check Answers';
-    checkBtn.onclick = () => answerStudy([...selectedSet].sort((a, b) => a - b), q);
+    checkBtn.onclick = () => { if (!selectedSet.size) return; answerStudy([...selectedSet].sort((a, b) => a - b), q); };
     opts.appendChild(checkBtn);
   } else {
     q.opts.forEach((opt, i) => {
@@ -1818,7 +1839,7 @@ function renderExamQ() {
   document.getElementById('exam-cat').textContent = q.cat;
   document.getElementById('exam-num').textContent = `${state.examIndex + 1} / ${total}`;
   document.getElementById('exam-progress').style.width = Math.round((state.examIndex + 1) / total * 100) + '%';
-  document.getElementById('exam-question').textContent = q.q + (isMulti ? ` (Select ${q.ans.length} correct answers)` : '');
+  setQuestionText('exam-question', q);
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   const opts = document.getElementById('exam-options');
   opts.innerHTML = '';
@@ -1828,7 +1849,7 @@ function renderExamQ() {
     q.opts.forEach((opt, i) => {
       const div = document.createElement('div');
       div.className = 'option';
-      div.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+      div.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-check">&#10003;</span><span>${opt}</span>`;
       div.onclick = () => {
         if (selectedSet.has(i)) { selectedSet.delete(i); div.classList.remove('selected'); }
         else { selectedSet.add(i); div.classList.add('selected'); }
@@ -1840,7 +1861,7 @@ function renderExamQ() {
     checkBtn.className = 'btn';
     checkBtn.style.cssText = 'margin-top:14px;width:100%;';
     checkBtn.textContent = 'Confirm Answers';
-    checkBtn.onclick = () => answerExam([...selectedSet].sort((a, b) => a - b));
+    checkBtn.onclick = () => { if (!selectedSet.size) return; answerExam([...selectedSet].sort((a, b) => a - b)); };
     opts.appendChild(checkBtn);
   } else {
     const userSet = isMulti && answered ? new Set(userAns) : null;
@@ -2023,7 +2044,7 @@ function renderMiniQ() {
   document.getElementById('mini-cat').textContent = q.cat;
   document.getElementById('mini-num').textContent = `Question ${state.miniIndex + 1} / ${total}`;
   document.getElementById('mini-progress').style.width = Math.round((state.miniIndex + 1) / total * 100) + '%';
-  document.getElementById('mini-question').textContent = q.q + (isMulti ? ` (Select ${q.ans.length} correct answers)` : '');
+  setQuestionText('mini-question', q);
   state.miniAnswered = false;
   document.getElementById('mini-next-btn').style.display = 'none';
   document.getElementById('mini-explanation').style.display = 'none';
@@ -2035,7 +2056,7 @@ function renderMiniQ() {
     q.opts.forEach((opt, i) => {
       const div = document.createElement('div');
       div.className = 'option';
-      div.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+      div.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-check">&#10003;</span><span>${opt}</span>`;
       div.onclick = () => {
         if (state.miniAnswered) return;
         if (selectedSet.has(i)) { selectedSet.delete(i); div.classList.remove('selected'); }
@@ -2048,7 +2069,7 @@ function renderMiniQ() {
     checkBtn.className = 'btn';
     checkBtn.style.cssText = 'margin-top:14px;width:100%;';
     checkBtn.textContent = 'Check Answers';
-    checkBtn.onclick = () => answerMini([...selectedSet].sort((a, b) => a - b));
+    checkBtn.onclick = () => { if (!selectedSet.size) return; answerMini([...selectedSet].sort((a, b) => a - b)); };
     opts.appendChild(checkBtn);
   } else {
     q.opts.forEach((opt, i) => {
