@@ -457,12 +457,12 @@
     <div class="settings-title">Synchronizacja wagi</div>
     <div class="settings-field">
       <label class="settings-label">GitHub Personal Access Token (zakres: gist)</label>
-      <input type="text" class="settings-input" id="settings-token" placeholder="github_pat_..." autocomplete="off" spellcheck="false">
+      <input type="text" class="settings-input" id="settings-token" placeholder="github_pat_..." autocomplete="off" spellcheck="false" autocapitalize="off" autocorrect="off">
       <div class="settings-hint">Utwórz na github.com → Settings → Developer settings → Personal access tokens → zaznacz tylko <strong>gist</strong></div>
     </div>
     <div class="settings-field">
       <label class="settings-label">Gist ID (zostaw puste aby utworzyć nowy)</label>
-      <input type="text" class="settings-input" id="settings-gist" placeholder="np. a1b2c3d4e5f6...">
+      <input type="text" class="settings-input" id="settings-gist" placeholder="np. a1b2c3d4e5f6..." autocomplete="off" spellcheck="false" autocapitalize="off" autocorrect="off">
     </div>
     <div class="settings-actions">
       <button class="settings-btn" id="settings-cancel">Anuluj</button>
@@ -1241,6 +1241,26 @@
     syncStatus.title = msg || '';
   }
 
+  // Human-readable sync error messages (HTTP code visible in UI)
+  function syncErrMsg(e) {
+    const m = /^HTTP (\d+)$/.exec((e && e.message) || '');
+    if (!m) return 'Sync error: brak sieci';
+    const code = m[1];
+    if (code === '401') return 'Sync error 401: zły token';
+    if (code === '404') return 'Sync error 404: zły gist ID';
+    if (code === '403') return 'Sync error 403: limit/token bez uprawnień';
+    return 'Sync error ' + code;
+  }
+
+  // Diagnostics after failed settings save: first 4 chars + token length (never the full token)
+  function appendTokenDiag() {
+    const tok = getToken();
+    const diag = tok ? ` | token: ${tok.slice(0,4)}..., ${tok.length} zn.` : ' | brak tokena';
+    syncStatus.innerHTML += diag;
+    syncStatus.title += diag;
+  }
+
+
   // Gist API
   function getToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
   function getGistId() { return localStorage.getItem(GIST_KEY) || ''; }
@@ -1301,8 +1321,10 @@
         renderCal();
       }
       setSyncStatus('ok', 'Sync OK');
+      return true;
     } catch(e) {
-      setSyncStatus('err', 'Sync error');
+      setSyncStatus('err', syncErrMsg(e));
+      return false;
     }
   }
 
@@ -1334,8 +1356,10 @@
         if (!res.ok) throw new Error('HTTP ' + res.status);
         setSyncStatus('ok', 'Zapisano');
       }
+      return true;
     } catch(e) {
-      setSyncStatus('err', 'Błąd sync');
+      setSyncStatus('err', syncErrMsg(e));
+      return false;
     }
   }
 
@@ -1588,8 +1612,8 @@
     if (t) localStorage.setItem(TOKEN_KEY, t);
     if (g) localStorage.setItem(GIST_KEY, g);
     settingsPopup.classList.add('hidden');
-    if (g) { await fetchFromGist(); }
-    else if (t) { await pushToGist(); } // creates new gist
+    if (g) { if (await fetchFromGist() === false) appendTokenDiag(); }
+    else if (t) { if (await pushToGist() === false) appendTokenDiag(); } // creates new gist
   });
 
   // Navigation
