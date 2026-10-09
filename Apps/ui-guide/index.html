@@ -2,116 +2,96 @@
 <html lang='pl'>
 <head>
 <meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>Jak robić UI z intencją. Praktyczna instrukcja</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Jak robić UI z intencją - przewodnik</title>
 <style>
-body { margin: 0; font-family: Georgia, 'Times New Roman', serif; background: #faf8f4; color: #2b2b2b; line-height: 1.65; }
-.wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
-header { border-bottom: 3px solid #2b2b2b; padding-bottom: 24px; margin-bottom: 36px; }
-h1 { font-size: 2rem; margin: 0 0 8px; line-height: 1.25; }
-.sub { color: #6b6257; font-size: 1.05rem; font-style: italic; }
-h2 { font-size: 1.35rem; margin: 44px 0 12px; padding-top: 12px; border-top: 1px solid #d9d2c7; }
-h3 { font-size: 1.05rem; margin: 24px 0 6px; }
-p { margin: 10px 0; }
-.rule { background: #fff; border: 1px solid #e2dcd2; border-left: 4px solid #b4551f; padding: 14px 18px; margin: 16px 0; border-radius: 4px; }
-.rule b { color: #8c3f14; }
-.ex { background: #f0ece4; padding: 12px 16px; margin: 12px 0; border-radius: 4px; font-size: 0.95rem; }
-.ex b { color: #4a4336; }
-ul { margin: 8px 0 8px 22px; padding: 0; }
-li { margin: 6px 0; }
-.check { background: #fff; border: 1px solid #e2dcd2; padding: 16px 20px; border-radius: 4px; }
-.check li { list-style: none; padding-left: 26px; position: relative; }
-.check li::before { content: '✓'; position: absolute; left: 0; color: #b4551f; font-weight: bold; }
-footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid #d9d2c7; font-size: 0.85rem; color: #8a8174; }
-a { color: #8c3f14; }
+body { font-family: Georgia, 'Times New Roman', serif; max-width: 760px; margin: 0 auto; padding: 24px; color: #222; background: #faf9f6; line-height: 1.65; }
+h1 { font-size: 1.9em; line-height: 1.2; border-bottom: 3px solid #635bff; padding-bottom: 12px; }
+h2 { font-size: 1.35em; margin-top: 2em; color: #30304d; }
+h3 { font-size: 1.05em; color: #635bff; margin-top: 1.5em; }
+p, li { font-size: 1.02em; }
+.meta { color: #777; font-size: 0.9em; }
+.zasada { background: #fff; border-left: 4px solid #635bff; padding: 12px 16px; margin: 14px 0; border-radius: 0 8px 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.zasada strong { color: #30304d; }
+.przyklad { background: #f0eefc; padding: 10px 14px; border-radius: 8px; font-size: 0.95em; margin: 10px 0; }
+.przyklad em { color: #555; }
+ul { padding-left: 1.3em; }
+footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ddd; font-size: 0.85em; color: #888; }
+a { color: #635bff; }
 </style>
 </head>
 <body>
-<div class='wrap'>
-<header>
 <h1>Jak robić UI z intencją</h1>
-<p class='sub'>Praktyczna instrukcja projektowania interfejsów w czasach, gdy zbudować może każdy. Na podstawie wystąpienia Katie Dill (Head of Design, Stripe) na Lenny &amp; Friends Summit.</p>
-</header>
+<p class='meta'>Uniwersalne zasady i proces na podstawie wystąpienia Katie Dill (Head of Design, Stripe): <a href='https://youtu.be/GLvFTMtw4Jk'>How to scale intent, quality, and artistry with AI</a>, Lenny's Podcast.</p>
 
 <h2>Problem: zombie UI</h2>
-<p>Po drugiej wojnie światowej świat przeżył boom budowlany. Styl modernizmu, który u swoich twórców miał zasady i punkt widzenia, zaczęto kopiować bez zrozumienia. Zostały gołe, generyczne wzorce, źle dopasowane do kontekstu. Tak powstały zombie buildings: budynki, których nic nie wyróżnia i o które nikt nie zadbał.</p>
-<p>Dziś trwa boom budowania z AI. Zespoły trzyosobowe robią to, co kiedyś wymagało trzydziestu osób. Ryzyko jest to samo: zalew interfejsów monotonnych, pustych i niczyich. To jest zombie UI. Ta instrukcja pokazuje, jak go unikać.</p>
+<p>Po II wojnie światowej boom budowlany kopiował styl modernizmu bez intencji, która za nim stała. Zostały puste, generyczne budynki. Dziś, w boomie budowania z AI, grozi nam to samo w software: <strong>zombie UI</strong> - interfejsy monotonne, bezduszne i niczym nieróżniące się od siebie. Połowę życia na jawie spędzamy przed ekranami; zasługujemy na software, o który ktoś naprawdę zadbał.</p>
 
-<h2>Trzy pułapki, na które musisz uważać</h2>
-<div class='rule'><b>1. AI podaje odpowiedź najbardziej prawdopodobną, nie najlepszą dla ciebie.</b><p>Modele językowe świetnie odtwarzają to, co było popularne i co działało kiedyś. Słabo radzą sobie z tym, co oryginalne i specyficzne dla twojej marki oraz kontekstu użytkownika. Jeśli nie dasz im własnego punktu widzenia, dostaniesz średnią z internetu.</p></div>
-<div class='rule'><b>2. Pokusa gotowości: rzeczy wyglądają na skończone, zanim są dobre.</b><p>AI tworzy interfejs z jednego zdania. Zaokrąglone rogi i cienie dają złudzenie dopracowania, a szybkość wykonania usypia krytycyzm. Pozornie wypolerowany stan bywa mylący: nie wiadomo, czy produkt naprawdę rozwiązuje problem i czy czymkolwiek się wyróżnia.</p></div>
-<div class='rule'><b>3. Praca tania w produkcji zaczyna być traktowana jak jednorazowa.</b><p>Gdy budowanie nic nie kosztuje, łatwo porzucić odpowiedzialność za decyzje: kto to będzie utrzymywał, co z tym będzie za rok. Tanio zbudowane nie może znaczyć niedbale przemyślane.</p></div>
+<h2>Trzy pułapki pracy z AI</h2>
+<div class='zasada'><strong>1. AI daje odpowiedź najbardziej prawdopodobną, nie oryginalną.</strong> LLM mówi ci, co było popularne i co działało kiedyś. Nie powie ci, co jest specyficzne dla twojej marki, użytkownika i kontekstu.
+<div class='przyklad'><em>Przykład z filmu:</em> strona, po której nie sposób poznać, czy sprzedaje software, czy koreańskie BBQ. Poprawna, ale bez charakteru i kontekstu.</div></div>
+<div class='zasada'><strong>2. Pokusa bycia gotowym (dylemat burrito).</strong> Burrito z mikrofali: 90 sekund od głodu do obiadu, więc wybaczamy mu, że jest ledwo jadalne. Tak samo wybaczamy interfejsowi z promptu, że tylko wygląda na skończony. Pozorny polor bywa mylący: czy to naprawdę rozwiązuje problem?</div>
+<div class='zasada'><strong>3. Praca tak szybka, że traktowana jak jednorazowa.</strong> Gdy tworzenie nic nie kosztuje, znika odpowiedzialność za decyzje i myślenie o utrzymaniu. Kto będzie to utrzymywał za rok?</div>
 
-<h2>Zasada 1: Miej punkt widzenia</h2>
-<p>Jeśli nie masz własnego punktu widzenia, AI narzuci ci swój, czyli generyczny i zapatrzony w przeszłość. Zanim zaczniesz budować, odpowiedz na pytania:</p>
-<ul>
-<li>Czym jest twoja marka i co obiecuje użytkownikom?</li>
-<li>Kim chcesz być dla ludzi, którzy używają produktu?</li>
-<li>Na czym naprawdę im zależy?</li>
-</ul>
-<p>Odpowiedzi tworzą podstawę twoich standardów jakości. Standard dotyczy wyniku, nie metody: użytkownika nie obchodzi, czy coś zrobił człowiek czy AI. Obchodzi go, czy to jest dobre.</p>
-<div class='ex'><b>Przykład z wystąpienia:</b> Stripe jako wartość marki wybrał optymizm i wpisuje go we wszystkie detale: kolory, język tekstów, dobór tematów. Gdy w przeglądzie projektu reklamy padło pytanie, jaki jest standard jakości dla rzeczy robionych z AI, odpowiedź brzmiała: taki sam jak dla wszystkiego innego. Z dyskusji wyszło 17 konkretnych poprawek.</div>
-<h3>Jak rozwijać punkt widzenia: trenuj zauważanie</h3>
-<ul>
-<li>Zauważaj, czego użytkownicy potrzebują i chcą, a nie tylko co mówią.</li>
-<li>Zauważaj, co w otaczającym świecie sygnalizuje dobre, świetne i przeciętne.</li>
-<li>Notuj obserwacje z produktów, których używasz, ale też z sytuacji analogicznych: sztuki, nauki, architektury.</li>
-</ul>
-<p>Tak budujesz smak, czyli własne standardy, które potem będziesz skalować.</p>
+<h2>Cztery rekomendacje</h2>
 
-<h2>Zasada 2: Zakoduj standardy w maszynie</h2>
-<p>Ludzie nie będą uczestniczyć we wszystkich decyzjach projektowych. Interfejsy powstają bez projektanta w pokoju, agenci naprawiają problemy w nocy, a generatywne UI buduje się w czasie rzeczywistym. Dlatego przedmiotem projektowania przestaje być ekran, a staje się system.</p>
+<h3>1. Miej punkt widzenia</h3>
+<p>Jeśli go nie masz, AI da ci swój: generyczny i zapatrzony w przeszłość. Zdefiniuj markę: czym jest dla ciebie, czym dla użytkowników, kim chcesz dla nich być i na czym im zależy. To fundament twoich standardów.</p>
 <ul>
-<li>Spisuj decyzje, które kiedyś uzupełniał projektant obecny w pokoju. Czego nie zapiszesz, tego system nie wie.</li>
-<li>Nie ograniczaj systemu do komponentów i atomów. Dodawaj całe szablony i przepływy, aby narzędzie wiedziało, jak produkt ma się zachowywać jako całość.</li>
-<li>Buduj system opiniotwórczy: ma być rozszerzalny, ale na tyle zdecydowany, żeby wynik maszynowy czuł się jak ręczna robota. Tak Gutenberg zaprojektował 290 znaków zamiast 52 liter, aby skład wyglądał jak pismo ręczne.</li>
-<li>Dostarczaj dokumentację do narzędzia w miejscu i momencie, w którym buduje się produkt, zamiast liczyć, że model sam ją sobie przypomni.</li>
-</ul>
-<div class='ex'><b>Przykład z wystąpienia:</b> Stripe zaczął od MCP czytającego dokumentację design systemu. Wyniki były nierówne: trzy osoby z tym samym promptem dostawały trzy różne rezultaty. Zadziałało dopiero CLI zbudowane na design systemie, z szablonami i przepływami, które trzyma AI w ryzach.</div>
-<p>Pamiętaj: stary design system skalował spójność. Nowy ma skalować intencję. I nawet najlepszy system to tylko punkt wyjścia. Jak pisał Christopher Alexander, system może spełniać każdą regułę i nadal być martwy.</p>
-
-<h2>Zasada 3: Nie myl skończonego z dobrym</h2>
-<p>Dawniej filtr jakości był wbudowany w każdy etap procesu: z 20 pomysłów obsadzano jeden, a produkt rósł powoli, szturchany i przycinany po drodze. Dziś 20 pomysłów budujesz w tydzień, więc filtrowanie musi się odbyć po zbudowaniu, kiedy znacznie trudniej powiedzieć nie.</p>
-<p>Tu pojawia się rola redaktora. Wyznacz w organizacji osobę, która:</p>
-<ul>
-<li>patrzy na produkt od początku do końca i ocenia, czy składa się w całość,</li>
-<li>doświadcza produktu tak, jak użytkownik: czy rozwiązuje problem, czy jest zgodny ze sposobem myślenia użytkownika, czy jest spójny,</li>
-<li>nie tylko mówi tak lub nie, ale pyta, czy rzecz jest w pełni uformowana i jak dopchnąć ją do końca,</li>
-<li>bierze odpowiedzialność za każdą decyzję, w praktyce za każdy piksel.</li>
-</ul>
-<p>Oducz siebie i zespół przekonania, że zbudowane znaczy skończone, a skończone znaczy dobre. Wielkość dzieła tkwi w nieoczekiwanych detalach i głębszym sensie, który spina całość. To są właśnie rzeczy, w których AI jest słabe, więc to je musi dołożyć człowiek. Obraźliwa cecha AI slopu to poczucie, że detale nie mają znaczenia: kubek jest zielony, ale równie dobrze mógłby być niebieski.</p>
-<div class='ex'><b>Przykład z wystąpienia:</b> animacja otwierająca konferencję powstała z modelu 3D przerabianego przez AI. Pierwsza wersja wyglądała nieźle, ale ruch był sztuczny. Autor iterował 56 razy, zanim pojawiła się wersja naprawdę piękna. AI otworzyło przestrzeń możliwości, ale o jakości zdecydowała ludzka wytrwałość i krytyczne oko.</div>
-
-<h2>Zasada 4: Uwolnij kreatywność i artyzm</h2>
-<p>AI potrafi produkować monotonię, ale jest też największym katalizatorem kreatywności, jaki mieliśmy. Gdy buduje każdy, wyróżnienie się jest trudniejsze i ważniejsze niż kiedykolwiek. Czaty, wykresy i terminale to nie jest szczyt interakcji naszej epoki. Czas wymyślać nowe interfejsy i nowe estetyki, tak jak multi-touch dał nowe interakcje, a syntezator nowe brzmienia.</p>
-<h3>Taktyki pracy z AI jako partnerem kreatywnym</h3>
-<ul>
-<li><b>Popraw wejście.</b> Dawaj konkretne prompty z twoim punktem widzenia: w co wierzysz, co uznajesz za dobre, na czym ci zależy. Dołączaj materiały źródłowe, na których budujesz własne standardy.</li>
-<li><b>Testuj wyjście.</b> Nie daj się pokusie gotowości. Zawsze pchnij wynik o krok dalej. Używaj agentów adwersarzy do krytyki, ale sam też stale podnoś poprzeczkę.</li>
-<li><b>Chroń dziwne.</b> Jeśli prowadzisz zespół, nie każ mu tylko używać AI. Daj przestrzeń na eksplorację. Łatwo iść w szablony, bo są bezpieczne, ale wartość tworzy to, co unikalne.</li>
-<li><b>Wydaj oszczędności na jakość.</b> AI obniża koszt tworzenia. Przeznacz część tej oszczędności na zrobienie czegoś naprawdę wyjątkowego, zamiast robić szybciej to samo co zawsze. AI ma podnosić sufit, nie tylko podłogę.</li>
+<li><strong>Standard dotyczy wyniku, nie metody.</strong> Użytkownika nie obchodzi, czy coś zrobiło AI. Obchodzi go, czy jest dobre. Nie ma osobnej, niższej poprzeczki dla rzeczy robionych z AI.</li>
+<li><strong>Idź o poziom głębiej, niż klient zobaczy.</strong> Nie chodzi o perfekcję, tylko o pieczołowitość, która i tak przebije się na powierzchnię (w Stripe nazywają to Pepsi bubbling, od dopieszczania bąbelków na reklamie).</li>
+<li><strong>Trenuj zauważanie.</strong> Zauważaj, czego użytkownicy potrzebują, a nie tylko co mówią. Zauważaj, co w świecie sygnalizuje dobre, świetne i przeciętne. Czerp z analogii: sztuki, nauki, architektury. Tak buduje się smak.</li>
 </ul>
 
-<h2>Szybka checklista przed wypuszczeniem UI</h2>
-<div class='check'>
+<h3>2. Zakoduj standardy w maszynie</h3>
+<p>Coraz częściej nie będzie projektanta w pokoju: interfejsy powstają bez designera, agenci naprawiają produkt w nocy, UI generuje się w locie. Dlatego przedmiotem projektowania nie jest już ekran, tylko <strong>system</strong>.</p>
 <ul>
-<li>Czy ten projekt ma punkt widzenia, czy jest średnią z internetu?</li>
-<li>Czy rozwiązuje realny problem użytkownika, czy tylko wygląda na skończony?</li>
-<li>Czy jest dopasowany do kontekstu: marki, użytkownika, sytuacji użycia?</li>
-<li>Czy całość przeszedł od początku do końca ktoś w roli redaktora?</li>
-<li>Czy detale są zamierzone, czy przypadkowe? Czy data w ikonie kalendarza jest prawdziwa?</li>
-<li>Czy jest w nim coś, czego użytkownik się nie spodziewał, a co pokazuje, że ktoś o niego zadbał?</li>
-<li>Czy wiadomo, kto to utrzyma i jak to będzie żyło dalej?</li>
-<li>Czy zrobiliśmy coś odważnego, czy tylko bezpieczny szablon?</li>
+<li><strong>Stary design system skalował spójność. Nowy ma skalować intencję.</strong></li>
+<li><strong>Zapisz to, czego kiedyś nie trzeba było zapisywać.</strong> Decyzje muszą być łatwe do zdefiniowania, żeby rozproszeni ludzie i agenci podejmowali je tak samo.</li>
+<li><strong>Sama dokumentacja nie wystarczy.</strong> MCP czytające dokumentację dawało w Stripe trzy różne wyniki dla trzech osób z tym samym promptem. Zadziałał dopiero CLI zbudowany na design systemie: uprząż, która czyni AI posłusznym i podaje dokumentację we właściwym miejscu i czasie, bez gnicia kontekstu.</li>
+<li><strong>Dawaj szablony i flow, nie tylko komponenty.</strong> System ma wiedzieć, jak produkt ma się zachowywać w całości, i być mocno opiniotwórczy.</li>
+</ul>
+<div class='przyklad'><em>Wzorzec z historii:</em> Gutenberg nie zrobił 52 liter, zrobił 290 znaków: różne szerokości, ligatury, skróty. System rozszerzalny i opiniotwórczy zarazem, żeby maszynowy skład wyglądał jak ręczny. Do tego celuj.</div>
+
+<h3>3. Nie myl gotowego z dobrym</h3>
+<p>Dawniej filtr jakości był wbudowany w proces: 20 pomysłów, budżet na jeden, potem miesiące szlifowania. Dziś 20 pomysłów budujesz w tydzień, więc filtrowanie musi się odbyć <strong>po zbudowaniu</strong>, gdy dużo trudniej powiedzieć nie. To rola edytora.</p>
+<ul>
+<li><strong>Wyznacz edytora.</strong> Ktoś w organizacji musi patrzeć na całość od końca do końca i brać odpowiedzialność za każdą decyzję, w praktyce za każdy piksel.</li>
+<li><strong>Oducz się, że zbudowane znaczy skończone, a skończone znaczy dobre.</strong></li>
+<li><strong>Doświadczaj jak użytkownik.</strong> Czy to naprawdę rozwiązuje problem? Czy jest zgodne z tym, jak użytkownik myśli? Czy jest spójne w całej podróży, a nie tylko ładne w izolacji?</li>
+<li><strong>Pytaj: czy to jest w ogóle w pełni uformowane?</strong> Edycja to nie tylko tak lub nie, to też dopychanie do kompletności.</li>
+<li><strong>Detale muszą mieć znaczenie.</strong> Slop AI obraża nas poczuciem, że kubek jest zielony, ale równie dobrze mógłby być niebieski. Wielkość dzieła to nieoczekiwane detale i głębszy sens spinający całość, czyli dokładnie to, w czym AI jest słabe. Te luki wypełnia człowiek.</li>
+</ul>
+<div class='przyklad'><em>Przykład z filmu:</em> animacja otwierająca konferencję. Wersja pierwsza: fajna, ale coś nie gra. Po 56 iteracjach: realizm, życie, wyczuwalna troska. AI nie dało wyniku od razu, ale otworzyło przestrzeń możliwości na scenę, na którą bez niego nikt by się nie porwał.</div>
+
+<h3>4. Uwolnij kreatywność i artyzm</h3>
+<p>AI potrafi produkować monotonię, ale jest też największym katalizatorem kreatywności, jaki mieliśmy. Gdy buduje każdy, wyróżnienie się jest trudniejsze i ważniejsze niż kiedykolwiek.</p>
+<ul>
+<li><strong>Wymyślaj nowe interfejsy i estetyki.</strong> Czaty, wykresy i CLI to nie szczyt interakcji naszej ery. Najlepsze praktyki nie zostały jeszcze napisane; to jak multi-touch albo syntezator, nowe narzędzie rodzi nowy język.</li>
+<li><strong>Popraw wejście.</strong> Nie pisz tylko: zrób stronę dla koreańskiego BBQ. Dodaj, w co wierzysz, co znaczy dobrze, na czym ci zależy, dołącz materiały źródłowe budujące twoje standardy.</li>
+<li><strong>Stresuj wyjście.</strong> Nie daj się dylematowi burrito: zawsze pchnij o krok dalej. Używaj agentów adwersarzy do krytyki, ale sam też stale podnoś poprzeczkę.</li>
+<li><strong>Chroń dziwne.</strong> Jeśli prowadzisz zespół, nie każ tylko używać AI, daj przestrzeń na eksplorację. AI obniża koszt tworzenia; wydaj część oszczędności na coś naprawdę wyjątkowego.</li>
+<li><strong>AI ma podnosić sufit, nie tylko podłogę.</strong> Jeśli robimy nim tylko szybciej to, co robiliśmy dotąd, tracimy najciekawszą część.</li>
+</ul>
+
+<h2>Proces w praktyce: checklista</h2>
+<div class='zasada'>
+<ul>
+<li>Zanim otworzysz narzędzie: zapisz punkt widzenia produktu w 3 zdaniach (dla kogo, czym chcemy dla nich być, po czym poznają, że to my).</li>
+<li>Prompt zawsze z kontekstem marki, wartości i materiałem źródłowym, nigdy sam opis funkcji.</li>
+<li>Pierwszy wynik z AI traktuj jak szkic, nie produkt. Pozorny polor to nie dowód jakości.</li>
+<li>Przejdź całą ścieżkę jak użytkownik, na realnych danych, od wejścia do celu.</li>
+<li>Zrób przegląd detali o jeden poziom głębiej, niż użytkownik zobaczy.</li>
+<li>Sprawdź spójność z systemem: szablony i flow, nie tylko komponenty.</li>
+<li>Wyznacz edytora odpowiedzialnego za całość i za decyzję: wychodzi albo wraca.</li>
+<li>Iteruj aż poczujesz troskę w wyniku. 56 iteracji to nie przesada, to metoda.</li>
+<li>Na koniec zapytaj: czy coś tu zaskakuje na plus? Czy jest tu jakiś ślad ręki twórcy? Jeśli nie, to zombie UI.</li>
 </ul>
 </div>
 
-<h2>Jedno zdanie na koniec</h2>
-<p>Użytkowników nie imponuje to, że coś powstało w 30 minut. Imponuje im rozwiązanie ich problemu i sprytne detale, które pokazują rękę i troskę twórcy. Żadna gotycka kolumna nie była taka sama jak inna. Buduj tak, żeby po twoim interfejsie było widać, że ktoś go naprawdę chciał.</p>
+<h2>Jedno zdanie na ścianę</h2>
+<p><strong>Użytkownika nie obchodzi, jak coś powstało. Obchodzi go, czy ktoś o niego zadbał: intencja, system, poprzeczka jakości i ambicja są twoje, AI ma je tylko skalować.</strong></p>
 
-<footer>
-<p>Opracowano na podstawie: Katie Dill, How to scale intent, quality, and artistry with AI, Lenny &amp; Friends Summit 2026. <a href='https://youtu.be/GLvFTMtw4Jk'>Nagranie na YouTube</a>.</p>
-</footer>
-</div>
+<footer>Opracowano na podstawie: Katie Dill (Stripe), How to scale intent, quality, and artistry with AI, Lenny's Podcast, <a href='https://youtu.be/GLvFTMtw4Jk'>youtu.be/GLvFTMtw4Jk</a>. Wygenerowano 2026-10-09.</footer>
 </body>
 </html>
