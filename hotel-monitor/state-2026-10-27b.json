@@ -1,0 +1,31 @@
+{
+ "run_date": "2026-10-27",
+ "run_seq": 47,
+ "run_type": "own_site_only",
+ "headline": "Booking niedostepny; reczny pomiar Pieniny Grand 6-8.11 na stronie wlasnej (2 dorosli, dziecko nie wczytane): 1279 zl (klub 1151,10), elastyczna 1361 (klub 1224,90). Brak trendow.",
+ "supersedes": null,
+ "hotels": {
+  "pieniny_grand": {
+   "cross_check_vs_own_site": {
+    "2026-11-06": {
+     "booking": null,
+     "own_site": 1279,
+     "room_name": "najtanszy, 2 doroslych",
+     "breakfast": true,
+     "verdict": "niepor. - bez dziecka"
+    }
+   }
+  },
+  "muczne": {
+   "formula": "760 zl od 30.10 (nie potwierdzone dzis)"
+  }
+ },
+ "notes": [
+  "Konektor Booking_com podlaczony, ale 0 narzedzi w sesji.",
+  "Silnik Profitroom ignoruje parametry dzieci w URL."
+ ],
+ "watch_next_run": [
+  "wlaczyc accommodations_search",
+  "ustawic dziecko 5 lat w silniku"
+ ]
+}
