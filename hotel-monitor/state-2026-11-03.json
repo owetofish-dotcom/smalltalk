@@ -1,0 +1,153 @@
+{
+ "run_date": "2026-11-03",
+ "run_seq": 48,
+ "run_type": "sampled_booking",
+ "headline": "Booking znowu dziala; probka 5 weekendow. Pieniny 18.12 = 1636,5 (+0,5% od rekordu 1628). Carynska 6.11 +150, 11.12 +200. Bachledka 20.11 +40,6%. Muczne 6.11 = 960 (outlier), 20.11 = 760.",
+ "window": {
+  "from_friday": "2026-11-06",
+  "to_sunday": "2027-03-07",
+  "weekends_count": 19,
+  "horizon_days": 120
+ },
+ "party": {
+  "adults": 2,
+  "children_ages": [
+   5
+  ],
+  "rooms": 1,
+  "nights": 2
+ },
+ "currency": "PLN",
+ "source": "konektor Booking.com (probka); brak cross-checku przegladarkowego w tym przebiegu; Triverna nieczytana",
+ "supersedes": null,
+ "hotels": {
+  "carynska": {
+   "weekends_booking": {
+    "2026-11-06": 1759.6,
+    "2026-11-20": 1509.6,
+    "2026-12-11": 1509.6,
+    "2027-02-05": 1409.6
+   },
+   "delta_vs_previous_run": {
+    "2026-11-06": "+150 (+9,3%)",
+    "2026-11-20": "0",
+    "2026-12-11": "+200 (+15,3%)",
+    "2027-02-05": "0"
+   },
+   "hotel_record": {
+    "value": 1155,
+    "channel": "wlasna, niezweryfikowany"
+   },
+   "best_in_window": {
+    "value": 1409.6,
+    "dates": [
+     "2027-02-05"
+    ]
+   }
+  },
+  "bachledka": {
+   "weekends_booking": {
+    "2026-11-06": null,
+    "2026-11-20": 3403.3,
+    "2026-12-11": 2779.82,
+    "2027-02-05": 3826.62
+   },
+   "delta_vs_previous_run": {
+    "2026-11-20": "+983,62 (+40,6%)",
+    "2026-12-11": "+408,45 (+17,2%)",
+    "2027-02-05": "+40,47 (+1,1%)"
+   },
+   "best_in_window": {
+    "value": 2779.82,
+    "dates": [
+     "2026-12-11"
+    ]
+   }
+  },
+  "poziom511": {
+   "weekends_booking": {
+    "2026-12-11": 2804.5
+   },
+   "delta_vs_previous_run": {
+    "2026-12-11": "0"
+   },
+   "hotel_record": {
+    "value": 2344,
+    "dates": [
+     "2027-02-05"
+    ]
+   }
+  },
+  "muczne": {
+   "weekends_booking": {
+    "2026-11-06": 960,
+    "2026-11-20": 760
+   },
+   "delta_vs_previous_run": {
+    "2026-11-06": "+200 (+26,3%) outlier",
+    "2026-11-20": "0"
+   },
+   "hotel_record": {
+    "value": 760
+   },
+   "formula_verified": true
+  },
+  "pieniny_grand": {
+   "weekends_booking": {
+    "2026-11-06": 2053,
+    "2026-11-20": 1857.5,
+    "2026-12-18": 1636.5
+   },
+   "delta_vs_previous_run": {
+    "2026-11-06": "+17 (+0,8%)",
+    "2026-11-20": "+34 (+1,9%)",
+    "2026-12-18": "+8,5 (+0,5%)"
+   },
+   "hotel_record": {
+    "booking": 1628,
+    "own_site": 1458
+   },
+   "best_in_window": {
+    "value": 1636.5,
+    "dates": [
+     "2026-12-18"
+    ]
+   },
+   "booking_property_id": 9662061
+  }
+ },
+ "thresholds_triggered": {
+  "global": {
+   "le_1200": [
+    "Muczne 760 (20.11)"
+   ],
+   "new_absolute_record": false
+  },
+  "per_hotel": {
+   "pieniny_grand": "18.12 w granicach +5% rekordu Bookingu",
+   "carynska": "11.12 +15,3%, 6.11 +9,3% (wzrosty)",
+   "bachledka": "20.11 +40,6%, 11.12 +17,2% (wzrosty); 6.11 brak",
+   "muczne": "6.11 960 vs taryfa 760: outlier, do weryfikacji"
+  }
+ },
+ "cheapest_overall_any_channel": {
+  "price": 760,
+  "hotel": "Muczne",
+  "dates": [
+   "2026-11-20"
+  ]
+ },
+ "notes": [
+  "Probka 5 z 19 weekendow, reszta bez swiezego pomiaru.",
+  "Cross-check wlasnych stron i Triverny niewykonany.",
+  "Booking property_id Pieniny Grand = 9662061 (nazwa na Bookingu: Hotel Pieniny Grand Wellness & SPA - Destigo Hotels).",
+  "Okno: 6.11.2026 do 5.03.2027."
+ ],
+ "watch_next_run": [
+  "Muczne 6.11 960: sprawdzic dlaczego",
+  "pelny skan okna",
+  "cross-check"
+ ],
+ "methodology": "accommodations_search, 2 dorosli + dziecko 5 lat, PLN",
+ "previous_run": "2026-10-27b (czesciowy) / 2026-10-20"
+}
