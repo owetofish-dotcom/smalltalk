@@ -1,0 +1,177 @@
+{
+ "run_date": "2026-11-10",
+ "run_seq": 49,
+ "run_type": "sample",
+ "headline": "Probka 5 weekendow (13.11, 20.11, 11.12, 18.12, 5.02). Pieniny 18.12 = 1645 (+1,0% od rekordu 1628). Bachledka 11.12 +23,4%. Carynska 13.11 = 3409,60 (outlier). Muczne 13.11 = 760.",
+ "window": {
+  "from_friday": "2026-11-13",
+  "to_sunday": "2027-03-14",
+  "weekends_count": 18,
+  "horizon_days": 120
+ },
+ "party": {
+  "adults": 2,
+  "children_ages": [
+   5
+  ],
+  "rooms": 1,
+  "nights": 2
+ },
+ "currency": "PLN",
+ "source": "konektor Booking.com (probka); brak cross-checku przegladarkowego w tym przebiegu; Triverna nieczytana",
+ "supersedes": null,
+ "hotels": {
+  "carynska": {
+   "weekends_booking": {
+    "2026-11-13": 3409.6,
+    "2026-11-20": 1649.6,
+    "2026-12-11": 1509.6,
+    "2027-02-05": 1409.6
+   },
+   "delta_vs_previous_run": {
+    "2026-11-13": "brak poprzedniego pomiaru",
+    "2026-11-20": "+140 (+9,3%)",
+    "2026-12-11": "0",
+    "2027-02-05": "0"
+   },
+   "hotel_record": {
+    "value": 1155,
+    "channel": "wlasna, niezweryfikowany"
+   },
+   "best_in_window": {
+    "value": 1409.6,
+    "dates": [
+     "2027-02-05"
+    ]
+   }
+  },
+  "bachledka": {
+   "weekends_booking": {
+    "2026-11-13": null,
+    "2026-11-20": null,
+    "2026-12-11": 3431.08,
+    "2027-02-05": 3799.15
+   },
+   "delta_vs_previous_run": {
+    "2026-11-20": "brak dostepnosci (poprzednio 3403,30)",
+    "2026-12-11": "+651,26 (+23,4%)",
+    "2027-02-05": "-27,47 (-0,7%)"
+   },
+   "best_in_window": {
+    "value": 3431.08,
+    "dates": [
+     "2026-12-11"
+    ]
+   }
+  },
+  "poziom511": {
+   "weekends_booking": {
+    "2026-11-13": null,
+    "2026-12-11": 2804.5
+   },
+   "delta_vs_previous_run": {
+    "2026-11-13": "brak dostepnosci",
+    "2026-12-11": "0"
+   },
+   "hotel_record": {
+    "value": 2344,
+    "dates": [
+     "2027-02-05"
+    ]
+   }
+  },
+  "muczne": {
+   "weekends_booking": {
+    "2026-11-13": 760
+   },
+   "delta_vs_previous_run": {
+    "2026-11-13": "brak poprzedniego pomiaru"
+   },
+   "hotel_record": {
+    "value": 760
+   },
+   "formula_verified": true,
+   "cross_check_vs_own_site": {
+    "2026-11-13": {
+     "booking": 760,
+     "own_site": 760,
+     "delta": 0,
+     "delta_pct": 0,
+     "room_name": null,
+     "breakfast": "tak (taryfa Nocleg + Sniadanie)",
+     "verdict": "parytet (arytmetyka taryfy: niski sezon 160+30 zl x2 os. x2 noce)"
+    }
+   }
+  },
+  "pieniny_grand": {
+   "weekends_booking": {
+    "2026-11-13": 2631,
+    "2026-11-20": 1917,
+    "2026-12-18": 1645
+   },
+   "delta_vs_previous_run": {
+    "2026-11-13": "brak poprzedniego pomiaru (6.11 = 2053)",
+    "2026-11-20": "+59,5 (+3,2%)",
+    "2026-12-18": "+8,5 (+0,5%)"
+   },
+   "hotel_record": {
+    "booking": 1628,
+    "own_site": 1458
+   },
+   "best_in_window": {
+    "value": 1645,
+    "dates": [
+     "2026-12-18"
+    ]
+   },
+   "booking_property_id": 9662061
+  }
+ },
+ "thresholds_triggered": {
+  "global": {
+   "okazja_<=1200": false,
+   "nowy_rekord_absolutny": false
+  },
+  "per_hotel": {
+   "pieniny_grand": {
+    "blisko_rekordu": "1645 vs 1628 (+1,0%)"
+   },
+   "bachledka": {
+    "zmiana_dostepnosci": "20.11 brak; wzrost 11.12 +23,4%"
+   },
+   "poziom511": {
+    "zmiana_dostepnosci": "13.11 brak"
+   },
+   "carynska": {
+    "skok": "13.11 = 3409,60 (outlier, ok. 2x typowa cena)"
+   }
+  }
+ },
+ "cheapest_overall_any_channel": {
+  "price": 760,
+  "hotel": "Muczne",
+  "dates": [
+   "2026-11-13"
+  ]
+ },
+ "notes": [
+  "Probka 5 z 18 weekendow, reszta bez swiezego pomiaru.",
+  "Cross-check wlasnych stron i Triverny niewykonany (poza arytmetyka taryfy Mucznego).",
+  "Kurs EUR/PLN NBP 4,3873 (9.11.2026), Bachledka wycenia sie w PLN przez konektor.",
+  "Okno: 13.11.2026 do 14.03.2027; weekend 6-8.11 wypadl.",
+  "Promocje spozywcze: wyszukiwanie nie zwrocilo aktualnych gazetek."
+ ],
+ "watch_next_run": [
+  "Caryńska 13.11 3409,60: sprawdzic dlaczego",
+  "Muczne: telefon ws. dostawki",
+  "pelny skan okna",
+  "cross-check wlasnych stron"
+ ],
+ "methodology": "accommodations_search, 2 dorosli + dziecko 5 lat, PLN",
+ "previous_run": "state-2026-11-03.json",
+ "eur_pln_nbp": {
+  "rate": 4.3873,
+  "date": "2026-11-09",
+  "table": "218/A/NBP/2026"
+ }
+}
