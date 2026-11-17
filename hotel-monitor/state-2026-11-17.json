@@ -1,0 +1,163 @@
+{
+ "run_date": "2026-11-17",
+ "run_seq": 50,
+ "run_type": "sample",
+ "headline": "Probka 5 weekendow (20.11, 27.11, 11.12, 18.12, 5.02). Pieniny 18.12 = 1645 bez zmian (+1,0% od rekordu 1628). Bachledka 11.12 brak dostepnosci. Muczne 20.11 = 760.",
+ "window": {
+  "from_friday": "2026-11-20",
+  "to_sunday": "2027-03-21",
+  "weekends_count": 17,
+  "horizon_days": 120
+ },
+ "party": {
+  "adults": 2,
+  "children_ages": [
+   5
+  ],
+  "rooms": 1,
+  "nights": 2
+ },
+ "currency": "PLN",
+ "source": "konektor Booking.com (probka); bez cross-checku przegladarkowego; Triverna nieczytana",
+ "supersedes": null,
+ "previous_run": "state-2026-11-10.json",
+ "hotels": {
+  "carynska": {
+   "weekends_booking": {
+    "2026-11-20": 1649.6,
+    "2026-11-27": 1789.6,
+    "2026-12-11": 1509.6,
+    "2027-02-05": 1409.6
+   },
+   "delta_vs_previous_run": {
+    "2026-11-20": "0",
+    "2026-11-27": "brak poprzedniego pomiaru",
+    "2026-12-11": "0",
+    "2027-02-05": "0"
+   },
+   "hotel_record": {
+    "value": 1155,
+    "channel": "wlasna, niezweryfikowany"
+   },
+   "best_in_window": {
+    "value": 1409.6,
+    "dates": [
+     "2027-02-05"
+    ]
+   }
+  },
+  "bachledka": {
+   "weekends_booking": {
+    "2026-11-20": null,
+    "2026-11-27": null,
+    "2026-12-11": null,
+    "2027-02-05": 3811.24
+   },
+   "delta_vs_previous_run": {
+    "2026-12-11": "brak dostepnosci (poprzednio 3431,08)",
+    "2027-02-05": "+12,09 (+0,3%)"
+   },
+   "best_in_window": {
+    "value": 3811.24,
+    "dates": [
+     "2027-02-05"
+    ]
+   }
+  },
+  "poziom511": {
+   "weekends_booking": {
+    "2026-12-11": 2804.5
+   },
+   "delta_vs_previous_run": {
+    "2026-12-11": "0"
+   },
+   "hotel_record": {
+    "value": 2344,
+    "dates": [
+     "2027-02-05"
+    ]
+   }
+  },
+  "muczne": {
+   "weekends_booking": {
+    "2026-11-20": 760
+   },
+   "delta_vs_previous_run": {
+    "2026-11-20": "0 (13.11 = 760)"
+   },
+   "hotel_record": {
+    "value": 760
+   },
+   "formula_verified": true,
+   "cross_check_vs_own_site": {
+    "2026-11-20": {
+     "booking": 760,
+     "own_site": 760,
+     "delta": 0,
+     "delta_pct": 0,
+     "room_name": null,
+     "breakfast": "tak (taryfa Nocleg + Sniadanie)",
+     "verdict": "parytet (arytmetyka taryfy)"
+    }
+   }
+  },
+  "pieniny_grand": {
+   "weekends_booking": {
+    "2026-11-20": 2095.5,
+    "2026-12-11": 1679,
+    "2026-12-18": 1645
+   },
+   "delta_vs_previous_run": {
+    "2026-11-20": "+178,5 (+9,3%)",
+    "2026-12-11": "brak poprzedniego pomiaru",
+    "2026-12-18": "0"
+   },
+   "hotel_record": {
+    "booking": 1628,
+    "own_site": 1458
+   },
+   "best_in_window": {
+    "value": 1645,
+    "dates": [
+     "2026-12-18"
+    ]
+   },
+   "booking_property_id": 9662061
+  }
+ },
+ "thresholds_triggered": {
+  "global": {
+   "okazja_<=1200": false,
+   "nowy_rekord_absolutny": false
+  },
+  "per_hotel": {
+   "pieniny_grand": {
+    "blisko_rekordu": "1645 vs 1628 (+1,0%)"
+   },
+   "bachledka": {
+    "zmiana_dostepnosci": "11.12 zniknal"
+   }
+  }
+ },
+ "cheapest_overall_any_channel": {
+  "price": 760,
+  "hotel": "Muczne",
+  "dates": [
+   "2026-11-20"
+  ]
+ },
+ "notes": [
+  "Probka 5 z 17 weekendow.",
+  "Cross-check wlasnych stron i Triverny niewykonany.",
+  "Kurs EUR/PLN: bez nowego pomiaru (ostatni NBP 4,3873 z 9.11.2026); Bachledka wyceniana w PLN przez konektor.",
+  "Okno 20.11.2026 do 21.03.2027; weekend 13-15.11 wypadl.",
+  "Promocje spozywcze: wyszukiwanie nie zwrocilo cen z aktualnych gazetek."
+ ],
+ "watch_next_run": [
+  "Muczne: telefon ws. dostawki",
+  "pelny skan okna",
+  "cross-check wlasnych stron",
+  "Bachledka 11.12 powrot dostepnosci?"
+ ],
+ "methodology": "accommodations_search, 2 dorosli + dziecko 5 lat, PLN"
+}
